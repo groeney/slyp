@@ -1,0 +1,2 @@
+class SlypsController < ApplicationController
+end

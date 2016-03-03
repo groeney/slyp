@@ -1,0 +1,2 @@
+class ReslypsController < ApplicationController
+end
