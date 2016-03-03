@@ -2,9 +2,6 @@
   "name":"slyp",
   "scripts":{},
   "env":{
-    "AIRBRAKE_API_KEY":{
-      "required":true
-    },
     "EMAIL_RECIPIENTS":{
       "required":true
     },
@@ -17,16 +14,10 @@
     "SECRET_KEY_BASE":{
       "generator":"secret"
     },
-    "SMTP_ADDRESS":{
+    "SENDGRID_PASSWORD":{
       "required":true
     },
-    "SMTP_DOMAIN":{
-      "required":true
-    },
-    "SMTP_PASSWORD":{
-      "required":true
-    },
-    "SMTP_USERNAME":{
+    "SENDGRID_USERNAME":{
       "required":true
     },
     "WEB_CONCURRENCY":{
