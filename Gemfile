@@ -2,7 +2,9 @@ source "https://rubygems.org"
 
 ruby "2.3.0"
 
-gem "airbrake"
+gem "searchkick"
+gem "sendgrid-ruby"
+gem "mail"
 gem "autoprefixer-rails"
 gem "bourbon", "~> 4.2.0"
 gem "coffee-rails", "~> 4.1.0"
@@ -22,6 +24,7 @@ gem "sass-rails", "~> 5.0"
 gem "simple_form"
 gem "title"
 gem "uglifier"
+gem "devise"
 
 group :development do
   gem "quiet_assets"
@@ -29,6 +32,8 @@ group :development do
   gem "spring"
   gem "spring-commands-rspec"
   gem "web-console"
+  gem "rails_best_practices"
+  gem "rubocop"
 end
 
 group :development, :test do
@@ -40,6 +45,7 @@ group :development, :test do
   gem "pry-byebug"
   gem "pry-rails"
   gem "rspec-rails", "~> 3.4.0"
+  gem "faker"
 end
 
 group :test do
@@ -56,4 +62,5 @@ end
 group :staging, :production do
   gem "rails_stdout_logging"
   gem "rack-timeout"
+  gem "rack-wwwhisper"
 end
