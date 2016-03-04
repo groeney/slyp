@@ -12,6 +12,8 @@ your machine with [this script].
 
 [this script]: https://github.com/thoughtbot/laptop
 
+Alternatively for a more simple setup, just make sure you are running a postgres server on your machine and you have heroku toolbelt installed.
+
 After setting up, you can run the application using [Heroku Local]:
 
     % heroku local

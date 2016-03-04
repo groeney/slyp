@@ -6,6 +6,16 @@
 # Exit if any subcommand fails
 set -e
 
+# Some gem dependecies we can take care of with brew
+brew update
+which -s postgres || brew install postgres
+which -s qmake || brew install qt5
+wch_qmk="`which qmake`"
+if [ "$wch_qmk" != "/usr/local/bin/qmake" ]; then
+  echo "You are not running correct qmake version. which qmake -ne /usr/local/bin/qmake"
+  return
+fi
+
 # Set up Ruby dependencies via Bundler
 gem install bundler --conservative
 bundle check || bundle install
@@ -19,7 +29,7 @@ mkdir -p .git/safe
 # Only if this isn't CI
 # if [ -z "$CI" ]; then
 # fi
-          
+
 if heroku join --app slyp-staging &> /dev/null; then
   git remote add staging git@heroku.com:slyp-staging.git || true
   printf 'You are a collaborator on the "slyp-staging" Heroku app
@@ -29,7 +39,7 @@ else
 '
 fi
 
-          
+
 if heroku join --app slyp-production &> /dev/null; then
   git remote add production git@heroku.com:slyp-production.git || true
   printf 'You are a collaborator on the "slyp-production" Heroku app
@@ -40,4 +50,4 @@ else
 fi
 
 
-          git config heroku.remote staging
+git config heroku.remote staging
