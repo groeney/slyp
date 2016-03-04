@@ -1,4 +1,5 @@
 !.keep
+.env
 *.DS_Store
 *.swo
 *.swp
@@ -13,4 +14,3 @@
 /tmp/*
 /node_modules
 /vendor/assets/bower_components
-/.env
