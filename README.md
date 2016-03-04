@@ -2,8 +2,11 @@
 
 ## Getting Started
 
-After you have cloned this repo, run this setup script to set up your machine
-with the necessary dependencies to run and test this app:
+After you have cloned this repo, make sure you have been added as a collaborator to the heroku slyp project, you have the heroku toolbelt installed and then log into heroku via command line:
+
+    % heroku login
+
+Then run this setup script to set up your machine with the necessary dependencies to run and test this app:
 
     % ./bin/setup
 
