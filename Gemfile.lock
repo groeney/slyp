@@ -68,9 +68,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    capybara-webkit (1.8.0)
-      capybara (>= 2.3.0, < 2.7.0)
-      json
     code_analyzer (0.4.5)
       sexp_processor
     coderay (1.1.1)
@@ -334,7 +331,6 @@ DEPENDENCIES
   bourbon (~> 4.2.0)
   bullet
   bundler-audit
-  capybara-webkit
   coffee-rails (~> 4.1.0)
   database_cleaner
   delayed_job_active_record

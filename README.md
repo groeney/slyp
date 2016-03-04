@@ -8,6 +8,8 @@ After you have cloned this repo, make sure you have been added as a collaborator
 
 Install Postgres.app here: http://postgresapp.com/
 
+Make sure you have rbenv installed and are using ruby 2.3.0
+
 Then run this setup script to set up your machine with the necessary dependencies to run and test this app:
 
     % ./bin/setup

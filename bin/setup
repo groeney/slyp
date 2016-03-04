@@ -9,12 +9,6 @@ set -e
 # Some gem dependecies we can take care of with brew
 brew update
 which -s postgres || brew install postgres
-which -s qmake || brew install qt5
-wch_qmk="`which qmake`"
-if [ "$wch_qmk" != "/usr/local/bin/qmake" ]; then
-  echo "You are not running correct qmake version. which qmake -ne /usr/local/bin/qmake"
-  return
-fi
 
 # Set up Ruby dependencies via Bundler
 gem install bundler --conservative
