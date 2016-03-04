@@ -6,6 +6,8 @@ After you have cloned this repo, make sure you have been added as a collaborator
 
     % heroku login
 
+Install Postgres.app here: http://postgresapp.com/
+
 Then run this setup script to set up your machine with the necessary dependencies to run and test this app:
 
     % ./bin/setup
