@@ -1,5 +1,5 @@
 !.keep
-.env
+/.env
 *.DS_Store
 *.swo
 *.swp
