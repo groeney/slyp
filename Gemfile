@@ -26,6 +26,8 @@ gem "title"
 gem "uglifier"
 gem "devise"
 gem 'diffbot-ruby-client', :git => 'git@github.com:diffbot/diffbot-ruby-client.git'
+gem 'omniauth-google-oauth2'
+gem 'omniauth-facebook'
 
 group :development do
   gem "quiet_assets"
