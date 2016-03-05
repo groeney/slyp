@@ -25,7 +25,7 @@ gem "simple_form"
 gem "title"
 gem "uglifier"
 gem "devise"
-gem 'diffbot-ruby-client', :git => 'git@github.com:diffbot/diffbot-ruby-client.git'
+gem 'diffbot-ruby-client', :git => 'git://github.com/diffbot/diffbot-ruby-client.git'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 

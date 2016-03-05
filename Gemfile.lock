@@ -1,5 +1,5 @@
 GIT
-  remote: git@github.com:diffbot/diffbot-ruby-client.git
+  remote: git://github.com/diffbot/diffbot-ruby-client.git
   revision: 81cde9169451f1d718e2d6ef7d0d8a347f276402
   specs:
     diffbot-ruby-client (0.1.1)
