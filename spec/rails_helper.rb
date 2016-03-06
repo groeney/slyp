@@ -20,3 +20,16 @@ RSpec.configure do |config|
 end
 
 ActiveRecord::Migration.maintain_test_schema!
+
+# Allow localhost requests for capybara tests
+WebMock.disable_net_connect!(:allow_localhost => true)
+
+VCR.configure do |config|
+ config.ignore_localhost = true
+ config.ignore_hosts 'codeclimate.com'
+ config.configure_rspec_metadata!
+ #the directory where your cassettes will be saved
+ config.cassette_library_dir = 'spec/vcr'
+ # your HTTP request service. You can also use fakeweb, webmock, and more
+ config.hook_into :webmock
+end

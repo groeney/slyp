@@ -25,9 +25,10 @@ gem "simple_form"
 gem "title"
 gem "uglifier"
 gem "devise"
-gem 'diffbot-ruby-client', :git => 'git://github.com/diffbot/diffbot-ruby-client.git'
-gem 'omniauth-google-oauth2'
-gem 'omniauth-facebook'
+gem "diffbot-ruby-client", :git => "git://github.com/diffbot/diffbot-ruby-client.git"
+gem "omniauth-google-oauth2"
+gem "omniauth-facebook"
+gem "active_model_serializers", "~> 0.10.0.rc3"
 
 group :development do
   gem "quiet_assets"
@@ -59,6 +60,7 @@ group :test do
   gem "simplecov", require: false
   gem "timecop"
   gem "webmock"
+  gem "vcr"
 end
 
 group :staging, :production do

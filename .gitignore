@@ -13,3 +13,4 @@
 /tags
 /tmp/*
 /node_modules
+/spec/vcr

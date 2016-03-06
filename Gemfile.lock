@@ -27,6 +27,10 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
+    active_model_serializers (0.10.0.rc3)
+      actionpack (>= 4.0)
+      activemodel (>= 4.0)
+      railties (>= 4.0)
     activejob (4.2.5.2)
       activesupport (= 4.2.5.2)
       globalid (>= 0.3.0)
@@ -330,6 +334,7 @@ GEM
       json (>= 1.8.0)
     unicode-display_width (0.3.1)
     uniform_notifier (1.9.0)
+    vcr (2.9.3)
     warden (1.2.3)
       rack (>= 1.0)
     web-console (3.1.1)
@@ -347,6 +352,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  active_model_serializers (~> 0.10.0.rc3)
   autoprefixer-rails
   awesome_print
   bourbon (~> 4.2.0)
@@ -398,6 +404,7 @@ DEPENDENCIES
   timecop
   title
   uglifier
+  vcr
   web-console
   webmock
 
