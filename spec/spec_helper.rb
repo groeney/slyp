@@ -4,6 +4,7 @@ if ENV.fetch("COVERAGE", false)
 end
 
 require "webmock/rspec"
+require "factory_girl_rails"
 
 # http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 RSpec.configure do |config|
