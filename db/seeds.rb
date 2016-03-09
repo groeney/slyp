@@ -28,7 +28,9 @@ slyp_seed_urls = [
   "https://en.wikipedia.org/wiki/The_Electric_Kool-Aid_Acid_Test",
   "http://www.newyorker.com/magazine/2015/05/18/tomorrows-advance-man",
   "http://paulromer.net/mathiness/",
-  "http://www.newyorker.com/magazine/2015/05/18/lighting-the-brain"
+  "http://www.newyorker.com/magazine/2015/05/18/lighting-the-brain",
+  "https://www.facebook.com/berniesanders/videos/925757774145894/",
+  "https://www.youtube.com/watch?v=eEfxalQNwKY"
 ]
 
 slyp_seed_urls.each do |url|
