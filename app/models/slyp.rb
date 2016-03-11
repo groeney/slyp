@@ -2,7 +2,6 @@ require "uri"
 class Slyp < ActiveRecord::Base
   has_many :user_slyps
   has_many :users, through: :user_slyps
-  has_many :reslyps
 
   validates :url, presence: true, :format => URI::regexp(%w(http https))
 

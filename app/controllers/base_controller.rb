@@ -8,13 +8,13 @@ class BaseController < ApplicationController
 
   protected
 
-  def present_error(message: message)
-    present_errors [Error.new(message: message)]
+  def present_error(message)
+    present_errors [Error.new(message)]
   end
 
   def present_model_errors(model_errors)
     errors = model_errors.full_messages.map do |message|
-      Error.new message: message
+      Error.new message
     end
 
     present_errors errors
@@ -43,7 +43,7 @@ class BaseController < ApplicationController
   class Error
     attr_accessor :message
 
-    def initialize(message: message)
+    def initialize(message)
       @message = message
     end
   end
