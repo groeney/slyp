@@ -3,7 +3,13 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:google_oauth2, :facebook ]
+         :omniauthable, :omniauth_providers => [:google_oauth2, :facebook]
+
+  has_many :user_slyps
+  has_many :slyps, through: :user_slyps
+  has_many :reslyps, through: :user_slyps
+  has_many :friendships
+  has_many :friends, through: :friendships
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
