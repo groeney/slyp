@@ -1,7 +1,7 @@
 FactoryGirl.define do
   factory :friendship do
     association :user
-    association :friend
+    association :friend, factory: :user
   end
 
   factory :reslyp do

@@ -1,5 +1,9 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe UserSlyp, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  context "associations" do
+    it { is_expected.to belong_to :slyp }
+    it { is_expected.to belong_to :user }
+    it { is_expected.to have_many :reslyps }
+  end
 end
