@@ -19,7 +19,11 @@ FactoryGirl.define do
         to_user_slyp = friend.user_slyps.find_or_create_by({
           :slyp_id => user_slyp.slyp_id
           })
-        sent_reslyp = Reslyp.send_reslyp(to_user_slyp, user_slyp)
+        sent_reslyp = user_slyp.reslyps.create({
+          user_id: friend.id,
+          sender: true,
+          :slyp_id => user_slyp.slyp_id
+          })
         received_reslyp = sent_reslyp.receive_reslyp("Reslyp comment from FactoryGirl.")
       end
     end

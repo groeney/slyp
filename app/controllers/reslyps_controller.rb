@@ -11,7 +11,12 @@ class ReslypsController < BaseController
     return render status: 422, json: present_model_errors(@to_user_slyp.errors),
       each_serializer: ErrorSerializer if !@to_user_slyp.valid?
 
-    @sent_reslyp = Reslyp.send_reslyp(@to_user_slyp, @user_slyp)
+    @sent_reslyp = @user_slyp.reslyps.create({
+      :user_id => @to_user.id,
+      :sender => true,
+      :slyp_id => @user_slyp.slyp_id
+      })
+
     return render status: 422, json: present_model_errors(@sent_reslyp.errors),
       each_serializer: ErrorSerializer if !@sent_reslyp.valid?
 
