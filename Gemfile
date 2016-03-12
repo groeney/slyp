@@ -29,6 +29,7 @@ gem "diffbot-ruby-client", :git => "git://github.com/diffbot/diffbot-ruby-client
 gem "omniauth-google-oauth2"
 gem "omniauth-facebook"
 gem "active_model_serializers", "~> 0.10.0.rc3"
+gem "rails-backbone"
 
 group :development do
   gem "quiet_assets"
@@ -50,6 +51,7 @@ group :development, :test do
   gem "pry-rails"
   gem "rspec-rails", "~> 3.4.0"
   gem "faker"
+  gem "vcr"
 end
 
 group :test do
@@ -60,7 +62,6 @@ group :test do
   gem "simplecov", require: false
   gem "timecop"
   gem "webmock"
-  gem "vcr"
 end
 
 group :staging, :production do

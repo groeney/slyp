@@ -145,7 +145,8 @@ module DiffbotService
 
   def self.get_display_url
     inner_response = get_inner_response
-    image = inner_response[:images][0] || {}
+    images = inner_response[:images] || []
+    image = images.first || {}
     inner_response[:embedUrl] || image[:url] || image[:link] || inner_response[:url] || inner_response[:anchorUrl]
   end
 

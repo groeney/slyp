@@ -5,6 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+require "vcr"
 slyp_seed_urls = [
   "http://codeinthehole.com/writing/pull-requests-and-other-good-practices-for-teams-using-github/",
   "http://www.xconomy.com/san-francisco/2014/01/08/could-a-little-startup-called-diffbot-be-the-next-google/2/",
@@ -33,6 +34,32 @@ slyp_seed_urls = [
   "https://www.youtube.com/watch?v=eEfxalQNwKY"
 ]
 
-slyp_seed_urls.each do |url|
-  Slyp.fetch({:url => url})
+VCR.configure do |config|
+  config.cassette_library_dir = 'fixtures/vcr_cassettes'
+  config.hook_into :faraday
+end
+
+alice = User.find_or_create_by({:email=>"alice@example.com", :first_name => "Alice", :last_name => "Jones"})
+alice.password = "password" if alice.encrypted_password.blank?
+alice.save!
+bob = User.find_or_create_by({:email=>"bob@example.com", :first_name => "Bob", :last_name => "Jones"})
+bob.password = "password" if bob.encrypted_password.blank?
+bob.save!
+
+VCR.use_cassette("slyp_seeds", :record => :new_episodes) do
+  slyp_seed_urls.each do |url|
+    slyp, alice_user_slyp, alice_reslyp, bob_user_slyp, bob_reslyp = nil
+    slyp = Slyp.fetch({:url => url})
+    if slyp.valid?
+      alice_user_slyp = alice.user_slyps.find_or_create_by({:slyp_id => slyp.id})
+      bob_user_slyp = bob.user_slyps.find_or_create_by({:slyp_id => slyp.id})
+      if (slyp.url.length % 2 == 0)
+        alice_reslyp = alice_user_slyp.reslyps.find_or_create_by({:user_id => bob.id, :sender => true, :slyp_id => slyp.id})
+        alice_reslyp.receive_reslyp("Reslyp comment from alice from initial db seed.")
+      else
+        bob_reslyp = bob_user_slyp.reslyps.find_or_create_by({:user_id => alice.id, :sender => true, :slyp_id => slyp.id})
+        bob_reslyp.receive_reslyp("Reslyp comment from bob initial db seed.")
+      end
+    end
+  end
 end

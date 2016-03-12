@@ -10,7 +10,7 @@ class Reslyp < ActiveRecord::Base
   def receive_reslyp(comment) # TODO: argh, need to work this out.
     slyp_id = self.slyp_id
     to_user_slyp = self.user.user_slyps.find_by({:slyp_id => slyp_id})
-    to_user_slyp.reslyps.create({
+    to_user_slyp.reslyps.find_or_create_by({
       :user_id => self.user_slyp.user_id,
       :sender => false,
       :comment => comment,
