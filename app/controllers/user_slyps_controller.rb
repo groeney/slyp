@@ -15,7 +15,7 @@ class UserSlypsController < BaseController
   end
 
   def index
-    @user_slyps = current_user.user_slyps
+    @user_slyps = current_user.user_slyps.includes(:reslyps)
     render status: 200, json: present_collection(@user_slyps), each_serializer: UserSlypSerializer
   end
 
