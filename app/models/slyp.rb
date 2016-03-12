@@ -5,8 +5,8 @@ class Slyp < ActiveRecord::Base
 
   validates :url, presence: true, :format => URI::regexp(%w(http https))
 
-  def self.fetch(params)
-    slyp = fetch_from_db(params[:url]) || create_from_url(params[:url])
+  def self.fetch(url)
+    slyp = fetch_from_db(url) || create_from_url(url)
   end
 
   private

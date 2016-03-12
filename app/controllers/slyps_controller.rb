@@ -1,2 +1,0 @@
-class SlypsController < BaseController
-end

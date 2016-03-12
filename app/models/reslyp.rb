@@ -1,29 +1,14 @@
 class Reslyp < ActiveRecord::Base
-  belongs_to :slyp
   belongs_to :user_slyp
   belongs_to :user
+
   validates_uniqueness_of :user_slyp_id, :scope => :user_id
+  validates_presence_of :user
+  validates_presence_of :user_slyp
+
+  delegate :slyp, to: :user_slyp
+
   after_create :manage_friendship
-
-  def self.send_reslyp(to_user_slyp, user_slyp) # TODO: argh, need to work this out.
-    return nil if (!user_slyp or !to_user_slyp)
-    user_slyp.reslyps.create({
-      :user_id => to_user_slyp.user_id,
-      :sender => true,
-      :slyp_id => user_slyp.slyp_id
-      })
-  end
-
-  def receive_reslyp(comment) # TODO: argh, need to work this out.
-    slyp_id = self.slyp_id
-    to_user_slyp = self.user.user_slyps.find_by({:slyp_id => slyp_id})
-    to_user_slyp.reslyps.create({
-      :user_id => self.user_slyp.user_id,
-      :sender => false,
-      :comment => comment,
-      :slyp_id => slyp_id
-      })
-  end
 
   def sibling
     user = self.user_slyp.user

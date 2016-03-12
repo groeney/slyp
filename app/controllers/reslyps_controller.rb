@@ -2,24 +2,24 @@ class ReslypsController < BaseController
   before_action :authenticate_user!
 
   def create
-    @user_slyp = current_user.user_slyps.find(params[:user_slyp_id])
-    @to_user = User.find(params[:to_user_id])
+    if ![:emails, :slyp_id, :comment].all? {|s| params.key? s}
+      return render_404
+    end
 
-    @to_user_slyp = @to_user.user_slyps.find_or_create_by({
-      :slyp_id => @user_slyp.slyp_id
-      })
-    return render status: 422, json: present_model_errors(@to_user_slyp.errors),
-      each_serializer: ErrorSerializer if !@to_user_slyp.valid?
+    user_slyp = current_user.user_slyps.find_or_create_by({:slyp_id => slyp_id})
+    slyp_id = params.delete(:slyp_id)
+    reslyps = user_slyp.send_slyps(params)
 
-    @sent_reslyp = Reslyp.send_reslyp(@to_user_slyp, @user_slyp)
-    return render status: 422, json: present_model_errors(@sent_reslyp.errors),
-      each_serializer: ErrorSerializer if !@sent_reslyp.valid?
+    reslyps.each do |both_reslyps|
+      sent_reslyp, received_reslyp =
+        both_reslyps[:sent_reslyp], both_reslyps[:received_reslyp]
+      return render_422(sent_reslyp) if !sent_reslyp.valid?
+      return render_422(received_reslyp) if !received_reslyp.valid?
+    end
 
-    @received_reslyp = @sent_reslyp.receive_reslyp(params[:comment])
-    return render status: 422, json: present_model_errors(@received_reslyp.errors),
-      each_serializer: ErrorSerializer if !@received_reslyp.valid?
-
-    render status: 201, json: present(@sent_reslyp), serializer: ReslypSerializer
+    sent_reslyps = reslyps.map { |both_reslyps| both_reslyps[:sent_reslyp] }
+    render status: 201, json: present_collection(sent_reslyps),
+      each_serializer: ReslypSerializer
   end
 
   def index
@@ -32,8 +32,7 @@ class ReslypsController < BaseController
   def destroy
     @reslyp = current_user.reslyps.find(params[:id])
     @reslyp_sibling = @reslyp.sibling
-    return render status: 404, json: present_error(message: I18n.t("errors.404.message")),
-      each_serializer: ErrorSerializer if !@reslyp_sibling
+    return render_404 if !@reslyp_sibling
 
     if @reslyp.destroy and @reslyp_sibling.destroy
       head 204

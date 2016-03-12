@@ -2,20 +2,18 @@ class UserSlypsController < BaseController
   before_action :authenticate_user!
   def create
     @slyp = Slyp.fetch(params)
-    return render status: 422, json: present_model_errors(@slyp.errors),
-      each_serializer: ErrorSerializer if !@slyp.valid?
+    return render_422(@slyp) if !@slyp.valid?
 
     @user_slyp = current_user.user_slyps.build({:slyp_id => @slyp.id})
     if @user_slyp.save
       render status: 201, json: present(@user_slyp), serializer: UserSlypSerializer
     else
-      return render status: 422, json: present_model_errors(@user_slyp.errors),
-        each_serializer: ErrorSerializer if !@user_slyp.valid?
+      return render_422(@user_slyp) if !@user_slyp.valid?
     end
   end
 
   def index
-    @user_slyps = current_user.user_slyps
+    @user_slyps = current_user.user_slyps.includes(:reslyps => :user)
     render status: 200, json: present_collection(@user_slyps), each_serializer: UserSlypSerializer
   end
 
@@ -39,8 +37,7 @@ class UserSlypsController < BaseController
       render status: 200, json: present(@user_slyp),
         serializer: UserSlypSerializer
     else
-      render status: 422, json: present_model_errors(@user_slyp.errors),
-        each_serializer: ErrorSerializer
+      render_422(@user_slyp)
     end
   end
 
@@ -57,5 +54,4 @@ class UserSlypsController < BaseController
   def user_slyp_params
     params.require(:user_slyp).permit(:archived, :deleted, :favourite)
   end
-
 end

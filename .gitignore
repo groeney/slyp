@@ -14,3 +14,6 @@
 /tmp/*
 /node_modules
 /spec/vcr
+fixtures/vcr_cassettes/slyp_seeds.yml
+
+.byebug_history

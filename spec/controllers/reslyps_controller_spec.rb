@@ -7,15 +7,46 @@ RSpec.describe ReslypsController, type: :controller do
       before do
         sign_in user
       end
-      it "responds to invalid params with 422" do
-        post :create, user_slyp_id: user.user_slyps.first.id, to_user_id: user.id, format: :json
+      it "responds with 422" do
+        post :create, slyp_id: user.user_slyps.first.slyp_id,
+        emails: [user.email], comment: "This is a comment", format: :json
 
         expect(response.status).to eq(422)
         expect(response.content_type).to eq(Mime::JSON)
       end
+    end
 
-      it "responds to missing params with 404" do
+    context "with missing params" do
+      let(:user) { FactoryGirl.create(:user, :with_user_slyps) }
+      before do
+        sign_in user
+      end
+      it "responds with 404" do
         post :create, format: :json
+
+        expect(response.status).to eq(404)
+        expect(response.content_type).to eq(Mime::JSON)
+      end
+
+      it "responds with 404" do
+        post :create, slyp_id: user.user_slyps.first.slyp_id,
+          comment: "This is a comment", format: :json
+
+        expect(response.status).to eq(404)
+        expect(response.content_type).to eq(Mime::JSON)
+      end
+
+      it "responds with 404" do
+        post :create, comment: "This is a comment",
+          emails: [user.email], format: :json
+
+        expect(response.status).to eq(404)
+        expect(response.content_type).to eq(Mime::JSON)
+      end
+
+      it "responds with 404" do
+        post :create, emails: [user.email],
+          slyp_id: user.user_slyps.first.slyp_id, format: :json
 
         expect(response.status).to eq(404)
         expect(response.content_type).to eq(Mime::JSON)
@@ -24,26 +55,24 @@ RSpec.describe ReslypsController, type: :controller do
 
     context "with valid params" do
       let(:user) { FactoryGirl.create(:user, :with_user_slyps) }
-      let(:to_user) { FactoryGirl.create(:user) }
+      let(:to_users) { FactoryGirl.create_list(:user, 10) }
       before do
         sign_in user
       end
-      it "responds with 201" do
-        post :create, user_slyp_id: user.user_slyps.first.id,
-          to_user_id: to_user.id, comment: "This is a comment", format: :json
+      it "responds with 201 and valid body" do
+        post :create, slyp_id: user.user_slyps.first.slyp_id,
+          emails: to_users.map { |to_user| to_user.email},
+          comment: "This is a comment", format: :json
 
         expect(response.status).to eq(201)
         expect(response.content_type).to eq(Mime::JSON)
-      end
-
-      it "responds with valid reslyp, which has valid sibling" do
-        post :create, user_slyp_id: user.user_slyps.first.id,
-          to_user_id: to_user.id, comment: "This is a comment", format: :json
 
         response_body_json = JSON.parse(response.body)
-        reslyp = Reslyp.find(response_body_json["id"])
-        expect(reslyp).not_to be_nil
-        expect(reslyp.sibling).not_to be_nil
+        response_body_json.each do |reslyp_json|
+          reslyp = Reslyp.find(reslyp_json["id"])
+          expect(reslyp).not_to be_nil
+          expect(reslyp.sibling).not_to be_nil
+        end
       end
     end
   end
@@ -55,14 +84,14 @@ RSpec.describe ReslypsController, type: :controller do
       before do
         sign_in user
       end
-      it "responds to missing param with 404" do
+      it "responds with 404" do
         get :index, format: :json
 
         expect(response.status).to eq(404)
         expect(response.content_type).to eq(Mime::JSON)
       end
-      it "responds to invalid param with 404" do
-        get :index, user_slyp_id: user_slyp.id, format: :json
+      it "responds with 404" do
+        get :index, slyp_id: user_slyp.slyp_id, format: :json
 
         expect(response.status).to eq(404)
         expect(response.content_type).to eq(Mime::JSON)

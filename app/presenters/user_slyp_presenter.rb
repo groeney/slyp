@@ -6,7 +6,7 @@ class UserSlypPresenter < BasePresenter
 
   def initialize(user_slyp)
     @user_slyp = user_slyp
-    @slyp = user_slyp.slyp
+    @slyp = Slyp.includes(:user_slyps).find(user_slyp.slyp_id)
   end
 
   def friend_reslyps
