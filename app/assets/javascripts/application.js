@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-// Bower components
 //= require semantic-ui/dist/semantic
-//= require_tree .
+//= require underscore/underscore
+
+
