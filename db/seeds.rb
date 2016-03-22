@@ -125,38 +125,18 @@ def generate_bulk_reslyps()
     # Generate reslyps to alice and bob
     comment_index = Random.rand(@comments.length)
     comment = @comments[comment_index]
-    user_1.send_slyp({
-      :email => @alice.email,
-      :slyp_id => slyp.id,
-      :comment => comment
-      })
-    user_1.send_slyp({
-      :email => @bob.email,
-      :slyp_id => slyp.id,
-      :comment => comment
-      })
+    user_1_slyp.send_slyp(@alice.email,comment)
+    user_1_slyp.send_slyp(@bob.email,comment)
 
     user_2_index = Random.rand(num_users)
     user_2 = users[user_2_index]
 
     # Generate reslyps for user_1 and user_2
-    user_1.send_slyp({
-      :email => user_2.email,
-      :slyp_id => slyp.id,
-      :comment => comment
-      })
+    user_1_slyp.send_slyp(user_2.email, comment)
 
     # Generate reslyps from alice or bob
-    @alice.send_slyp({
-      :email => user_2.email,
-      :slyp_id => slyp.id,
-      :comment => comment
-      })
-    @bob.send_slyp({
-      :email => user_2.email,
-      :slyp_id => slyp.id,
-      :comment => comment
-      })
+    alice_user_slyp.send_slyp(user_2.email, comment)
+    bob_user_slyp.send_slyp(user_2.email, comment)
   end
 end
 

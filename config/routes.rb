@@ -3,5 +3,6 @@ Rails.application.routes.draw do
   root to: "home#index"
   resources :user_slyps
   resources :reslyps
+  resources :users, only: [:index]
   get "/feed" => "home#feed"
 end
