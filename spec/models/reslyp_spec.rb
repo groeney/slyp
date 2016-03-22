@@ -2,7 +2,6 @@ require "rails_helper"
 
 RSpec.describe Reslyp, type: :model do
   context "associations" do
-    it { is_expected.to belong_to :slyp }
     it { is_expected.to belong_to :user_slyp }
     it { is_expected.to belong_to :user }
   end

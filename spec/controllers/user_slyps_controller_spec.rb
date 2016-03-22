@@ -26,8 +26,8 @@ RSpec.describe UserSlypsController, type: :controller do
         expect(response_body_json["archived"]).not_to be_nil
         expect(response_body_json["deleted"]).not_to be_nil
         expect(response_body_json["favourite"]).not_to be_nil
-        expect(response_body_json["reslyps"]).to be >= 1
-        expect(response_body_json["friend_reslyps"]).not_to be_nil
+        expect(response_body_json["reslyps_count"]).to be >= 1
+        expect(response_body_json["reslyps"]).not_to be_nil
       end
     end
   end

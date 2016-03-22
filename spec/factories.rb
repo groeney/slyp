@@ -16,15 +16,7 @@ FactoryGirl.define do
     trait :with_reslyp do
       after(:create) do |user_slyp|
         friend = FactoryGirl.create(:user)
-        to_user_slyp = friend.user_slyps.find_or_create_by({
-          :slyp_id => user_slyp.slyp_id
-          })
-        sent_reslyp = user_slyp.reslyps.create({
-          user_id: friend.id,
-          sender: true,
-          :slyp_id => user_slyp.slyp_id
-          })
-        received_reslyp = sent_reslyp.receive_reslyp("Reslyp comment from FactoryGirl.")
+        user_slyp.send_slyp(friend.email, "Reslyp comment from FactoryGirl.")
       end
     end
   end

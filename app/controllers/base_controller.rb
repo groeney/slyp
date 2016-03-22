@@ -2,8 +2,7 @@ class BaseController < ApplicationController
   before_action :ensure_request_accepts_json
 
   rescue_from ActiveRecord::RecordNotFound do |exception|
-    render status: 404, json: present_error(message: I18n.t("errors.404.message")),
-      each_serializer: ErrorSerializer
+    render_404
   end
 
   protected
@@ -18,6 +17,16 @@ class BaseController < ApplicationController
     end
 
     present_errors errors
+  end
+
+  def render_422(model)
+    render status: 422, json: present_model_errors(model.errors),
+      each_serializer: ErrorSerializer
+  end
+
+  def render_404
+    render status: 404, json: present_error(message: I18n.t("errors.404.message")),
+      each_serializer: ErrorSerializer
   end
 
   private
