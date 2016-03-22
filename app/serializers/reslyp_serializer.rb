@@ -1,8 +1,8 @@
-class ReslypSerializer < ActiveModel::Serializer
-  attributes :id, :sender, :user
-  belongs_to :user
+class ReslypUserSerializer < ActiveModel::Serializer
+  attributes :id, :first_name, :last_name, :email, :friends
+end
 
-  class UserSerializer < ActiveModel::Serializer
-    attributes :id, :first_name, :last_name, :email
-  end
+class ReslypSerializer < ActiveModel::Serializer
+  attributes :id, :sender, :user, :comment, :created_at
+  belongs_to :user, serializer: ReslypUserSerializer
 end
