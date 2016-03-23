@@ -14,5 +14,8 @@
 //= require jquery_ujs
 //= require semantic-ui/dist/semantic
 //= require underscore/underscore
+//= require moment/min/moment.min
+//= require toastr/toastr.min
+//= require paloma
 
 

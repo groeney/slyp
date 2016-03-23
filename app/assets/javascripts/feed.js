@@ -1,0 +1,10 @@
+//= require       backbone/backbone
+//= require       marionette/lib/backbone.marionette
+//= require       backbone-relational/backbone-relational
+//= require       ./feed/globals
+//= require       ./feed/app
+//= require_tree  ./feed/models
+//= require_tree  ./feed/collections
+//= require_tree  ./feed/views
+//= require       ./feed/router
+//= require       ./feed/show

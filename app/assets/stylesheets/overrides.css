@@ -1,0 +1,5 @@
+.round {
+  border-radius: 50%;
+  border: 1px solid black;
+}
+.ui.popup{overflow:auto;}
