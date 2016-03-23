@@ -99,7 +99,7 @@ end
 def seed_slyps()
   VCR.use_cassette("slyp_seeds") do
     @slyp_seed_urls.each do |url|
-      Slyp.fetch({:url => url})
+      Slyp.fetch(url)
     end
   end
 end
