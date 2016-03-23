@@ -2,9 +2,11 @@ require "rails_helper"
 
 RSpec.describe UserSlypsController, type: :controller do
   describe "#create" do
+    before do
+      sign_in FactoryGirl.create(:user)
+    end
     context "with invalid parameters", :vcr do
       it "responds wth 422" do
-        sign_in FactoryGirl.create(:user)
         url = "http://www.foobarbaziamafaker.co/"
         post :create, url: url, format: :json
 
@@ -15,7 +17,6 @@ RSpec.describe UserSlypsController, type: :controller do
 
     context "with valid parameters", :vcr do
       it "responds with 201 and minimal slyp attrs" do
-        sign_in FactoryGirl.create(:user)
         url = "https://www.farnamstreetblog.com/2014/02/quotable-kierkegaard/"
         post :create, url: url, format: :json
 
@@ -34,9 +35,8 @@ RSpec.describe UserSlypsController, type: :controller do
 
   describe "#index" do
     context "with authentication and reslyps" do
-      let(:user) { FactoryGirl.create(:user, :with_reslyps) }
       before do
-        sign_in user
+        sign_in FactoryGirl.create(:user, :with_reslyps)
       end
       it "responds with 200 and correct number of slyps" do
         get :index, format: :json
