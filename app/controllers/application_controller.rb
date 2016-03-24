@@ -3,4 +3,7 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
   serialization_scope :view_context
+  def after_sign_in_path_for(resource_or_scope)
+   "/feed"
+  end
 end
