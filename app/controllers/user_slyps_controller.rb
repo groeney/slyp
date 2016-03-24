@@ -1,7 +1,7 @@
 class UserSlypsController < BaseController
   before_action :authenticate_user!
   def create
-    @slyp = Slyp.fetch(params)
+    @slyp = Slyp.fetch(params[:url])
     return render_422(@slyp) if !@slyp.valid?
 
     @user_slyp = current_user.user_slyps.build({:slyp_id => @slyp.id})
@@ -22,15 +22,8 @@ class UserSlypsController < BaseController
     render status: 200, json: present(@user_slyp), serializer: UserSlypSerializer
   end
 
-  def destroy
-    @user_slyp = current_user.user_slyps.find(params[:id])
-    if @user_slyp.destroy
-      head 204
-    else
-      head 400
-    end
-  end
-
+  # http://edgeapi.rubyonrails.org/classes/ActionController/Parameters.html#method-i-permit
+  # Must figure out how to not permit nil values
   def update
     @user_slyp = current_user.user_slyps.find(params[:id])
     if @user_slyp.update(user_slyp_params)

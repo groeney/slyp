@@ -28,7 +28,7 @@ RSpec.describe ReslypsController, type: :controller do
         expect(response.content_type).to eq(Mime::JSON)
       end
 
-      it "responds with 404" do
+      it "responds with 404, no emails" do
         post :create, slyp_id: user.user_slyps.first.slyp_id,
           comment: "This is a comment", format: :json
 
@@ -36,7 +36,7 @@ RSpec.describe ReslypsController, type: :controller do
         expect(response.content_type).to eq(Mime::JSON)
       end
 
-      it "responds with 404" do
+      it "responds with 404, no slyp_id" do
         post :create, comment: "This is a comment",
           emails: [user.email], format: :json
 
@@ -44,7 +44,7 @@ RSpec.describe ReslypsController, type: :controller do
         expect(response.content_type).to eq(Mime::JSON)
       end
 
-      it "responds with 404" do
+      it "responds with 404, no comment" do
         post :create, emails: [user.email],
           slyp_id: user.user_slyps.first.slyp_id, format: :json
 
@@ -108,21 +108,16 @@ RSpec.describe ReslypsController, type: :controller do
       it "responds with 200" do
         get :index, user_slyp_id: user_slyp.id, format: :json
 
+        response_body_json = JSON.parse(response.body)
         expect(response.status).to eq(200)
         expect(response.content_type).to eq(Mime::JSON)
-      end
-
-      it "responds with correct reslyp structure" do
-        get :index, user_slyp_id: user_slyp.id, format: :json
-
-        response_body_json = JSON.parse(response.body)
-        first_reslyp = response_body_json.first
-        user = first_reslyp["user"]
         expect(response_body_json.length).to eq(user_slyp.reslyps.length)
+
+        first_reslyp = response_body_json.first
         expect(first_reslyp["id"]).not_to be_nil
         expect(first_reslyp["sender"]).to eq(!!first_reslyp["sender"])
-        expect(user).not_to be_nil
-        expect(user["id"]).not_to be_nil
+        expect(first_reslyp["user"]).not_to be_nil
+        expect(first_reslyp["user"]["id"]).not_to be_nil
       end
     end
   end

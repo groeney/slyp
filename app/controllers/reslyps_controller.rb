@@ -2,24 +2,24 @@ class ReslypsController < BaseController
   before_action :authenticate_user!
 
   def create
-    if ![:emails, :slyp_id, :comment].all? {|s| params.key? s}
+    if [:emails, :slyp_id, :comment].all? {|s| params.key? s}
+      slyp_id = params.delete(:slyp_id)
+      user_slyp = current_user.user_slyps.find_or_create_by({:slyp_id => slyp_id})
+      reslyps = user_slyp.send_slyps(params[:emails], params[:comment])
+
+      reslyps.each do |both_reslyps|
+        sent_reslyp, received_reslyp =
+          both_reslyps[:sent_reslyp], both_reslyps[:received_reslyp]
+        return render_422(sent_reslyp) if !sent_reslyp.valid?
+        return render_422(received_reslyp) if !received_reslyp.valid?
+      end
+
+      sent_reslyps = reslyps.map { |both_reslyps| both_reslyps[:sent_reslyp] }
+      render status: 201, json: present_collection(sent_reslyps),
+        each_serializer: ReslypSerializer
+    else
       return render_404
     end
-
-    user_slyp = current_user.user_slyps.find_or_create_by({:slyp_id => slyp_id})
-    slyp_id = params.delete(:slyp_id)
-    reslyps = user_slyp.send_slyps(params)
-
-    reslyps.each do |both_reslyps|
-      sent_reslyp, received_reslyp =
-        both_reslyps[:sent_reslyp], both_reslyps[:received_reslyp]
-      return render_422(sent_reslyp) if !sent_reslyp.valid?
-      return render_422(received_reslyp) if !received_reslyp.valid?
-    end
-
-    sent_reslyps = reslyps.map { |both_reslyps| both_reslyps[:sent_reslyp] }
-    render status: 201, json: present_collection(sent_reslyps),
-      each_serializer: ReslypSerializer
   end
 
   def index

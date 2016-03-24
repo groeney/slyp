@@ -7,13 +7,11 @@ class UserSlyp < ActiveRecord::Base
   validates_presence_of :slyp
   validates_presence_of :user
 
-  def send_slyps(params)
-    emails = params[:emails] || []
-    comment = params[:comment] || ""
+  def send_slyps(emails, comment="")
     emails.map { |email| self.send_slyp(email, comment) }
   end
 
-  def send_slyp(email, comment)
+  def send_slyp(email, comment="")
     to_user = User.find_or_create_by({:email => email})
     if to_user.encrypted_password.blank?
       to_user.password = "password"   # TODO send registration email
