@@ -5,6 +5,8 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
     "click button.send"             : "sendSlyp",
     "keypress input"                : "sendSlypIfEnter",
     "mouseover .content.friend-data": "mOver",
+    "click .archive.icon"           : "toggleArchive",
+    "click .star.icon"              : "toggleStar"
   },
   modelEvents: {
     "change": "render"
@@ -15,6 +17,33 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
       menu.append(this.model.dropdownHTML())
       window.LetterAvatar.transform_el(this.el);
     }
+  },
+  toggleStar: function(e){
+    var el = e.toElement
+    this.model.save(
+      {
+        favourite: !this.model.get('favourite')
+      },
+      {
+      success: this.toggleActiveClass(el),
+      error: this.actionError
+    });
+  },
+  toggleArchive: function(e){
+    var el = e.toElement
+    this.model.save( {
+      archived: !this.model.get('archived')
+    },
+    {
+      success: this.toggleActiveClass(el),
+      error: this.actionError
+    });
+  },
+  toggleActiveClass: function(el){
+    $(el).toggleClass('active');
+  },
+  actionError: function(){
+    toastr.error("Our robots cannot perform that action right now :(");
   },
   onRender: function(){
     this.$('.summary.front-display')
