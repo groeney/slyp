@@ -6,11 +6,15 @@ class UserSlypPresenter < BasePresenter
 
   def initialize(user_slyp)
     @user_slyp = user_slyp
-    @slyp = Slyp.includes(:user_slyps).find(user_slyp.slyp_id)
+    @slyp = Slyp.includes(:user_slyps).find(@user_slyp.slyp_id)
   end
 
   def reslyps
     user_slyp.reslyps.where({ :sender => false })
+  end
+
+  def friends
+    user_slyp.reslyps.map { |reslyp| reslyp.id }
   end
 
   def reslyps_count
