@@ -4,8 +4,8 @@ class UserSlyp < ActiveRecord::Base
   has_many :reslyps
 
   validates_uniqueness_of :slyp_id, :scope => :user_id
-  validates_presence_of :slyp
-  validates_presence_of :user
+  validates_presence_of   :slyp
+  validates_presence_of   :user
 
   def send_slyps(emails, comment="")
     emails.map { |email| self.send_slyp(email, comment) }
