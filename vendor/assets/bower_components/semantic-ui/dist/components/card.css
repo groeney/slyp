@@ -953,3 +953,24 @@ a.ui.card:hover,
     User Variable Overrides
 *******************************/
 
+
+/*-----Archive----- */
+
+
+/* Icon */
+.ui.cards > .card > .content .archive.icon,
+.ui.card > .content .archive.icon {
+  cursor: pointer;
+  opacity: 0.75;
+  -webkit-transition: color 0.1s ease;
+  transition: color 0.1s ease;
+}
+.ui.cards > .card > .content .archive.icon:hover,
+.ui.card > .content .archive.icon:hover {
+  opacity: 1;
+  color: #198f35;
+}
+.ui.cards > .card > .content .active.archive.icon,
+.ui.card > .content .active.archive.icon {
+  color: #21BA45;
+}
