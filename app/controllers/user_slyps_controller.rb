@@ -22,13 +22,10 @@ class UserSlypsController < BaseController
     render status: 200, json: present(@user_slyp), serializer: UserSlypSerializer
   end
 
-  # http://edgeapi.rubyonrails.org/classes/ActionController/Parameters.html#method-i-permit
-  # Must figure out how to not permit nil values
   def update
     @user_slyp = current_user.user_slyps.find(params[:id])
     if @user_slyp.update(user_slyp_params)
-      render status: 200, json: present(@user_slyp),
-        serializer: UserSlypSerializer
+      render status: 200, json: present(@user_slyp), serializer: UserSlypSerializer
     else
       render_422(@user_slyp)
     end

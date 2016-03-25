@@ -111,16 +111,22 @@ RSpec.describe UserSlypsController, type: :controller do
     before do
       sign_in user
     end
-    ## Need to figure out how to not permit nil values in controller
-    ## See user_slyp_controller.rb#34
-    # context "with invalid parameters" do
-    #   it "responds with 422" do
-    #     put :update, id: user_slyp.to_param, user_slyp: { favourite: nil }, format: :json
+    context "with invalid parameters" do
+      let(:charlatan) { FactoryGirl.create(:user_slyp) }
+      it "responds with 422" do
+        put :update, id: user_slyp.to_param, user_slyp: { favourite: nil }, format: :json
 
-    #     expect(response.status).to eq(422)
-    #     expect(response.content_type).to eq(Mime::JSON)
-    #   end
-    # end
+        expect(response.status).to eq(422)
+        expect(response.content_type).to eq(Mime::JSON)
+      end
+
+      it "responds with 404" do
+        put :update, id: charlatan.to_param, user_slyp: { favourite: false }, format: :json
+
+        expect(response.status).to eq(404)
+        expect(response.content_type).to eq(Mime::JSON)
+      end
+    end
 
     context "with valid parameters" do
       it "toggles favourite and responds with 200" do

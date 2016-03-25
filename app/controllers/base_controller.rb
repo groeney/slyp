@@ -5,6 +5,11 @@ class BaseController < ApplicationController
     render_404
   end
 
+  rescue_from ActiveRecord::StatementInvalid do |exception|
+    render status: 422, json: present_error(I18n.t("errors.422.message")),
+      each_serializer: ErrorSerializer
+  end
+
   protected
 
   def present_error(message)
