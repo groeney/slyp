@@ -9,6 +9,6 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
       collection: slypApp.userSlyps
     }));
   }
-})
+});
 
 

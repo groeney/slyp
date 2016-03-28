@@ -86,7 +86,7 @@ end
 
 # Create example users to generate reslyps
 def create_example_users()
-  1000.times do |n|
+  100.times do |n|
     first_name = @first_names[n % @first_names.length]
     email = "#{first_name}_#{n}@example.com"
     user = User.find_or_create_by({:email => email.downcase, :first_name => first_name, :last_name => "Example #{n}"})

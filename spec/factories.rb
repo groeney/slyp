@@ -26,8 +26,11 @@ FactoryGirl.define do
   end
 
   factory :user do
-    sequence(:email) { |n| "test_email_#{n}@example.com" }
+    sequence(:email) { |n| "#{first_name}.#{last_name}_#{n}@example.com" }
     password { SecureRandom.hex(8) }
+    first_name "Joe"
+    last_name "Blogs"
+    sequence(:user_name) { |n| "#{first_name}#{last_name}_#{n}" }
 
     trait :with_slyps do
       after(:create) do |user|

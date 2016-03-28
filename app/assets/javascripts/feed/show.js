@@ -8,3 +8,5 @@ $(function() {
   });
   return slypApp.start();
 });
+
+console.log('Hey! There you are taking a peek :)')
