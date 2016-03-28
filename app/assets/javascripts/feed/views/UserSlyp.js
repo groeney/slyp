@@ -2,59 +2,96 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
   template: "#js-slyp-card-tmpl",
   className: "ui card",
   events: {
-    "click button.send"             : "sendSlyp",
+    "click .ui.action.input .button": "sendSlyp",
     "keypress input"                : "sendSlypIfEnter",
-    "mouseover .content.friend-data": "mOver",
     "click .archive.icon"           : "toggleArchive",
     "click .star.icon"              : "toggleStar"
   },
-  modelEvents: {
-    "change": "render"
+  attributes: {
+    "rv-fade-hide": "model:archived"
   },
-  mOver: function(){
-    var menu = this.$('div.menu');
-    if (menu.children().length == 0){
-      menu.append(this.model.dropdownHTML())
-      window.LetterAvatar.transform_el(this.el);
-    }
-  },
-  toggleStar: function(e){
-    var el = e.toElement
-    this.model.save(
-      {
-        favourite: !this.model.get('favourite')
-      },
-      {
-      success: this.toggleActiveClass(el),
-      error: this.actionError
-    });
-  },
-  toggleArchive: function(e){
-    var el = e.toElement
-    this.model.save( {
-      archived: !this.model.get('archived')
-    },
-    {
-      success: this.toggleActiveClass(el),
-      error: this.actionError
-    });
-  },
-  toggleActiveClass: function(el){
-    $(el).toggleClass('active');
-  },
-  actionError: function(){
-    toastr.error("Our robots cannot perform that action right now :(");
+  onClose: function() {
+    if (this.binder) this.binder.unbind();
   },
   onRender: function(){
+    this.state = {
+      canReslyp      : false,
+      reslyping      : false,
+      searching      : false,
+      comment        : ''
+    }
+    this.state.show = () => {
+      return !this.model.get('archived')
+    }
+    this.binder = rivets.bind(this.$el, { model: this.model, state: this.state })
+
+    this.$('.ui.dropdown')
+      .dropdown({
+        direction     : 'upward',
+        allowAdditions: true,
+        apiSettings: {
+          url: '/search/users?q={query}',
+          method: 'post',
+          data: {
+            user_slyp_id: this.model.get('id')
+          },
+          onResponse: function(serverResponse){
+            var response = {"success": true, "results": serverResponse}
+            return response
+          }
+        }
+      });
+
+    this.$('.ui.dropdown').dropdown('setting', 'onAdd', (addedValue, addedText, addedChoice) => {
+      var friendExists = _.some(this.model.get('friends'), function(friend) {
+        return friend.email == addedValue;
+      });
+
+      if (friendExists){
+        toastr.options = {};
+        toastr["error"]('You have already exchanged this slyp with ' + addedValue);
+        return false
+      } else {
+        this.state.reslyping = false;
+        this.state.canReslyp = true;
+        // var elm = $(this.parentElement).find('.action.input');
+        // if (elm.is(":hidden")){
+        //   elm.find('button').removeClass('loading');
+        //   elm.show();
+        // }
+      }
+      return true
+    });
+
+    this.$('.ui.dropdown').dropdown('setting', 'onLabelCreate', function(value, text) {
+      if (!validateEmail(value)){
+        this.addClass('red');
+      }
+      return this
+    });
+
+    this.$('.ui.dropdown').dropdown('setting', 'onRemove', (removedValue, removedText, removedChoice) => {
+      if (this.$el.find('.ui.dropdown a.label').length <= 1){
+        this.state.reslyping = false;
+        this.state.canReslyp = false;
+      }
+    });
+
+    this.$('.ui.dropdown').dropdown('setting', 'onLabelRemove', function(value){
+      this.popup('destroy');
+    });
+
+    this.$('.ui.dropdown').dropdown('save defaults');
+
     this.$('.summary.front-display')
       .popup({
         on        : 'click',
         inline    : true,
         hoverable : true,
-        position  : 'bottom left',
+        position  : 'right center',
         lastResort: 'bottom left',
         onShow    : function(){
-            resizePopup();
+          resizePopup();
         },
         delay    :{
           show: 1000,
@@ -69,59 +106,40 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
           hide: 200
         }
       });
-
-    this.$('.ui.dropdown')
-      .dropdown({
-        direction     : 'upward',
-        allowAdditions: true,
-        onLabelCreate: function(label){
-          // this.find('span').remove();
-          this.addClass('mini');
-          if (!validateEmail(label)){
-            this.addClass('red')
-          }
-          return this
-        },
-        onAdd: function(addedValue, addedText, addedChoice){
-          var elm = $(this.parentElement).find('button.send');
-          if (elm.is(":hidden")){
-            elm.show();
-          }
-        },
-        onRemove: function(removedValue, removedText, removedChoice){
-          if ($(this).find('a.label').length <= 1){
-            $(this.parentElement).find('button.send').hide();
-          }
-        }
-      });
     window.LetterAvatar.transform_el(this.el);
   },
   onShow: function(){
-    this.$('img.display')
-      .visibility({
-        type       : 'image',
-        transition : 'fade in',
-        duration   : 1000
-      });
-  },
-  sendSlyp: function(e){
-    var recipients_labels = this.$('.ui.dropdown a.label').not('.red');
-    if (recipients_labels.length > 0){
-      var recipients_emails = recipients_labels
-        .map(function(){return this.getAttribute("data-value");}).get();
-      $(e.toElement).addClass('loading');
-      this.reslyp(recipients_emails, "this is a comment");
-    } else {
-      toastr.error('No valid emails.');
-    }
+    if (!this.model.get('archived')){
+      this.$('img.display')
+        .visibility({
+          'type': 'image',
+          'transition': 'fade in',
+          'duration': 750
+        });
+      }
   },
   sendSlypIfEnter: function(e){
     if (e.keyCode==13){
-      this.$('button.send').click();
+      this.$('.action.input .button').click();
+    }
+  },
+  sendSlyp: function(e){
+    var emails = this.$('#recipient-emails').val().split(',');
+    this.$('.ui.dropdown').dropdown('restore defaults');
+    this.$('.ui.dropdown').dropdown('set text', 'send to friends'); // ^ 'restore defaults' not setting text
+    this.$('#reslyp-comment').val('');
+
+    if (emails.length > 0){
+      var validatedEmails = _.filter(emails, function(email) { return validateEmail(email) });
+      this.state.reslyping = true;
+      var comment = this.state.comment;
+      this.reslyp(validatedEmails, comment);
+    } else {
+      toastr.options = {};
+      toastr["error"]('No valid emails.');
     }
   },
   reslyp: function(emails, comment){
-    var self = this;
     Backbone.ajax({
       url: '/reslyps',
       method: 'POST',
@@ -132,25 +150,67 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
       dataType: "json",
       data: JSON.stringify({
         emails: emails,
-        slyp_id: self.model.get('slyp_id'),
+        slyp_id: this.model.get('slyp_id'),
         comment: comment
       }),
-      success: function(response){
-        toastr.success('Successfully sent.');
-        self.$('button.send').removeClass('loading');
-        self.model.fetch();
+      success: (response) => {
+        toastr.options = {};
+        toastr["success"]('Reslyp successful :)');
+        this.state.reslyping = false;
+        this.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
+        this.state.canReslyp = false;
+        this.model.fetch();
+        this.removeRecipientsLabels();
       },
-      error: function(status, response){
-        responseText = JSON.parse(status.responseText);
-        toastr.error(responseText[0].message);
-        self.$('button.send').removeClass('loading');
-        self.model.fetch();
+      error: (status, err) => {
+        this.actionError("Couldn't add all of some of those users :(");
+        this.state.reslyping = false;
+        this.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
+        this.state.canReslyp = false;
+        this.model.fetch();
+        this.removeRecipientsLabels();
       }
     });
+  },
+  toggleStar: function(e){
+    this.model.save({ favourite: !this.model.get('favourite') },
+    {
+      error: this.actionError
+    });
+  },
+  toggleArchive: function(e){
+
+    this.model.save({archived: !this.model.get('archived')},
+    {
+      success: () => {
+        var self = this; // Makes *view* accessible in onclick, as _this_
+        toastr.options = {};
+        toastr.options = {
+          "positionClass": "toast-bottom-left",
+          "onclick": () => {
+            this.model.save({archived: !this.model.get('archived')})
+          },
+          "fadeIn": 300,
+          "fadeOut": 1000,
+          "timeOut": 5000,
+          "extendedTimeOut": 1000
+        }
+        toastr["success"]("Slyp archived. Click to undo.")
+      },
+      error: this.actionError
+    });
+  },
+  actionError: function(message){
+    message = typeof message !== 'undefined' ? message : "Our robots cannot perform that action right now :(";
+    toastr.options = {};
+    toastr["error"](message);
+  },
+  removeRecipientsLabels: function(){
+    this.$('.ui.dropdown a.label').remove();
   }
 });
 
 slypApp.Views.UserSlyps = Backbone.Marionette.CollectionView.extend({
   childView: slypApp.Views.UserSlyp,
   className: "ui three doubling stackable cards"
-  })
+})

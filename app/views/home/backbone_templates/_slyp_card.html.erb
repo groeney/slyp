@@ -1,85 +1,70 @@
 <script type="text/template" id="js-slyp-card-tmpl">
 
-  <a class="extra content" href="<%%= url %>" target="_blank">
-    <div class="right floated meta"><%%= 'reslyp'.pluralize(reslyps_count) %> </div>
+  <a class="extra content" rv-href="model:url" target="_blank">
+    <div class="right floated meta">{ model:total_reslyps | numReslyps }</div>
     <div class="left floated meta">
-      <%% if (duration == undefined){ %>
-        brief
-      <%% } else { %>
-        <%%= Math.ceil(duration/60) %> min
-      <%% } %>
-
-      <%% if (slyp_type == 'video'){ %>
-        watch
-      <%% } else { %>
-        read
-      <%% } %>
+      { model:duration | duration } { model:slyp_type | consumptionVerb }
     </div>
   </a>
 
-  <a href="<%%= url %>" target="_blank">
-    <img type="image" class="ui medium image display centered" data-src="<%%= display_url %>" src="/assets/blank-image.png">
+  <a rv-href="model:url" target="_blank">
+    <img type="image" class="ui medium image display centered" rv-data-src="model:display_url" src="/assets/blank-image.png">
   </a>
-  <!-- <i class="right floated empty star large icon"></i> -->
-
 
   <div class="content">
-    <a class="header center aligned" target="_blank" href="<%%= url %>"><%%= title.trunc(70) %></div>
+    <a class="header center aligned" target="_blank" rv-href="model:url">{ model:title | trunc }</div>
     <div class="meta center aligned">
-      <a target="_blank" href="<%%= url %>"><%%= site_name %>
-        <%% if (author != "") { %>
-          | by <%%= author %>
-        <%% } %>
+      <a target="_blank" rv-href="model:url">
+        <span rv-show="model.authorshipMeta">{ model.authorshipMeta }</span>
       </a>
     </div>
   </div>
 
-
+  <div class="ui hidden divider"></div>
   <div class="extra content friend-data">
-    <span class="ui right floated description">
-      <i class="user icon"></i>
-      <%%= 'friend'.pluralize(friends_count) %>
-    </span>
-    <%% if (reslyps.length > 0){ reslyp = reslyps[0];%>
-      <div class="summary front-display">
-        <img class="ui round avatar right spaced image" avatar="<%%= reslyp.user.first_name %>" data-title="<%%= reslyp.user.first_name %> <%%= reslyp.user.last_name %>">
-        <a><span>"<%%= reslyp.comment.trunc(20) %>"<i class="dropdown icon"></i></span></a>
-      </div>
-
-      <div class="ui fluid popup" data-title="Friend Comments">
+    <div class="content">
+      <i class="right floated star icon" rv-class-active="model:favourite"></i>
+      <i class="right floated archive icon" rv-class-active="model:archived"></i>
+      <a class="summary front-display" >
+        <i class="comment icon"></i>
+        <span>{ model:reslyps | numComments }</span>
+      </a>
+      <span class="description">
+        <b>from</b>
+        <i class="user icon"></i>
+        <span>{ model:friends | numFriends }</span>
+      </span>
+      <div class="ui fluid popup friend-comments">
         <div class="ui comments">
-          <%% for (var i = 0; i < reslyps.length; i++) { %>
-            <%% if (!reslyps[i].sender){ %>
-              <div class="comment">
-                <div class="avatar" data-title="<%%= reslyps[i].user.first_name %> <%%= reslyps[i].user.last_name %>">
-                  <img class="round" avatar="<%%= reslyps[i].user.first_name %>">
-                </div>
-                <div class="content">
-                  <a class="author"><%%= reslyps[i].user.first_name %> <%%= reslyps[i].user.last_name %></a>
-                  <div class="text">
-                    <p>"<%%= reslyps[i].comment %>"</p>
-                  </div>
-                </div>
+          <div class="comment" rv-each-reslyp="model:reslyps" rv-hide="reslyp.sender">
+            <div class="avatar" rv-data-title="reslyp.user.email">
+              <img class="round" rv-avatar="reslyp.user.first_name">
+            </div>
+            <div class="content">
+              <a class="author">{ reslyp.user.first_name } { reslyp.user.last_name }</a>
+              <div class="metadata">
+                <span class="date">{ reslyp.created_at | fromNow }</span>
               </div>
-            <%% } %>
-          <%% } %>
+              <div class="text">
+                <p>"{ reslyp.comment }"</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-    <%% } %>
-  </div>
-
-  <div class="ui center aligned">
-    <div class="ui fluid multiple search selection dropdown labeled icon button">
-      <i class="add user icon"></i>
-      <input type="hidden" name="reslyps">
-      <div class="default text">add friend</div>
-      <div class="menu">
-      </div>
     </div>
-    <button class="ui button send" style="display: none;">
-      <i class="send icon"></i>
-      Send
-    </button>
   </div>
 
+  <div class="ui fluid">
+    <div class="ui fluid multiple selection search dropdown labeled icon button" rv-data-user-slyp-id="model:id">
+      <i class="add user icon"></i>
+      <div class="default text">send to friends</div>
+      <input id="recipient-emails" type="hidden" name="reslyps">
+      <div class="menu"></div>
+    </div>
+    <div class="ui action input fluid" rv-show="state.canReslyp">
+      <input id="reslyp-comment" type="text" name="comment" placeholder="add a comment"  rv-value="state.comment">
+      <button class="ui positive button" rv-class-loading="state.reslyping"><i class="send icon"></i>Send</button>
+    </div>
+  </div>
 </script>
