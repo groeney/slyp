@@ -6586,14 +6586,17 @@ $.fn.dropdown = function(parameters) {
               module.debug('Setting hidden input to delimited value', newValue, $input);
             }
 
+            var valid = true;
             if(settings.fireOnInit === false && module.is.initialLoad()) {
               module.verbose('Skipping onadd callback on initial load', settings.onAdd);
             }
             else {
-              settings.onAdd.call(element, addedValue, addedText, $selectedItem);
+              valid = settings.onAdd.call(element, addedValue, addedText, $selectedItem);
             }
-            module.set.value(newValue, addedValue, addedText, $selectedItem);
-            module.check.maxSelections();
+            if (valid){
+              module.set.value(newValue, addedValue, addedText, $selectedItem);
+              module.check.maxSelections();
+            }
           }
         },
 
@@ -7389,7 +7392,7 @@ $.fn.dropdown.settings = {
 
   /* Callbacks */
   onChange      : function(value, text, $selected){},
-  onAdd         : function(value, text, $selected){},
+  onAdd         : function(value, text, $selected){ return true },
   onRemove      : function(value, text, $selected){},
 
   onLabelSelect : function($selectedLabels){},
