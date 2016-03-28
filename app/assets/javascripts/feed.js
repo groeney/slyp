@@ -1,6 +1,5 @@
 //= require       backbone/backbone
 //= require       marionette/lib/backbone.marionette
-//= require       backbone-relational/backbone-relational
 //= require       rivets/dist/rivets.bundled.min
 //= require       ./feed/globals
 //= require       ./feed/app
