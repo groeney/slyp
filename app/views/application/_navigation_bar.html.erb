@@ -1,0 +1,25 @@
+<div class="ui stackable top fixed menu">
+  <%= link_to root_path, :class => "item" do %>
+    <img src="/assets/logo.png">
+  <% end %>
+  <div class="right menu">
+    <% if current_user %>
+      <div class="item">
+        <div class="ui icon input">
+          <input type="text" placeholder="Search...">
+          <i class="search link icon"></i>
+        </div>
+        <a class="item">
+          <i class="add icon"></i>
+          Add Slyp
+        </a>
+        <%= link_to "Sign Out", destroy_user_session_path, :method => :delete, :class => "item" %>
+      </div>
+    <% else %>
+      <%= link_to new_user_registration_path, :class => "item" do %>
+        <div class="ui primary button">Sign Up</div>
+      <% end %>
+      <%= link_to "Sign In", new_user_session_path, :class => "item" %>
+    <% end %>
+  </div>
+</div>
