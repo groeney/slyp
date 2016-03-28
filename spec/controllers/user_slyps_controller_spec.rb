@@ -1,6 +1,9 @@
 require "rails_helper"
 
 RSpec.describe UserSlypsController, type: :controller do
+  let(:expected_keys) { ["id", "display_url", "title", "site_name",
+  "author", "slyp_id", "url", "archived", "favourite", "deleted",
+  "duration", "friends", "total_reslyps", "slyp_type", "reslyps"]}
   describe "#create" do
     let(:user) { FactoryGirl.create(:user) }
     context "without authentication" do
@@ -33,12 +36,7 @@ RSpec.describe UserSlypsController, type: :controller do
         response_body_json = JSON.parse(response.body)
         expect(response.status).to eq(201)
         expect(response.content_type).to eq(Mime::JSON)
-
-        expect(response_body_json["archived"]).not_to be_nil
-        expect(response_body_json["deleted"]).not_to be_nil
-        expect(response_body_json["favourite"]).not_to be_nil
-        expect(response_body_json["reslyps_count"]).to be >= 1
-        expect(response_body_json["reslyps"]).not_to be_nil
+        expect(response_body_json.keys).to contain_exactly(*expected_keys)
       end
     end
   end
@@ -51,7 +49,9 @@ RSpec.describe UserSlypsController, type: :controller do
 
         response_body_json = JSON.parse(response.body)
         expect(response.status).to eq(200)
-        expect(response_body_json.length).to eq(10)
+        response_body_json.each do |user_slyp|
+          expect(user_slyp.keys).to contain_exactly(*expected_keys)
+        end
       end
     end
   end
@@ -99,8 +99,10 @@ RSpec.describe UserSlypsController, type: :controller do
         expect(response.status).to eq 200
         expect(response.content_type).to eq Mime::JSON
         expect(response_body_json["friends"].length).to eq 10
-        response_body_json["friends"].map { |id| expect(id).
-          to be_kind_of Integer }
+        response_body_json["friends"].each do |friend|
+          expect(friend["id"]).to be_kind_of Integer
+          expect(friend["email"]).to be_kind_of String
+        end
       end
     end
   end

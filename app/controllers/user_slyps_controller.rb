@@ -13,7 +13,7 @@ class UserSlypsController < BaseController
   end
 
   def index
-    @user_slyps = current_user.user_slyps.includes(:reslyps => :user)
+    @user_slyps = current_user.user_slyps.where({:archived => false, :deleted => false}).includes(:reslyps => :user).order(updated_at: :desc)
     render status: 200, json: present_collection(@user_slyps), each_serializer: UserSlypSerializer
   end
 

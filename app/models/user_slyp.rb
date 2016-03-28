@@ -1,7 +1,7 @@
 class UserSlyp < ActiveRecord::Base
   belongs_to :slyp
   belongs_to :user
-  has_many :reslyps
+  has_many :reslyps, -> { order 'reslyps.created_at' }
 
   validates_uniqueness_of :slyp_id, :scope => :user_id
   validates_presence_of   :slyp

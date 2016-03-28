@@ -14,15 +14,11 @@ class UserSlypPresenter < BasePresenter
   end
 
   def friends
-    user_slyp.reslyps.map { |reslyp| reslyp.id }
+    user_slyp.reslyps.map { |reslyp| { :id => reslyp.user.id, :email => reslyp.user.email } }
   end
 
-  def reslyps_count
+  def total_reslyps
     @slyp.user_slyps.length
-  end
-
-  def friends_count
-    user_slyp.reslyps.length
   end
 
   def display_url
