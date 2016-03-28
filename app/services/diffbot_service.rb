@@ -3,7 +3,7 @@ module DiffbotService
   def self.fetch(url)
     @url = url
     client = Rails.application.config.diffbot_client
-    @response = client.analyze.get(url)
+    @response = client.article.get(url)
     parse_response
   end
 
