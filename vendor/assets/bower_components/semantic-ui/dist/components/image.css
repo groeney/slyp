@@ -300,33 +300,33 @@ img.ui.bordered.image {
          Site Overrides
 *******************************/
 
+.ui.small.image {
+  width: auto;
+  height: 200px;
+  font-size: 0.92857143rem;
+}
 .ui.medium.image {
   width: auto;
   height: 300px;
   font-size: 1rem;
 }
-.ui.small.image {
-  width: 150px;
-  height: auto;
-  font-size: 0.92857143rem;
-}
 .ui.large.image {
-  width: 450px;
-  height: auto;
+  width: auto;
+  height: 450px;
   font-size: 1.14285714rem;
 }
 .ui.big.image {
-  width: 600px;
-  height: auto;
+  width: auto;
+  height: 600px;
   font-size: 1.28571429rem;
 }
 .ui.huge.image {
-  width: 800px;
-  height: auto;
+  width: auto;
+  height: 800px;
   font-size: 1.42857143rem;
 }
 .ui.massive.image {
-  width: 960px;
-  height: auto;
+  width: auto;
+  height: 960px;
   font-size: 1.71428571rem;
 }
