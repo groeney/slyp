@@ -21,13 +21,13 @@
     canvas = d.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
-    context = canvas.getContext("2d");
+    context = canvas.getContext('2d');
 
-    context.fillStyle = "#FFF";
+    context.fillStyle = '#FFF';
     context.fillRect(0, 0, canvas.width, canvas.height);
-    context.font = Math.round(canvas.width / 2) + "px Arial";
-    context.textAlign = "center";
-    context.fillStyle = "#000";
+    context.font = Math.round(canvas.width / 2) + 'px Arial';
+    context.textAlign = 'center';
+    context.fillStyle = '#000';
     context.fillText(initials, size / 2, size / 1.5);
 
     dataURI = canvas.toDataURL();
@@ -100,12 +100,19 @@ String.prototype.pluralize = function(count, plural)
   return (count == 1 ? count + ' ' + this : count + ' ' + plural)
 }
 
+String.prototype.http = function(){ // Extend this to check if valid url ?
+  var http = 'http';
+  return this.substring(0, http.length) == http
+}
+
 var resizePopup = function(){$('.ui.popup').css('max-height', $(window).height());};
 $(window).resize(function(e){
     resizePopup();
 });
 
 function validateEmail(email) {
-    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+  var re = /^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
 }
+
+

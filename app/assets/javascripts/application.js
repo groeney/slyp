@@ -17,3 +17,4 @@
 //= require moment/min/moment.min
 //= require toastr/toastr.min
 //= require paloma
+//= require ./hoverIntent
