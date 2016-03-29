@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe UserSlypsController, type: :controller do
   let(:expected_keys) { ["id", "display_url", "title", "site_name",
   "author", "slyp_id", "url", "archived", "favourite", "deleted",
-  "duration", "friends", "total_reslyps", "slyp_type", "reslyps"]}
+  "duration", "friends", "total_reslyps", "slyp_type", "reslyps"] }
   describe "#create" do
     let(:user) { FactoryGirl.create(:user) }
     context "without authentication" do

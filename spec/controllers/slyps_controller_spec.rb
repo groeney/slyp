@@ -1,6 +1,6 @@
 # NOTE: This is a non-critical controller, used for background slyp creations, no
 # response data epected
-require 'rails_helper'
+require "rails_helper"
 RSpec.describe SlypsController, type: :controller do
   describe "#create" do
     context "url is valid but slyp already exists", :vcr do
