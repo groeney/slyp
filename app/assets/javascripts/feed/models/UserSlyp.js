@@ -8,6 +8,9 @@ slypApp.Models.UserSlyp = Backbone.Model.extend({
   displayTitle: function(){
     return this.get('title') ? this.get('title') : this.get('url')
   },
+  hideArchived: function(){
+    return this.get('archived') && !slypApp.state.searching
+  },
   authorshipMeta: function(){
     if (this.get('author') && this.get('site_name')){
       return this.get('site_name') + ' | by ' + this.get('author')

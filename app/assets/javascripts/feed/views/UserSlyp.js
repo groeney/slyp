@@ -10,7 +10,7 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     'mouseleaveintent'              : 'takeAttention'
   },
   attributes: {
-    'rv-fade-hide': 'model:archived'
+    'rv-fade-hide': 'model.hideArchived < :archived'
   },
   giveAttention: function(){
     this.state.gotAttention = true;
@@ -28,12 +28,9 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
       canReslyp      : false,
       gotAttention   : false,
       reslyping      : false,
-      searching      : false,
       comment        : ''
     }
-    this.state.show = () => {
-      return !this.model.get('archived')
-    }
+
     this.binder = rivets.bind(this.$el, { model: this.model, state: this.state })
 
     this.$('.ui.dropdown')

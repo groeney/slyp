@@ -8,6 +8,11 @@ slypApp.addRegions({
   navBarRegion : '#nav-bar-region'
 });
 
+// Object for application wide state, global analog of [view].state obj
+slypApp.state = {
+  searching: false
+}
+
 window.slypApp = slypApp;
 
 rivets.adapters[':'] = {
