@@ -34,7 +34,7 @@ module DiffbotService
   end
 
   def self.valid_response
-    !@response[:error]
+    !@response.try(:error)
   end
 
   def self.parse_other
@@ -59,8 +59,8 @@ module DiffbotService
     slyp[:icon] = get_icon
     slyp[:site_name] = get_site_name
     slyp[:text] = get_text
-    slyp[:word_count] = slyp[:text].split().length
-    slyp[:duration] = slyp[:word_count]/5 # 300w/min in sec
+    slyp[:word_count] = slyp.try(:[], :text).try(:split).try(:length)
+    slyp[:duration] = slyp.try(:[], :word_count).try(:/, 5) # 300w/min in sec
     slyp[:html] = get_html
     return slyp
   end
@@ -88,8 +88,8 @@ module DiffbotService
     slyp[:human_lang] = get_human_lang
     slyp[:display_url] = get_display_url
     slyp[:text] = get_text
-    slyp[:word_count] = slyp[:text].split().length
-    slyp[:duration] = slyp[:word_count]/5
+    slyp[:word_count] = slyp[:text].try(:split).try(:length)
+    slyp[:duration] = slyp[:word_count].try(:/, 5)
     slyp[:html] = get_html
     return slyp
   end
@@ -115,7 +115,8 @@ module DiffbotService
   end
 
   def self.get_url
-    @response[:request][:resolvedPageUrl] || @response[:request][:pageUrl]
+    @response[:request].try(:[], :resolvedPageUrl) ||
+     @response[:request].try(:[], :pageUrl) || @url
   end
 
   def self.get_type
@@ -132,58 +133,60 @@ module DiffbotService
 
   def self.get_author
     inner_response = get_inner_response
-    postslyp = inner_response[:posts] || []
-    inner_post = postslyp[0] || {}
-    inner_response[:author] || inner_post[:author] || ""
+    postslyp = inner_response.try(:[], :posts) || []
+    inner_post = postslyp.try(:first) || {}
+    inner_response.try(:[], :author) || inner_post.try(:[], :author) || ""
   end
 
   def self.get_date
     inner_response = get_inner_response
     inner_post = get_inner_post
-    inner_response[:date] || inner_post[:date]
+    inner_response.try(:[], :date) || inner_post.try(:[], :date)
   end
 
   def self.get_display_url
     inner_response = get_inner_response
-    images = inner_response[:images] || []
-    image = images.first || {}
-    inner_response[:embedUrl] || image[:url] || image[:link] || inner_response[:url] || inner_response[:anchorUrl]
+    images = inner_response.try(:[], :images) || []
+    image = images.try(:first) || {}
+    inner_response.try(:[], :embedUrl) || image.try(:[], :url) ||
+    image.try(:[], :link) || inner_response.try(:[], :url) ||
+    inner_response.try(:[], :anchorUrl)
   end
 
   def self.get_icon
     inner_response = get_inner_response
-    inner_response[:icon]
+    inner_response.try(:[], :icon)
   end
 
   def self.get_site_name
     inner_response = get_inner_response
-    inner_response[:siteName]
+    inner_response.try(:[], :siteName)
   end
 
   def self.get_text
     inner_response = get_inner_response
     inner_post = get_inner_post
-    inner_response[:text] || inner_post[:text] || ""
+    inner_response.try(:[], :text) || inner_post.try(:[], :text) || ""
   end
 
   def self.get_duration
     inner_response = get_inner_response
-    inner_response[:duration]
+    inner_response.try(:[], :duration)
   end
 
   def self.get_html
     inner_response = get_inner_response
     inner_post = get_inner_post
-    inner_response[:html] || inner_post[:html] || ""
+    inner_response.try(:[], :html) || inner_post.try(:[], :html) || ""
   end
 
   def self.get_inner_response
-    @response[:objects][0] || {}
+    @response.try(:objects).try(:first) || @response
   end
 
   def self.get_inner_post
     inner_response = get_inner_response
-    posts = inner_response[:posts] || []
-    inner_post = posts[0] || {}
+    posts = inner_response.try(:[], :posts) || []
+    inner_post = posts.try(:first) || {}
   end
 end

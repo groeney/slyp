@@ -342,6 +342,9 @@ GEM
       json (>= 1.8.0)
     unicode-display_width (0.3.1)
     uniform_notifier (1.9.0)
+    validate_url (1.0.2)
+      activemodel (>= 3.0.0)
+      addressable
     vcr (2.9.3)
     warden (1.2.3)
       rack (>= 1.0)
@@ -414,6 +417,7 @@ DEPENDENCIES
   timecop
   title
   uglifier
+  validate_url
   vcr
   web-console
   webmock
