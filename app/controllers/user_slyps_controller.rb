@@ -4,12 +4,10 @@ class UserSlypsController < BaseController
     @slyp = Slyp.fetch(params[:url])
     return render_422(@slyp) if !@slyp.valid?
 
-    @user_slyp = current_user.user_slyps.build({:slyp_id => @slyp.id})
-    if @user_slyp.save
-      render status: 201, json: present(@user_slyp), serializer: UserSlypSerializer
-    else
-      return render_422(@user_slyp) if !@user_slyp.valid?
-    end
+    @user_slyp = current_user.user_slyps.find_or_create_by({:slyp_id => @slyp.id})
+    return render_422(@user_slyp) if !@user_slyp.valid?
+
+    render status: 201, json: present(@user_slyp), serializer: UserSlypSerializer
   end
 
   def index

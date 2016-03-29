@@ -16,10 +16,21 @@ RSpec.describe UserSlypsController, type: :controller do
       end
     end
 
-    context "with invalid parameters", :vcr do
-      it "responds wth 422" do
+    context "valid url by standards but not a real webpage", :vcr do
+      it "responds wth 201" do
         sign_in user
         url = "http://www.foobarbaziamafaker.co/"
+        post :create, url: url, format: :json
+
+        expect(response.status).to eq 201
+        expect(response.content_type).to eq(Mime::JSON)
+      end
+    end
+
+    context "invalid url by standards", :vcr do
+      it "responds wth 422" do
+        sign_in user
+        url = "http||iamnotavalidurl"
         post :create, url: url, format: :json
 
         expect(response.status).to eq 422
@@ -28,7 +39,7 @@ RSpec.describe UserSlypsController, type: :controller do
     end
 
     context "with valid parameters", :vcr do
-      it "responds with 201 and minimal slyp attrs" do
+      it "responds with 201 and corret response hash keys" do
         sign_in user
         url = "https://www.farnamstreetblog.com/2014/02/quotable-kierkegaard/"
         post :create, url: url, format: :json
