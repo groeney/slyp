@@ -7,4 +7,5 @@ Rails.application.routes.draw do
   resources :users, only: [:index]
   resources :user_slyps, only: [:create, :index, :show, :update]
   resources :reslyps, only: [:create, :index, :destroy]
+  resources :slyps, only: [:create]
 end
