@@ -1,14 +1,24 @@
-slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
-  template: "#js-slyp-card-tmpl",
-  className: "ui card",
+slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
+  template: '#js-slyp-card-tmpl',
+  className: 'ui card',
   events: {
-    "click .ui.action.input .button": "sendSlyp",
-    "keypress input"                : "sendSlypIfEnter",
-    "click .archive.icon"           : "toggleArchive",
-    "click .star.icon"              : "toggleStar"
+    'click .ui.action.input .button': 'sendSlyp',
+    'keypress input'                : 'sendSlypIfEnter',
+    'click .archive.icon'           : 'toggleArchive',
+    'click .star.icon'              : 'toggleStar',
+    'mouseenterintent'              : 'giveAttention',
+    'mouseleaveintent'              : 'takeAttention'
   },
   attributes: {
-    "rv-fade-hide": "model:archived"
+    'rv-fade-hide': 'model:archived'
+  },
+  giveAttention: function(){
+    this.state.gotAttention = true;
+  },
+  takeAttention: function(){
+    if (!this.state.canReslyp){
+      this.state.gotAttention = false;
+    }
   },
   onClose: function() {
     if (this.binder) this.binder.unbind();
@@ -16,6 +26,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
   onRender: function(){
     this.state = {
       canReslyp      : false,
+      gotAttention   : false,
       reslyping      : false,
       searching      : false,
       comment        : ''
@@ -36,7 +47,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
             user_slyp_id: this.model.get('id')
           },
           onResponse: function(serverResponse){
-            var response = {"success": true, "results": serverResponse}
+            var response = {'success': true, 'results': serverResponse}
             return response
           }
         }
@@ -48,14 +59,13 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
       });
 
       if (friendExists){
-        toastr.options = {};
-        toastr["error"]('You have already exchanged this slyp with ' + addedValue);
+        this.toastr('error', 'You have already exchanged this slyp with ' + addedValue);
         return false
       } else {
         this.state.reslyping = false;
         this.state.canReslyp = true;
         // var elm = $(this.parentElement).find('.action.input');
-        // if (elm.is(":hidden")){
+        // if (elm.is(':hidden')){
         //   elm.find('button').removeClass('loading');
         //   elm.show();
         // }
@@ -135,8 +145,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
       var comment = this.state.comment;
       this.reslyp(validatedEmails, comment);
     } else {
-      toastr.options = {};
-      toastr["error"]('No valid emails.');
+      this.toastr('error', 'No valid emails.');
     }
   },
   reslyp: function(emails, comment){
@@ -144,18 +153,17 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
       url: '/reslyps',
       method: 'POST',
       accepts: {
-        json: "application/json"
+        json: 'application/json'
       },
-      contentType: "application/json",
-      dataType: "json",
+      contentType: 'application/json',
+      dataType: 'json',
       data: JSON.stringify({
         emails: emails,
         slyp_id: this.model.get('slyp_id'),
         comment: comment
       }),
       success: (response) => {
-        toastr.options = {};
-        toastr["success"]('Reslyp successful :)');
+        this.toastr('success', 'Reslyp successful :)');
         this.state.reslyping = false;
         this.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
         this.state.canReslyp = false;
@@ -163,7 +171,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
         this.removeRecipientsLabels();
       },
       error: (status, err) => {
-        this.actionError("Couldn't add all of some of those users :(");
+        this.toastr('error', 'Couldn\'t add all OR some of those users :(');
         this.state.reslyping = false;
         this.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
         this.state.canReslyp = false;
@@ -175,7 +183,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
   toggleStar: function(e){
     this.model.save({ favourite: !this.model.get('favourite') },
     {
-      error: this.actionError
+      error: this.error('error')
     });
   },
   toggleArchive: function(e){
@@ -183,27 +191,21 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
     this.model.save({archived: !this.model.get('archived')},
     {
       success: () => {
-        var self = this; // Makes *view* accessible in onclick, as _this_
-        toastr.options = {};
-        toastr.options = {
-          "positionClass": "toast-bottom-left",
-          "onclick": () => {
+        var self = this; // Makes *view* accessible in onclick, as this
+        var toastrOptions = {
+          'positionClass': 'toast-bottom-left',
+          'onclick': () => {
             this.model.save({archived: !this.model.get('archived')})
           },
-          "fadeIn": 300,
-          "fadeOut": 1000,
-          "timeOut": 5000,
-          "extendedTimeOut": 1000
+          'fadeIn': 300,
+          'fadeOut': 1000,
+          'timeOut': 5000,
+          'extendedTimeOut': 1000
         }
-        toastr["success"]("Slyp archived. Click to undo.")
+        this.toastr('success', 'Slyp archived. Click to undo.', toastrOptions);
       },
-      error: this.actionError
+      error: () => { this.toastr('error') }
     });
-  },
-  actionError: function(message){
-    message = typeof message !== 'undefined' ? message : "Our robots cannot perform that action right now :(";
-    toastr.options = {};
-    toastr["error"](message);
   },
   removeRecipientsLabels: function(){
     this.$('.ui.dropdown a.label').remove();
@@ -212,5 +214,5 @@ slypApp.Views.UserSlyp = Backbone.Marionette.ItemView.extend({
 
 slypApp.Views.UserSlyps = Backbone.Marionette.CollectionView.extend({
   childView: slypApp.Views.UserSlyp,
-  className: "ui three doubling stackable cards"
+  className: 'ui three doubling stackable cards'
 })

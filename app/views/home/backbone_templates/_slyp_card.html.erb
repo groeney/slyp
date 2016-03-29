@@ -8,11 +8,11 @@
   </a>
 
   <a rv-href="model:url" target="_blank">
-    <img type="image" class="ui medium image display centered" rv-data-src="model:display_url" src="/assets/blank-image.png">
+    <img type="image" class="ui small image display centered" rv-data-src="model:display_url" src="/assets/blank-image.png">
   </a>
 
   <div class="content">
-    <a class="header center aligned" target="_blank" rv-href="model:url">{ model:title | trunc }</div>
+    <a class="header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle | trunc }</div>
     <div class="meta center aligned">
       <a target="_blank" rv-href="model:url">
         <span rv-show="model.authorshipMeta">{ model.authorshipMeta }</span>
@@ -20,8 +20,8 @@
     </div>
   </div>
 
-  <div class="ui hidden divider"></div>
-  <div class="extra content friend-data">
+  <div rv-fade-show="state.gotAttention" class="ui hidden divider" style="display: none;"></div>
+  <div rv-fade-show="state.gotAttention" class="extra content friend-data" style="display: none;">
     <div class="content">
       <i class="right floated star icon" rv-class-active="model:favourite"></i>
       <i class="right floated archive icon" rv-class-active="model:archived"></i>
@@ -55,7 +55,7 @@
     </div>
   </div>
 
-  <div class="ui fluid">
+  <div rv-fade-show="state.gotAttention" class="ui fluid" style="display: none;">
     <div class="ui fluid multiple selection search dropdown labeled icon button" rv-data-user-slyp-id="model:id">
       <i class="add user icon"></i>
       <div class="default text">send to friends</div>

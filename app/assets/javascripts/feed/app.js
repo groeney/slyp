@@ -4,7 +4,8 @@ slypApp.Views = {};
 slypApp.Models = {};
 
 slypApp.addRegions({
-  mainRegion: '#main-region'
+  mainRegion   : '#main-region',
+  navBarRegion : '#nav-bar-region'
 });
 
 window.slypApp = slypApp;
@@ -41,11 +42,11 @@ rivets.formatters.numFriends = function(value){
 }
 
 rivets.formatters.duration = function(value){
-  return (value == undefined) ? 'brief' : Math.ceil(value/60) + ' min'
+  return (value == undefined || value == 0) ? 'short' : Math.ceil(value/60) + ' min'
 }
 
 rivets.formatters.consumptionVerb = function(value){
-  return (value == 'video') ? 'watch' : 'read'
+  return (value == 'video') ? 'view' : 'read'
 }
 
 rivets.formatters.displaySiteName = function(value){
@@ -56,8 +57,12 @@ rivets.formatters.trunc = function(value){
   return value.trunc(70)
 }
 
-rivets.binders["fade-hide"] = function(el, value) {
+rivets.binders['fade-hide'] = function(el, value) {
   return value ? $(el).fadeOut() : $(el).fadeIn();
+};
+
+rivets.binders['fade-show'] = function(el, value) {
+  return value ? $(el).fadeIn() : $(el).fadeOut();
 };
 
 
