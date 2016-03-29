@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get "/feed" => "home#feed"
   get "/friends" => "users#friends"
   post "/search/users" => "search#users"
+  get "/search/user_slyps" => "search#user_slyps"
   resources :users, only: [:index]
   resources :user_slyps, only: [:create, :index, :show, :update]
   resources :reslyps, only: [:create, :index, :destroy]

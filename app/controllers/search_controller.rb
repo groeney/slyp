@@ -1,13 +1,16 @@
 class SearchController < ApplicationController
   def users
-    @users = User.where("email ilike :query or first_name ilike :query or user_name ilike :query",
-      query: "#{params[:q]}%")
+    @users = User.where("email ilike :query or first_name ilike :query"\
+    " or user_name ilike :query", query: "#{params[:q]}%")
     render status: 200, json: present_users_collection(@users), each_serializer: UserSearchSerializer
   end
 
-  def slyps
-    @slyps = Slyp.where("url ilike :query or title ilike :query or :site_name ilike :query or :author ilike :query")
-    render status: 200, json: present_slyp_collection(@slyps), each_serializer: SlypSerializer
+  def user_slyps
+    authenticate_user!
+    slyp_ids = current_user.slyps.where("url ilike :query or title ilike :query"\
+    " or site_name ilike :query or author ilike :query", query:"#{params[:q]}%").pluck(:id)
+    @user_slyps = current_user.user_slyps.where(slyp_id: slyp_ids)
+    render status: 200, json: present_user_slyp_collection(@user_slyps), each_serializer: UserSlypSerializer
   end
 
   private
@@ -20,12 +23,12 @@ class SearchController < ApplicationController
     users.map { |user| present_user(user) }
   end
 
-  def present_slyp(slyp)
-    SlypPresenter.new slyp
+  def present_user_slyp(user_slyp)
+    UserSlypPresenter.new user_slyp
   end
 
-  def present_slyp_collection(slyps)
-    slyps.map { |slyp| present(slyp) }
+  def present_user_slyp_collection(user_slyps)
+    user_slyps.map { |user_slyp| present_user_slyp(user_slyp) }
   end
 
 
