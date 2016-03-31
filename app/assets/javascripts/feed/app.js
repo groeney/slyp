@@ -71,5 +71,6 @@ rivets.binders['fade-show'] = function(el, value) {
   return value ? $(el).fadeIn() : $(el).fadeOut();
 };
 
-
-
+rivets.binders['class-unless'] = function(el, value) {
+  return value ? $(el).removeClass(value) : $(el).addClass(value);
+};
