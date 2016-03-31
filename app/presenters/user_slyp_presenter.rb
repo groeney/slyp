@@ -14,7 +14,14 @@ class UserSlypPresenter < BasePresenter
   end
 
   def friends
-    user_slyp.reslyps.map { |reslyp| { :id => reslyp.user.id, :email => reslyp.user.email } }
+    user_slyp.reslyps.map { |reslyp| {
+      :id => reslyp.user.id,
+      :email => reslyp.user.email,
+      :first_name => reslyp.user.first_name,
+      :last_name => reslyp.user.last_name,
+      :sender => reslyp.sender
+      }
+    }
   end
 
   def total_reslyps

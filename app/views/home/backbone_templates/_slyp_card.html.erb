@@ -29,16 +29,11 @@
         <i class="comment icon"></i>
         <span>{ model:reslyps | numComments }</span>
       </a>
-      <span class="description">
-        <b>from</b>
-        <i class="user icon"></i>
-        <span>{ model:friends | numFriends }</span>
-      </span>
       <div class="ui fluid popup friend-comments">
         <div class="ui comments">
           <div class="comment" rv-each-reslyp="model:reslyps" rv-hide="reslyp.sender">
             <div class="avatar" rv-data-title="reslyp.user.email">
-              <img class="round" rv-avatar="reslyp.user.first_name">
+              <img class="round" rv-avatar="reslyp.user.first_name | fallback reslyp.user.email">
             </div>
             <div class="content">
               <a class="author">{ reslyp.user.first_name } { reslyp.user.last_name }</a>
@@ -48,6 +43,22 @@
               <div class="text">
                 <p>"{ reslyp.comment }"</p>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span id="friends" class="description">
+        <b>from</b>
+        <i class="user icon"></i>
+        <span>{ model:friends | numFriends }</span>
+      </span>
+      <div class="ui fluid popup">
+        <div class="ui list">
+          <div class="item" rv-each-friend="model:friends">
+            <img class="ui avatar round" rv-data-title="reslyp.user.email" rv-avatar="friend.first_name | fallback friend.email">
+            <div class="content">
+              <div class="header">{ friend.first_name | userDisplay friend.last_name friend.email }</div>
+              <div class="description">{ friend.sender | slypDirection }</div>
             </div>
           </div>
         </div>

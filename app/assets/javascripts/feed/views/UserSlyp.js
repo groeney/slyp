@@ -9,8 +9,14 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     'mouseenterintent'              : 'giveAttention',
     'mouseleaveintent'              : 'takeAttention'
   },
+  modelEvents:{
+    'change' : 'renderAvatars'
+  },
   attributes: {
     'rv-fade-hide': 'model.hideArchived < :archived'
+  },
+  renderAvatars: function(){
+    window.LetterAvatar.transform_el(this.el);
   },
   giveAttention: function(){
     this.state.gotAttention = true;
@@ -97,13 +103,26 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
         hoverable : true,
         position  : 'right center',
         lastResort: 'bottom left',
-        onShow    : function(){
+        onShow    : (module) => {
           resizePopup();
+          return this.model.get('reslyps').length > 0
         },
         delay    :{
           show: 1000,
           hide: 300
         }
+      });
+
+    this.$('#friends')
+      .popup({
+        onShow: (module) => {
+          resizePopup();
+          return this.model.get('friends').length > 0
+        },
+        delay: {
+          hide: 500
+        },
+        hoverable: true
       });
 
     this.$('.avatar')
@@ -113,6 +132,7 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
           hide: 200
         }
       });
+
     window.LetterAvatar.transform_el(this.el);
   },
   onShow: function(){
