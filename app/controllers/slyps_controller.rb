@@ -2,12 +2,12 @@
 # no response data epected
 class SlypsController < ApplicationController
   def create
-    @slyp = Slyp.find_by({:url => params[:url]})
-    return head 200 if @slyp.try(:valid?)
+    url = params[:url]
+    @slyp = Slyp.find_by({:url => url})
+    return render status: 200, json: {url: url}, format: :json if @slyp.try(:valid?)
 
     @slyp = Slyp.fetch(params[:url])
-    return head 422 if !@slyp.valid?
-
-    head 201
+    return render status: 422, json: {url: url}, format: :json if !@slyp.valid?
+    render status: 201, json: {url: url}, format: :json
   end
 end
