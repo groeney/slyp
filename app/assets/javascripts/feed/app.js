@@ -63,6 +63,18 @@ rivets.formatters.trunc = function(value){
   return value ? value.trunc(70) : ''
 }
 
+rivets.formatters.slypDirection = function(value){
+  return value ? 'You sent this slyp.' : 'This slyp was sent to you.'
+}
+
+rivets.formatters.userDisplay = function(firstName, lastName, email){
+  return firstName ? firstName.concat(' ', lastName) : email
+}
+
+rivets.formatters.fallback = function(firstName, email){
+  return firstName ? firstName : email
+}
+
 rivets.binders['fade-hide'] = function(el, value) {
   return value ? $(el).fadeOut() : $(el).fadeIn();
 };

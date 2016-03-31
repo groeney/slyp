@@ -108,9 +108,12 @@ Object.defineProperty( String.prototype, 'http', {
       return (startsWith && includes)
     }
 });
-var resizePopup = function(){$('.ui.popup').css('max-height', $(window).height());};
+var resizePopup = function(){
+  $('.ui.popup').css('max-height', $(window).height()/1.5);
+  $('.ui.popup').css('overflow-y', 'scroll');
+};
 $(window).resize(function(e){
-    resizePopup();
+  resizePopup();
 });
 
 function validateEmail(email) {
