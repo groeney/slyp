@@ -7,13 +7,24 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     'click .archive.icon'           : 'toggleArchive',
     'click .star.icon'              : 'toggleStar',
     'mouseenterintent'              : 'giveAttention',
-    'mouseleaveintent'              : 'takeAttention'
+    'mouseleaveintent'              : 'takeAttention',
+    'click'                         : 'showModal'
   },
   modelEvents:{
     'change' : 'renderAvatars'
   },
   attributes: {
     'rv-fade-hide': 'model.hideArchived < :archived'
+  },
+  showModal: function(e){
+    if (this.model.get('html')){
+      e.preventDefault();
+      this.$('.ui.modal')
+        .modal({
+          blurring: true
+        })
+        .modal('show');
+    }
   },
   renderAvatars: function(){
     window.LetterAvatar.transform_el(this.el);

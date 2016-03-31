@@ -12,7 +12,7 @@
   </a>
 
   <div class="content">
-    <a class="header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle | trunc }</div>
+    <a class="header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle | trunc }</a>
     <div class="meta center aligned">
       <a target="_blank" rv-href="model:url">
         <span rv-show="model.authorshipMeta">{ model.authorshipMeta }</span>
@@ -76,6 +76,12 @@
     <div class="ui action input fluid" rv-show="state.canReslyp">
       <input id="reslyp-comment" type="text" name="comment" placeholder="add a comment"  rv-value="state.comment">
       <button class="ui positive button" rv-class-loading="state.reslyping"><i class="send icon"></i>Send</button>
+    </div>
+  </div>
+
+  <div class="ui long modal" target="_blank" rv-href="model:url">
+    <a class="header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle | trunc }</a>
+    <div class="content" rv-html="model:html">
     </div>
   </div>
 </script>
