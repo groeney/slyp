@@ -59,7 +59,7 @@ rivets.formatters.displaySiteName = function(value){
 }
 
 rivets.formatters.trunc = function(value){
-  return value.trunc(70)
+  return value ? value.trunc(70) : ''
 }
 
 rivets.binders['fade-hide'] = function(el, value) {

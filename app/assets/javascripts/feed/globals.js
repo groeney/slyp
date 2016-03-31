@@ -100,11 +100,14 @@ String.prototype.pluralize = function(count, plural)
   return (count == 1 ? count + ' ' + this : count + ' ' + plural)
 }
 
-String.prototype.http = function(){ // Extend this to check if valid url ?
-  var http = 'http';
-  return this.substring(0, http.length) == http
-}
-
+Object.defineProperty( String.prototype, 'http', {
+    get: function () {
+      var http = 'http';
+      var startsWith = this.substring(0, http.length) == http;
+      var includes = this.indexOf('://') > 3;
+      return (startsWith && includes)
+    }
+});
 var resizePopup = function(){$('.ui.popup').css('max-height', $(window).height());};
 $(window).resize(function(e){
     resizePopup();
