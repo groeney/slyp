@@ -150,7 +150,7 @@ module DiffbotService
     image = images.try(:first) || {}
     possibilities = [inner_response.try(:[], :embedUrl), image.try(:[], :url),
     image.try(:[], :link), inner_response.try(:[], :anchorUrl), @response[:icon]]
-    possibilities.find { |possibility| !(possibility.nil? or !%w[.jpg .jpeg .png .gif].any?{ |ext| possibility.include?(ext) })}
+    possibilities.find { |possibility| !(possibility.nil? or !%w[.jpg .jpeg .png .gif .ico].any?{ |ext| possibility.include?(ext) })}
   end
 
   def self.get_icon
