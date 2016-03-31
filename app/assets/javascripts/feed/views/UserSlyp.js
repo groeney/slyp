@@ -116,14 +116,12 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     window.LetterAvatar.transform_el(this.el);
   },
   onShow: function(){
-    if (!this.model.get('archived')){
-      this.$('img.display')
-        .visibility({
-          'type': 'image',
-          'transition': 'fade in',
-          'duration': 750
-        });
-      }
+    this.$('img.display')
+      .visibility({
+        'type': 'image',
+        'transition': 'fade in',
+        'duration': 750
+    });
   },
   sendSlypIfEnter: function(e){
     if (e.keyCode==13){

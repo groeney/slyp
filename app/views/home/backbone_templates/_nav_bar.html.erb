@@ -1,16 +1,26 @@
 <script type="text/template" id="js-nav-bar-tmpl">
-  <%= link_to root_path, :class => "item" do %>
-    <img src="/assets/logo.png">
-  <% end %>
-  <div class="ui icon input item">
-    <input type="text" placeholder="Search...">
-    <i class="search link icon"></i>
+  <div class="ui inverted dimmer" rv-class-active="appState.searching">
+    <div class="ui loader"></div>
   </div>
-  <div class="ui right aligned category item">
-    <div class="ui icon input">
-      <input class="prompt" type="text" rv-value="state.slypURL" placeholder="http://">
-      <i class="circle add link icon"></i>
+  <div class="ui container">
+    <a id="back-button" class="ui item button" rv-show="appState.searchMode">
+      <i class="arrow left icon"></i>
+    </a>
+    <%= link_to root_path, :class => "item" do %>
+      <img src="/assets/logo.png">
+    <% end %>
+    <div class="ui search item">
+      <div id="searcher" class="ui left icon input">
+        <input class="prompt" type="text" rv-value="state.searchTerm" placeholder="search">
+        <i class="search icon"></i>
+      </div>
     </div>
+    <div class="ui right aligned category item">
+      <div id="creator" class="ui icon input" rv-class-loading="state.creatingSlyp">
+        <input class="prompt" type="text" rv-value="state.slypURL" placeholder="http://">
+        <i class="circle add link icon"></i>
+      </div>
+    </div>
+    <%= link_to "Sign Out", destroy_user_session_path, :method => :delete, :class => "ui right item" %>
   </div>
-  <%= link_to "Sign Out", destroy_user_session_path, :method => :delete, :class => "ui right item" %>
 </script>

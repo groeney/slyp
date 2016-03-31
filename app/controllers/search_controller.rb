@@ -8,7 +8,8 @@ class SearchController < ApplicationController
   def user_slyps
     authenticate_user!
     slyp_ids = current_user.slyps.where("url ilike :query or title ilike :query"\
-    " or site_name ilike :query or author ilike :query", query:"#{params[:q]}%").pluck(:id)
+    " or site_name ilike :query or author ilike :query or text ilike :flexi_query",
+    query:"#{params[:q]}%", flexi_query: "%#{params[:q]}%").pluck(:id)
     @user_slyps = current_user.user_slyps.where(slyp_id: slyp_ids)
     render status: 200, json: present_user_slyp_collection(@user_slyps), each_serializer: UserSlypSerializer
   end

@@ -10,7 +10,8 @@ slypApp.addRegions({
 
 // Object for application wide state, global analog of [view].state obj
 slypApp.state = {
-  searching: false
+  searching  : false,
+  searchMode : false
 }
 
 window.slypApp = slypApp;
