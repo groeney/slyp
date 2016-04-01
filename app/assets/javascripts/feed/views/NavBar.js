@@ -1,9 +1,9 @@
 slypApp.Views.NavBar = slypApp.Views.Base.extend({
   template: '#js-nav-bar-tmpl',
-  className: 'ui fixed menu',
+  className: 'ui top fixed borderless menu',
   attributes: {
     'rv-class-inverted' : 'appState.searchMode',
-    'rv-class-blue'     : 'appState.searchMode'
+    'rv-class-grey'     : 'appState.searchMode'
   },
   events:{
     'keypress #creator input'     : 'createSlypIfEnter',
@@ -38,6 +38,8 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
       creatingSlyp : false
     }
     this.binder = rivets.bind(this.$el, { state: this.state, appState: slypApp.state })
+
+    this.$('#user-actions').dropdown();
 
     this.$('.ui.search')
       .search({

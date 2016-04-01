@@ -3,12 +3,13 @@
     <div class="ui loader"></div>
   </div>
   <div class="ui container">
-    <a id="back-button" class="ui item button" rv-show="appState.searchMode">
-      <i class="arrow left icon"></i>
-    </a>
     <%= link_to root_path, :class => "item" do %>
       <img src="/assets/logo.png">
     <% end %>
+    <a id="back-button" class="ui item button" rv-show="appState.searchMode">
+      <i class="arrow left icon"></i>
+      Back
+    </a>
     <div class="ui search item">
       <div id="searcher" class="ui left icon input">
         <input class="prompt" type="text" rv-value="state.searchTerm" placeholder="search">
@@ -21,6 +22,16 @@
         <i class="circle add link icon"></i>
       </div>
     </div>
-    <%= link_to "Sign Out", destroy_user_session_path, :method => :delete, :class => "ui right item" %>
+    <div id="user-actions" class="ui right dropdown item">
+      <%= current_user.first_name %>
+      <i class="dropdown icon"></i>
+      <div class="menu">
+        <div class="item">Settings</div>
+        <%= link_to "Log Out", destroy_user_session_path, :method => :delete, :class => "ui right item" %>
+        <div class="item">Help</div>
+      </div>
+    </div>
+
+
   </div>
 </script>
