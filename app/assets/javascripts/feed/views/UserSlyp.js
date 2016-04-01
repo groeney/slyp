@@ -8,7 +8,7 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     'click .star.icon'              : 'toggleStar',
     'mouseenterintent'              : 'giveAttention',
     'mouseleaveintent'              : 'takeAttention',
-    'click'                         : 'showModal'
+    'click #preview-button'         : 'showModal'
   },
   modelEvents:{
     'change' : 'renderAvatars'
@@ -17,13 +17,11 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     'rv-fade-hide': 'model.hideArchived < :archived'
   },
   showModal: function(e){
+    this.$('.ui.modal').modal();
     if (this.model.get('html')){
-      e.preventDefault();
-      this.$('.ui.modal')
-        .modal({
-          blurring: true
-        })
-        .modal('show');
+      $('div[data-user-slyp-id=' + this.model.get('id') + '].ui.modal').modal('show');
+    } else {
+      this.$('a').first().click();
     }
   },
   renderAvatars: function(){
@@ -49,6 +47,10 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     }
 
     this.binder = rivets.bind(this.$el, { model: this.model, state: this.state })
+
+    this.$('.image').dimmer({
+      on: 'hover'
+    });
 
     this.$('.ui.dropdown')
       .dropdown({
@@ -78,11 +80,6 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
       } else {
         this.state.reslyping = false;
         this.state.canReslyp = true;
-        // var elm = $(this.parentElement).find('.action.input');
-        // if (elm.is(':hidden')){
-        //   elm.find('button').removeClass('loading');
-        //   elm.show();
-        // }
       }
       return true
     });
@@ -209,7 +206,7 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
   toggleStar: function(e){
     this.model.save({ favourite: !this.model.get('favourite') },
     {
-      error: this.error('error')
+      error: () => { this.toastr('error') }
     });
   },
   toggleArchive: function(e){
@@ -240,5 +237,5 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
 
 slypApp.Views.UserSlyps = Backbone.Marionette.CollectionView.extend({
   childView: slypApp.Views.UserSlyp,
-  className: 'ui three doubling stackable cards'
+  className: 'ui three doubling stackable special cards'
 })

@@ -7,9 +7,18 @@
     </div>
   </a>
 
-  <a rv-href="model:url" target="_blank">
-    <img type="image" class="ui small image display centered" rv-data-src="model:display_url" src="/assets/blank-image.png">
-  </a>
+  <div class="blurring dimmable image">
+    <div class="ui dimmer">
+      <div class="content">
+        <div class="center">
+          <div id="preview-button" class="ui primary icon button"><i class="ui search icon"></i>Preview</div>
+        </div>
+      </div>
+    </div>
+    <a rv-href="model:url" target="_blank">
+      <img type="image" class="ui small image display centered" rv-data-src="model:display_url" src="/assets/blank-image.png">
+    </a>
+  </div>
 
   <div class="content">
     <a class="header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle | trunc }</a>
@@ -79,8 +88,8 @@
     </div>
   </div>
 
-  <div class="ui long modal" target="_blank" rv-href="model:url">
-    <a class="header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle | trunc }</a>
+  <div class="ui long modal" target="_blank" rv-href="model:url" rv-data-user-slyp-id="model:id">
+    <a class="ui header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle | trunc }</a>
     <div class="content" rv-html="model:html">
     </div>
   </div>
