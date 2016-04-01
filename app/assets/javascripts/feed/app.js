@@ -4,8 +4,8 @@ slypApp.Views = {};
 slypApp.Models = {};
 
 slypApp.addRegions({
-  navBarRegion : '#nav-bar-region',
-  feedRegion   : '#feed-region'
+  navBarRegion : '#js-nav-bar-region',
+  feedRegion   : '#js-feed-region'
 });
 
 // Object for application wide state, global analog of [view].state obj

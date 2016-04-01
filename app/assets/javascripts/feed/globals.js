@@ -53,7 +53,7 @@
   };
 
   LetterAvatar.transform_document = function() {
-    this.transform(d);
+    this.transform(document);
   };
 
   // AMD support
