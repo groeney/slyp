@@ -32,8 +32,8 @@
   <div rv-fade-show="state.gotAttention" class="ui hidden divider" style="display: none;"></div>
   <div rv-fade-show="state.gotAttention" class="extra content friend-data" style="display: none;">
     <div class="content">
-      <i class="right floated star icon" rv-class-active="model:favourite"></i>
-      <i class="right floated archive icon" rv-class-active="model:archived"></i>
+      <i id="favorite-action" class="right floated star icon" rv-class-active="model:favourite" data-content="favorite" data-variation="tiny"></i>
+      <i id="archive-action" class="right floated archive icon" rv-class-active="model:archived" data-content="archive" data-variation="tiny"></i>
       <a class="summary front-display" >
         <i class="comment icon"></i>
         <span>{ model:reslyps | numComments }</span>

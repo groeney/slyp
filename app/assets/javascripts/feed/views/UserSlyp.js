@@ -48,6 +48,24 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
 
     this.binder = rivets.bind(this.$el, { model: this.model, state: this.state })
 
+    this.$('#archive-action').popup({
+      delay: {
+        show: 500,
+        hide: 0
+      }
+    });
+
+    this.$('#favorite-action').popup({
+      delay: {
+        show: 500,
+        hide: 0
+      }
+    });
+
+    this.$('img').error(function () {
+        $(this).attr('src', '/assets/blank-image.png');
+    });
+
     this.$('.image').dimmer({
       on: 'hover'
     });
