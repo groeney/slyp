@@ -64,8 +64,8 @@
       <div class="ui fluid popup">
         <div class="ui comments">
           <div class="comment" rv-each-friend="model:friends">
-            <div class="avatar" rv-data-title="reslyp.user.email">
-              <img class="round" rv-avatar="reslyp.user.first_name | fallback reslyp.user.email">
+            <div class="avatar" rv-data-title="friend.email">
+              <img class="round" rv-avatar="friend.first_name | fallback friend.email">
             </div>
             <div class="content">
               <div class="author">{ friend.first_name | userDisplay friend.last_name friend.email }</div>

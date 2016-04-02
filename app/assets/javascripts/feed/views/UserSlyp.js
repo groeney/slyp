@@ -141,33 +141,24 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
         onShow    : (module) => {
           resizePopup();
           return this.model.get('reslyps').length > 0
-        },
-        delay    :{
-          show: 1000,
-          hide: 300
         }
       });
 
     this.$('#friends')
       .popup({
+        inline    : true,
+        hoverable : true,
+        position  : 'right center',
+        lastResort: 'bottom left',
         onShow: (module) => {
           resizePopup();
           return this.model.get('friends').length > 0
         },
         delay: {
+          show: 500,
           hide: 500
-        },
-        hoverable: true
-      });
-
-    this.$('.avatar')
-      .popup({
-        delay :{
-          show: 100,
-          hide: 200
         }
       });
-
     window.LetterAvatar.transform_el(this.el);
   },
   onShow: function(){
@@ -177,6 +168,14 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
         'transition': 'fade in',
         'duration': 750
     });
+
+    this.$('.avatar')
+      .popup({
+        delay :{
+          show: 100,
+          hide: 200
+        }
+      });
   },
   sendSlypIfEnter: function(e){
     if (e.keyCode==13){
