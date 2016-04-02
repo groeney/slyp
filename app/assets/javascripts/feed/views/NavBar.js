@@ -18,11 +18,10 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
   },
   exitSearchMode: function(){
     slypApp.state.resettingFeed = true;
-    var that = this;
     slypApp.userSlyps.fetch({
-      success: function(collection, response, options) {
+      success: (collection, response, options) => {
         slypApp.state.searchMode = false;
-        that.state.searchTerm = '';
+        this.state.searchTerm = '';
         slypApp.state.resettingFeed = false;
       }
     });
