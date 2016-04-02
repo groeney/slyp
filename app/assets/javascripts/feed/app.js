@@ -10,8 +10,9 @@ slypApp.addRegions({
 
 // Object for application wide state, global analog of [view].state obj
 slypApp.state = {
-  searching  : false,
-  searchMode : false
+  searching     : false,
+  searchMode    : false,
+  resettingFeed : false
 }
 
 window.slypApp = slypApp;
@@ -36,15 +37,15 @@ rivets.formatters.fromNow = function(value){
 }
 
 rivets.formatters.numReslyps = function(value){
-  return 'reslyp'.pluralize(value)
+  return value ? 'reslyp'.pluralize(value) : 'many reslyps'
 }
 
 rivets.formatters.numComments = function(value){
-  return 'comment'.pluralize(value.length)
+  return value ? 'comment'.pluralize(value.length) : ''
 }
 
 rivets.formatters.numFriends = function(value){
-  return 'friend'.pluralize(value.length)
+  return value ? 'friend'.pluralize(value.length) : ''
 }
 
 rivets.formatters.duration = function(value){
