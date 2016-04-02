@@ -14,7 +14,7 @@ class UserSlypPresenter < BasePresenter
   end
 
   def friends
-    user_slyp.reslyps.map { |reslyp| {
+    user_slyp.reslyps.includes(:user).map { |reslyp| {
       :id => reslyp.user.id,
       :email => reslyp.user.email,
       :first_name => reslyp.user.first_name,
