@@ -6,7 +6,7 @@ class UserSlypPresenter < BasePresenter
 
   def initialize(user_slyp)
     @user_slyp = user_slyp
-    @slyp = Slyp.includes(:user_slyps).find(@user_slyp.slyp_id)
+    @slyp = Slyp.find(@user_slyp.slyp_id)
   end
 
   def reslyps
@@ -25,7 +25,7 @@ class UserSlypPresenter < BasePresenter
   end
 
   def total_reslyps
-    @slyp.user_slyps.length
+    Reslyp.where({:slyp_id => @slyp.id}).length/2
   end
 
   def display_url
