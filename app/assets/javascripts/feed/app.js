@@ -37,7 +37,7 @@ rivets.formatters.fromNow = function(value){
 }
 
 rivets.formatters.numReslyps = function(value){
-  return value ? 'reslyp'.pluralize(value) : 'many reslyps'
+  return value ? 'reslyp'.pluralize(value) : 'few reslyps'
 }
 
 rivets.formatters.numComments = function(value){
