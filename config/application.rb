@@ -26,5 +26,6 @@ module SlypApp
     config.active_job.queue_adapter = :delayed_job
     config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components')
     config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components', 'semantic-ui', 'dist')
+    config.browserify_rails.commandline_options = "-t [ babelify --presets [ es2015 ] ]"
   end
 end
