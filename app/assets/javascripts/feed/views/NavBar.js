@@ -99,11 +99,14 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
           url: this.state.slypURL
         }),
         success: (response) => {
+          var contains = (slypApp.userSlyps.get(response.id) != null);
           slypApp.userSlyps.add(response, { merge: true });
           var userSlyp = slypApp.userSlyps.get(response.id);
-          if (userSlyp.get('archived') || userSlyp.myIndex != 0){
+          if (userSlyp.get('archived')){
             userSlyp.set('archived', false);
-            this.toastr('info', 'You already had this slyp, so we just moved it to the front :)');
+            this.toastr('info', 'We took this slyp out of your archive for you :)');
+          } else if (contains) {
+            this.toastr('info', 'We just moved this slyp to the front for you :)');
           } else {
             this.toastr('success', 'Added slyp! :)');
           }
