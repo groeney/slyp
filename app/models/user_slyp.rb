@@ -18,6 +18,7 @@ class UserSlyp < ActiveRecord::Base
       to_user.save!
     end
     to_user_slyp = to_user.user_slyps.find_or_create_by({:slyp_id => self.slyp_id})
+    to_user_slyp.update_attribute(:archived, false)
 
     sent_reslyp = self.reslyps.create({
       :user_id => to_user.id,
