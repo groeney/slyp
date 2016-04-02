@@ -5,6 +5,9 @@ slypApp.Models.UserSlyp = Backbone.Model.extend({
   moveToBack: function(){
     this.collection.moveToBack(this);
   },
+  myIndex: function(){
+    this.collection.at(this);
+  },
   displayTitle: function(){
     return this.get('title') ? this.get('title') : this.get('url')
   },

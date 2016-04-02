@@ -4,9 +4,15 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
   regions: {
     feedRegion : '.feed-region'
   },
+  onRender: function(){
+    this.state = {
+      collection: slypApp.userSlyps
+    }
+    this.binder = rivets.bind(this.$el, { collection: this.collection })
+  },
   onShow: function() {
     this.feedRegion.show(new slypApp.Views.UserSlyps({
-      collection: slypApp.userSlyps
+      collection: this.collection
     }));
   }
 });
