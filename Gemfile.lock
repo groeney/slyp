@@ -397,7 +397,7 @@ DEPENDENCIES
   rack-canonical-host
   rack-timeout
   rack-wwwhisper
-  rails (~> 4.2.0)
+  rails (~> 4.2.5.2)
   rails-backbone
   rails_12factor
   rails_best_practices
