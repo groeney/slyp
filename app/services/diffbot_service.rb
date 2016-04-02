@@ -148,9 +148,9 @@ module DiffbotService
     inner_response = get_inner_response
     images = inner_response.try(:[], :images) || []
     image = images.try(:first) || {}
-    possibilities = [inner_response.try(:[], :embedUrl), image.try(:[], :url),
-    image.try(:[], :link), inner_response.try(:[], :anchorUrl), @response[:icon]]
-    possibilities.find { |possibility| !(possibility.nil? or !%w[.jpg .jpeg .png .gif .ico].any?{ |ext| possibility.include?(ext) })}
+    possibilities = [image.try(:[], :url),
+    image.try(:[], :link), inner_response.try(:[], :embedUrl), inner_response.try(:[], :anchorUrl), @response[:icon]]
+    possibilities.find { |possibility| !(possibility.nil? or !%w[data:image .jpg .jpeg .png .gif .ico].any?{ |ext| possibility.include?(ext) })}
   end
 
   def self.get_icon
