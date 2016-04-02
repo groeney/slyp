@@ -1,5 +1,5 @@
 class Slyp < ActiveRecord::Base
-  has_many :user_slyps
+  has_many :user_slyps, :dependent => :destroy
   has_many :users, through: :user_slyps
 
   validates :url, :url => true, presence: true
