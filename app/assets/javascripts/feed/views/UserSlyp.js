@@ -49,6 +49,7 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     this.binder = rivets.bind(this.$el, { model: this.model, state: this.state })
 
     this.$('#archive-action').popup({
+      position: 'bottom left',
       delay: {
         show: 500,
         hide: 0
@@ -56,6 +57,7 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     });
 
     this.$('#favorite-action').popup({
+      position: 'bottom left',
       delay: {
         show: 500,
         hide: 0
@@ -103,6 +105,13 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     });
 
     this.$('.ui.dropdown').dropdown('setting', 'onLabelCreate', function(value, text) {
+      this.attr('data-content', value);
+      this.popup({
+        delay: {
+          show: 500,
+          hide: 0
+        }
+      })
       if (!validateEmail(value)){
         this.addClass('red');
       }
