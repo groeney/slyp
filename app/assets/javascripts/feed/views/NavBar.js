@@ -9,7 +9,6 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
     'keypress #creator input'     : 'createSlypIfEnter',
     'paste #creator input'        : 'quietlyCreateSlyp',
     'click .circle.add.link.icon' : 'createSlyp',
-    'focusout #searcher input'    : 'resetFeed',
     'focusin #searcher input'    : 'enterSearchMode',
     'keypress #searcher input'    : 'searchingIfEnter',
     'click #back-button'          : 'exitSearchMode'
@@ -18,18 +17,14 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
     slypApp.state.searchMode = true;
   },
   exitSearchMode: function(){
-    slypApp.state.searchMode = false;
-    this.state.searchTerm = '';
-    slypApp.userSlyps.fetch();
-  },
-  searchingIfEnter: function(e){
-    if (e.keyCode == 13){
-      // slypApp.state.searching = true;
-    }
-  },
-  resetFeed: function(){
-    // this.state.searchTerm = '';
-    // slypApp.userSlyps.fetch();
+    slypApp.state.resettingFeed = true;
+    slypApp.userSlyps.fetch({
+      success: (collection, response, options) => {
+        slypApp.state.searchMode = false;
+        this.state.searchTerm = '';
+        slypApp.state.resettingFeed = false;
+      }
+    });
   },
   onRender: function(){
     this.state = {
@@ -52,15 +47,12 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
                return value;
             });
             slypApp.userSlyps.reset(serverResponse);
-
             serverResponse.forEach(function(result, index, serverResponse) {
               serverResponse[index].image = result.display_url
               serverResponse[index].description = result.author
             });
             return {'success': true, 'results': serverResponse}
           }
-        },
-        fields: {
         },
         minCharacters : 3,
       });
@@ -109,9 +101,9 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
         success: (response) => {
           slypApp.userSlyps.add(response, { merge: true });
           var userSlyp = slypApp.userSlyps.get(response.id);
-          if (userSlyp.get('archived')){
+          if (userSlyp.get('archived') || userSlyp.myIndex != 0){
             userSlyp.set('archived', false);
-            this.toastr('info', 'You already had this slyp, so we just removed it from your archive :)');
+            this.toastr('info', 'You already had this slyp, so we just moved it to the front :)');
           } else {
             this.toastr('success', 'Added slyp! :)');
           }

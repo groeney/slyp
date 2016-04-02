@@ -6,7 +6,7 @@
     <%= link_to root_path, :class => "item" do %>
       <img src="/assets/logo.png">
     <% end %>
-    <a id="back-button" class="ui item button" rv-show="appState.searchMode">
+    <a id="back-button" class="ui item button" rv-class-loading="appState.resettingFeed" rv-show="appState.searchMode">
       <i class="arrow left icon"></i>
       Back
     </a>
