@@ -1,7 +1,0 @@
-<%if current_user%>
-  <%= link_to "Sign Out", destroy_user_session_path, :method => :delete %>
-  <h4>Hello <%= current_user.first_name %></h4>
-<%else%>
-  <%= link_to "Sign Up", new_user_registration_path %> |
-  <%= link_to "Sign In", new_user_session_path %>
-<%end%>
