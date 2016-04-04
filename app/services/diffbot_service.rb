@@ -3,18 +3,19 @@ module DiffbotService
   def self.fetch(url)
     @url = url
     client = Rails.application.config.diffbot_client
-    @response = client.article.get(url)
+    @response = client.analyze.get(url)
+    if !valid_response
+      # @response = client.article.get(url)
+      # Inject job into delayed jobs and fallback to using article api
+      return {:url => @url} if @response[:errorCode] < 500
+      return {} if @response[:errorCode] >= 500
+    end
     parse_response
   end
 
   private
 
   def self.parse_response
-    if !valid_response
-      return {:url => @url} if @response[:errorCode] < 500
-      return {} if @response[:errorCode] >= 500
-    end
-
     case @response[:type]
     when "other"
       parsed_response = parse_other
