@@ -36,6 +36,18 @@ programming in style.
 * [Best Practices](http://github.com/thoughtbot/guides/blob/master/best-practices)
 * [Style](http://github.com/thoughtbot/guides/blob/master/style)
 
+We follow the following naming convention for branches:
+`[group]/[name]`
+
+Where `group` will be one of these four groupings: 
+```
+wip       Works in progress; stuff I know won't be finished soon
+feat      Feature I'm adding or expanding
+bug       Bug fix or experiment
+junk      Throwaway branch created to experiment
+```
+and `name` will be a `brief-description` separated by dashes (-). 
+
 ## Deploying
 
 If you have previously run the `./bin/setup` script,
