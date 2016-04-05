@@ -6,7 +6,6 @@
 @import "neat";
 @import "base/base";
 @import "refills/flashes";
-// Bower components
 @import "semantic-ui/dist/semantic";
 @import "toastr/toastr.min";
-@import "overrides";
+@import "./overrides";
