@@ -103,7 +103,7 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
           slypApp.userSlyps.add(response, { merge: true });
           var userSlyp = slypApp.userSlyps.get(response.id);
           if (userSlyp.get('archived')){
-            userSlyp.set('archived', false);
+            userSlyp.save({ archived: false });
             this.toastr('info', 'We took this slyp out of your archive for you :)');
           } else if (contains) {
             this.toastr('info', 'We just moved this slyp to the front for you :)');
