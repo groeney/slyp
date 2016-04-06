@@ -1,4 +1,5 @@
-# Slyp
+# Slyp [![Code Climate](https://codeclimate.com/repos/57045ecbd985bd71b3006981/badges/8e9223675d400d65f700/gpa.svg)](https://codeclimate.com/repos/57045ecbd985bd71b3006981/feed)
+
 
 ## Getting Started
 
