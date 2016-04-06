@@ -28,6 +28,7 @@ require "vcr"
  "https://www.youtube.com/watch?v=eEfxalQNwKY",
  "https://www.foreignaffairs.com/articles/china/2015-04-20/what-it-means-be-chinese",
  "http://www.theguardian.com/commentisfree/2016/mar/28/hillary-clinton-honest-transparency-jill-abramson",
+ "http://reactionwheel.net/2015/10/the-deployment-age.html",
  "http://www.theguardian.com/sport/2016/mar/28/fight-fans-salford-red-devils-rugby-league-huddersfield",
  "http://www.theguardian.com/football/2016/mar/28/daniel-sturridge-england-roy-hodgson-holland",
  "http://www.theguardian.com/sport/2016/mar/28/widnes-st-helens-super-league-match-report",
@@ -44,23 +45,59 @@ require "vcr"
  "https://www.facebook.com/SarahSilverman/videos/1094429410607151/?fref=nf",
  "http://themacro.com/articles/2016/01/minimum-viable-product-process/",
  "https://www.youtube.com/watch?v=aCUbvOwwfWM",
- "http://www.newyorker.com/magazine/2015/05/11/overkill-atul-gawande",
  "http://www.bigfastblog.com/quoras-technology-examined",
  "https://mattermark.com/first-official-company-rankings-update/",
  "https://www.farnamstreetblog.com/2016/03/prolific-mr-asimov/",
  "https://gorails.com/forum/advice-on-building-a-reports-feature",
  "https://vimeo.com/92332676",
- "https://static.xx.fbcdn.net/rsrc.php/yV/r/hzMapiNYYpW.ico",
  "https://www.facebook.com/Vox/videos/499116863609254/",
  "https://paulromer.net/mathiness/",
- "https://robots.thoughtbot.com/segment-io-and-ruby",
- "http://www.bloomberg.com/features/2016-how-to-hack-an-election/",
+ "https://robots.thoughtbot.com/segment-io-and-ruby"]
+
+ @overflow_urls = ["http://www.bloomberg.com/features/2016-how-to-hack-an-election/",
  "http://www.nytimes.com/2015/06/23/opinion/when-an-apology-is-anything-but.html?mabReward=A4&moduleDetail=recommendations-2&action=click&contentCollection=U.S.&region=Footer&module=WhatsNext&version=WhatsNext&contentID=WhatsNext&configSection=article&isLoggedIn=false&src=recg&pgtype=article&_r=0",
- "http://paulromer.net/mathiness/"]
+ "http://paulromer.net/mathiness/",
+ "http://www.barrelny.com/blog/taking-control-of-imageloading/",
+ "https://medium.com/@dhh/rails-5-action-cable-demo-8bba4ccfc55e#.f45ezr1v2",
+ "http://www.sitepoint.com/action-cable-and-websockets-an-in-depth-tutorial/",
+ "https://news.ycombinator.com/item?id=9419601",
+ "https://blog.engineyard.com/2015/a-look-at-rails-5",
+ "https://m.signalvnoise.com/sleep-deprivation-is-not-a-badge-of-honor-f24fbff47a75#.rt0ao89zj",
+ "https://www.youtube.com/watch?v=n0WUjGkDFS0",
+ "http://boingboing.net/2015/05/11/the-only-technique-to-learn-so.html",
+ "http://www.wired.com/2015/04/hire-like-google/",
+ "http://www.vanityfair.com/culture/2015/08/tinder-hook-up-culture-end-of-dating",
+ "https://www.quarterlyessay.com/qe/61/australia-between-recession-and-renewal/1424",
+ "https://www.thesaturdaypaper.com.au/news/politics/2016/04/02/the-taxpayers-billions-spent-government-advertising/14595156003073",
+ "http://insider.foxnews.com/2016/03/31/harvard-student-rise-safe-spaces-campus-culture-sensitivity",
+ "http://stackoverflow.com/questions/2862590/how-to-replace-master-branch-in-git-entirely-from-another-branch",
+ "http://www.wheelercentre.com/events/whistleblowers",
+ "https://en.wikipedia.org/wiki/Liang_Cheng",
+ "http://techcrunch.com/2016/01/05/facebook-messenger-bots/",
+ "https://mixpanel.com/blog/2016/03/30/this-is-the-difference-between-statistics-and-data-science",
+ "http://www.slate.com/articles/technology/cover_story/2016/01/how_facebook_s_news_feed_algorithm_works.html",
+ "https://mixpanel.com/blog/2016/03/31/data-loss-incident-update",
+ "http://www.theaustralian.com.au/business/economics/surging-australian-dollar-puts-squeeze-on-exporters/news-story/f40f7f3f3e8e10ed437cae62b458d7ed",
+ "https://www.quora.com/What-are-the-biggest-companies-that-no-ones-ever-heard-of",
+ "https://www.youtube.com/watch?v=CBYhVcO4WgI&list=PL11qn6zM2Y3bMZdChxEqHKaCaKUjwItGL",
+ "https://www.youtube.com/watch?v=hUl27Qj9cEM&feature=youtu.be",
+ "http://www.theguardian.com/news/2016/apr/03/panama-papers-money-hidden-offshore",
+ "https://robots.thoughtbot.com/how-to-back-up-a-heroku-production-database-to-staging",
+ "https://www.youtube.com/watch?v=hykoKDl1AtE#t=30",
+ "https://www.youtube.com/watch?v=Ri0qiAita4s",
+ "https://swiftkey.com/en/united-states-emoji",
+ "https://medium.com/slack-developer-blog/everything-you-ever-wanted-to-know-about-unfurling-but-were-afraid-to-ask-or-how-to-make-your-e64b4bb9254#.a69oxphgz",
+ "http://www.datadan.io/containerized-data-science-and-engineering-part-2-dockerized-data-science/",
+ "http://www.nytimes.com/2016/03/27/books/review/sext-and-the-single-girl.html?hp&action=click&pgtype=Homepage&clickSource=story-heading&module=second-column-region&region=top-news&WT.nav=top-news&_r=3&mtrref=undefined&gwh=C553BAE4C761D390E0C006B1B22C5A50&gwt=pay",
+ "https://blog.greens.org.nz/2016/04/04/milk-and-coal-in-southland/",
+ "http://stackoverflow.com/questions/22619529/using-twilio-number-as-a-proxy-for-sms-communication",
+ "https://www.kickstarter.com/projects/248983394/ossic-x-the-first-3d-audio-headphones-calibrated-t",
+ "http://www.nytimes.com/2016/04/10/education/edlife/teaching-men-to-be-emotionally-honest.html",
+ "https://www.youtube.com/watch?v=LVa4ERqz97o"]
 
 VCR.configure do |config|
   config.cassette_library_dir = 'fixtures/vcr_cassettes'
-  config.hook_into :faraday
+  config.hook_into :webmock
 end
 
 # Bag of comments
@@ -124,7 +161,7 @@ end
 
 # Seed db with slyps
 def seed_slyps()
-  VCR.use_cassette("slyp_seeds") do
+  VCR.use_cassette("slyp_seeds", :record => :all) do
     @slyp_seed_urls.each do |url|
       Slyp.fetch(url)
     end

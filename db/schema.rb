@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321103206) do
+ActiveRecord::Schema.define(version: 20160406083414) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -54,10 +54,9 @@ ActiveRecord::Schema.define(version: 20160321103206) do
     t.string   "author"
     t.date     "date"
     t.string   "display_url"
-    t.string   "icon"
+    t.string   "favicon"
     t.string   "site_name"
     t.string   "slyp_type"
-    t.string   "human_lang"
     t.text     "text"
     t.integer  "duration"
     t.integer  "word_count"
@@ -65,6 +64,7 @@ ActiveRecord::Schema.define(version: 20160321103206) do
     t.string   "url",         null: false
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.text     "description"
   end
 
   create_table "user_slyps", force: :cascade do |t|
