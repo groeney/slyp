@@ -17,12 +17,17 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     'rv-fade-hide': 'model.hideArchived < :archived'
   },
   showModal: function(e){
-    this.$('.ui.modal').modal();
-    if (this.model.get('html')){
-      $('div[data-user-slyp-id=' + this.model.get('id') + '].ui.modal').modal('show');
-    } else {
-      this.$('a').first().click();
+    var modalSelector = this.$('.ui.modal').first();
+    if (modalSelector.length === 0){
+      modalSelector = $('div[data-user-slyp-id=' + this.model.get('id') + '].ui.modal').first();
     }
+    modalSelector.modal({
+      onHidden: function() { // Buggy if more than one video
+        console.debug('Preview modal onHidden callback.');
+        iframe = $(this).find('.ui.embed iframe').first();
+        iframe.attr('src', iframe.attr('src'));
+      }
+    }).modal('show');
   },
   renderAvatars: function(){
     window.LetterAvatar.transform_el(this.el);
@@ -40,10 +45,10 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
   },
   onRender: function(){
     this.state = {
-      canReslyp      : false,
-      gotAttention   : false,
-      reslyping      : false,
-      comment        : ''
+      canReslyp    : false,
+      gotAttention : false,
+      reslyping    : false,
+      comment      : ''
     }
 
     this.binder = rivets.bind(this.$el, { model: this.model, state: this.state })
@@ -176,6 +181,8 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
           hide: 200
         }
       });
+
+    this.$('.video_frame').first().addClass('ui').addClass('embed');
   },
   sendSlypIfEnter: function(e){
     if (e.keyCode==13){

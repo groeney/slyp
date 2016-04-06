@@ -48,12 +48,12 @@ rivets.formatters.numFriends = function(value){
   return value ? 'friend'.pluralize(value.length) : ''
 }
 
-rivets.formatters.duration = function(value){
-  return (value == undefined || value == 0) ? 'short' : Math.ceil(value/60) + ' min'
+function readDuration(value){
+  return (value === undefined || value <= 60) ? 'short read' : Math.ceil(value/60) + ' min read'
 }
 
-rivets.formatters.consumptionVerb = function(value){
-  return (value == 'video') ? 'view' : 'read'
+rivets.formatters.consumption = function(duration, type){
+  return (type === 'video') ? 'video' : readDuration(duration)
 }
 
 rivets.formatters.displaySiteName = function(value){
@@ -74,6 +74,18 @@ rivets.formatters.userDisplay = function(firstName, lastName, email){
 
 rivets.formatters.fallback = function(firstName, email){
   return firstName ? firstName : email
+}
+
+rivets.formatters.authorship = function(author, siteName){
+  if (author && siteName){
+    return siteName + ' | by ' + author
+  } else if (author){
+    return 'by ' + author
+  } else if (siteName){
+    return siteName
+  } else {
+    return ''
+  }
 }
 
 rivets.binders['fade-hide'] = function(el, value) {

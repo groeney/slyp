@@ -9,4 +9,4 @@ $(function() {
   return slypApp.start();
 });
 
-console.log('Hey! There you are taking a peek :)')
+console.debug('Hey! There you are taking a peek :)')

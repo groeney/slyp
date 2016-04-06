@@ -3,7 +3,7 @@
   <a class="extra content" rv-href="model:url" target="_blank">
     <div class="right floated meta">{ model:total_reslyps | numReslyps }</div>
     <div class="left floated meta">
-      { model:duration | duration } { model:slyp_type | consumptionVerb }
+      { model:duration | consumption model:slyp_type }
     </div>
   </a>
 
@@ -25,7 +25,7 @@
     <a class="header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle | trunc }</a>
     <div class="meta center aligned">
       <a target="_blank" rv-href="model:url">
-        <span rv-show="model.authorshipMeta">{ model.authorshipMeta }</span>
+        <span>{ model:author | authorship model:site_name }</span>
       </a>
     </div>
   </div>
@@ -92,8 +92,9 @@
   </div>
 
   <div class="ui long modal" target="_blank" rv-href="model:url" rv-data-user-slyp-id="model:id">
+    <i class="close icon"></i>
     <a class="ui header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle }</a>
-    <div class="content" rv-html="model:html">
+    <div class="ui center aligned segment" rv-html="model:html">
     </div>
   </div>
 </script>
