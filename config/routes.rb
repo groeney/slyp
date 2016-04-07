@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "users/omniauth_callbacks" }
+  devise_for :users, :controllers => {
+    :omniauth_callbacks => "users/omniauth_callbacks",
+    :registrations => "registrations"
+  }
   root to: "home#index"
   get "/feed" => "home#feed"
   get "/friends" => "users#friends"
