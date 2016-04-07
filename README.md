@@ -1,4 +1,5 @@
-# Slyp
+# Slyp [![Code Climate](https://codeclimate.com/repos/57045ecbd985bd71b3006981/badges/8e9223675d400d65f700/gpa.svg)](https://codeclimate.com/repos/57045ecbd985bd71b3006981/feed)
+
 
 ## Getting Started
 
@@ -35,6 +36,18 @@ programming in style.
 * [Protocol](http://github.com/thoughtbot/guides/blob/master/protocol)
 * [Best Practices](http://github.com/thoughtbot/guides/blob/master/best-practices)
 * [Style](http://github.com/thoughtbot/guides/blob/master/style)
+
+We follow the following naming convention for branches:
+`[group]/[name]`
+
+Where `group` will be one of these four groupings: 
+```
+wip       Works in progress; stuff I know won't be finished soon
+feat      Feature I'm adding or expanding
+bug       Bug fix or experiment
+junk      Throwaway branch created to experiment
+```
+and `name` will be a `brief-description` separated by dashes (-). 
 
 ## Deploying
 
