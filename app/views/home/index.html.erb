@@ -1,4 +1,91 @@
-<body style="background-image: url(image_path("background-arch.jpg"));">
-  <%= render "application/navigation_bar" %>
-	<%= image_tag("background-arch.jpg") %>
-</body>
+<div class="full height image">
+  <div class="ui main container">
+    <div class="ui information container">
+      <h1 class="ui center aligned header">Slyp is your next generation newsfeed</h1>
+      <p>One place to store, share and discover new content with your friends :)</p>
+      <div class="ui center aligned basic container">
+        <div class="ui huge buttons">
+          <button id="beta" class="ui positive button">Beta access</button>
+          <div class="or"></div>
+          <button id="login" class="ui button">Login</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ui vertical footer segment">
+    <div class="ui center aligned container">
+      <div class="ui horizontal inverted small divided link list">
+        <a class="item">© 2016</a>
+        <a class="item" href="#">Terms and Conditions</a>
+        <a class="item" href="#">Privacy Policy</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ui modal">
+  <div class="ui top attached tabular pointing secondary large menu">
+    <a class="ui green active item" data-tab="beta">Request Beta Access</a>
+    <a class="ui grey item" data-tab="login">Login</a>
+  </div>
+  <div class="ui bottom attached active tab segment" data-tab="beta">
+    <div class="ui basic center aligned segment">
+      <div class="ui fluid big action input">
+        <input type="text" placeholder="Enter your email">
+        <button class="ui big positive button">Join beta</button>
+      </div>
+    </div>
+  </div>
+  <div class="ui bottom attached tab segment" data-tab="login">
+    <div class="ui center aligned basic segment">
+      <button class="ui facebook big button">
+        <i class="facebook icon"></i>
+       Login with Facebook
+      </button>
+      <button class="ui google plus big button">
+        <i class="google plus icon"></i>
+        Login with Google
+      </button>
+    </div>
+    <div class="ui horizontal divider">
+      Or
+    </div>
+    <form class="ui large form" _lpchecked="1">
+      <div class="two fields">
+        <div class="field">
+          <div class="ui center aligned container">
+            <div class="ui left icon input">
+              <i class="user icon"></i>
+              <input type="text" name="email" placeholder="E-mail address" autocomplete="off" style="cursor: auto; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;">
+            </div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui center aligned container">
+            <div class="ui left icon input">
+              <i class="lock icon"></i>
+              <input type="password" name="password" placeholder="Password" autocomplete="off" style="cursor: auto; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;">
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ui large fluid submit button">Login</div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('.tabular.menu .item').tab();
+
+  $('#beta').click(function(){
+    $('.tabular.menu .item').tab('change tab', 'beta')
+    $('.ui.modal').modal('show');
+  });
+
+  $('#login').click(function(){
+    $('.tabular.menu .item').tab('change tab', 'login')
+    $('.ui.modal').modal('show');
+  });
+</script>
