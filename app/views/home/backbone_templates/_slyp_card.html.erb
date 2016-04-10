@@ -1,8 +1,8 @@
 <script type="text/template" id="js-slyp-card-tmpl">
 
   <a class="extra content" rv-href="model:url" target="_blank">
-    <div class="right floated meta">{ model:total_reslyps | numReslyps }</div>
-    <div class="left floated meta">
+    <div class="right floated">{ model:total_reslyps | numReslyps }</div>
+    <div class="left floated">
       { model:duration | consumption model:slyp_type }
     </div>
   </a>
@@ -94,7 +94,7 @@
   <div class="ui long modal" target="_blank" rv-href="model:url" rv-data-user-slyp-id="model:id">
     <i class="close icon"></i>
     <a class="ui header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle }</a>
-    <div class="ui center aligned segment" rv-html="model:html">
+    <div class="ui center aligned basic segment" rv-html="model:html">
     </div>
   </div>
 </script>
