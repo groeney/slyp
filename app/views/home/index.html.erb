@@ -31,10 +31,33 @@
   </div>
   <div class="ui bottom attached active tab segment" data-tab="beta">
     <div class="ui basic center aligned segment">
-      <div class="ui fluid big action input">
-        <input type="text" placeholder="Enter your email">
-        <button class="ui big positive button">Join beta</button>
-      </div>
+      <form id="beta-request" class="ui form" action="/users/beta_request" method="post">
+        <div class="fields">
+          <div class="eight wide required field">
+            <label>First Name</label>
+            <input type="text" name="first_name" placeholder="First Name">
+          </div>
+          <div class="eight wide required field">
+            <label>Last Name</label>
+            <input type="text" name="last_name" placeholder="Last Name">
+          </div>
+        </div>
+        <div class="fields">
+          <div class="sixteen wide centered required field">
+            <label>Email</label>
+            <input  type="email" name="email" placeholder="Enter your email">
+          </div>
+        </div>
+        <div class="ui success message">
+          <div class="header">All set</div>
+          <p>Hit submit to become part of Slyp Beta!</p>
+        </div>
+        <div class="ui error message">
+          <div class="header">Not quite</div>
+          <p>Please fix the remaining errors before you can become part of Slyp Beta</p>
+        </div>
+        <div class="ui positive submit button">Submit</div>
+      </form>
     </div>
   </div>
   <div class="ui bottom attached tab segment" data-tab="login">
@@ -81,11 +104,6 @@
 </div>
 
 
-
-
-
-
-
 <script type="text/javascript">
   $('.tabular.menu .item').tab();
 
@@ -97,5 +115,66 @@
   $('#login').click(function(){
     $('.tabular.menu .item').tab('change tab', 'login')
     $('.ui.modal').modal('show');
+  });
+
+  var $form = $('#beta-request');
+  var rules = {
+    on: 'blur',
+    inline: true,
+    fields: {
+      email: {
+        identifier  : 'email',
+        rules: [
+          {
+            type   : 'email',
+            prompt : 'Please enter a valid e-mail'
+          }
+        ]
+      },
+      firstName: {
+        identifier : 'first_name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please provide us with your first name'
+          }
+        ]
+      },
+      lastName: {
+        identifier : 'last_name',
+        rules: [
+          {
+            type   : 'empty',
+            prompt : 'Please provide us with your last name'
+          }
+        ]
+      }
+    }
+  }
+
+  var settings = {
+    onSuccess: function(event, fields){
+      $form.removeClass('success');
+    },
+    onFailure: function(formErrors, fields){
+      $form.removeClass('error');
+    }
+  }
+
+  $form.form(rules, settings);
+
+  $form.submit(function(){
+    $.post($(this).attr('action'), $(this).serialize(), function(response){
+      $form.find('.ui.success.message p').text('You are #' +
+        response.priority + ' on our waitlist. An email is on it\'s way to you :)');
+      $form.removeClass('error');
+      $form.addClass('success');
+    },'json')
+    .fail(function(err){
+      $form.find('.ui.error.message p').text(err.responseJSON.error[0]);
+      $form.removeClass('success');
+      $form.addClass('error')
+    });
+    return false;
   });
 </script>
