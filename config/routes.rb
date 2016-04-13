@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
-  devise_scope :user do
-     post "users/beta_request", to: "registrations#beta_request", as: "beta_request"
-  end
-  post "/beta_request" => "registrations#beta_request"
   devise_for :users, :controllers => {
     :omniauth_callbacks => "users/omniauth_callbacks",
     :registrations => "registrations"
   }
+  devise_scope :user do
+   post "/users/beta_request" => "registrations#beta_request"
+  end
   root to: "home#index"
   get "/feed" => "home#feed"
   get "/friends" => "users#friends"
