@@ -20,8 +20,6 @@ ActiveRecord::Schema.define(version: 20160411043247) do
     t.boolean  "invited",    default: false, null: false
     t.boolean  "signed_up",  default: false, null: false
     t.string   "email",                      null: false
-    t.string   "first_name",                 null: false
-    t.string   "last_name"
     t.datetime "created_at",                 null: false
     t.datetime "updated_at",                 null: false
   end
