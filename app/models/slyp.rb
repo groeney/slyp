@@ -24,6 +24,11 @@ class Slyp < ActiveRecord::Base
 
   def self.create_from_url(url)
     parsed_response = InstaparserService.fetch(url)
-    Slyp.find_or_create_by(parsed_response)
+    slyp = Slyp.find_by({:url => parsed_response[:url]})
+    if slyp
+      return slyp
+    else
+      return Slyp.create(parsed_response)
+    end
   end
 end
