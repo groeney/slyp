@@ -5,7 +5,7 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
     this.fetch();
   },
   hasChildren: function(){
-    return this.length > 0
+    return this.models.length > 0
   },
   moveToFront: function(model) {
     var index = this.indexOf(model);

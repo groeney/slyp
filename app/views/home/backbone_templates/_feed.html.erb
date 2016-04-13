@@ -5,7 +5,29 @@
   <div class="ui hidden divider"></div>
   <div class="ui hidden divider"></div>
   <div class="feed-region"></div>
-  <div class="ui raised segment" rv-hide="collection.hasChildren">
-    <p>Your slyp feed is empty :( Paste any kind of link in that box ^ up there ^... to the right... with the plus button :)</p>
+  <div class="ui basic segment" rv-hide="collection.hasChildren < .length">
+    <div class="content">
+      <h2 class="header"> Hi there! </h2>
+      <div class="description"> Looks like you haven't got any active slyps... this little guide might help :) </div>
+    </div>
+    <div class="ui three steps">
+      <div class="active step">
+        <div class="content">
+          <div class="title">Find content</div>
+          <div class="description">...on your normal web browsing</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="content">
+          <div class="title">Add the link up there ^</div>
+          <div class="description">...and we'll create the slyp for it</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="content">
+          <div class="title">Share it friends :)</div>
+        </div>
+      </div>
+    </div>
   </div>
 </script>
