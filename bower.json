@@ -17,17 +17,18 @@
     "tests"
   ],
   "dependencies": {
-    "semantic-ui"        : "2.1",
-    "jquery"             : "2.2.1",
-    "toastr"             : "2.1.1",
-    "backbone"           : "latest",
-    "marionette"         : "2.4.4",
-    "jquery.cookie"      : "latest",
-    "jquery"             : "2.1.4",
-    "moment"             : "~2.9.0",
-    "jquery-mockjax"     : "~1.6.2",
-    "imagesloaded"       : "3.1.8",
-    "font-awesome"       : "4.3.0",
-    "rivets"             : "0.8.1"
+    "semantic-ui"             : "2.1",
+    "jquery"                  : "2.2.1",
+    "toastr"                  : "2.1.1",
+    "backbone"                : "latest",
+    "marionette"              : "2.4.4",
+    "jquery.cookie"           : "latest",
+    "jquery"                  : "2.1.4",
+    "moment"                  : "~2.9.0",
+    "jquery-mockjax"          : "~1.6.2",
+    "imagesloaded"            : "3.1.8",
+    "font-awesome"            : "4.3.0",
+    "rivets"                  : "0.8.1",
+    "jquery-serialize-object" : "2.5.0"
   }
 }
