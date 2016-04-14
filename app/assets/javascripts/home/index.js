@@ -11,7 +11,7 @@
   });
 
   $.fn.api.settings.api = {
-    'create beta': '/users/beta_request'
+    'create beta': '/beta_request'
   };
 
   $('#beta-request').api({

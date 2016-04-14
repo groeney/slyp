@@ -10,6 +10,11 @@ class BaseController < ApplicationController
       each_serializer: ErrorSerializer
   end
 
+  rescue_from ActionController::ParameterMissing do |exception|
+    render status: 400, json: present_error(I18n.t("errors.400.message")),
+      each_serializer: ErrorSerializer
+  end
+
   protected
 
   def present_error(message)
