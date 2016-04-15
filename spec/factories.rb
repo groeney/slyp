@@ -1,4 +1,8 @@
 FactoryGirl.define do
+  factory :beta_request do
+    sequence(:email) { |n| "beta_request_#{n}@example.com" }
+  end
+
   factory :friendship do
     association :user
     association :friend, factory: :user

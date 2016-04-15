@@ -3,11 +3,15 @@ Rails.application.routes.draw do
     :omniauth_callbacks => "users/omniauth_callbacks",
     :registrations => "registrations"
   }
+  devise_scope :user do
+   post "/users/beta_request" => "registrations#beta_request"
+  end
   root to: "home#index"
   get "/feed" => "home#feed"
   get "/friends" => "users#friends"
   post "/search/users" => "search#users"
   get "/search/user_slyps" => "search#user_slyps"
+
   resources :users, only: [:index]
   resources :user_slyps, only: [:create, :index, :show, :update]
   resources :reslyps, only: [:create, :index, :destroy]
