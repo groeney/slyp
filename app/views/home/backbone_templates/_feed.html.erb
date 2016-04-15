@@ -5,7 +5,7 @@
   <div class="ui hidden divider"></div>
   <div class="ui hidden divider"></div>
   <div class="feed-region"></div>
-  <div class="ui basic segment" rv-hide="collection.hasChildren < .length">
+  <div id="zero-state" class="ui basic segment" rv-hide-if="appState.searchMode">
     <div class="content">
       <h2 class="header"> Hi there! </h2>
       <div class="description"> Looks like you haven't got any active slyps... this little guide might help :) </div>
@@ -25,7 +25,7 @@
       </div>
       <div class="step">
         <div class="content">
-          <div class="title">Share it friends :)</div>
+          <div class="title">Share it with friends :)</div>
         </div>
       </div>
     </div>

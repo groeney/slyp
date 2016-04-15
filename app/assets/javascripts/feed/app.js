@@ -99,3 +99,9 @@ rivets.binders['fade-show'] = function(el, value) {
 rivets.binders['class-unless'] = function(el, value) {
   return value ? $(el).removeClass(value) : $(el).addClass(value);
 };
+
+rivets.binders['hide-if'] = function(el, value) {
+  if (value){
+    return $(el).hide();
+  }
+}
