@@ -1,14 +1,18 @@
 <div class="full height image">
-  <div class="ui main container">
+  <div class="ui main fluid container">
+    <div class="ui basic segment">
+      <button id="login" class="ui right floated button">Login</button>
+    </div>
     <div class="ui information container">
-      <h1 class="ui center aligned header">Slyp is disrupting the share button</h1>
-      <p>One place to store, share and discover new content with your friends :)</p>
-      <div class="ui center aligned basic container">
-        <div class="ui huge buttons">
-          <button id="beta" class="ui positive button">Beta access</button>
-          <div class="or"></div>
-          <button id="login" class="ui button">Login</button>
-        </div>
+      <h1 class="ui center aligned header">slyp is disrupting the share button</h1>
+      <p>One place to store, share and discover the most relevant content to you and your friends. Sign up below to be part of our beta :)</p>
+      <div class="ui center aligned container" style="max-width: 400px !important;">
+        <form id="beta-request">
+          <div class="ui huge action fluid input">
+            <input type="email" name="email" placeholder="Here's my email" autofocus>
+            <button class="ui positive submit button">Thanks!</button>
+          </div>
+        </form>
       </div>
     </div>
   </div>
@@ -24,78 +28,71 @@
   </div>
 </div>
 
-<div class="ui modal">
-  <div class="ui top attached tabular pointing secondary large menu">
-    <a class="ui green active item" data-tab="beta">Request Beta Access</a>
-    <a class="ui grey item" data-tab="login">Login</a>
-  </div>
-  <div class="ui bottom attached active tab segment" data-tab="beta">
-    <div class="ui basic center aligned segment">
-      <div class="ui fluid big action input">
-        <input type="text" placeholder="Enter your email">
-        <button class="ui big positive button">Join beta</button>
-      </div>
-    </div>
-  </div>
-  <div class="ui bottom attached tab segment" data-tab="login">
-    <div class="ui center aligned basic segment">
-      <%= link_to user_omniauth_authorize_path(:facebook) do %>
-        <button class="ui facebook big button">
-          <i class="facebook icon"></i>
-         Login with Facebook
-        </button>
-      <% end %>
-      <%= link_to user_omniauth_authorize_path(:google_oauth2) do %>
-        <button class="ui google plus big button">
-          <i class="google plus icon"></i>
-          Login with Google
-        </button>
-      <% end %>
-    </div>
-    <div class="ui horizontal divider">
-      Or
-    </div>
-    <%= form_tag session_path(:user), { :class => "ui form" } do %>
-      <div class="two fields">
-        <div class="field">
-          <div class="ui center aligned container">
-            <div class="ui left icon input">
-              <i class="user icon"></i>
-                <%= text_field_tag "user[email]", nil, name: "email", :placeholder => "E-mail address", :style => "cursor: auto; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" %>
-            </div>
-          </div>
-        </div>
-        <div class="field">
-          <div class="ui center aligned container">
-            <div class="ui left icon input">
-              <i class="lock icon"></i>
-              <%= password_field_tag "user[password]", nil, name: "password", :placeholder => "Password", :style => "cursor: auto; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" %>
-            </div>
-          </div>
-        </div>
-      </div>
-      <button class="ui fluid submit button">Login</button>
-      </div>
+<div id="login-modal" class="ui modal">
+  <div class="ui center aligned basic segment">
+    <%= link_to user_omniauth_authorize_path(:facebook) do %>
+      <button class="ui facebook big button">
+        <i class="facebook icon"></i>
+       Login with Facebook
+      </button>
     <% end %>
+    <%= link_to user_omniauth_authorize_path(:google_oauth2) do %>
+      <button class="ui google plus big button">
+        <i class="google plus icon"></i>
+        Login with Google
+      </button>
+    <% end %>
+  </div>
+  <div class="ui horizontal divider">
+    Or
+  </div>
+  <%= form_tag session_path(:user), { :class => "ui form" } do %>
+    <div class="two fields">
+      <div class="field">
+        <div class="ui center aligned container">
+          <div class="ui left icon input">
+            <i class="user icon"></i>
+              <%= text_field_tag "user[email]", nil, name: "email", :placeholder => "E-mail address", :style => "cursor: auto; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" %>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui center aligned container">
+          <div class="ui left icon input">
+            <i class="lock icon"></i>
+            <%= password_field_tag "user[password]", nil, name: "password", :placeholder => "Password", :style => "cursor: auto; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <button class="ui fluid huge submit button">Login</button>
+  <% end %>
+</div>
+
+<div id="beta-success" class="ui small modal">
+  <i class="close icon"></i>
+  <div class="header">
+    Thank you!
+  </div>
+  <div class="content">
+     You are <span style="font-weight: bold;"></span> on the waitlist. We've sent you a welcome email and will be in touch with an invitiation shortly :)
+  </div>
+  <div class="actions">
+    <button class="ui blue button">Got it</button>
   </div>
 </div>
 
+<div id="beta-error" class="ui small modal">
+  <i class="close icon"></i>
+  <div class="header">
+  Hi again! :)
+  </div>
+  <div class="content">
+    We see that you had already signed up for slyp beta, and we love and appreciate your enthusiasm. We will be in touch shortly with an invite.
+  </div>
+  <div class="actions">
+    <button class="ui blue button">Got it</button>
+  </div>
+</div>
 
-
-
-
-
-
-<script type="text/javascript">
-  $('.tabular.menu .item').tab();
-
-  $('#beta').click(function(){
-    $('.tabular.menu .item').tab('change tab', 'beta')
-    $('.ui.modal').modal('show');
-  });
-
-  $('#login').click(function(){
-    $('.tabular.menu .item').tab('change tab', 'login')
-    $('.ui.modal').modal('show');
-  });
-</script>
+<%= javascript_include_tag "home" %>
