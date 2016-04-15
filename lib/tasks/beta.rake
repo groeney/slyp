@@ -9,7 +9,7 @@ namespace :beta do
     invitees.each do |invitee|
       invitee.update({:invited => true})
       if invitee.save!
-        UserMailer.beta_invitation_email(invitee).deliver
+        UserMailer.beta_invitation_email(invitee).deliver_now
       end
     end
   end
