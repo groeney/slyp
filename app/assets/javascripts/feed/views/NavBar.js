@@ -1,6 +1,6 @@
 slypApp.Views.NavBar = slypApp.Views.Base.extend({
   template: '#js-nav-bar-tmpl',
-  className: 'ui top fixed borderless menu',
+  className: 'ui top fixed borderless stackable menu',
   attributes: {
     'rv-class-inverted' : 'appState.searchMode',
     'rv-class-grey'     : 'appState.searchMode'
