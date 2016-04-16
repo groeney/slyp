@@ -11,10 +11,16 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
     'click .circle.add.link.icon' : 'createSlyp',
     'focusin #searcher input'    : 'enterSearchMode',
     'keypress #searcher input'    : 'searchingIfEnter',
-    'click #back-button'          : 'exitSearchMode'
+    'click #back-button'          : 'exitSearchMode',
+    'focusout #searcher'          : 'doneSearching'
   },
   enterSearchMode: function(){
     slypApp.state.searchMode = true;
+  },
+  doneSearching: function(){
+    if (this.state.searchTerm === ''){
+      this.exitSearchMode();
+    }
   },
   exitSearchMode: function(){
     slypApp.state.resettingFeed = true;
@@ -45,7 +51,6 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
         apiSettings: {
           url: '/search/user_slyps?q={query}',
           onResponse: function(serverResponse){
-            slypApp.state.searching = false;
             serverResponse = _.map(serverResponse, function(value, index) {
                return value;
             });
