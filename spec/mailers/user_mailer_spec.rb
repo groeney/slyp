@@ -14,7 +14,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it "renders the sender email" do
-      expect(mail.from).to eql(["james@slyp.io"])
+      expect(mail.from).to eql(["robot@slyp.io"])
     end
   end
 
@@ -31,7 +31,7 @@ RSpec.describe UserMailer, type: :mailer do
     end
 
     it "renders the sender email" do
-      expect(mail.from).to eql(["james@slyp.io"])
+      expect(mail.from).to eql(["robot@slyp.io"])
     end
   end
 

@@ -1,5 +1,6 @@
-<p>Welcome <%= @email %>!</p>
+<p><%= @resource.first_name.empty? ? @email : @resource.first_name %>, welcome to Slyp!</p>
 
-<p>You can confirm your account email through the link below:</p>
+<p>Use this link below to confirm your account: <%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p>happy slypping,<br />james & the slyp.io team :)</p>
+
