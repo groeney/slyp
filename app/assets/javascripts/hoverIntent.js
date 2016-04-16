@@ -235,7 +235,7 @@
 
     $.event.special.mouseleaveintent = $.event.special.mouseleaveintent ||
         specialEventSetter('leave', {
-            leaveTimeout : 300
+            leaveTimeout : 1000
         });
 
 

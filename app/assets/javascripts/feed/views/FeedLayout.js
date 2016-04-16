@@ -6,6 +6,7 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
   },
   initialize: function(){
     this.collection.bind('change:archived', this.zeroState, this);
+    this.collection.bind('sync', this.zeroState, this);
   },
   onRender: function(){
     this.binder = rivets.bind(this.$el, { appState: slypApp.state })

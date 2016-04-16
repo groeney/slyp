@@ -23,7 +23,6 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     }
     modalSelector.modal({
       onHidden: function() { // Buggy if more than one video
-        console.debug('Preview modal onHidden callback.');
         iframe = $(this).find('.ui.embed iframe').first();
         iframe.attr('src', iframe.attr('src'));
       }
