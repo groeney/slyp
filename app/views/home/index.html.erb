@@ -46,27 +46,35 @@
   <div class="ui horizontal divider">
     Or
   </div>
-  <%= form_tag session_path(:user), { :class => "ui form" } do %>
-    <div class="two fields">
-      <div class="field">
-        <div class="ui center aligned container">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-              <%= text_field_tag "user[email]", nil, name: "email", :placeholder => "E-mail address", :style => "cursor: auto; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" %>
+  <div class="ui grid">
+    <div class="ui centered column">
+      <%= form_for(resource, :as => resource_name, :url => session_path(:user), :class => "ui form") do |f| %>
+        <div class="two fields">
+          <div class="field">
+            <div class="ui center aligned container">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                  <%= f.text_field :email, :placeholder => "my email" %>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui center aligned container">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                  <%= f.password_field :password, :placeholder => "top secret password" %>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="field">
-        <div class="ui center aligned container">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <%= password_field_tag "user[password]", nil, name: "password", :placeholder => "Password", :style => "cursor: auto; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; background-repeat: no-repeat;" %>
-          </div>
+        <div class="ui basic center aligned segment" style="padding-left: 15%;">
+          <button class="ui large submit button">Login</button>
+          <%= link_to "Forgot your password?", new_password_path(:user) %>
         </div>
-      </div>
+      <% end %>
     </div>
-    <button class="ui fluid huge submit button">Login</button>
-  <% end %>
+  </div>
+
 </div>
 
 <div id="beta-success" class="ui small modal">
