@@ -52,7 +52,11 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
         hide: 0
         }
       });
-
+    $.fn.search.settings.templates = {
+      message: function(message, type) {
+        return ''
+      }
+    }
     this.$('.ui.search')
       .search({
         cache: false,
@@ -63,11 +67,8 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
                return value;
             });
             slypApp.userSlyps.reset(serverResponse);
-            serverResponse.forEach(function(result, index, serverResponse) {
-              serverResponse[index].image = result.display_url
-              serverResponse[index].description = result.author
-            });
-            return {'success': true, 'results': serverResponse}
+            serverResponse = {};
+            return {'success': true, 'results': serverResponse }
           }
         },
         minCharacters : 3,
