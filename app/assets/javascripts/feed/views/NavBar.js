@@ -41,9 +41,15 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
     }
     this.binder = rivets.bind(this.$el, { state: this.state, appState: slypApp.state })
 
-    this.$('#user-actions').dropdown();
-    this.$('#user-actions').popup({
-      position: 'left center'
+    this.$('#user-actions').dropdown({
+      on: 'hover'
+    });
+    this.$('#display-name').popup({
+      position: 'left center',
+      delay   : {
+        show: 1000,
+        hide: 0
+        }
       });
 
     this.$('.ui.search')
