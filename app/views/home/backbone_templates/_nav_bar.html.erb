@@ -7,16 +7,16 @@
       <i class="arrow left icon"></i>
       Back
     </a>
-    <div class="ui search item">
+    <div class="ui right aligned category search item">
       <div id="searcher" class="ui left icon input">
         <input class="prompt" type="text" rv-value="state.searchTerm" placeholder="search">
         <i class="search icon"></i>
       </div>
     </div>
     <div class="ui right aligned category item">
-      <div id="creator" class="ui icon input" rv-class-loading="state.creatingSlyp">
+      <div id="creator" class="ui left icon input" rv-class-loading="state.creatingSlyp">
+        <i class="add link icon"></i>
         <input class="prompt" type="text" rv-value="state.slypURL" placeholder="http://">
-        <i class="circle add link icon"></i>
       </div>
     </div>
     <div id="user-actions" class="ui right dropdown item" data-content="<%= current_user.email %>" data-variation="mini">
