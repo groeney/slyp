@@ -271,5 +271,5 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
 
 slypApp.Views.UserSlyps = Backbone.Marionette.CollectionView.extend({
   childView: slypApp.Views.UserSlyp,
-  className: 'ui three doubling stackable special cards'
+  className: 'ui three doubling stackable cards'
 })

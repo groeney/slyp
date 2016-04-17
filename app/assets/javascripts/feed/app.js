@@ -15,6 +15,10 @@ slypApp.state = {
   resettingFeed : false
 }
 
+slypApp.state.searchOnMobile = function(){
+  return slypApp.state.searchMode && ($(window).width() < 767)
+}
+
 window.slypApp = slypApp;
 
 rivets.adapters[':'] = {

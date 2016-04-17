@@ -1,10 +1,6 @@
 slypApp.Views.NavBar = slypApp.Views.Base.extend({
   template: '#js-nav-bar-tmpl',
-  className: 'ui top fixed borderless stackable menu',
-  attributes: {
-    'rv-class-inverted' : 'appState.searchMode',
-    'rv-class-grey'     : 'appState.searchMode'
-  },
+  className: 'ui top fixed borderless stackable large menu',
   events:{
     'keypress #creator input'     : 'createSlypIfEnter',
     'paste #creator input'        : 'quietlyCreateSlyp',
@@ -12,7 +8,12 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
     'focusin #searcher input'    : 'enterSearchMode',
     'keypress #searcher input'    : 'searchingIfEnter',
     'click #back-button'          : 'exitSearchMode',
-    'focusout #searcher'          : 'doneSearching'
+    'focusout #searcher'          : 'doneSearching',
+    'click .left.secondary.menu .mobile.only' : 'toggleActions'
+  },
+  toggleActions: function(){
+    this.$('#right-menu').toggleClass('hide');
+    this.$('#right-menu').toggleClass('right');
   },
   enterSearchMode: function(){
     slypApp.state.searchMode = true;

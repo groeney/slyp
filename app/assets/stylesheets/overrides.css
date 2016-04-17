@@ -58,9 +58,24 @@
   text-align: center;
 }
 
-/* Responsive */
-@media screen and (min-width: 0px) and (max-width: 768px) {
+/* Responsiveness */
+@media screen and (max-width: 767px) {
+  .mobile.only {
+    display: block !important;
+  }
+  .mobile.hide {
+    display: none !important;
+  }
   .mobile.show {
     display: block !important;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .mobile.hide {
+    display: block;
+  }
+  .mobile.only {
+    display: none !important;
   }
 }
