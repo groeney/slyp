@@ -1,6 +1,6 @@
 <script type="text/template" id="js-nav-bar-tmpl">
   <div id="left-menu" class="ui left secondary menu">
-    <%= link_to root_path, :class => "item mobile hide" do %>
+    <%= link_to "/feed", :class => "item mobile hide" do %>
       <img src="/assets/logo.png">
     <% end %>
     <a class="item mobile only">
@@ -12,14 +12,14 @@
       <i class="arrow left icon"></i>
       Back
     </a>
-    <div class="ui right aligned category large search item">
+    <div class="ui right aligned category search item">
       <div id="searcher" class="ui left icon input">
         <input class="prompt" type="text" rv-value="state.searchTerm" placeholder="search">
         <i class="search icon"></i>
       </div>
     </div>
     <div class="ui right aligned category item">
-      <div id="creator" class="ui left icon large input" rv-class-loading="state.creatingSlyp">
+      <div id="creator" class="ui left icon input" rv-class-loading="state.creatingSlyp">
         <i class="add link icon"></i>
         <input class="prompt" type="text" rv-value="state.slypURL" placeholder="http://">
       </div>
