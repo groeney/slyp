@@ -93,17 +93,18 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
         }
       });
 
-    this.$('.ui.dropdown').dropdown('setting', 'onAdd', (addedValue, addedText, addedChoice) => {
-      var friendExists = _.some(this.model.get('friends'), function(friend) {
+    var context = this;
+    this.$('.ui.dropdown').dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
+      var friendExists = _.some(context.model.get('friends'), function(friend) {
         return friend.email == addedValue;
       });
 
       if (friendExists){
-        this.toastr('error', 'You have already exchanged this slyp with ' + addedValue);
+        context.toastr('error', 'You have already exchanged this slyp with ' + addedValue);
         return false
       } else {
-        this.state.reslyping = false;
-        this.state.canReslyp = true;
+        context.state.reslyping = false;
+        context.state.canReslyp = true;
       }
       return true
     });
@@ -122,10 +123,10 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
       return this
     });
 
-    this.$('.ui.dropdown').dropdown('setting', 'onRemove', (removedValue, removedText, removedChoice) => {
-      if (this.$el.find('.ui.dropdown a.label').length <= 1){
-        this.state.reslyping = false;
-        this.state.canReslyp = false;
+    this.$('.ui.dropdown').dropdown('setting', 'onRemove', function(removedValue, removedText, removedChoice) {
+      if (context.$el.find('.ui.dropdown a.label').length <= 1){
+        context.state.reslyping = false;
+        context.state.canReslyp = false;
       }
     });
 
@@ -142,9 +143,9 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
         hoverable : true,
         position  : 'right center',
         lastResort: 'bottom left',
-        onShow    : (module) => {
+        onShow    : function(module) {
           resizePopup();
-          return this.model.get('reslyps').length > 0
+          return context.model.get('reslyps').length > 0
         }
       });
 
@@ -154,16 +155,16 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
         hoverable : true,
         position  : 'right center',
         lastResort: 'bottom left',
-        onShow: (module) => {
+        onShow: function(module) {
           resizePopup();
-          return this.model.get('friends').length > 0
+          return context.model.get('friends').length > 0
         },
         delay: {
           show: 500,
           hide: 500
         }
       });
-    window.LetterAvatar.transform_el(this.el);
+    window.LetterAvatar.transform_el(context.el);
   },
   onShow: function(){
     this.$('img.display')
@@ -204,6 +205,7 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     }
   },
   reslyp: function(emails, comment){
+    var context = this;
     Backbone.ajax({
       url: '/reslyps',
       method: 'POST',
@@ -217,49 +219,49 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
         slyp_id: this.model.get('slyp_id'),
         comment: comment
       }),
-      success: (response) => {
-        this.toastr('success', 'Reslyp successful :)');
-        this.state.reslyping = false;
-        this.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
-        this.state.canReslyp = false;
-        this.model.fetch();
-        this.removeRecipientsLabels();
+      success: function(response) {
+        context.toastr('success', 'Reslyp successful :)');
+        context.state.reslyping = false;
+        context.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
+        context.state.canReslyp = false;
+        context.model.fetch();
+        context.removeRecipientsLabels();
       },
-      error: (status, err) => {
-        this.toastr('error', 'Couldn\'t add all OR some of those users :(');
-        this.state.reslyping = false;
-        this.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
-        this.state.canReslyp = false;
-        this.model.fetch();
-        this.removeRecipientsLabels();
+      error: function(status, err) {
+        context.toastr('error', 'Couldn\'t add all OR some of those users :(');
+        context.state.reslyping = false;
+        context.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
+        context.state.canReslyp = false;
+        context.model.fetch();
+        context.removeRecipientsLabels();
       }
     });
   },
   toggleStar: function(e){
+    var context = this;
     this.model.save({ favourite: !this.model.get('favourite') },
     {
-      error: () => { this.toastr('error') }
+      error: function() { context.toastr('error') }
     });
   },
   toggleArchive: function(e){
-
-    this.model.save({archived: !this.model.get('archived')},
+    var context = this;
+    this.model.save({ archived: !this.model.get('archived') },
     {
-      success: () => {
-        var self = this; // Makes *view* accessible in onclick, as this
+      success: function() {
         var toastrOptions = {
           'positionClass': 'toast-bottom-left',
-          'onclick': () => {
-            this.model.save({archived: !this.model.get('archived')})
+          'onclick': function() {
+            context.model.save({archived: !context.model.get('archived')})
           },
           'fadeIn': 300,
           'fadeOut': 1000,
           'timeOut': 5000,
           'extendedTimeOut': 1000
         }
-        this.toastr('success', 'Slyp archived. Click to undo.', toastrOptions);
+        context.toastr('success', 'Slyp archived. Click to undo.', toastrOptions);
       },
-      error: () => { this.toastr('error') }
+      error: function() { context.toastr('error') }
     });
   },
   removeRecipientsLabels: function(){

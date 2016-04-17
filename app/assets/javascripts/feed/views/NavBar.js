@@ -24,10 +24,11 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
   },
   exitSearchMode: function(){
     slypApp.state.resettingFeed = true;
+    var context = this;
     slypApp.userSlyps.fetch({
-      success: (collection, response, options) => {
+      success: function(collection, response, options) {
         slypApp.state.searchMode = false;
-        this.state.searchTerm = '';
+        context.state.searchTerm = '';
         slypApp.state.resettingFeed = false;
       }
     });
@@ -66,8 +67,9 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
       });
   },
   quietlyCreateSlyp: function(e){
-    setTimeout( () => {
-      if (this.state.slypURL.http){
+    var context = this;
+    setTimeout( function() {
+      if (context.state.slypURL.http){
         Backbone.ajax({
           url: '/slyps',
           method: 'POST',
@@ -79,8 +81,8 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
           data: JSON.stringify({
             url: this.state.slypURL
           }),
-          success: (response) => {
-            console.debug('Quietly created slyp ' + this.state.slypURL);
+          success: function(response) {
+            console.debug('Quietly created slyp ' + context.state.slypURL);
           }
         });
       }
@@ -95,6 +97,7 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
     if (this.state.slypURL.http){
       console.debug('Creating ' + this.state.slypURL + '...');
       this.state.creatingSlyp = true;
+      var context = this;
       Backbone.ajax({
         url: '/user_slyps',
         method: 'POST',
@@ -104,35 +107,35 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify({
-          url: this.state.slypURL
+          url: context.state.slypURL
         }),
-        success: (response) => {
+        success: function(response) {
           var contains = (slypApp.userSlyps.get(response.id) != null);
           slypApp.userSlyps.add(response, { merge: true });
           var userSlyp = slypApp.userSlyps.get(response.id);
           if (userSlyp.get('archived')){
             userSlyp.save({ archived: false });
-            this.toastr('info', 'We took this slyp out of your archive for you :)');
+            context.toastr('info', 'We took this slyp out of your archive for you :)');
           } else if (contains) {
-            this.toastr('info', 'We just moved this slyp to the front for you :)');
+            context.toastr('info', 'We just moved this slyp to the front for you :)');
           } else {
-            this.toastr('success', 'Added slyp! :)');
+            context.toastr('success', 'Added slyp! :)');
           }
           userSlyp.moveToFront();
-          this.state.slypURL = '';
-          this.state.creatingSlyp = false;
+          context.state.slypURL = '';
+          context.state.creatingSlyp = false;
         },
-        error: (status, err) => {
-          if (this.state.slypURL.http){
-            this.toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://');
+        error: function(status, err) {
+          if (context.state.slypURL.http){
+            context.toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://');
           } else {
-            this.toastr('error');
+            context.toastr('error');
           }
-          this.state.creatingSlyp = false;
+          context.state.creatingSlyp = false;
         }
       });
     } else {
-      this.toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://')
+      context.toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://')
     }
   }
 });
