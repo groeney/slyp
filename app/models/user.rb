@@ -1,6 +1,9 @@
 class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
+  after_create :send_welcome_email
+  after_create :remove_from_waitlist
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:google_oauth2, :facebook]
@@ -10,8 +13,15 @@ class User < ActiveRecord::Base
   has_many :reslyps, through: :user_slyps
   has_many :friendships
   has_many :friends, through: :friendships
-
   scope :all_except, ->(user) { where.not(id: user) }
+
+  def send_welcome_email
+    UserMailer.new_user_beta_message(self).deliver_later
+  end
+
+  def remove_from_waitlist
+    BetaRequest.find_by({:email => self.email}).try(:update, {:signed_up => true})
+  end
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|

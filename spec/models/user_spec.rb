@@ -8,4 +8,16 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many :friendships }
     it { is_expected.to have_many :friends }
   end
+  context "create" do
+    it "should send new user welcome email" do
+      perform_enqueued_jobs do
+        @user = FactoryGirl.create(:user)
+        delivered_email = ActionMailer::Base.deliveries.last
+
+        assert_includes delivered_email.to, @user.email
+        assert_includes delivered_email.from, "robot@slyp.io"
+        assert_includes delivered_email.subject, "welcome to slyp beta :)"
+      end
+    end
+  end
 end
