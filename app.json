@@ -31,6 +31,9 @@
     }
   },
   "addons":[
-    "heroku-postgresql"
+    "heroku-postgresql:hobby-dev",
+    "sendgrid:starter",
+    "searchbox:starter",
+    "wwwhisper:starter"
   ]
 }
