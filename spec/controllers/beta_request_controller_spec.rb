@@ -29,5 +29,4 @@ RSpec.describe BetaRequestController, type: :controller do
       end
     end
   end
-
 end
