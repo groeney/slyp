@@ -5,6 +5,7 @@ abort("DATABASE_URL environment variable is set") if ENV["DATABASE_URL"]
 
 require "rspec/rails"
 require "devise"
+include ActiveJob::TestHelper
 
 Dir[Rails.root.join("spec/support/**/*.rb")].sort.each { |file| require file }
 
