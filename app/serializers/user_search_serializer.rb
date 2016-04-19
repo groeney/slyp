@@ -1,3 +1,3 @@
 class UserSearchSerializer < ActiveModel::Serializer
-  attributes :name, :value, :description
+  attributes :display_name, :email
 end

@@ -87,7 +87,12 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
             user_slyp_id: this.model.get('id')
           },
           onResponse: function(serverResponse){
-            var response = {'success': true, 'results': serverResponse}
+            modResponse = _.mapObject(serverResponse, function(val, key) { return {
+              name        : val.display_name,
+              value       : val.email,
+              description : val.email
+            }});
+            var response = {'success': true, 'results': modResponse}
             return response
           }
         }

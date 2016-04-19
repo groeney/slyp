@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe SearchController, type: :controller do
   describe "#users" do
-    let(:expected_keys) { ["name", "value", "description"] }
+    let(:expected_keys) { ["display_name", "email"] }
     context "Platform has no users" do
       it "should return nothing" do
         post :users, q: "", format: :json

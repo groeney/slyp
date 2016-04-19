@@ -14,6 +14,9 @@ class HomeController < ApplicationController
   end
 
   def index
+    if current_user
+      redirect_to "/feed"
+    end
   end
 
   def feed
