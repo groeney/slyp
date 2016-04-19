@@ -9,6 +9,13 @@ class Reslyp < ActiveRecord::Base
   delegate :slyp, to: :user_slyp
 
   after_create :manage_friendship
+  after_create :notify
+
+  def notify
+    unless self.sender
+      UserMailer.reslyp_notification(self).deliver_later
+    end
+  end
 
   def sibling
     user = self.user_slyp.user
