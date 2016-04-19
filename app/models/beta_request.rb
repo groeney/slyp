@@ -3,6 +3,6 @@ class BetaRequest < ActiveRecord::Base
   after_create :send_beta_request_email
 
   def send_beta_request_email
-    UserMailer.beta_request_email(self).deliver_later
+    UserMailer.beta_request(self).deliver_later
   end
 end

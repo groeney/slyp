@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe UserMailer, type: :mailer do
   describe "beta_invitation_email" do
     let(:beta_request) { FactoryGirl.create(:beta_request) }
-    let(:mail) { UserMailer.beta_invitation_email(beta_request) }
+    let(:mail) { UserMailer.beta_invitation(beta_request) }
 
     it "renders the subject" do
       expect(mail.subject).to eql("your invitation to slyp beta :)")

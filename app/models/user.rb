@@ -16,7 +16,7 @@ class User < ActiveRecord::Base
   scope :all_except, ->(user) { where.not(id: user) }
 
   def send_welcome_email
-    UserMailer.new_user_beta_message(self).deliver_later
+    UserMailer.new_user_beta(self).deliver_later
   end
 
   def remove_from_waitlist
