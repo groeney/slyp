@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
     BetaRequest.find_by({:email => self.email}).try(:update, {:signed_up => true})
   end
 
+  def display_name
+    return self.first_name.empty? ? self.email : self.first_name
+  end
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email

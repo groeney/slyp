@@ -12,6 +12,17 @@ class Slyp < ActiveRecord::Base
     return "other"
   end
 
+  def describe_type
+    return case self.slyp_type
+    when "video"
+      "a video"
+    when "article"
+      "an article"
+    else
+      "a slyp"
+    end
+  end
+
   def self.fetch(url)
     slyp = fetch_from_db(url) || create_from_url(url)
   end

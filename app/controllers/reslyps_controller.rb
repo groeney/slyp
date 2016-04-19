@@ -3,8 +3,8 @@ class ReslypsController < BaseController
 
   def create
     if [:emails, :slyp_id, :comment].all? {|s| params.key? s}
-      slyp_id = params.delete(:slyp_id)
-      user_slyp = current_user.user_slyps.find_or_create_by({:slyp_id => slyp_id})
+      user_slyp = current_user.user_slyps.
+        find_or_create_by({:slyp_id => params.delete(:slyp_id)})
       reslyps = user_slyp.send_slyps(params[:emails], params[:comment])
 
       reslyps.each do |both_reslyps|
