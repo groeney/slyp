@@ -38,7 +38,7 @@ class Slyp < ActiveRecord::Base
     else
       (diff.keys - [:url]).each do |key| # Perform rudimentary comparison between values
         diff_values = diff[key]
-        if diff_values.min.size.fdiv(diff_values.max.size) < 0.99
+        if diff_values.min.size.fdiv(diff_values.max.size) < 0.95
           return false
         end
       end
