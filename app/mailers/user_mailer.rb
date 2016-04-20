@@ -19,6 +19,8 @@ class UserMailer < ApplicationMailer
     @slyp = @reslyp.slyp
     @to_user = @reslyp.user_slyp.user
     @from_user = @reslyp.user
-    mail(to: @to_user.email, subject: "#{@from_user.display_name} sent you #{@slyp.describe_type}")
+    mail(to: @to_user.email,
+      subject: "reslyp :)",
+      from: "#{@from_user.display_name} <#{@from_user.email}>" )
   end
 end
