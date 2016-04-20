@@ -6,7 +6,6 @@ class UserSlypsController < BaseController
 
     @user_slyp = current_user.user_slyps.find_or_create_by({:slyp_id => @slyp.id})
     return render_422(@user_slyp) if !@user_slyp.valid?
-
     render status: 201, json: present(@user_slyp), serializer: UserSlypSerializer
   end
 

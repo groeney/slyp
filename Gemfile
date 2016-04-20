@@ -33,6 +33,7 @@ gem "rails-backbone"
 gem "validate_url"
 gem "browserify-rails"
 gem "sanitize"
+gem "activerecord-diff"
 
 group :development do
   gem "quiet_assets"

@@ -38,8 +38,8 @@ RSpec.describe UserSlypsController, type: :controller do
       end
     end
 
-    context "with valid parameters", :vcr do
-      it "responds with 201 and corret response hash keys" do
+    context "with valid parameters and no slyp created", :vcr do
+      it "responds with 201 and correct response hash keys" do
         sign_in user
         url = "https://www.farnamstreetblog.com/2014/02/quotable-kierkegaard/"
         post :create, url: url, format: :json
@@ -48,6 +48,29 @@ RSpec.describe UserSlypsController, type: :controller do
         expect(response.status).to eq(201)
         expect(response.content_type).to eq(Mime::JSON)
         expect(response_body_json.keys).to contain_exactly(*expected_keys)
+      end
+    end
+
+    context "slyp already created", :vcr do
+      let(:url) { "http://www.wired.com/2016/04/magic-leap-vr/" }
+      let(:slyp) { Slyp.fetch(url) }
+      before do
+        sign_in user
+      end
+      it "should return correct slyp" do
+        post :create, url: url, format: :json
+
+        response_body_json = JSON.parse(response.body)
+        expect(response_body_json["slyp_id"]).to eq(slyp.id)
+      end
+
+      it "should not create duplicate slyp" do
+        slyp = Slyp.fetch(url)
+        query_params = "?foo=foo&bar=bar"
+        post :create, url: url + query_params, format: :json
+
+        response_body_json = JSON.parse(response.body)
+        expect(response_body_json["slyp_id"]).to eq(slyp.id)
       end
     end
   end

@@ -8,7 +8,13 @@ module InstaparserService
     begin
       @response = JSON.parse(URI.parse(req_url).read)
     rescue OpenURI::HTTPError => error
-      Rails.logger.info "Failed to unfurl #{url}. #{error}"
+      err_msg = error.message
+      Rails.logger.info "Failed to unfurl #{url}. #{err_msg}"
+      if ENV.fetch("RAILS_ENV") == "test" and err_msg.include? "429"
+        puts "######### INSTAPARSER API ERROR ###########" +
+          "Error: #{err_msg}" +
+          "Check spec/vcr/InstaparserService/* for bad cached requests."
+      end
       return { :url => url }
     end
     parse_response
