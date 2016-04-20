@@ -87,7 +87,7 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
           contentType: 'application/json',
           dataType: 'json',
           data: JSON.stringify({
-            url: this.state.slypURL
+            url: context.state.slypURL
           }),
           success: function(response) {
             console.debug('Quietly created slyp ' + context.state.slypURL);
