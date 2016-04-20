@@ -28,6 +28,9 @@
     },
     "HEROKU_PARENT_APP_NAME": {
       "required": true
+    },
+    "INSTAPARSER_TOKEN": {
+      "required": true
     }
   },
   "addons":[

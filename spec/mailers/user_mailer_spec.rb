@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe UserMailer, type: :mailer do
-  describe "beta_invitation_email" do
+  describe "beta_invitation" do
     let(:beta_request) { FactoryGirl.create(:beta_request) }
     let(:mail) { UserMailer.beta_invitation(beta_request) }
 
