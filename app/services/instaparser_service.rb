@@ -1,6 +1,10 @@
+require "erb"
+include ERB::Util
+
 module InstaparserService
   def self.fetch(url)
-    req_url = format_url(url)
+    encoded_url = url_encode(url)
+    req_url = format_url(encoded_url)
     begin
       @response = JSON.parse(URI.parse(req_url).read)
     rescue OpenURI::HTTPError => error

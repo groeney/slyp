@@ -38,8 +38,8 @@ RSpec.describe Reslyp, type: :model do
 
         delivered_email = ActionMailer::Base.deliveries.last
         assert_includes delivered_email.to, email
-        assert_includes delivered_email.from, "robot@slyp.io"
-        assert_includes delivered_email.subject, "#{user.display_name} sent you #{user_slyp.slyp.describe_type}"
+        assert_includes delivered_email.from, "#{user.email}"
+        assert_includes delivered_email.subject, "reslyp :)"
         assert_includes delivered_email.text_part.body.decoded, comment
         assert_includes delivered_email.text_part.body.decoded, user_slyp.slyp.url
 
