@@ -76,7 +76,8 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
       on: 'hover'
     });
 
-    this.$('.ui.dropdown')
+    var context = this;
+    this.$('.ui.multiple.selection.search.dropdown')
       .dropdown({
         direction     : 'upward',
         allowAdditions: true,
@@ -87,23 +88,24 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
             user_slyp_id: this.model.get('id')
           },
           onResponse: function(serverResponse){
-            modResponse = _.mapObject(serverResponse, function(val, key) { return {
-              name        : val.display_name,
-              value       : val.email,
-              description : val.email
-            }});
+            modResponse = context.filterFriends(_.values(serverResponse));
+            modResponse = _.map(modResponse, function(val){
+              return {
+                name        : val.display_name,
+                value       : val.email,
+                description : val.email
+              }
+            });
             var response = {'success': true, 'results': modResponse}
             return response
           }
         }
       });
 
-    var context = this;
     this.$('.ui.dropdown').dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
       var friendExists = _.some(context.model.get('friends'), function(friend) {
         return friend.email == addedValue;
       });
-
       if (friendExists){
         context.toastr('error', 'You have already exchanged this slyp with ' + addedValue);
         return false
@@ -271,6 +273,10 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
   },
   removeRecipientsLabels: function(){
     this.$('.ui.dropdown a.label').remove();
+  },
+  filterFriends: function(users){
+    var friends = _.pluck(this.model.get('friends'), 'email');
+    return _.filter(users, function(val){ return friends.indexOf(val.email) < 0 })
   }
 });
 
