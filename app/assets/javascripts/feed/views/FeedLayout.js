@@ -5,7 +5,7 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
     feedRegion : '.feed-region'
   },
   initialize: function(){
-    this.collection.bind('change:archived', this.zeroState, this);
+    this.collection.bind('change:archived add remove', this.zeroState, this);
     this.collection.bind('sync', this.zeroState, this);
   },
   onRender: function(){
