@@ -7,6 +7,10 @@ class Slyp < ActiveRecord::Base
 
   validates :url, :url => true, presence: true
 
+  def complete?
+    !self.try(:url).nil? and !self.try(:title).nil?
+  end
+
   def slyp_type
     unless !self.html
       return (self.html.include?("video_frame") and self.word_count <= 300) ?
@@ -55,7 +59,8 @@ class Slyp < ActiveRecord::Base
   private
 
   def self.fetch_from_db(url)
-    Slyp.find_by(url: url)
+    slyp = Slyp.find_by({:url => url})
+    slyp.try(:complete?) ? slyp : nil
   end
 
   def self.create_from_url(url)
@@ -65,12 +70,16 @@ class Slyp < ActiveRecord::Base
 
   def self.find_match_or_create_by(parsed_response)
     url_match = Slyp.find_by({:url => parsed_response[:url]})
-    if url_match.try(:valid?)
+    if url_match.try(:complete?)
+      return url_match
+    elsif url_match.try(:valid?)
+      url_match.update(parsed_response)
       return url_match
     end
 
     title_match = Slyp.find_by({:title => parsed_response[:title]})
     candidate = Slyp.create(parsed_response)
+
     if title_match.try(:match, candidate)
       title_match.update_url(candidate.url)
       candidate.destroy()
