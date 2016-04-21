@@ -8,9 +8,7 @@ slypApp.addRegions({
   feedRegion   : '#js-feed-region'
 });
 
-// Object for application wide state, global analog of [view].state obj
 slypApp.state = {
-  searching     : false,
   searchMode    : false,
   resettingFeed : false
 }
@@ -93,7 +91,9 @@ rivets.formatters.authorship = function(author, siteName){
 }
 
 rivets.binders['fade-hide'] = function(el, value) {
-  return value ? $(el).fadeOut() : $(el).fadeIn();
+  return value ? $(el).fadeOut(function(){
+    $(this).attr('style', 'display: none !important')
+  }) : $(el).fadeIn();
 };
 
 rivets.binders['fade-show'] = function(el, value) {

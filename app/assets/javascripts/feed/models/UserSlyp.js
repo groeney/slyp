@@ -9,6 +9,6 @@ slypApp.Models.UserSlyp = Backbone.Model.extend({
     return this.get('title') ? this.get('title') : this.get('url')
   },
   hideArchived: function(){
-    return this.get('archived') && !slypApp.state.searching
+    return this.get('archived') && !slypApp.state.searchMode
   }
 })
