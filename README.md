@@ -1,8 +1,8 @@
-# Slyp [![Code Climate](https://codeclimate.com/repos/57045ecbd985bd71b3006981/badges/8e9223675d400d65f700/gpa.svg)](https://codeclimate.com/repos/57045ecbd985bd71b3006981/feed) 
+# Slyp [![Code Climate](https://codeclimate.com/repos/57045ecbd985bd71b3006981/badges/8e9223675d400d65f700/gpa.svg)](https://codeclimate.com/repos/57045ecbd985bd71b3006981/feed)
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 
-## Getting Started
+## Getting started
 
 After you have cloned this repo, make sure you have been added as a collaborator to the heroku slyp project, you have the heroku toolbelt installed and then log into heroku via command line:
 
@@ -41,14 +41,14 @@ programming in style.
 We follow the following naming convention for branches:
 `[group]/[name]`
 
-Where `group` will be one of these four groupings: 
+Where `group` will be one of these four groupings:
 ```
 wip       Works in progress; stuff I know won't be finished soon
 feat      Feature I'm adding or expanding
 bug       Bug fix or experiment
 junk      Throwaway branch created to experiment
 ```
-and `name` will be a `brief-description` separated by dashes (-). 
+and `name` will be a `brief-description` separated by dashes (-).
 
 ## Deploying
 
