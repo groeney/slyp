@@ -4,8 +4,9 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   </head>
   <body>
-    <p>Hey there, we are now ready for you to sign up for Slyp Beta :)</p>
-    <p>To begin storing, sharing and discovering relevant content to you and your friends, go here: <a target="_blank" href="https://www.slyp.io/beta/signup">slyp.io/users/sign_up.</a></p>
+    <p>Hey there, we are now ready for you to sign up for slyp beta :)</p>
+    <p>To begin storing, sharing and discovering relevant content to you and your friends,
+    <%= link_to "sign up :)", controller: "registrations", action: "new", email: @beta_request.email %></p>
     <p>happy slypping,<br /> james & the slyp.io team :)</p>
   </body>
 </html>
