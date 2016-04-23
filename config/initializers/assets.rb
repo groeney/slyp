@@ -9,9 +9,9 @@ Rails.application.config.assets.version = (ENV["ASSETS_VERSION"] || "1.0")
 # Precompile additional assets.
 # application.js, application.css, and all non-JS/CSS in app/assets folder are already added.
 # Rails.application.config.assets.precompile += %w( search.js )
-Rails.application.config.assets.paths << Rails.root.join('app/assets/html')
 Rails.application.config.assets.precompile += %w(404.html 500.html)
-Rails.application.config.assets.register_mime_type('text/html', '.html')
+Rails.application.config.assets.paths << Rails.root.join("app/assets/html")
+Rails.application.config.assets.register_mime_type("text/html", ".html")
 
 Rails.application.config.assets.precompile += %w( feed.js )
 Rails.application.config.assets.precompile += %w( home/index.js )
