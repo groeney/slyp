@@ -3,7 +3,6 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
   className: 'ui top fixed borderless stackable large menu',
   events:{
     'keypress #creator input'     : 'createSlypIfEnter',
-    'paste #creator input'        : 'quietlyCreateSlyp',
     'click .circle.add.link.icon' : 'createSlyp',
     'focusin #searcher input'    : 'enterSearchMode',
     'keypress #searcher input'    : 'searchingIfEnter',
@@ -73,28 +72,6 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
         },
         minCharacters : 3,
       });
-  },
-  quietlyCreateSlyp: function(e){
-    var context = this;
-    setTimeout( function() {
-      if (context.state.slypURL.http){
-        Backbone.ajax({
-          url: '/slyps',
-          method: 'POST',
-          accepts: {
-            json: 'application/json'
-          },
-          contentType: 'application/json',
-          dataType: 'json',
-          data: JSON.stringify({
-            url: context.state.slypURL
-          }),
-          success: function(response) {
-            console.debug('Quietly created slyp ' + context.state.slypURL);
-          }
-        });
-      }
-    }, 50);
   },
   createSlypIfEnter: function(e){
     if (e.keyCode==13){
