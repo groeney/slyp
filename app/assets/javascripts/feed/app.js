@@ -11,6 +11,7 @@ slypApp.addRegions({
 slypApp.state = {
   searchMode    : false,
   resettingFeed : false,
+  addMode       : false,
   actionsMode   : false
 }
 

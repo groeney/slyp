@@ -19,9 +19,10 @@
       </div>
     </div>
     <div class="ui right aligned category item">
-      <div id="creator" class="ui left icon input" rv-class-loading="state.creatingSlyp">
+      <div id="creator" class="ui left icon input" rv-class-loading="state.creatingSlyp" rv-class-shift-left="appState.addMode">
         <i class="add link icon"></i>
         <input class="prompt" type="text" rv-value="state.slypURL" placeholder="http://">
+        <button class="ui positive submit button" rv-show="appState.addMode">Add</button>
       </div>
     </div>
     <div id="user-actions" class="ui right dropdown item" data-content="<%= current_user.email %>" data-variation="mini">

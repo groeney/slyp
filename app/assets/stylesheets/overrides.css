@@ -79,3 +79,11 @@
     display: none !important;
   }
 }
+
+a:hover {
+  text-decoration: underline;
+}
+
+.shift-left {
+  padding-right: 15%;
+}
