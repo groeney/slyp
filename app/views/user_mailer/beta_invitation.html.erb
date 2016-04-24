@@ -5,8 +5,7 @@
   </head>
   <body>
     <p>Hey there, we are now ready for you to sign up for slyp beta :)</p>
-    <p>To begin storing, sharing and discovering relevant content to you and your friends,
-    <%= link_to "sign up :)", controller: "registrations", action: "new", email: @beta_request.email %></p>
+    <p><%= link_to "Join us", controller: "registrations", action: "new", email: @beta_request.email %></p>
     <p>happy slypping,<br /> james & the slyp.io team :)</p>
   </body>
 </html>

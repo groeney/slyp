@@ -6,6 +6,6 @@
   <body>
     <p><%= @reslyp.comment %> -- <%= @slyp.url %></p>
     <p/>
-    <p>To view all of your slyps in one place, head on over to <a href="https://slyp-staging.herokuapp.com/">slyp.io</a></p>
+    <p>To view all of your slyps in one place, head on over to <%= link_to "slyp.io", controller: "home", action: "index", email: @to_user.email %></p>
   </body>
 </html>
