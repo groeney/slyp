@@ -10,11 +10,12 @@ slypApp.addRegions({
 
 slypApp.state = {
   searchMode    : false,
-  resettingFeed : false
+  resettingFeed : false,
+  actionsMode   : false
 }
 
-slypApp.state.searchOnMobile = function(){
-  return slypApp.state.searchMode && ($(window).width() < 767)
+slypApp.state.actionsOnMobile = function(){
+  return slypApp.state.actionsMode && ($(window).width() < 767)
 }
 
 window.slypApp = slypApp;
