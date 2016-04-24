@@ -47,5 +47,20 @@ RSpec.describe Reslyp, type: :model do
         expect(delivered_email.html_part.body.decoded).to include user_slyp.slyp.url
       end
     end
+
+    it "should not send welcome email to new recipient" do
+      perform_enqueued_jobs do
+        email = "dummy_test_email+1@example.com"
+        comment = "Another dummy comment"
+        user_slyp.send_slyps([email], comment)
+
+        ActionMailer::Base.deliveries.each do |delivered_email|
+          if delivered_email.to.first == email
+            expect(delivered_email.subject).not_to eq "welcome to slyp beta :)"
+          end
+        end
+      end
+    end
+
   end
 end

@@ -8,7 +8,7 @@ RSpec.describe User, type: :model do
     it { is_expected.to have_many :friendships }
     it { is_expected.to have_many :friends }
   end
-  context "create" do
+  describe "#create" do
     it "should send new user welcome email" do
       perform_enqueued_jobs do
         @user = FactoryGirl.create(:user)

@@ -13,10 +13,14 @@ class UserSlyp < ActiveRecord::Base
 
   def send_slyp(email, comment="")
     to_user = User.find_or_create_by({:email => email})
-    if to_user.encrypted_password.blank?
-      to_user.password = "password"   # TODO send registration email
-      to_user.save!
+
+    User.without_callback(:create, :after, :send_welcome_email) do
+      if to_user.encrypted_password.blank?
+        to_user.password = "password"   # TODO send invite email
+        to_user.save!
+      end
     end
+
     to_user_slyp = to_user.user_slyps.find_or_create_by({:slyp_id => self.slyp_id})
     to_user_slyp.update_attribute(:archived, false)
 
