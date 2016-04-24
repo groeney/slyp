@@ -1,23 +1,29 @@
 <script type="text/template" id="js-nav-bar-tmpl">
-  <div id="left-menu" class="ui left secondary menu">
-    <%= link_to "/feed", :class => "item mobile hide" do %>
-      <img src="/assets/logo.png">
-    <% end %>
-    <a class="item mobile only">
-      <i class="big sidebar icon"></i>
-    </a>
-  </div>
-  <div id="right-menu" class="ui right stackable secondary large menu mobile hide">
-    <a id="back-button" class="ui item button" rv-class-loading="appState.resettingFeed" rv-show="appState.searchMode">
-      <i class="arrow left icon"></i>
-      Back
-    </a>
-    <div class="ui right aligned category search item">
-      <div id="searcher" class="ui left icon input">
-        <input class="prompt" type="text" rv-value="state.searchTerm" placeholder="search">
-        <i class="search icon"></i>
+  <div id="left-menu" class="ui secondary menu">
+    <div class="ui left secondary menu">
+      <%= link_to "/feed", :class => "item" do %>
+        <img src="/assets/logo.png">
+      <% end %>
+    </div>
+    <div class="ui centered secondary menu">
+      <div class="ui category search item">
+        <button id="back-button" class="ui basic button" rv-class-loading="appState.resettingFeed" rv-show="appState.searchMode">
+          <i class="arrow left icon"></i>
+          Back
+        </button>
+        <div id="searcher" class="ui left icon input">
+          <input class="prompt" type="text" rv-value="state.searchTerm" placeholder="search">
+          <i class="search icon"></i>
+        </div>
       </div>
     </div>
+    <div class="ui right secondary menu mobile only">
+      <a class="item">
+        <i class="big sidebar icon"></i>
+      </a>
+    </div>
+  </div>
+  <div id="right-menu" class="ui right stackable secondary large menu mobile hide">
     <div class="ui right aligned category item">
       <div id="creator" class="ui left icon input" rv-class-loading="state.creatingSlyp" rv-class-shift-left="appState.addMode">
         <i class="add link icon"></i>

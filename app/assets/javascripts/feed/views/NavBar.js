@@ -11,7 +11,7 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
     'focusout #searcher'                      : 'doneSearching',
     'keypress #searcher input'                : 'searchingIfEnter',
     'click #back-button'                      : 'exitSearchMode',
-    'click .left.secondary.menu .mobile.only' : 'toggleActions'
+    'click .right.secondary.menu.mobile.only' : 'toggleActions'
   },
   toggleActions: function(){
     this.$('#right-menu').toggleClass('hide');
