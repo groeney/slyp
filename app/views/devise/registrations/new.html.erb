@@ -33,15 +33,11 @@
         </div>
         <div class="field">
           <label>Email</label>
-          <%= f.email_field :email, placeholder: "email" %>
+          <%= f.email_field :email, placeholder: "my email" %>
         </div>
         <div class="field">
           <label>Create a password</label>
-          <%= f.password_field :password, autocomplete: "off" %>
-        </div>
-        <div class="field">
-          <label>Confirm your password</label>
-          <%= f.password_field :password_confirmation, autocomplete: "off" %>
+          <%= f.password_field :password, autocomplete: "off", placeholder: "top secret password" %>
         </div>
         <button class="ui blue submit button">
           Sign up
@@ -57,15 +53,6 @@
     on     : 'blur',
     inline : true,
     fields : {
-      match: {
-        identifier : 'user[password_confirmation]',
-        rules      : [
-          {
-            type   : 'match[user[password]]',
-            prompt : 'Passwords must match :)'
-          }
-        ]
-      },
       email: {
         identifier : 'user[email]',
         rules      : [
