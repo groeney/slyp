@@ -91,10 +91,10 @@ slypApp.Views.NavBar = slypApp.Views.Base.extend({
     }
   },
   createSlyp: function(){
+    var context = this;
     if (this.state.slypURL.http){
       console.debug('Creating ' + this.state.slypURL + '...');
       this.state.creatingSlyp = true;
-      var context = this;
       Backbone.ajax({
         url: '/user_slyps',
         method: 'POST',
