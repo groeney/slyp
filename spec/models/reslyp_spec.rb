@@ -37,14 +37,14 @@ RSpec.describe Reslyp, type: :model do
         user_slyp.send_slyps([email], comment)
 
         delivered_email = ActionMailer::Base.deliveries.last
-        assert_includes delivered_email.to, email
-        assert_includes delivered_email.from, "#{user.email}"
-        assert_includes delivered_email.subject, "reslyp :)"
-        assert_includes delivered_email.text_part.body.decoded, comment
-        assert_includes delivered_email.text_part.body.decoded, user_slyp.slyp.url
+        expect(delivered_email.to.first).to eq email
+        expect(delivered_email.from.first).to eq "#{user.email}"
+        expect(delivered_email.subject).to eq "reslyp :)"
 
-        assert_includes delivered_email.html_part.body.decoded, comment
-        assert_includes delivered_email.html_part.body.decoded, user_slyp.slyp.url
+        expect(delivered_email.text_part.body.decoded).to include comment
+        expect(delivered_email.text_part.body.decoded).to include user_slyp.slyp.url
+        expect(delivered_email.html_part.body.decoded).to include comment
+        expect(delivered_email.html_part.body.decoded).to include user_slyp.slyp.url
       end
     end
   end
