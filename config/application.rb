@@ -27,6 +27,5 @@ module SlypApp
     config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components')
     config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components', 'semantic-ui', 'dist')
     config.autoload_paths += %W(#{config.root}/lib)
-    config.browserify_rails.commandline_options = "-t [ babelify --presets [ es2015 ] ]"
   end
 end
