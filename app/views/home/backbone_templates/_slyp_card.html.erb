@@ -25,7 +25,7 @@
     <a class="header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle | trunc }</a>
     <div class="meta center aligned">
       <a target="_blank" rv-href="model:url">
-        <span>{ model:author | authorship model:site_name }</span>
+        <span>{ model:author | authorship model:site_name model:url }</span>
       </a>
     </div>
   </div>
@@ -93,7 +93,12 @@
 
   <div class="ui long modal" target="_blank" rv-href="model:url" rv-data-user-slyp-id="model:id">
     <i class="close icon"></i>
-    <a class="ui header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle }</a>
+    <span class="ui header center aligned wrap">{ model.displayTitle }</span>
+    <div class="ui basic center aligned segment">
+      <a target="_blank" rv-href="model:url" style="color: #b1b2b2; font-size: 1.33rem;" >
+        <span>{ model:author | authorship model:site_name model:url}</span>
+      </a>
+    </div>
     <div class="ui center aligned basic segment" rv-html="model:html">
     </div>
   </div>

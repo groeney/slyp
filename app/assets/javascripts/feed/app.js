@@ -80,15 +80,15 @@ rivets.formatters.fallback = function(firstName, email){
   return firstName ? firstName : email
 }
 
-rivets.formatters.authorship = function(author, siteName){
+rivets.formatters.authorship = function(author, siteName, url){
   if (author && siteName){
-    return siteName + ' | by ' + author
+    return [siteName, author].join(' | by ')
   } else if (author){
-    return 'by ' + author
+    return [urlDomain(url), author].join(' | by ')
   } else if (siteName){
-    return siteName
+    return [siteName, urlDomain(url)].join(' | ')
   } else {
-    return ''
+    return urlDomain(url) == 'localhost' ? '' : urlDomain(url)
   }
 }
 
