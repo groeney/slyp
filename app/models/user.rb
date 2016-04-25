@@ -10,7 +10,8 @@ class User < ActiveRecord::Base
 
   has_many :user_slyps
   has_many :slyps, through: :user_slyps
-  has_many :reslyps, through: :user_slyps
+  has_many :sent_reslyps, through: :user_slyps
+  has_many :received_reslyps, through: :user_slyps
   has_many :friendships
   has_many :friends, through: :friendships
   scope :all_except, ->(user) { where.not(id: user) }
