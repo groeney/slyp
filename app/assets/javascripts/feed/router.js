@@ -7,5 +7,6 @@ slypApp.Controller = Marionette.Object.extend({
       collection: slypApp.userSlyps
     }));
     slypApp.navBarRegion.show(new slypApp.Views.NavBar());
+    slypApp.user = new slypApp.Models.User();
   }
 });
