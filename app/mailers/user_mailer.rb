@@ -17,10 +17,10 @@ class UserMailer < ApplicationMailer
   def reslyp_notification(reslyp)
     @reslyp = reslyp
     @slyp = @reslyp.slyp
-    @to_user = @reslyp.user_slyp.user
-    @from_user = @reslyp.user
-    mail(to: @to_user.email,
+    @recipient = @reslyp.recipient
+    @sender = @reslyp.sender
+    mail(to: @recipient.email,
       subject: "reslyp :)",
-      from: "#{@from_user.display_name} <#{@from_user.email}>" )
+      from: "#{@sender.display_name} <#{@sender.email}>" )
   end
 end
