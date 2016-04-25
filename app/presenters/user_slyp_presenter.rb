@@ -2,7 +2,7 @@ class UserSlypPresenter < BasePresenter
   attr_accessor :user_slyp, :slyp
 
   delegate :title, :duration, :site_name, :author, :url, :slyp_type, :html, to: :slyp
-  delegate :id, :archived, :favourite, :deleted, :slyp_id, to: :user_slyp
+  delegate :id, :archived, :favourite, :deleted, :slyp_id, :friends, to: :user_slyp
 
   def initialize(user_slyp)
     @user_slyp = user_slyp
@@ -10,18 +10,7 @@ class UserSlypPresenter < BasePresenter
   end
 
   def reslyps
-    user_slyp.reslyps.where({ :sender => false })
-  end
-
-  def friends
-    user_slyp.reslyps.includes(:user).map { |reslyp| {
-      :id => reslyp.user.id,
-      :email => reslyp.user.email,
-      :first_name => reslyp.user.first_name,
-      :last_name => reslyp.user.last_name,
-      :sender => reslyp.sender
-      }
-    }
+    user_slyp.reslyps
   end
 
   def total_reslyps
