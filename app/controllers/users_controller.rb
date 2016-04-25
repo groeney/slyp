@@ -11,6 +11,10 @@ class UsersController < BaseController
     render status: 200, json: present_collection(@friends), each_serializer: UserSerializer
   end
 
+  def show
+    render status: 200, json: present(current_user), serializer: UserSerializer
+  end
+
   private
 
   def present(user)
