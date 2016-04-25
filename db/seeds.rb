@@ -136,26 +136,28 @@ end
 
 # Create alice and bob users
 def create_alice_and_bob()
-  alice = User.find_or_create_by({:email=>"alice@example.com", :first_name => "Alice", :last_name => "Jones"})
-  if alice.encrypted_password.blank?
-    alice.password = "password"
+  User.without_callback(:create, :after, :send_welcome_email) do
+    alice = User.find_or_create_by({:email=>"alice@example.com", :first_name => "Alice", :last_name => "Jones"})
+    alice.password = "password" if alice.encrypted_password.blank?
     alice.save!
-  end
 
-  bob = User.find_or_create_by({:email=>"bob@example.com", :first_name => "Bob", :last_name => "Jones"})
-  bob.password = "password" if bob.encrypted_password.blank?
-  bob.save!
-  return [alice, bob]
+    bob = User.find_or_create_by({:email=>"bob@example.com", :first_name => "Bob", :last_name => "Jones"})
+    bob.password = "password" if bob.encrypted_password.blank?
+    bob.save!
+    return [alice, bob]
+  end
 end
 
-# Create example users to generate reslyps
+# Create example users
 def create_example_users()
   100.times do |n|
     first_name = @first_names[n % @first_names.length]
     email = "#{first_name}_#{n}@example.com"
-    user = User.find_or_create_by({:email => email.downcase, :first_name => first_name, :last_name => "Example #{n}"})
-    user.password = "password" if user.encrypted_password.blank?
-    user.save!
+    User.without_callback(:create, :after, :send_welcome_email) do
+      user = User.find_or_create_by({:email => email.downcase, :first_name => first_name, :last_name => "Example #{n}"})
+      user.password = "password" if user.encrypted_password.blank?
+      user.save!
+    end
   end
 end
 
@@ -189,18 +191,20 @@ def generate_bulk_reslyps()
     # Generate reslyps to alice and bob
     comment_index = Random.rand(@comments.length)
     comment = @comments[comment_index]
-    user_1_slyp.send_slyp(@alice.email,comment)
-    user_1_slyp.send_slyp(@bob.email,comment)
+    Reslyp.without_callback(:create, :after, :notify) do
+      user_1_slyp.send_slyp(@alice.email,comment)
+      user_1_slyp.send_slyp(@bob.email,comment)
 
-    user_2_index = Random.rand(num_users)
-    user_2 = users[user_2_index]
+      user_2_index = Random.rand(num_users)
+      user_2 = users[user_2_index]
 
-    # Generate reslyps for user_1 and user_2
-    user_1_slyp.send_slyp(user_2.email, comment)
+      # Generate reslyps for user_1 and user_2
+      user_1_slyp.send_slyp(user_2.email, comment)
 
-    # Generate reslyps from alice or bob
-    alice_user_slyp.send_slyp(user_2.email, comment)
-    bob_user_slyp.send_slyp(user_2.email, comment)
+      # Generate reslyps from alice or bob
+      alice_user_slyp.send_slyp(user_2.email, comment)
+      bob_user_slyp.send_slyp(user_2.email, comment)
+    end
   end
 end
 

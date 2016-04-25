@@ -10,7 +10,6 @@ FactoryGirl.define do
 
   factory :reslyp do
     user
-    sender { true }
   end
 
   factory :user_slyp do

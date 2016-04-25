@@ -90,7 +90,7 @@ RSpec.describe UserSlypsController, type: :controller do
         expect(response.status).to eq(200)
         expect(response_body_json["friends"].length).to eq 1
         expect(response_body_json["reslyps"].length).to eq 1
-        expect(response_body_json["reslyps"][0]["user"]["id"]).to eq friend.id
+        expect(response_body_json["reslyps"][0]["sender"]["id"]).to eq friend.id
         expect(response.content_type).to eq(Mime::JSON)
       end
     end
