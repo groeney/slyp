@@ -4,9 +4,10 @@ RSpec.describe Reslyp, type: :model do
   context "associations" do
     it { is_expected.to belong_to :recipient }
     it { is_expected.to belong_to :sender }
-
     it { is_expected.to belong_to :recipient_user_slyp }
-    it { is_expected.to belong_to :recipient_user_slyp }
+    it { is_expected.to belong_to :sender_user_slyp }
+    it { is_expected.to belong_to :slyp }
+    it { is_expected.to have_many :replies }
   end
 
   context "validations and valid reslyps" do
@@ -19,7 +20,7 @@ RSpec.describe Reslyp, type: :model do
       expect(reslyp.valid?).to be true
     end
 
-    it "should enforce uniqueness of user_slyp scoped to user" do
+    it "should enforce uniqueness of recipient_user_slyp scoped to sender" do
       expect(reslyp.valid?).to be true
       second_reslyp = user_slyp.send_slyp(recipient.email, "Dummy comment")
       expect(second_reslyp.valid?).to be false
@@ -59,8 +60,49 @@ RSpec.describe Reslyp, type: :model do
   end
   context "validations on invalid reslyps" do
     let(:user) { FactoryGirl.create(:user, :with_user_slyps) }
-    let(:reslyp) { user.user_slyps.first.send_slyp(user.email, "not valid reslyp") }
-    it "should not be valid" do
+    let(:user_slyp) { user.user_slyps.first }
+    let(:friend) { FactoryGirl.create(:user) }
+    let(:friend_user_slyp) { FactoryGirl.create(:user_slyp, user: friend,
+      slyp: user_slyp.slyp) }
+    let(:reslyp_params) {{
+        :sender_id              => user.id,
+        :recipient_id           => friend.id,
+        :sender_user_slyp_id    => user_slyp.id,
+        :recipient_user_slyp_id => friend_user_slyp.id,
+        :comment                => "This is a comment."
+        }}
+    it "should not be valid to send to self" do
+      reslyp = user.user_slyps.first.send_slyp(user.email, "not valid reslyp")
+      expect(reslyp.valid?).to be false
+    end
+
+    it "should not be valid to reslyp without sender" do
+      reslyp_params.delete(:sender_id)
+      reslyp = Reslyp.create(reslyp_params)
+      expect(reslyp.valid?).to be false
+    end
+
+    it "should not be valid to reslyp without recipient" do
+      reslyp_params.delete(:recipient_id)
+      reslyp = Reslyp.create(reslyp_params)
+      expect(reslyp.valid?).to be false
+    end
+
+    it "should not be valid to reslyp without sender_user_slyp" do
+      reslyp_params.delete(:sender_user_slyp_id)
+      reslyp = Reslyp.create(reslyp_params)
+      expect(reslyp.valid?).to be false
+    end
+
+    it "should not be valid to reslyp without recipient_user_slyp" do
+      reslyp_params.delete(:recipient_user_slyp_id)
+      reslyp = Reslyp.create(reslyp_params)
+      expect(reslyp.valid?).to be false
+    end
+
+    it "should not be valid to not include comment" do
+      reslyp_params.delete(:comment)
+      reslyp = Reslyp.create(reslyp_params)
       expect(reslyp.valid?).to be false
     end
   end

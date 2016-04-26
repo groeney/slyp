@@ -36,9 +36,10 @@ class UserSlyp < ActiveRecord::Base
     to_user_slyp.update_attribute(:archived, false)
 
     self.sent_reslyps.create({
-      :recipient_id             => to_user.id,
-      :recipient_user_slyp_id   => to_user_slyp.id,
+      :recipient_id            => to_user.id,
+      :recipient_user_slyp_id  => to_user_slyp.id,
       :sender_id               => self.user.id,
+      :sender_user_slyp_id     => self.id,
       :comment                 => comment,
       :slyp_id                 => self.slyp_id
       })

@@ -46,7 +46,7 @@ RSpec.describe SearchController, type: :controller do
   describe "#user_slyps" do
     let(:expected_keys) { ["id", "display_url", "title", "site_name",
     "author", "slyp_id", "url", "archived", "favourite", "deleted",
-    "duration", "friends", "total_reslyps", "slyp_type", "reslyps", "html"] }
+    "duration", "friends", "slyp_type", "reslyps", "html"] }
     context "user has no slyps" do
       it "should return nothing" do
         sign_in FactoryGirl.create(:user)
