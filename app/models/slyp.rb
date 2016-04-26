@@ -80,10 +80,12 @@ class Slyp < ActiveRecord::Base
     title_match = Slyp.find_by({:title => parsed_response[:title]})
     candidate = Slyp.create(parsed_response)
 
-    if title_match.try(:match, candidate)
-      title_match.update_url(candidate.url)
-      candidate.destroy()
-      return title_match
+    unless title_match.try(:title).nil?
+      if title_match.try(:match, candidate)
+        title_match.update_url(candidate.url)
+        candidate.destroy()
+        return title_match
+      end
     end
     return candidate
   end
