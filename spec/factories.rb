@@ -1,25 +1,55 @@
 FactoryGirl.define do
+  factory :reply do
+    sender
+    reslyp
+    reply "This is a reply from FactoryGirl"
+  end
+
   factory :beta_request do
     sequence(:email) { |n| "beta_request_#{n}@example.com" }
   end
 
   factory :friendship do
-    association :user
-    association :friend, factory: :user
+    user
+    friend
   end
 
   factory :reslyp do
-    user
+    slyp
+    sender
+    recipient
+    sender_user_slyp
+    recipient_user_slyp
+    comment "Basic lazy comment from FactoryGirl"
+
+    trait :with_replies do
+      after(:create) do |reslyp|
+        5.times do |i|
+          FactoryGirl.create(:reply, sender: reslyp.sender, reslyp: reslyp,
+            reply: "Reply from sender ##{i}")
+        end
+
+        5.times do |i|
+          FactoryGirl.create(:reply, sender: reslyp.recipient, reslyp: reslyp,
+            reply: "Reply from recipient ##{i}")
+        end
+      end
+    end
   end
 
-  factory :user_slyp do
+  factory :user_slyp, aliases: [:sender_user_slyp, :recipient_user_slyp] do
     user
-    association :slyp
+    slyp
 
     trait :with_reslyp do
       after(:create) do |user_slyp|
-        friend = FactoryGirl.create(:user)
-        user_slyp.send_slyp(friend.email, "Reslyp comment from FactoryGirl.")
+        reslyp = FactoryGirl.create(:reslyp, sender: user_slyp.user, sender_user_slyp: user_slyp)
+      end
+    end
+
+    trait :with_reslyp_and_replies do
+      after(:create) do |user_slyp|
+        reslyp = FactoryGirl.create(:reslyp, :with_replies, sender: user, sender_user_slyp: user_slyp)
       end
     end
   end
@@ -28,7 +58,7 @@ FactoryGirl.define do
     sequence(:url) { |n| "https://test_url#{n}.com" }
   end
 
-  factory :user do
+  factory :user, aliases: [:recipient, :sender, :friend] do
     sequence(:email) { |n| "#{first_name}.#{last_name}_#{n}@example.com" }
     password { SecureRandom.hex(8) }
     first_name "Joe"
@@ -43,13 +73,19 @@ FactoryGirl.define do
 
     trait :with_user_slyps do
       after(:create) do |user|
-        user.user_slyps << FactoryGirl.create_list(:user_slyp, 10, user: user)
+        FactoryGirl.create_list(:user_slyp, 10, user: user)
       end
     end
 
     trait :with_reslyps do
       after(:create) do |user|
         FactoryGirl.create_list(:user_slyp, 10, :with_reslyp, user: user)
+      end
+    end
+
+    trait :with_reslyps_and_comments do
+      after(:create) do |user|
+        FactoryGirl.create_list(:user_slyp, 10, :with_reslyp_and_comments, user: user)
       end
     end
   end
