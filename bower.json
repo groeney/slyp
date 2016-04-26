@@ -21,6 +21,7 @@
     "jquery"                  : "2.2.1",
     "toastr"                  : "2.1.1",
     "backbone"                : "latest",
+    "backbone-relational"     : "0.10.0",
     "marionette"              : "2.4.4",
     "jquery.cookie"           : "latest",
     "jquery"                  : "2.1.4",
