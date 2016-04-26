@@ -16,6 +16,7 @@ class UserMailer < ApplicationMailer
 
   def reslyp_notification(reslyp)
     @reslyp = reslyp
+    @comment = @reslyp.comment
     @slyp = @reslyp.slyp
     @recipient = @reslyp.recipient
     @sender = @reslyp.sender
