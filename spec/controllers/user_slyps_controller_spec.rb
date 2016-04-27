@@ -127,14 +127,14 @@ RSpec.describe UserSlypsController, type: :controller do
     context "with invalid parameters" do
       let(:charlatan) { FactoryGirl.create(:user_slyp) }
       it "responds with 422" do
-        put :update, id: user_slyp.to_param, user_slyp: { favourite: nil }, format: :json
+        put :update, id: user_slyp.id, user_slyp: { favourite: nil }, format: :json
 
         expect(response.status).to eq(422)
         expect(response.content_type).to eq(Mime::JSON)
       end
 
       it "responds with 404" do
-        put :update, id: charlatan.to_param, user_slyp: { favourite: false }, format: :json
+        put :update, id: charlatan.id, user_slyp: { favourite: false }, format: :json
 
         expect(response.status).to eq(404)
         expect(response.content_type).to eq(Mime::JSON)
@@ -143,7 +143,7 @@ RSpec.describe UserSlypsController, type: :controller do
 
     context "with valid parameters" do
       it "toggles favourite and responds with 200" do
-        put :update, id: user_slyp.to_param, user_slyp: { favourite: !user_slyp.favourite }, format: :json
+        put :update, id: user_slyp.id, user_slyp: { favourite: !user_slyp.favourite }, format: :json
 
         response_body_json = JSON.parse(response.body)
         expect(response.status).to eq(200)
@@ -152,7 +152,7 @@ RSpec.describe UserSlypsController, type: :controller do
       end
 
       it "toggles archived and responds with 200" do
-        put :update, id: user_slyp.to_param, user_slyp: { archived: !user_slyp.archived }, format: :json
+        put :update, id: user_slyp.id, user_slyp: { archived: !user_slyp.archived }, format: :json
 
         response_body_json = JSON.parse(response.body)
         expect(response.status).to eq(200)
@@ -161,7 +161,7 @@ RSpec.describe UserSlypsController, type: :controller do
       end
 
       it "toggles deleted and responds with 200" do
-        put :update, id: user_slyp.to_param, user_slyp: { deleted: !user_slyp.deleted }, format: :json
+        put :update, id: user_slyp.id, user_slyp: { deleted: !user_slyp.deleted }, format: :json
 
         response_body_json = JSON.parse(response.body)
         expect(response.status).to eq(200)

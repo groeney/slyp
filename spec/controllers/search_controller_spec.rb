@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe SearchController, type: :controller do
   describe "#users" do
     let(:expected_keys) { ["display_name", "email"] }
-    context "Platform has no users" do
+    context "with no users" do
       it "should return nothing" do
         post :users, q: "", format: :json
 
@@ -12,7 +12,7 @@ RSpec.describe SearchController, type: :controller do
         expect(response_body_json.length).to eq 0
       end
     end
-    context "Platform has 10 James' and others" do
+    context "with 10 James' and others" do
       before do
         FactoryGirl.create_list(:user, 10, first_name: "James")
         FactoryGirl.create_list(:user, 100)
