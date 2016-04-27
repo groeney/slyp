@@ -1,27 +1,34 @@
-class RepliesController < ApplicationController
+class RepliesController < BaseController
+  before_action :authenticate_user!
   def create
-    reslyp = Reslyp.authorized_find(current_user, params[:reslyp_id])
-    return render_404 if reslyp.nil? or !reslyp.try(:valid?)
+    if [:reslyp_id, :text].all? {|s| params.key? s}
+      reslyp = Reslyp.authorized_find(current_user, params[:reslyp_id])
+      return render_401 if !reslyp.try(:valid?)
 
-    @reply = reslyp.replies.create({
-      :sender_id => current_user.id,
-      :reply => params[:reply]
-      })
-    return render_422(@reply) if !@reply.valid?
-    render status: 201, json: present(@reply), serializer: ReplySerializer
+      @reply = reslyp.replies.create({
+        :sender_id => current_user.id,
+        :text => params[:text]
+        })
+      return render_422(@reply) if !@reply.valid?
+      render status: 201, json: present(@reply), serializer: ReplySerializer
+    else
+      return render_400
+    end
   end
 
+  # All replies for a particular reslyp
+  # GET /replies/:id
   def index
-    reslyp = Reslyp.authorized_find(current_user, params[:reslyp_id])
-    return render_404 if reslyp.nil? or !reslyp.try(:valid?)
+    return render_400 if !params.key? :id
+    reslyp = Reslyp.authorized_find(current_user, params[:id])
 
     @replies = reslyp.replies
     render status: 200, json: present_collection(@replies), each_serializer: ReplySerializer
   end
 
   def update
-    @reply = Reply.authorized_find(current_user, params[:reply_id])
-    return render_404 if @reply.nil? or !@reply.try(:valid?)
+    return render_400 if !params.key? :id
+    @reply = Reply.authorized_find(current_user, params[:id])
 
     if @reply.update(reply_params)
       render status: 200, json: present(@reply), serializer: ReplySerializer
@@ -31,8 +38,8 @@ class RepliesController < ApplicationController
   end
 
   def destroy
-    @reply = Reply.authorized_find(current_user, params[:reply_id])
-    return render_404 if @reply.nil? or !@reply.try(:valid?)
+    return render_400 if !params.key? :id
+    @reply = Reply.authorized_find(current_user, params[:id])
 
     if @reply.destroy()
       render status: 204, json: {}
@@ -52,6 +59,6 @@ class RepliesController < ApplicationController
   end
 
   def reply_params
-    params.require(:reply).permit(:reply)
+    params.require(:reply).permit(:text)
   end
 end

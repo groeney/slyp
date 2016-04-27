@@ -4,6 +4,6 @@ end
 
 
 class ReplySerializer < ActiveModel::Serializer
-  attributes :id, :reply, :sender, :created_at
+  attributes :id, :text, :sender, :created_at
   belongs_to :sender, serializer: ReplyUserSerializer
 end

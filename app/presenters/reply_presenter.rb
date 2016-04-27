@@ -1,3 +1,7 @@
 class ReplyPresenter < BasePresenter
-  delegate :id, :reply, :sender, :created_at, to: :reply
+  attr_accessor :reply
+  delegate :id, :text, :sender, :created_at, to: :reply
+  def initialize(reply)
+    @reply = reply
+  end
 end
