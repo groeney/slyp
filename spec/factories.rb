@@ -1,8 +1,8 @@
 FactoryGirl.define do
   factory :reply do
-    sender
     reslyp
-    reply "This is a reply from FactoryGirl"
+    sender { reslyp.recipient }
+    text "This is a reply from FactoryGirl"
   end
 
   factory :beta_request do
@@ -16,22 +16,22 @@ FactoryGirl.define do
 
   factory :reslyp do
     slyp
-    sender
-    recipient
     sender_user_slyp
     recipient_user_slyp
+    sender { sender_user_slyp.user }
+    recipient { recipient_user_slyp.user }
     comment "Basic lazy comment from FactoryGirl"
 
     trait :with_replies do
       after(:create) do |reslyp|
         5.times do |i|
           FactoryGirl.create(:reply, sender: reslyp.sender, reslyp: reslyp,
-            reply: "Reply from sender ##{i}")
+            text: "Reply from sender ##{i}")
         end
 
         5.times do |i|
           FactoryGirl.create(:reply, sender: reslyp.recipient, reslyp: reslyp,
-            reply: "Reply from recipient ##{i}")
+            text: "Reply from recipient ##{i}")
         end
       end
     end
@@ -49,7 +49,7 @@ FactoryGirl.define do
 
     trait :with_reslyp_and_replies do
       after(:create) do |user_slyp|
-        reslyp = FactoryGirl.create(:reslyp, :with_replies, sender: user, sender_user_slyp: user_slyp)
+        reslyp = FactoryGirl.create(:reslyp, :with_replies, sender: user_slyp.user, sender_user_slyp: user_slyp)
       end
     end
   end
@@ -83,9 +83,9 @@ FactoryGirl.define do
       end
     end
 
-    trait :with_reslyps_and_comments do
+    trait :with_reslyps_and_replies do
       after(:create) do |user|
-        FactoryGirl.create_list(:user_slyp, 10, :with_reslyp_and_comments, user: user)
+        FactoryGirl.create_list(:user_slyp, 10, :with_reslyp_and_replies, user: user)
       end
     end
   end
