@@ -39,12 +39,20 @@ class BaseController < ApplicationController
       each_serializer: ErrorSerializer
   end
 
+  def render_401
+    render status: 401, json: present_error(message: I18n.t("errors.401.message")),
+      each_serializer: ErrorSerializer
+  end
+
+  def render_400
+    render status: 400, json: present_error(message: I18n.t("errors.400.message")),
+      each_serializer: ErrorSerializer
+  end
   private
 
   def authenticate_user!
     unless current_user
-      render status: 401, json: present_error(message: I18n.t("errors.401.message")),
-        each_serializer: ErrorSerializer
+      render_401
     end
   end
 
