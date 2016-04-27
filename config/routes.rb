@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :user_slyps, only: [:create, :index, :show, :update]
   resources :reslyps, only: [:create, :index, :destroy]
   resources :slyps, only: [:create]
+  resources :replies, only: [:create, :index, :update, :destroy]
   resource :user
 
   # Make sure this is last

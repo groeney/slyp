@@ -48,9 +48,11 @@ ActiveRecord::Schema.define(version: 20160425223718) do
   end
 
   create_table "replies", force: :cascade do |t|
-    t.integer "reslyp_id", null: false
-    t.integer "sender_id", null: false
-    t.string  "reply",     null: false
+    t.integer  "reslyp_id",  null: false
+    t.integer  "sender_id",  null: false
+    t.string   "text",       null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "reslyps", force: :cascade do |t|
