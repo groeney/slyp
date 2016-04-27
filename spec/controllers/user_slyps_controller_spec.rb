@@ -3,7 +3,7 @@ require "rails_helper"
 RSpec.describe UserSlypsController, type: :controller do
   let(:expected_keys) { ["id", "display_url", "title", "site_name",
   "author", "slyp_id", "url", "archived", "favourite", "deleted",
-  "duration", "friends", "slyp_type", "reslyps", "html"] }
+  "duration", "friends", "slyp_type", "html"] }
   describe "#create" do
     let(:user) { FactoryGirl.create(:user) }
     context "without authentication" do
@@ -89,8 +89,7 @@ RSpec.describe UserSlypsController, type: :controller do
         response_body_json = JSON.parse(response.body)
         expect(response.status).to eq(200)
         expect(response_body_json["friends"].length).to eq 1
-        expect(response_body_json["reslyps"].length).to eq 1
-        expect(response_body_json["reslyps"][0]["sender"]["id"]).to eq friend.id
+        expect(response_body_json["friends"][0]["id"]).to eq friend.id
         expect(response.content_type).to eq(Mime::JSON)
       end
     end
