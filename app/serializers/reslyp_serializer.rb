@@ -3,7 +3,8 @@ class ReslypUserSerializer < ActiveModel::Serializer
 end
 
 class ReslypSerializer < ActiveModel::Serializer
-  attributes :id, :sender, :comment, :replies, :created_at
+  attributes :id, :sender, :recipient, :comment, :replies, :created_at
   belongs_to :sender, serializer: ReslypUserSerializer
+  belongs_to :recipient, serializer: ReslypUserSerializer
   has_many :replies, each_serializer: ReplySerializer
 end

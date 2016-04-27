@@ -69,7 +69,8 @@ RSpec.describe Reslyp, type: :model do
         :recipient_id           => friend.id,
         :sender_user_slyp_id    => user_slyp.id,
         :recipient_user_slyp_id => friend_user_slyp.id,
-        :comment                => "This is a comment."
+        :comment                => "This is a comment.",
+        :slyp_id                => user_slyp.slyp.id
         }}
     it "should not be valid to send to self" do
       reslyp = user.user_slyps.first.send_slyp(user.email, "not valid reslyp")
@@ -102,6 +103,18 @@ RSpec.describe Reslyp, type: :model do
 
     it "should not be valid to not include comment" do
       reslyp_params.delete(:comment)
+      reslyp = Reslyp.create(reslyp_params)
+      expect(reslyp.valid?).to be false
+    end
+
+    it "sender should own sender_user_slyp" do
+      reslyp_params[:sender_id] = FactoryGirl.create(:user).id
+      reslyp = Reslyp.create(reslyp_params)
+      expect(reslyp.valid?).to be false
+    end
+
+    it "recipient should own recipient_user_slyp" do
+      reslyp_params[:recipient_id] = FactoryGirl.create(:user).id
       reslyp = Reslyp.create(reslyp_params)
       expect(reslyp.valid?).to be false
     end

@@ -13,12 +13,13 @@ class ReslypsController < BaseController
       render status: 201, json: present_collection(reslyps),
         each_serializer: ReslypSerializer
     else
-      return render_404
+      return render_400
     end
   end
 
   def index
-    user_slyp = current_user.user_slyps.find(params[:user_slyp_id])
+    return render_400 if !params.key? :id
+    user_slyp = current_user.user_slyps.find(params[:id])
     @reslyps = user_slyp.reslyps
     render status: 200, json: present_collection(@reslyps),
       each_serializer: ReslypSerializer
