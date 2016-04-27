@@ -1,4 +1,14 @@
-slypApp.Models.UserSlyp = Backbone.Model.extend({
+slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
+  relations: [{
+    type: Backbone.HasMany,
+    key: 'reslyps',
+    relatedModel: 'slypApp.Models.Reslyp',
+    collectionType: 'slypApp.Collections.Reslyps',
+    reverseRelation: {
+      key: 'userSlyp',
+      includeInJSON: 'id'
+    }
+  }],
   moveToFront: function() {
     this.collection.moveToFront(this);
   },
