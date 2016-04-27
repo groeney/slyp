@@ -17,7 +17,6 @@ Rails.application.configure do
   config.log_level = :debug
   config.logger = Logger.new(STDOUT)
   config.assets.digest = true
-  config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = SMTP_SETTINGS
   config.action_mailer.default_url_options = { host: ENV.fetch("APPLICATION_HOST") }
   config.assets.raise_runtime_errors = true
