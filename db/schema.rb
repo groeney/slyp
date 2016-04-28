@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160425223718) do
+ActiveRecord::Schema.define(version: 20160428024548) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -56,14 +56,14 @@ ActiveRecord::Schema.define(version: 20160425223718) do
   end
 
   create_table "reslyps", force: :cascade do |t|
-    t.integer  "slyp_id",                null: false
-    t.integer  "sender_user_slyp_id",    null: false
-    t.string   "comment"
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-    t.integer  "sender_id",              null: false
-    t.integer  "recipient_id",           null: false
-    t.integer  "recipient_user_slyp_id", null: false
+    t.integer  "slyp_id",                             null: false
+    t.integer  "sender_user_slyp_id",                 null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "sender_id",                           null: false
+    t.integer  "recipient_id",                        null: false
+    t.integer  "recipient_user_slyp_id",              null: false
+    t.string   "comment",                default: "", null: false
   end
 
   create_table "slyps", force: :cascade do |t|

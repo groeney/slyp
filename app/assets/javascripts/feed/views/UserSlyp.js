@@ -43,11 +43,15 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     if (this.binder) this.binder.unbind();
   },
   onRender: function(){
+    var context = this;
     this.state = {
       canReslyp    : false,
       gotAttention : false,
       reslyping    : false,
       comment      : ''
+    }
+    this.state.hasComment = function(){
+      return context.state.comment.length > 0;
     }
 
     this.binder = rivets.bind(this.$el, { model: this.model, state: this.state })
@@ -192,23 +196,27 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
     this.$('.video_frame').first().addClass('ui').addClass('embed');
   },
   sendSlypIfEnter: function(e){
-    if (e.keyCode==13){
+    if (e.keyCode==13 && this.state.hasComment()){
       this.$('.action.input .button').click();
     }
   },
   sendSlyp: function(e){
-    var emails = this.$('#recipient-emails').val().split(',');
-    this.$('.ui.dropdown').dropdown('restore defaults');
-    this.$('.ui.dropdown').dropdown('set text', 'send to friends'); // ^ 'restore defaults' not setting text
-    this.$('#reslyp-comment').val('');
+    if (this.state.hasComment()){
+      var emails = this.$('#recipient-emails').val().split(',');
+      this.$('.ui.dropdown').dropdown('restore defaults');
+      this.$('.ui.dropdown').dropdown('set text', 'send to friends'); // ^ 'restore defaults' not setting text
+      this.$('#reslyp-comment').val('');
 
-    if (emails.length > 0){
-      var validatedEmails = _.filter(emails, function(email) { return validateEmail(email) });
-      this.state.reslyping = true;
-      var comment = this.state.comment;
-      this.reslyp(validatedEmails, comment);
+      if (emails.length > 0){
+        var validatedEmails = _.filter(emails, function(email) { return validateEmail(email) });
+        this.state.reslyping = true;
+        var comment = this.state.comment;
+        this.reslyp(validatedEmails, comment);
+      } else {
+        this.toastr('error', 'No valid emails.');
+      }
     } else {
-      this.toastr('error', 'No valid emails.');
+      this.toastr('error', 'Add a comment before sending :)');
     }
   },
   reslyp: function(emails, comment){
@@ -283,4 +291,4 @@ slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
 slypApp.Views.UserSlyps = Backbone.Marionette.CollectionView.extend({
   childView: slypApp.Views.UserSlyp,
   className: 'ui three doubling stackable cards'
-})
+});

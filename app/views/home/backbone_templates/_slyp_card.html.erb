@@ -87,7 +87,7 @@
     </div>
     <div class="ui action input fluid" rv-show="state.canReslyp">
       <input id="reslyp-comment" type="text" name="comment" placeholder="add a comment"  rv-value="state.comment">
-      <button class="ui positive button" rv-class-loading="state.reslyping"><i class="send icon"></i>Send</button>
+      <button class="ui positive button" rv-class-loading="state.reslyping" rv-class-unless-disabled="state.hasComment < comment"><i class="send icon"></i>Send</button>
     </div>
   </div>
 
