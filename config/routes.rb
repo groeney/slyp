@@ -15,4 +15,5 @@ Rails.application.routes.draw do
   resources :user_slyps, only: [:create, :index, :show, :update]
   resources :reslyps, only: [:create, :index, :destroy]
   resources :slyps, only: [:create]
+  get "*unmatched_route", :to => redirect("/")
 end
