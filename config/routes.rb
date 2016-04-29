@@ -13,9 +13,12 @@ Rails.application.routes.draw do
   resources :beta_request, only: [:create]
   resources :users, only: [:index]
   resources :user_slyps, only: [:create, :index, :show, :update]
-  resources :reslyps, only: [:create, :index, :destroy]
+  get "/reslyps/:id" => "reslyps#index"
+  get "/reslyp/:id" => "reslyps#show"
+  resources :reslyps, only: [:create, :destroy]
   resources :slyps, only: [:create]
-  resources :replies, only: [:create, :index, :update, :destroy]
+  resources :replies, only: [:create, :update, :destroy]
+  get "/replies/:id" => "replies#index"
   resource :user
 
   # Make sure this is last
