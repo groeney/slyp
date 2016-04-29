@@ -5,10 +5,12 @@
   </div>
   <div class="content">
     <span class="author">
-      <span>{ reslyp:sender.first_name } { reslyp:sender.last_name }</span>
+      <span>
+        { reslyp:sender.first_name | userDisplay reslyp:sender.last_name reslyp:sender.email }
+      </span>
       <span rv-show="reslyp.sentBySelf">
         <span style="font-weight: lighter;"> said to </span>
-        { reslyp:recipient.first_name } { reslyp:recipient.last_name }
+        { reslyp:recipient.first_name | userDisplay reslyp:recipient.last_name reslyp:recipient.email }
       </span>
     </span>
     <div class="metadata">
