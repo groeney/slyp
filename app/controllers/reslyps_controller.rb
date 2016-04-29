@@ -21,7 +21,7 @@ class ReslypsController < BaseController
     return render_400 if !params.key? :id
     user_slyp = current_user.user_slyps.find(params[:id])
     @reslyps = user_slyp.reslyps
-    render status: 200, json: present_collection(@reslyps),
+    render status: 200, json: present_collection(@reslyps.includes(:replies, :sender, :recipient)),
       each_serializer: ReslypSerializer
   end
 

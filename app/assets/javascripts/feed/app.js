@@ -1,4 +1,4 @@
-var slypApp = new Backbone.Marionette.Application();
+var slypApp = new Marionette.Application();
 slypApp.Collections = {};
 slypApp.Views = {};
 slypApp.Models = {};
@@ -52,12 +52,12 @@ rivets.formatters.numReslyps = function(value){
   return value ? 'reslyp'.pluralize(value) : 'few reslyps'
 }
 
-rivets.formatters.numComments = function(value){
-  return value ? 'comment'.pluralize(value.length) : ''
+rivets.formatters.numFriends = function(value){
+  return value ? 'friend'.pluralize(value) : ''
 }
 
-rivets.formatters.numFriends = function(value){
-  return value ? 'friend'.pluralize(value.length) : ''
+rivets.formatters.numReplies = function(value){
+  return value ? 'reply'.pluralize(value, 'replies') : ''
 }
 
 function readDuration(value){
@@ -73,7 +73,7 @@ rivets.formatters.displaySiteName = function(value){
 }
 
 rivets.formatters.trunc = function(value){
-  return value ? value.trunc(70) : ''
+  return value ? value.trunc(55) : ''
 }
 
 rivets.formatters.slypDirection = function(value){
@@ -110,8 +110,8 @@ rivets.binders['fade-show'] = function(el, value) {
   return value ? $(el).fadeIn() : $(el).fadeOut();
 };
 
-rivets.binders['class-unless'] = function(el, value) {
-  return value ? $(el).removeClass(value) : $(el).addClass(value);
+rivets.binders['class-unless-*'] = function(el, value) {
+  return value ? $(el).removeClass(this.args[0]) : $(el).addClass(this.args[0]);
 };
 
 rivets.binders['hide-if'] = function(el, value) {
