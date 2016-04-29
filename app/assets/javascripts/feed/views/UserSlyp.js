@@ -1,4 +1,4 @@
-slypApp.Views.UserSlyp = slypApp.Views.Base.extend({
+slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   template: '#js-slyp-card-tmpl',
   className: 'ui card',
   events: {

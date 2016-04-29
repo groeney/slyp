@@ -2,6 +2,7 @@ var slypApp = new Backbone.Marionette.Application();
 slypApp.Collections = {};
 slypApp.Views = {};
 slypApp.Models = {};
+slypApp.Base = {};
 
 slypApp.addRegions({
   navBarRegion : '#js-nav-bar-region',

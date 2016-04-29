@@ -1,4 +1,4 @@
-slypApp.Views.NavBar = slypApp.Views.Base.extend({
+slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   template: '#js-nav-bar-tmpl',
   className: 'ui top fixed borderless stackable large menu',
   events: {
