@@ -2,7 +2,7 @@
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
 
 
-## Getting Started
+## Getting started
 
 After you have cloned this repo, make sure you have been added as a collaborator to the heroku slyp project, you have the heroku toolbelt installed and then log into heroku via command line:
 
