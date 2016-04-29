@@ -1,7 +1,7 @@
 class SearchController < ApplicationController
   def users
     @users = User.where("email ilike :query or first_name ilike :query"\
-    " or user_name ilike :query", query: "#{params[:q]}%")
+    " or user_name ilike :query", query: "#{params[:q]}%").where.not(id: current_user.id)
     render status: 200, json: present_users_collection(@users), each_serializer: UserSearchSerializer
   end
 
