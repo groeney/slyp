@@ -4,6 +4,6 @@ slypApp.Collections.Replies = Backbone.Collection.extend({
     this.id = options.id;
   },
   url: function() {
-    return '/replies/' + this.id
+    return '/reslyp/replies/' + this.id
   }
 });

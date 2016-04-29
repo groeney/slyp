@@ -14,11 +14,10 @@ Rails.application.routes.draw do
   resources :users, only: [:index]
   resources :user_slyps, only: [:create, :index, :show, :update]
   get "/reslyps/:id" => "reslyps#index"
-  get "/reslyp/:id" => "reslyps#show"
   resources :reslyps, only: [:create, :destroy]
   resources :slyps, only: [:create]
-  resources :replies, only: [:create, :update, :destroy]
-  get "/replies/:id" => "replies#index"
+  resources :replies, only: [:create, :update, :destroy, :show]
+  get "/reslyp/replies/:id" => "replies#index"
   resource :user
 
   # Make sure this is last

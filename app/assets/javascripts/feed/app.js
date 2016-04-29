@@ -55,11 +55,11 @@ rivets.formatters.numReslyps = function(value){
 }
 
 rivets.formatters.numFriends = function(value){
-  return value ? 'friend'.pluralize(value) : ''
+  return value ? 'friend'.pluralize(value) : '0 friends'
 }
 
 rivets.formatters.numReplies = function(value){
-  return value ? 'reply'.pluralize(value, 'replies') : ''
+  return value ? 'reply'.pluralize(value, 'replies') : '0 replies'
 }
 
 function readDuration(value){

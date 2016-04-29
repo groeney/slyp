@@ -17,7 +17,7 @@ class RepliesController < BaseController
   end
 
   # All replies for a particular reslyp
-  # GET /replies/:id
+  # GET /reslyp/replies/:id
   def index
     return render_400 if !params.key? :id
     reslyp = Reslyp.authorized_find(current_user, params[:id])
@@ -46,6 +46,13 @@ class RepliesController < BaseController
     else
       render_422(@reply)
     end
+  end
+
+  def show
+    return render_400 if !params.key? :id
+    @reply = Reply.authorized_find(current_user, params[:id])
+
+    render status: 200, json: present(@reply), serializer: ReplySerializer
   end
 
   private
