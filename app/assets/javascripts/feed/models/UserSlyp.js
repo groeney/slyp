@@ -7,6 +7,11 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
     reverseRelation: {
       key: 'userSlyp',
       includeInJSON: 'id'
+    },
+    collectionOptions: function(userSlyp){
+      return {
+        id: userSlyp.get('id')
+      }
     }
   }],
   moveToFront: function() {

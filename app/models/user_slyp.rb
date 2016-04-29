@@ -18,6 +18,13 @@ class UserSlyp < ActiveRecord::Base
     User.where(:id => friend_ids)
   end
 
+  def friends_count
+    reslyps = self.reslyps
+    friend_ids = reslyps.pluck(:sender_id) + reslyps.pluck(:recipient_id)
+    friend_ids = friend_ids.uniq - [self.user.id]
+    friend_ids.length
+  end
+
   def send_slyps(emails, comment="")
     emails.map { |email| self.send_slyp(email, comment) }
   end

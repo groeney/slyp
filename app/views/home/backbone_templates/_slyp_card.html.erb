@@ -1,9 +1,9 @@
 <script type="text/template" id="js-slyp-card-tmpl">
 
   <div class="extra content" >
-    <div class="right floated">{ model:total_reslyps | numReslyps }</div>
+    <div class="right floated">{ userSlyp:total_reslyps | numReslyps }</div>
     <div class="left floated">
-      { model:duration | consumption model:slyp_type }
+      { userSlyp:duration | consumption userSlyp:slyp_type }
     </div>
   </div>
 
@@ -11,95 +11,60 @@
     <div class="ui dimmer">
       <div class="content">
         <div class="center">
-          <div rv-show="model:html" id="preview-button" class="ui primary icon button"><i class="ui search icon"></i>Preview</div>
-          <a rv-hide="model:html" target="_blank" rv-href="model:url" class="ui primary icon button">Go there<i class="ui right arrow icon"></i></a>
+          <div rv-show="userSlyp:html" id="preview-button" class="ui primary icon button"><i class="ui search icon"></i>Preview</div>
+          <a rv-hide="userSlyp:html" target="_blank" rv-href="userSlyp:url" class="ui primary icon button">Go there<i class="ui right arrow icon"></i></a>
         </div>
       </div>
     </div>
-    <a rv-href="model:url" target="_blank">
-      <img type="image" class="ui small image display centered" rv-data-src="model:display_url" src="/assets/blank-image.png">
+    <a rv-href="userSlyp:url" target="_blank">
+      <img type="image" class="ui small image display centered" rv-data-src="userSlyp:display_url" src="/assets/blank-image.png">
     </a>
   </div>
 
   <div class="content">
-    <a class="header center aligned wrap" target="_blank" rv-href="model:url">{ model.displayTitle | trunc }</a>
+    <a class="header center aligned wrap" target="_blank" rv-href="userSlyp:url">{ userSlyp.displayTitle | trunc }</a>
     <div class="meta center aligned">
-      <a target="_blank" rv-href="model:url">
-        <span>{ model:author | authorship model:site_name model:url }</span>
+      <a target="_blank" rv-href="userSlyp:url">
+        <span>{ userSlyp:author | authorship userSlyp:site_name userSlyp:url }</span>
       </a>
     </div>
   </div>
 
   <div class="ui hidden divider"></div>
   <div class="extra content friend-data">
-    <div class="content">
-      <i id="favorite-action" class="right floated star icon" rv-class-active="model:favourite" data-content="favorite" data-variation="tiny"></i>
-      <i id="archive-action" class="right floated archive icon" rv-class-active="model:archived" data-content="archive" data-variation="tiny"></i>
-      <a class="summary front-display" >
-        <i class="comment icon"></i>
-        <span>{ model:reslyps | numComments }</span>
-      </a>
-      <div class="ui fluid popup friend-comments">
-        <div class="ui comments">
-          <div class="comment" rv-each-reslyp="model:reslyps">
-            <div class="avatar" rv-data-title="reslyp.sender.email">
-              <img class="round" rv-avatar="reslyp.sender.first_name | fallback reslyp.sender.email">
-            </div>
-            <div class="content">
-              <a class="author">{ reslyp.sender.first_name } { reslyp.sender.last_name }</a>
-              <div class="metadata">
-                <span class="date">{ reslyp.created_at | fromNow }</span>
-              </div>
-              <div class="text">
-                <p>{ reslyp.comment }</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <span id="friends" class="description">
-        <b>from</b>
-        <i class="user icon"></i>
-        <span>{ model:friends | numFriends }</span>
-      </span>
-      <div class="ui fluid popup">
-        <div class="ui comments">
-          <div class="comment" rv-each-friend="model:friends">
-            <div class="avatar" rv-data-title="friend.email">
-              <img class="round" rv-avatar="friend.first_name | fallback friend.email">
-            </div>
-            <div class="content">
-              <div class="author">{ friend.first_name | userDisplay friend.last_name friend.email }</div>
-              <div class="text">{ friend.sender | slypDirection }</div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <a id="friends" class="description">
+      <i class="user icon"></i>
+      <span>{ userSlyp:friends_count | numFriends }</span>
+    </a>
+    <div class="ui fluid popup" style="min-width: 100% !important;">
+      <div class="ui comments js-reslyps-container"></div>
     </div>
+    <i id="favorite-action" class="right floated star icon" rv-class-active="userSlyp:favourite" data-content="favorite" data-variation="tiny"></i>
+    <i id="archive-action" class="right floated archive icon" rv-class-active="userSlyp:archived" data-content="archive" data-variation="tiny"></i>
   </div>
 
   <div rv-fade-show="state.gotAttention" class="ui fluid mobile show" style="display: none;">
-    <div class="ui fluid multiple selection search dropdown labeled icon button" rv-data-user-slyp-id="model:id">
+    <div class="ui fluid multiple selection search dropdown labeled icon button" rv-data-user-slyp-id="userSlyp:id">
       <i class="add user icon"></i>
       <div class="default text">send to friends</div>
       <input id="recipient-emails" type="hidden" name="reslyps">
       <div class="menu"></div>
     </div>
     <div class="ui action input fluid" rv-show="state.canReslyp">
-      <input id="reslyp-comment" type="text" name="comment" placeholder="add a comment"  rv-value="state.comment">
-      <button class="ui positive button" rv-class-loading="state.reslyping" rv-class-unless-disabled="state.hasComment < comment"><i class="send icon"></i>Send</button>
+      <input id="reslyp-comment" type="text" name="comment" placeholder="Write a comment..." rv-value="state.comment">
+      <button id="reslyp-button" class="ui positive button" rv-class-loading="state.reslyping" rv-class-unless-disabled="state.hasComment < comment"><i class="send icon"></i>Send</button>
     </div>
   </div>
 
-  <div class="ui long modal" target="_blank" rv-href="model:url" rv-data-user-slyp-id="model:id">
+  <div class="ui long modal" target="_blank" rv-href="userSlyp:url" rv-data-user-slyp-id="userSlyp:id">
     <i class="close icon"></i>
-    <span class="ui header center aligned wrap">{ model.displayTitle }</span>
+    <span class="ui header center aligned wrap">{ userSlyp.displayTitle }</span>
     <div class="ui basic center aligned segment">
-      <a target="_blank" rv-href="model:url" style="color: #b1b2b2; font-size: 1.33rem;" >
-        <span>{ model:author | authorship model:site_name model:url}</span>
+      <a target="_blank" rv-href="userSlyp:url" style="color: #b1b2b2; font-size: 1.33rem;" >
+        <span>{ userSlyp:author | authorship userSlyp:site_name userSlyp:url}</span>
       </a>
     </div>
-    <div class="ui center aligned basic segment" rv-html="model:html">
+    <div class="ui center aligned basic segment" rv-html="userSlyp:html">
     </div>
   </div>
 </script>

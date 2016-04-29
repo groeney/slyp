@@ -1,22 +1,21 @@
 slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   template: '#js-slyp-card-tmpl',
   className: 'ui card',
+  childView: slypApp.Views.Reslyp,
+  childViewContainer: '.js-reslyps-container',
   events: {
-    'click .ui.action.input .button': 'sendSlyp',
-    'keypress input'                : 'sendSlypIfEnter',
+    'click #reslyp-button'          : 'sendSlyp',
+    'keypress #reslyp-comment'      : 'sendSlypIfValid',
     'click .archive.icon'           : 'toggleArchive',
     'click .star.icon'              : 'toggleStar',
     'mouseenterintent'              : 'giveAttention',
     'mouseleaveintent'              : 'takeAttention',
-    'click #preview-button'         : 'showModal'
-  },
-  modelEvents:{
-    'change' : 'renderAvatars'
+    'click #preview-button'         : 'showPreview'
   },
   attributes: {
     'rv-fade-hide': 'model.hideArchived < :archived'
   },
-  showModal: function(e){
+  showPreview: function(e){
     var modalSelector = this.$('.ui.modal').first();
     if (modalSelector.length === 0){
       modalSelector = $('div[data-user-slyp-id=' + this.model.get('id') + '].ui.modal').first();
@@ -27,9 +26,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         iframe.attr('src', iframe.attr('src'));
       }
     }).modal('show');
-  },
-  renderAvatars: function(){
-    window.LetterAvatar.transform_el(this.el);
   },
   giveAttention: function(){
     this.state.gotAttention = true;
@@ -42,7 +38,8 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   onClose: function() {
     if (this.binder) this.binder.unbind();
   },
-  onRender: function(){
+  initialize: function(options){
+    this.collection = options.model.get('reslyps');
     var context = this;
     this.state = {
       canReslyp    : false,
@@ -53,9 +50,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     this.state.hasComment = function(){
       return context.state.comment.length > 0;
     }
-
-    this.binder = rivets.bind(this.$el, { model: this.model, state: this.state })
-
+  },
+  onRender: function(){
+    this.binder = rivets.bind(this.$el, { userSlyp: this.model, state: this.state })
     this.$('#archive-action').popup({
       position: 'bottom left',
       delay: {
@@ -80,7 +77,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       on: 'hover'
     });
 
-    var context = this;
     this.$('.ui.multiple.selection.search.dropdown')
       .dropdown({
         direction     : 'upward',
@@ -106,6 +102,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         }
       });
 
+    var context = this;
     this.$('.ui.dropdown').dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
       var friendExists = _.some(context.model.get('friends'), function(friend) {
         return friend.email == addedValue;
@@ -147,35 +144,17 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
 
     this.$('.ui.dropdown').dropdown('save defaults');
 
-    this.$('.summary.front-display')
+    this.$('#friends')
       .popup({
         on        : 'click',
         inline    : true,
-        hoverable : true,
         position  : 'right center',
         lastResort: 'bottom left',
         onShow    : function(module) {
+          context.model.get('reslyps').fetch();
           resizePopup();
-          return context.model.get('reslyps').length > 0
         }
       });
-
-    this.$('#friends')
-      .popup({
-        inline    : true,
-        hoverable : true,
-        position  : 'right center',
-        lastResort: 'bottom left',
-        onShow: function(module) {
-          resizePopup();
-          return context.model.get('friends').length > 0
-        },
-        delay: {
-          show: 500,
-          hide: 500
-        }
-      });
-    window.LetterAvatar.transform_el(context.el);
   },
   onShow: function(){
     this.$('img.display')
@@ -185,19 +164,11 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         'duration': 750
     });
 
-    this.$('.avatar')
-      .popup({
-        delay :{
-          show: 100,
-          hide: 200
-        }
-      });
-
     this.$('.video_frame').first().addClass('ui').addClass('embed');
   },
-  sendSlypIfEnter: function(e){
+  sendSlypIfValid: function(e){
     if (e.keyCode==13 && this.state.hasComment()){
-      this.$('.action.input .button').click();
+      this.$('#reslyp-button').click();
     }
   },
   sendSlyp: function(e){
