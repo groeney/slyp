@@ -104,7 +104,8 @@ rivets.formatters.authorship = function(author, siteName, url){
 
 rivets.binders['fade-hide'] = function(el, value) {
   return value ? $(el).fadeOut(function(){
-    $(this).attr('style', 'display: none !important')
+    return $(this).attr('style', 'display: none !important');
+
   }) : $(el).fadeIn();
 };
 

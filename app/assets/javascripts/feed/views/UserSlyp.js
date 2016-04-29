@@ -13,7 +13,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'click #preview-button'         : 'showPreview'
   },
   attributes: {
-    'rv-fade-hide': 'model.hideArchived < :archived'
+    'rv-fade-hide': 'userSlyp.hideArchived < :archived'
   },
   showPreview: function(e){
     var modalSelector = this.$('.ui.modal').first();
