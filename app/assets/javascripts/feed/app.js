@@ -44,8 +44,10 @@ rivets.adapters[':'] = {
   }
 }
 
-rivets.formatters.fromNow = function(value){
-  return moment(value).fromNow()
+rivets.formatters.fromNow = function(value, updatedAt){
+  updatedAt = typeof updatedAt !== 'undefined' ? updatedAt : value;
+  var edited = value != updatedAt;
+  return edited ? moment(value).fromNow() + ' edited' : moment(value).fromNow()
 }
 
 rivets.formatters.numReslyps = function(value){
