@@ -54,72 +54,40 @@ require "vcr"
  "https://paulromer.net/mathiness/",
  "https://robots.thoughtbot.com/segment-io-and-ruby"]
 
- @overflow_urls = ["http://www.bloomberg.com/features/2016-how-to-hack-an-election/",
- "http://www.nytimes.com/2015/06/23/opinion/when-an-apology-is-anything-but.html?mabReward=A4&moduleDetail=recommendations-2&action=click&contentCollection=U.S.&region=Footer&module=WhatsNext&version=WhatsNext&contentID=WhatsNext&configSection=article&isLoggedIn=false&src=recg&pgtype=article&_r=0",
- "http://paulromer.net/mathiness/",
- "http://www.barrelny.com/blog/taking-control-of-imageloading/",
- "https://medium.com/@dhh/rails-5-action-cable-demo-8bba4ccfc55e#.f45ezr1v2",
- "http://www.sitepoint.com/action-cable-and-websockets-an-in-depth-tutorial/",
- "https://news.ycombinator.com/item?id=9419601",
- "https://blog.engineyard.com/2015/a-look-at-rails-5",
- "https://m.signalvnoise.com/sleep-deprivation-is-not-a-badge-of-honor-f24fbff47a75#.rt0ao89zj",
- "https://www.youtube.com/watch?v=n0WUjGkDFS0",
- "http://boingboing.net/2015/05/11/the-only-technique-to-learn-so.html",
- "http://www.wired.com/2015/04/hire-like-google/",
- "http://www.vanityfair.com/culture/2015/08/tinder-hook-up-culture-end-of-dating",
- "https://www.quarterlyessay.com/qe/61/australia-between-recession-and-renewal/1424",
- "https://www.thesaturdaypaper.com.au/news/politics/2016/04/02/the-taxpayers-billions-spent-government-advertising/14595156003073",
- "http://insider.foxnews.com/2016/03/31/harvard-student-rise-safe-spaces-campus-culture-sensitivity",
- "http://stackoverflow.com/questions/2862590/how-to-replace-master-branch-in-git-entirely-from-another-branch",
- "http://www.wheelercentre.com/events/whistleblowers",
- "https://en.wikipedia.org/wiki/Liang_Cheng",
- "http://techcrunch.com/2016/01/05/facebook-messenger-bots/",
- "https://mixpanel.com/blog/2016/03/30/this-is-the-difference-between-statistics-and-data-science",
- "http://www.slate.com/articles/technology/cover_story/2016/01/how_facebook_s_news_feed_algorithm_works.html",
- "https://mixpanel.com/blog/2016/03/31/data-loss-incident-update",
- "http://www.theaustralian.com.au/business/economics/surging-australian-dollar-puts-squeeze-on-exporters/news-story/f40f7f3f3e8e10ed437cae62b458d7ed",
- "https://www.quora.com/What-are-the-biggest-companies-that-no-ones-ever-heard-of",
- "https://www.youtube.com/watch?v=CBYhVcO4WgI&list=PL11qn6zM2Y3bMZdChxEqHKaCaKUjwItGL",
- "https://www.youtube.com/watch?v=hUl27Qj9cEM&feature=youtu.be",
- "http://www.theguardian.com/news/2016/apr/03/panama-papers-money-hidden-offshore",
- "https://robots.thoughtbot.com/how-to-back-up-a-heroku-production-database-to-staging",
- "https://www.youtube.com/watch?v=hykoKDl1AtE#t=30",
- "https://www.youtube.com/watch?v=Ri0qiAita4s",
- "https://swiftkey.com/en/united-states-emoji",
- "https://medium.com/slack-developer-blog/everything-you-ever-wanted-to-know-about-unfurling-but-were-afraid-to-ask-or-how-to-make-your-e64b4bb9254#.a69oxphgz",
- "http://www.datadan.io/containerized-data-science-and-engineering-part-2-dockerized-data-science/",
- "http://www.nytimes.com/2016/03/27/books/review/sext-and-the-single-girl.html?hp&action=click&pgtype=Homepage&clickSource=story-heading&module=second-column-region&region=top-news&WT.nav=top-news&_r=3&mtrref=undefined&gwh=C553BAE4C761D390E0C006B1B22C5A50&gwt=pay",
- "https://blog.greens.org.nz/2016/04/04/milk-and-coal-in-southland/",
- "http://stackoverflow.com/questions/22619529/using-twilio-number-as-a-proxy-for-sms-communication",
- "https://www.kickstarter.com/projects/248983394/ossic-x-the-first-3d-audio-headphones-calibrated-t",
- "http://www.nytimes.com/2016/04/10/education/edlife/teaching-men-to-be-emotionally-honest.html",
- "https://www.youtube.com/watch?v=LVa4ERqz97o"]
-
 VCR.configure do |config|
   config.cassette_library_dir = 'fixtures/vcr_cassettes'
   config.hook_into :webmock
 end
 
-# Bag of comments
-@comments = [
-  "thought you'd like this",
-  "thought you'd appreciate this",
-  "robots are taking over!",
-  "the world has gone mad",
-  "what do you think of this?",
-  "check this out",
-  "this is insane",
-  "related to yesterday discussion",
-  "is this what you were talking about yesterday?",
-  "WILD!",
-  "totally hilarious",
-  "game changer",
-  "you are a genius"
-]
+def pick_comment
+  ["thought you'd like this",
+    "thought you'd appreciate this",
+    "robots are taking over!",
+    "the world has gone mad",
+    "what do you think of this?",
+    "check this out",
+    "this is insane",
+    "related to yesterday discussion",
+    "is this what you were talking about yesterday?",
+    "WILD!",
+    "totally hilarious",
+    "game changer",
+    "you are a genius"].sample
+end
 
-# Bag of first names
-@first_names = [
-  "Alex",
+def pick_reply
+  ["yeh this is really interesting",
+  "interesting, thanks!",
+  "robot's be the death of us",
+  "i know",
+  "thanks i was thinking about this recently...",
+  "Yes I think this is totally valid. Really good article, thanks for sharing!",
+  "Thanks for sharing :)",
+  "This is like totally spot on. Thanks!"].sample
+end
+
+def pick_first_name
+  ["Alex",
   "Greg",
   "Tom",
   "Wilson",
@@ -131,11 +99,11 @@ end
   "Arturo",
   "Franky",
   "Anja",
-  "Adrienne"
-]
+  "Adrienne"].sample
+end
 
 # Create alice and bob users
-def create_alice_and_bob()
+def create_alice_and_bob
   User.without_callback(:create, :after, :send_welcome_email) do
     alice = User.find_or_create_by({:email=>"alice@example.com", :first_name => "Alice", :last_name => "Jones"})
     alice.password = "password" if alice.encrypted_password.blank?
@@ -149,9 +117,9 @@ def create_alice_and_bob()
 end
 
 # Create example users
-def create_example_users()
+def create_example_users
   100.times do |n|
-    first_name = @first_names[n % @first_names.length]
+    first_name = pick_first_name
     email = "#{first_name}_#{n}@example.com"
     User.without_callback(:create, :after, :send_welcome_email) do
       user = User.find_or_create_by({:email => email.downcase, :first_name => first_name, :last_name => "Example #{n}"})
@@ -162,7 +130,7 @@ def create_example_users()
 end
 
 # Seed db with slyps
-def seed_slyps()
+def seed_slyps
   VCR.use_cassette("slyp_seeds", :record => :all) do
     @slyp_seed_urls.each do |url|
       Slyp.fetch(url)
@@ -170,47 +138,47 @@ def seed_slyps()
   end
 end
 
-# Generate bulk reslyps
-def generate_bulk_reslyps()
-  users = User.all
-  slyps = Slyp.all
-  num_users = users.length
-  num_slyps = slyps.length
+def coin_flip
+  [true, false].sample
+end
 
-  100.times do |n|
-    slyp_index = Random.rand(num_slyps)
-    slyp = slyps[slyp_index]
+def pick_user(except = nil)
+  User.where.not(id: except).sample
+end
 
-    alice_user_slyp = @alice.user_slyps.find_or_create_by({:slyp_id => slyp.id})
-    bob_user_slyp = @bob.user_slyps.find_or_create_by({:slyp_id => slyp.id})
+def pick_slyp(except = nil)
+  Slyp.where.not(id: except).sample
+end
 
-    user_1_index = Random.rand(num_users)
-    user_1 = users[user_1_index]
-    user_1_slyp = user_1.user_slyps.find_or_create_by({:slyp_id => slyp.id})
-
-    # Generate reslyps to alice and bob
-    comment_index = Random.rand(@comments.length)
-    comment = @comments[comment_index]
-    Reslyp.without_callback(:create, :after, :notify) do
-      user_1_slyp.send_slyp(@alice.email,comment)
-      user_1_slyp.send_slyp(@bob.email,comment)
-
-      user_2_index = Random.rand(num_users)
-      user_2 = users[user_2_index]
-
-      # Generate reslyps for user_1 and user_2
-      user_1_slyp.send_slyp(user_2.email, comment)
-
-      # Generate reslyps from alice or bob
-      alice_user_slyp.send_slyp(user_2.email, comment)
-      bob_user_slyp.send_slyp(user_2.email, comment)
+def reslyp(sender, recipient = pick_user)
+  user_slyp = sender.user_slyps.find_or_create_by({ :slyp_id => pick_slyp.id })
+  Reslyp.without_callback(:create, :after, :notify) do
+    reslyp = user_slyp.send_slyp(recipient.email, pick_comment)
+    if coin_flip
+      begin
+        reslyp.replies.create({
+          :sender_id => reslyp.recipient_id,
+          :text => reply_text
+          })
+      rescue
+        puts "#################################### PROBLEM TRYING TO CREATE REPLY ####################################"
+      end
     end
   end
 end
 
-@alice, @bob = create_alice_and_bob()
-create_example_users()
-seed_slyps()
-generate_bulk_reslyps()
+# Generate bulk reslyps
+def generate_bulk_reslyps_and_replies
+  100.times do |n|
+    reslyp(@alice, pick_user(@alice.id))
+    reslyp(@bob, pick_user(@bob.id))
+    reslyp(pick_user(@alice.id), @alice)
+    reslyp(pick_user(@bob.id), @bob)
+    reslyp(pick_user) # Potential for conflict but meh
+  end
+end
 
-
+@alice, @bob = create_alice_and_bob
+create_example_users
+seed_slyps
+generate_bulk_reslyps_and_replies
