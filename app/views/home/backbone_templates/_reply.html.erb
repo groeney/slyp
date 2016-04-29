@@ -1,0 +1,29 @@
+<script type="text/template" id="js-reply-tmpl">
+  <div class="avatar" rv-data-title="reply:sender.email">
+    <img class="round" rv-avatar="reply:sender.first_name | fallback reply:sender.email">
+  </div>
+  <div class="content">
+    <span class="author">
+      { reply:sender.first_name } { reply:sender.last_name}
+    </span>
+    <div class="metadata">
+      <span class="date">{ reply:created_at | fromNow reply:updated_at}</span>
+    </div>
+    <div class="text">
+      <p rv-hide="state.editMode">{ reply:text }</p>
+      <div rv-show="state.editMode">
+        <input rv-live-value="reply:text">
+        <div class="ui buttons">
+          <div id="cancel-update" class="ui button">Cancel</div>
+          <div id="update" class="ui positive button" rv-show="reply.hasText < :text">Save Changes</div>
+          <div id="delete" class="ui negative button" rv-hide="reply.hasText < :text">Delete</div>
+        </div>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="edit" rv-show="reply.ownedByCurrentUser">
+        <i class="edit icon"></i>
+      </a>
+    </div>
+  </div>
+</script>

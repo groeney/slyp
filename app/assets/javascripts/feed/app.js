@@ -121,3 +121,16 @@ rivets.binders['hide-if'] = function(el, value) {
     return $(el).hide();
   }
 }
+
+rivets.binders['live-value'] = {
+  publishes: true,
+  bind: function(el) {
+    return $(el).on('keyup', this.publish);
+  },
+  unbind: function(el) {
+    return $(el).off('keyup', this.publish);
+  },
+  routine: function(el, value) {
+    return rivets.binders.value.routine(el, value);
+  }
+};
