@@ -1,6 +1,7 @@
 require "rails_helper"
 
 RSpec.describe ReslypsController, type: :controller do
+  let(:expected_keys) { ["id", "sender", "recipient", "comment", "created_at", "reply_count"] }
   describe "#create" do
     context "with invalid params" do
       let(:user) { FactoryGirl.create(:user, :with_user_slyps) }
@@ -71,6 +72,7 @@ RSpec.describe ReslypsController, type: :controller do
         response_body_json.each do |reslyp_json|
           reslyp = Reslyp.find(reslyp_json["id"])
           expect(reslyp.valid?).to be true
+          expect(reslyp_json.keys).to contain_exactly(*expected_keys)
         end
       end
     end
@@ -82,12 +84,6 @@ RSpec.describe ReslypsController, type: :controller do
       let(:user_slyp) { FactoryGirl.create(:user_slyp, :with_reslyp) }
       before do
         sign_in user
-      end
-      it "should respond to missing id with 400" do
-        get :index, format: :json
-
-        expect(response.status).to eq(400)
-        expect(response.content_type).to eq(Mime::JSON)
       end
 
       it "should respond to incorrect owner with 404" do
@@ -120,6 +116,7 @@ RSpec.describe ReslypsController, type: :controller do
         expect(response_body_json.length).to eq(user_slyp.reslyps.length)
         response_body_json.each do |reslyp|
           expect(user_slyp.reslyps.find(reslyp["id"]).valid?).to be true
+          expect(reslyp.keys).to contain_exactly(*expected_keys)
         end
       end
     end

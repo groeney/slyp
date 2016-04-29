@@ -22,13 +22,6 @@ RSpec.describe RepliesController, type: :controller do
         sign_in user
       end
 
-      it "should respond to no params with 400" do
-        post :create, format: :json
-
-        expect(response.status).to eq(400)
-        expect(response.content_type).to eq(Mime::JSON)
-      end
-
       it "should respond to no text with 400" do
         post :create, reslyp_id: reslyp.id, format: :json
 
@@ -97,13 +90,6 @@ RSpec.describe RepliesController, type: :controller do
         get :index, id: reslyp.id, format: :json
 
         expect(response.status).to eq(404)
-        expect(response.content_type).to eq(Mime::JSON)
-      end
-
-      it "should respond to missing id with 400" do
-        get :index, format: :json
-
-        expect(response.status).to eq(400)
         expect(response.content_type).to eq(Mime::JSON)
       end
     end
