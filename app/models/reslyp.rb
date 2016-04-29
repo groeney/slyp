@@ -60,6 +60,10 @@ class Reslyp < ActiveRecord::Base
     end
   end
 
+  def reply_count
+    self.replies.length
+  end
+
   def notify
     UserMailer.reslyp_notification(self).deliver_later
   end

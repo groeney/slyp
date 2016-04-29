@@ -1,1 +1,33 @@
+<script type="text/template" id="js-reslyp-tmpl">
+
+  <div class="avatar" rv-data-title="reslyp:sender.email">
+    <img class="round" rv-avatar="reslyp:sender.first_name | fallback reslyp:sender.email">
+  </div>
+  <div class="content">
+    <span class="author">
+      <span>{ reslyp:sender.first_name } { reslyp:sender.last_name }</span>
+      <span rv-show="reslyp.sentBySelf">
+        <span style="font-weight: lighter;"> said to </span>
+        { reslyp:recipient.first_name } { reslyp:recipient.last_name }
+      </span>
+    </span>
+    <div class="metadata">
+      <span class="date">{ reslyp:created_at | fromNow }</span>
+    </div>
+    <div class="text">
+      <p>{ reslyp:comment }</p>
+    </div>
+    <div class="actions">
+      <a id="reply">Reply</a>
+      <a id="replies" rv-show="reslyp:reply_count">{ reslyp:reply_count | numReplies }</a>
+    </div>
+  </div>
+  <div class="ui minimal comments" rv-class-collapsed="state.hideReplies">
     <div class="ui comments js-replies-container"></div>
+    <div class="ui action input fluid" rv-hide="state.hideReplies">
+      <input placeholder="Write a reply..." rv-value="state.replyText" autofocus>
+      <button id="reply-button" class="ui positive button" rv-class-unless-disabled="state.hasReplyText < replyText">Reply</button>
+    </div>
+  </div>
+
+</script>

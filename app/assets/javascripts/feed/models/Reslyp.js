@@ -8,6 +8,17 @@ slypApp.Models.Reslyp = Backbone.RelationalModel.extend({
     reverseRelation: {
       key: 'reslyp',
       includeInJSON: 'id'
+    },
+    collectionOptions: function(reslyp){
+      return {
+        id: reslyp.get('id')
+      }
     }
-  }]
+  }],
+  sentBySelf: function(){
+    return this.get('sender').id == slypApp.user.get('id')
+  },
+  hasReplies: function(){
+    return this.get('replies').models.length > 0
+  }
 })
