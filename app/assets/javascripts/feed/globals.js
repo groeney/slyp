@@ -92,3 +92,7 @@ var resizePopup = function(){
 $(window).resize(function(e){
   resizePopup();
 });
+
+var getScreenWidth = function(){
+  return $(window).width()
+}
