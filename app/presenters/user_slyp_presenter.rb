@@ -14,4 +14,8 @@ class UserSlypPresenter < BasePresenter
     invalid = (display_url.nil? or !%w[data:image .jpg .jpeg .png .gif .ico].any?{ |ext| display_url.include?(ext) })
     invalid ? "/assets/blank-image.png": display_url
   end
+
+  def total_reslyps
+    Reslyp.where(slyp_id: user_slyp.slyp_id).length
+  end
 end
