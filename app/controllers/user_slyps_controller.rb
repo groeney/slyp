@@ -39,6 +39,6 @@ class UserSlypsController < BaseController
   end
 
   def user_slyp_params
-    params.require(:user_slyp).permit(:archived, :deleted, :favourite)
+    params.require(:user_slyp).permit(:archived, :deleted, :favourite, :unseen, :unseen_activity)
   end
 end

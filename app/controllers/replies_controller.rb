@@ -4,12 +4,16 @@ class RepliesController < BaseController
     if [:reslyp_id, :text].all? {|s| params.key? s}
       reslyp = Reslyp.authorized_find(current_user, params[:reslyp_id])
       return render_401 if !reslyp.try(:valid?)
-
       @reply = reslyp.replies.create({
         :sender_id => current_user.id,
         :text => params[:text]
         })
       return render_422(@reply) if !@reply.valid?
+      if current_user.id == reslyp.sender_id
+        reslyp.recipient_user_slyp.add_unseen_activity
+      elsif current_user.id == reslyp.recipient_id
+        reslyp.sender_user_slyp.add_unseen_activity
+      end
       render status: 201, json: present(@reply), serializer: ReplySerializer
     else
       return render_400

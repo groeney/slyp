@@ -13,7 +13,8 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'click #preview-button'         : 'showPreview'
   },
   attributes: {
-    'rv-fade-hide': 'userSlyp.hideArchived < :archived'
+    'rv-fade-hide': 'userSlyp.hideArchived < :archived',
+    'rv-class-red': 'userSlyp:unseen'
   },
   showPreview: function(e){
     var modalSelector = this.$('.ui.modal').first();
@@ -26,6 +27,10 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         iframe.attr('src', iframe.attr('src'));
       }
     }).modal('show');
+
+    if (this.model.get('unseen')){
+      this.model.save({ unseen: false });
+    }
   },
   giveAttention: function(){
     this.state.gotAttention = true;
@@ -153,6 +158,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         onShow    : function(module) {
           context.model.get('reslyps').fetch();
           resizePopup();
+          if (context.model.get('unseen_activity')){
+            context.model.save({ unseen_activity: false });
+          }
         }
       });
   },

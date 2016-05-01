@@ -11,6 +11,10 @@ class UserSlyp < ActiveRecord::Base
     Reslyp.where("sender_user_slyp_id = ? or recipient_user_slyp_id = ?", self.id, self.id)
   end
 
+  def add_unseen_activity
+    self.update_attributes(:unseen_activity => true, :archived => false)
+  end
+
   def friends
     reslyps = self.reslyps
     friend_ids = reslyps.pluck(:sender_id) + reslyps.pluck(:recipient_id)
@@ -39,9 +43,11 @@ class UserSlyp < ActiveRecord::Base
       end
     end
 
-    to_user_slyp = to_user.user_slyps.find_or_create_by({:slyp_id => self.slyp_id})
-    to_user_slyp.update_attribute(:archived, false)
-
+    to_user_slyp = to_user.user_slyps.
+      find_or_create_by({:slyp_id => self.slyp_id}) do |user_slyp|
+        user_slyp.update_attribute(:unseen, true)
+      end
+    to_user_slyp.add_unseen_activity
     self.sent_reslyps.create({
       :recipient_id            => to_user.id,
       :recipient_user_slyp_id  => to_user_slyp.id,
