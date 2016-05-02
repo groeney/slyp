@@ -218,6 +218,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         context.state.reslyping = false;
         context.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
         context.state.canReslyp = false;
+        context.state.comment = '';
         context.model.fetch();
         context.removeRecipientsLabels();
       },
@@ -226,6 +227,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         context.state.reslyping = false;
         context.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
         context.state.canReslyp = false;
+        context.state.comment = '';
         context.model.fetch();
         context.removeRecipientsLabels();
       }
