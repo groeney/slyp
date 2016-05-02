@@ -246,14 +246,18 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         var toastrOptions = {
           'positionClass': 'toast-bottom-left',
           'onclick': function() {
-            context.model.save({archived: !context.model.get('archived')})
+            context.model.save({archived: !context.model.get('archived')});
           },
           'fadeIn': 300,
           'fadeOut': 1000,
           'timeOut': 5000,
           'extendedTimeOut': 1000
         }
-        context.toastr('success', 'Slyp archived. Click to undo.', toastrOptions);
+        if (context.model.get('archived')){
+          context.toastr('success', 'Slyp archived. Click to undo.', toastrOptions);
+        } else {
+          context.toastr('success', 'Slyp unarchived. Click to undo.', toastrOptions);
+        }
       },
       error: function() { context.toastr('error') }
     });
