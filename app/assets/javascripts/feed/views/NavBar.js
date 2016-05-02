@@ -79,6 +79,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       position : 'left center',
       popup    : '#create-popup',
       onShow   : function(){
+        resizePopup();
         setTimeout(function() { context.$('#create-popup input').focus() }, 100);
       }
     })

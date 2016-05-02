@@ -1,5 +1,5 @@
 <script type="text/template" id="js-nav-bar-tmpl">
-  <div class="ui top fixed borderless menu three column grid">
+  <div class="ui top fixed borderless menu three column grid" style="height: 8%;">
     <div id="left-menu" class="ui column secondary menu">
       <div class="ui left secondary menu">
         <%= link_to "/feed", :class => "item" do %>
@@ -21,7 +21,7 @@
     </div>
 
     <div id="right-menu" class="ui right secondary menu column">
-      <div id="create-button" class="ui item">
+      <div id="create-button" class="ui item column">
         <button class="ui icon button" rv-class-loading="state.creatingSlyp">
           <i class="add link icon"></i>
         </button>
@@ -38,7 +38,7 @@
         </button>
       </div>
 
-      <div id="user-actions" class="ui right dropdown item" data-content="<%= current_user.email %>" data-variation="mini">
+      <div id="user-actions" class="ui right dropdown item column" data-content="<%= current_user.email %>" data-variation="mini">
         <span id="display-name" data-content="<%= current_user.email %>" data-variation="mini"><%= current_user.first_name.empty? ? current_user.email : current_user.first_name %></span>
         <i class="dropdown icon"></i>
         <div class="menu">
