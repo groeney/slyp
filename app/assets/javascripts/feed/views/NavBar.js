@@ -1,12 +1,8 @@
 slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   template: '#js-nav-bar-tmpl',
-  className: 'ui top fixed borderless stackable large menu',
   events: {
-    'keypress #creator input'                 : 'createSlypIfEnter',
-    'click .circle.add.link.icon'             : 'createSlyp',
-    'focusin #creator input'                  : 'enterAddMode',
-    'focusout #creator input'                 : 'exitAddMode',
-    'click #creator button.submit'            : 'createSlyp',
+    'keypress #create-popup input'            : 'createSlypIfEnter',
+    'click #create-popup button'              : 'createSlyp',
     'focusin #searcher input'                 : 'enterSearchMode',
     'focusout #searcher'                      : 'doneSearching',
     'keypress #searcher input'                : 'searchingIfEnter',
@@ -17,14 +13,6 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     this.$('#right-menu').toggleClass('hide');
     this.$('#right-menu').toggleClass('right');
     slypApp.state.actionsMode = !slypApp.state.actionsMode
-  },
-  enterAddMode: function(){
-    slypApp.state.addMode = true;
-  },
-  exitAddMode: function(){
-    setTimeout(function(){
-      slypApp.state.addMode = false
-    }, 300);
   },
   enterSearchMode: function(){
     slypApp.state.searchMode = true;
@@ -84,6 +72,16 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
         },
         minCharacters : 3,
       });
+
+    var context = this;
+    this.$('#create-button').popup({
+      on       : 'click',
+      position : 'left center',
+      popup    : '#create-popup',
+      onShow   : function(){
+        setTimeout(function() { context.$('#create-popup input').focus() }, 100);
+      }
+    })
   },
   createSlypIfEnter: function(e){
     if (e.keyCode==13){
@@ -121,6 +119,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
           userSlyp.moveToFront();
           context.state.slypURL = '';
           context.state.creatingSlyp = false;
+          context.$('#create-popup').popup('hide');
         },
         error: function(status, err) {
           if (context.state.slypURL.http){

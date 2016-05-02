@@ -1,11 +1,13 @@
 <script type="text/template" id="js-nav-bar-tmpl">
-  <div id="left-menu" class="ui secondary menu">
-    <div class="ui left secondary menu">
-      <%= link_to "/feed", :class => "item" do %>
-        <img src="/assets/logo.png">
-      <% end %>
+  <div class="ui top fixed borderless menu three column grid">
+    <div id="left-menu" class="ui column secondary menu">
+      <div class="ui left secondary menu">
+        <%= link_to "/feed", :class => "item" do %>
+          <img src="/assets/logo.png">
+        <% end %>
+      </div>
     </div>
-    <div class="ui centered secondary menu">
+    <div class="ui column centered secondary item menu">
       <div class="ui category search item">
         <button id="back-button" class="ui basic button" rv-class-loading="appState.resettingFeed" rv-show="appState.searchMode">
           <i class="arrow left icon"></i>
@@ -17,27 +19,33 @@
         </div>
       </div>
     </div>
-    <div class="ui right secondary menu mobile only">
-      <a class="item">
-        <i class="big sidebar icon"></i>
-      </a>
-    </div>
-  </div>
-  <div id="right-menu" class="ui right stackable secondary large menu mobile hide">
-    <div class="ui right aligned category item">
-      <div id="creator" class="ui left icon input" rv-class-loading="state.creatingSlyp" rv-class-shift-left="appState.addMode">
-        <i class="add link icon"></i>
-        <input class="prompt" type="text" rv-value="state.slypURL" placeholder="http://">
-        <button class="ui positive submit button" rv-show="appState.addMode">Add</button>
+
+    <div id="right-menu" class="ui right secondary menu column">
+      <div id="create-button" class="ui item">
+        <button class="ui icon button" rv-class-loading="state.creatingSlyp">
+          <i class="add link icon"></i>
+        </button>
       </div>
-    </div>
-    <div id="user-actions" class="ui right dropdown item" data-content="<%= current_user.email %>" data-variation="mini">
-      <span id="display-name" data-content="<%= current_user.email %>" data-variation="mini"><%= current_user.first_name.empty? ? current_user.email : current_user.first_name %></span>
-      <i class="dropdown icon"></i>
-      <div class="menu">
-        <div class="item">Settings</div>
-        <%= link_to "Log Out", destroy_user_session_path, :method => :delete, :class => "ui right item" %>
-        <div class="item">Help</div>
+      <div id="create-popup" class="ui fluid popup">
+        <div class="ui fluid action input">
+          <input class="prompt" type="text" rv-value="state.slypURL" placeholder="http://" autofocus>
+          <button class="ui positive button" rv-hide="appState.isMobile < screenWidth">
+            Add
+          </button>
+        </div>
+        <button class="ui positive button" rv-show="appState.isMobile < screenWidth">
+          Add
+        </button>
+      </div>
+
+      <div id="user-actions" class="ui right dropdown item" data-content="<%= current_user.email %>" data-variation="mini">
+        <span id="display-name" data-content="<%= current_user.email %>" data-variation="mini"><%= current_user.first_name.empty? ? current_user.email : current_user.first_name %></span>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item">Settings</div>
+          <%= link_to "Log Out", destroy_user_session_path, :method => :delete, :class => "ui right item" %>
+          <div class="item">Help</div>
+        </div>
       </div>
     </div>
   </div>
