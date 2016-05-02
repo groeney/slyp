@@ -60,19 +60,37 @@ RSpec.describe ReslypsController, type: :controller do
       before do
         sign_in user
       end
-      it "responds with 201 and valid body" do
+      it "responds with 201" do
         post :create, slyp_id: user.user_slyps.first.slyp_id,
           emails: to_users.map { |to_user| to_user.email},
           comment: "This is a comment", format: :json
 
         expect(response.status).to eq(201)
         expect(response.content_type).to eq(Mime::JSON)
+      end
+
+      it "responds with valid body" do
+        post :create, slyp_id: user.user_slyps.first.slyp_id,
+          emails: to_users.map { |to_user| to_user.email},
+          comment: "This is a comment", format: :json
 
         response_body_json = JSON.parse(response.body)
         response_body_json.each do |reslyp_json|
           reslyp = Reslyp.find(reslyp_json["id"])
           expect(reslyp.valid?).to be true
           expect(reslyp_json.keys).to contain_exactly(*expected_keys)
+        end
+      end
+
+      it "ensures unseen and unseen_activity was set to true on recipient_user_slyp" do
+        post :create, slyp_id: user.user_slyps.first.slyp_id,
+          emails: to_users.map { |to_user| to_user.email},
+          comment: "This is a comment", format: :json
+        response_body_json = JSON.parse(response.body)
+        response_body_json.each do |reslyp_json|
+          reslyp = Reslyp.find(reslyp_json["id"])
+          expect(reslyp.recipient_user_slyp.unseen_activity).to be true
+          expect(reslyp.recipient_user_slyp.unseen).to be true
         end
       end
     end

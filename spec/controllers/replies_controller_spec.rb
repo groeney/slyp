@@ -75,6 +75,18 @@ RSpec.describe RepliesController, type: :controller do
         expect(response_body_json["text"]).not_to be_nil
         expect(response_body_json["created_at"]).not_to be_nil
       end
+
+      it "should set unseen_activity to true on other user_slyp" do
+        user_slyp = nil
+        if user.id == reslyp.sender_id
+          user_slyp = reslyp.sender_user_slyp
+        elsif user.id == reslyp.recipient_id
+          user_slyp = reslyp.recipient_user_slyp
+        end
+        user_slyp.update_attribute(:unseen_activity, true)
+        post :create, reslyp_id: reslyp.id, text: "this is a reply text", format: :json
+        expect(user_slyp.unseen_activity).to be true
+      end
     end
   end
 

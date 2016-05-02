@@ -38,16 +38,27 @@ RSpec.describe UserSlypsController, type: :controller do
       end
     end
 
-    context "with valid parameters and no slyp created", :vcr do
-      it "responds with 201 and correct response hash keys" do
+    context "with valid parameters", :vcr do
+      let(:url) { "https://www.farnamstreetblog.com/2014/02/quotable-kierkegaard/" }
+      before do
         sign_in user
-        url = "https://www.farnamstreetblog.com/2014/02/quotable-kierkegaard/"
+      end
+
+      it "responds with 201 and correct response hash keys" do
         post :create, url: url, format: :json
 
         response_body_json = JSON.parse(response.body)
         expect(response.status).to eq(201)
         expect(response.content_type).to eq(Mime::JSON)
         expect(response_body_json.keys).to contain_exactly(*expected_keys)
+      end
+
+      it "responds with unseen and unseen_activity both false" do
+        post :create, url: url, format: :json
+
+        response_body_json = JSON.parse(response.body)
+        expect(response_body_json["unseen"]).to be false
+        expect(response_body_json["unseen_activity"]).to be false
       end
     end
   end
