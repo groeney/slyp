@@ -14,7 +14,7 @@ class SearchController < ApplicationController
   def user_slyps
     authenticate_user!
     slyp_ids = current_user.slyps.where("url ilike :query or title ilike :flexi_query"\
-    " or site_name ilike :flexi_query or author ilike :flexi_query or text ilike :flexi_query",
+    " or site_name ilike :flexi_query or author ilike :flexi_query or description ilike :flexi_query",
     query:"#{params[:q]}%", flexi_query: "%#{params[:q]}%").pluck(:id)
     @user_slyps = current_user.user_slyps.where(slyp_id: slyp_ids)
     render status: 200, json: present_user_slyp_collection(@user_slyps), each_serializer: UserSlypSerializer
