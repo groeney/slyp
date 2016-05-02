@@ -87,3 +87,7 @@ a:hover {
 .shift-left {
   padding-right: 15%;
 }
+
+.ui.wider.popup {
+  min-width: 150% !important;
+}

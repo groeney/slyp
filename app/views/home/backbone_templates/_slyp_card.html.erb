@@ -34,7 +34,7 @@
       <i class="user icon" rv-class-red="userSlyp:unseen_activity"></i>
       <span>{ userSlyp:friends_count | numFriends }</span>
     </a>
-    <div class="ui fluid popup" style="min-width: 100% !important;">
+    <div class="ui fluid popup" rv-class-unless-wider="appState.isMobile < screenWidth">
       <div class="ui comments js-reslyps-container"></div>
     </div>
     <i id="favorite-action" class="right floated large star icon" rv-class-active="userSlyp:favourite" data-content="favorite" data-variation="tiny"></i>
