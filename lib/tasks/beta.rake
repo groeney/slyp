@@ -15,11 +15,15 @@ namespace :beta do
   end
 
   desc "Invite particular user from waitlist"
-  task invite_user: [:email,:environment] do |t, args|
-    invitee = User.find_by({:email => args[:email]})
-    invitee.update({:invited => true})
-    if invitee.save!
-      UserMailer.beta_invitation(invitee).deliver_now
+  task :invite_user, [:email] => :environment do |t, args|
+    invitee = BetaRequest.find_by({:email => args[:email]})
+    if invitee.nil?
+      puts "Email #{args[:email]} not on waitlist."
+    else
+      invitee.update({:invited => true})
+      if invitee.save!
+        UserMailer.beta_invitation(invitee).deliver_now
+      end
     end
   end
 end
