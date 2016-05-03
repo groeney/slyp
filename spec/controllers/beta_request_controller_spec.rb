@@ -11,11 +11,20 @@ RSpec.describe BetaRequestController, type: :controller do
         expect(response.status).to eq(422)
       end
     end
-    context "correct params not supplied" do
+    context "user is already created" do
+      let(:user) { FactoryGirl.create(:user) }
       it "respond with a 400" do
-        post :create, format: :json
+        request.accept = "application/json"
+        post :create, email: user.email, format: :json
 
         expect(response.status).to eq(400)
+      end
+    end
+    context "correct params not supplied" do
+      it "respond with a 422" do
+        post :create, format: :json
+
+        expect(response.status).to eq(422)
       end
     end
     context "valid request" do

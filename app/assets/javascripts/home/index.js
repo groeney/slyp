@@ -23,7 +23,13 @@ $('#beta-request').api({
     $('#beta-success').modal('show');
   },
   onError       : function(errorMessage, element, xhr) {
-    $('#beta-error').modal('show');
+    if (xhr.status == 400){
+      debugger
+      $('#beta-error .content').html("It seems like you are already a user with us. Find the login button at the top right!");
+      $('#beta-error').modal('show');
+    } else {
+      $('#beta-error').modal('show');
+    }
   },
   onFailure       : function(response, element) {
     $('#beta-error').modal('show');
