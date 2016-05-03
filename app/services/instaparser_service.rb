@@ -1,5 +1,6 @@
 require "erb"
 include ERB::Util
+require "open-uri"
 
 module InstaparserService
   def self.fetch(url)
