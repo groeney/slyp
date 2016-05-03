@@ -67,8 +67,8 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
       }),
       success: function(response) {
         context.state.replyText = '';
-        context.model.fetch();
         context.collection.add(response);
+        context.model.fetch();
       },
       error: function(status, err) {
         context.toastr('error', 'Couldn\'t add that reply for some reason :(')
