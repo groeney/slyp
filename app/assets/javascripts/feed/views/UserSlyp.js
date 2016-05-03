@@ -108,6 +108,14 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       });
 
     var context = this;
+    if (typeof this.model.get('url') !== 'undefined'){
+      this.$('a[href^="' + this.model.get('url') + '"]').on('click', function(){
+        if (context.model.get('unseen')){
+          context.model.save({unseen: false});
+        }
+      });
+    }
+
     this.$('.ui.dropdown').dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
       var friendExists = _.some(context.model.get('friends'), function(friend) {
         return friend.email == addedValue;
