@@ -16,7 +16,7 @@ RSpec.describe User, type: :model do
         delivered_email = ActionMailer::Base.deliveries.last
 
         assert_includes delivered_email.to, @user.email
-        assert_includes delivered_email.from, "robot@slyp.io"
+        assert_includes delivered_email.from, "jamesgroeneveld@gmail.com"
         assert_includes delivered_email.subject, "welcome to slyp beta :)"
       end
     end

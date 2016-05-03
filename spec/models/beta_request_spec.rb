@@ -12,7 +12,7 @@ RSpec.describe BetaRequest, type: :model do
         delivered_email = ActionMailer::Base.deliveries.last
 
         assert_includes delivered_email.to, @beta_request.email
-        assert_includes delivered_email.from, "robot@slyp.io"
+        assert_includes delivered_email.from, "jamesgroeneveld@gmail.com"
         assert_includes delivered_email.subject, "waiting for slyp beta"
       end
     end
