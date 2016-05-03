@@ -44,7 +44,7 @@ RSpec.describe SearchController, type: :controller do
   end
 
   describe "#user_slyps" do
-    let(:expected_keys) { ["id", "display_url", "title", "site_name",
+    let(:expected_keys) { ["id", "display_url", "title", "site_name", "comments",
     "author", "slyp_id", "url", "archived", "favourite", "deleted", "duration",
     "unseen", "unseen_activity", "friends_count", "total_reslyps", "slyp_type", "html"] }
     context "user has no slyps" do
