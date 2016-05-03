@@ -28,12 +28,13 @@ RSpec.describe Reslyp, type: :model do
 
     it "should notify the recipient" do
       perform_enqueued_jobs do
-        email = "dummy_test_email@example.com"
+        to_user = FactoryGirl.create(:user)
         comment = "Another dummy comment"
-        user_slyp.send_slyps([email], comment)
+
+        user_slyp.send_slyp(to_user.email, comment)
 
         delivered_email = ActionMailer::Base.deliveries.last
-        expect(delivered_email.to.first).to eq email
+        expect(delivered_email.to.first).to eq to_user.email
         expect(delivered_email.from.first).to eq "#{user.email}"
         expect(delivered_email.subject).to eq "reslyp :)"
 
@@ -41,6 +42,19 @@ RSpec.describe Reslyp, type: :model do
         expect(delivered_email.text_part.body.decoded).to include user_slyp.slyp.url
         expect(delivered_email.html_part.body.decoded).to include comment
         expect(delivered_email.html_part.body.decoded).to include user_slyp.slyp.url
+      end
+    end
+
+    it "should send an invitation email" do
+      perform_enqueued_jobs do
+        email = "dummy_test_email@example.com"
+        comment = "Dummy comment"
+
+        user_slyp.send_slyp(email, comment)
+        delivered_email = ActionMailer::Base.deliveries.last
+        expect(delivered_email.to.first).to eq email
+        expect(delivered_email.from.first).to eq "robot@slyp.io"
+        expect(delivered_email.subject.include? "invited you to slyp beta!").to be true
       end
     end
 
