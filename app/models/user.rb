@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   after_create :send_welcome_email
   after_create :remove_from_waitlist
 
-  devise :database_authenticatable, :registerable,
+  devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:google_oauth2, :facebook]
 
