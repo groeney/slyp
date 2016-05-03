@@ -42,7 +42,7 @@
       <i id="archive-action" class="right floated large archive icon" rv-class-active="userSlyp:archived" data-content="archive" data-variation="tiny"></i>
     </div>
 
-    <div class="row">
+    <div class="row" rv-show="userSlyp.hasComments < :comments">
       <a id="comment-label" class="ui tiny pointing basic label">
         <span class="extra content">{ userSlyp:comments | chooseComment }</span>
       </a>
