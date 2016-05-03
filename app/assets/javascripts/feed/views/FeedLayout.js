@@ -17,7 +17,7 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
     }));
   },
   zeroState: function(){
-    if (this.collection.where({archived: false}).length === 0){
+    if (this.collection.where({archived: false}).length === 0 && !slypApp.state.searchMode){
       this.$('#zero-state').show();
     } else if (this.collection.where({archived: false}).length > 0){
       this.$('#zero-state').hide();
