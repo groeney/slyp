@@ -42,3 +42,8 @@ function urlDomain(url) {
          a.href = url;
   return a.hostname;
 }
+
+function randomFromInterval(min,max)
+{
+    return Math.floor(Math.random()*(max-min+1)+min);
+}

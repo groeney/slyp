@@ -10,11 +10,15 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'click .star.icon'              : 'toggleStar',
     'mouseenterintent'              : 'giveAttention',
     'mouseleaveintent'              : 'takeAttention',
-    'click #preview-button'         : 'showPreview'
+    'click #preview-button'         : 'showPreview',
+    'click #comment-label'          : 'showConversations'
   },
   attributes: {
     'rv-fade-hide': 'userSlyp.hideArchived < :archived',
     'rv-class-red': 'userSlyp:unseen'
+  },
+  showConversations: function(){
+    this.$('#conversations').popup('show');
   },
   showPreview: function(e){
     var modalSelector = this.$('.ui.modal').first();
@@ -160,7 +164,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
 
     this.$('.ui.dropdown').dropdown('save defaults');
 
-    this.$('#friends')
+    this.$('#conversations')
       .popup({
         on        : 'click',
         inline    : true,

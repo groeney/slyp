@@ -58,6 +58,15 @@ rivets.formatters.numFriends = function(value){
   return value ? 'friend'.pluralize(value) : '0 friends'
 }
 
+rivets.formatters.numConversations = function(value){
+  return value ? 'conversation'.pluralize(value) : '0 conversations'
+}
+
+rivets.formatters.chooseComment = function(comments){
+  return typeof comments !== 'undefined' && comments.length > 0 ?
+    comments[randomFromInterval(0, comments.length-1)] : ''
+}
+
 rivets.formatters.numReplies = function(value){
   return value ? 'reply'.pluralize(value, 'replies') : '0 replies'
 }

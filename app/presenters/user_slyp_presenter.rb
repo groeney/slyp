@@ -19,4 +19,8 @@ class UserSlypPresenter < BasePresenter
   def total_reslyps
     Reslyp.where(slyp_id: user_slyp.slyp_id).length
   end
+
+  def comments
+    user_slyp.reslyps.pluck(:comment)
+  end
 end
