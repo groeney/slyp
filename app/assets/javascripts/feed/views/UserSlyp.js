@@ -86,10 +86,13 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       .dropdown({
         direction     : 'upward',
         allowAdditions: true,
-        apiSettings: {
-          url: '/search/users?q={query}',
-          method: 'post',
-          data: {
+        message       : {
+          addResult : 'Invite <b style="font-weight: bold;">{term}</b>',
+        },
+        apiSettings   : {
+          url    : '/search/users?q={query}',
+          method : 'post',
+          data   : {
             user_slyp_id: this.model.get('id')
           },
           onResponse: function(serverResponse){
