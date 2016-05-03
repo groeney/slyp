@@ -34,12 +34,11 @@ class UserSlyp < ActiveRecord::Base
   end
 
   def send_slyp(email, comment="")
-    to_user = User.find_or_create_by({:email => email})
+    to_user = User.find_by({:email => email})
 
     User.without_callback(:create, :after, :send_welcome_email) do
-      if to_user.encrypted_password.blank?
-        to_user.password = "password"   # TODO send invite email
-        to_user.save!
+      if to_user.nil?
+        to_user = User.invite!({:email => email}, self.user)
       end
     end
 
@@ -48,13 +47,21 @@ class UserSlyp < ActiveRecord::Base
         user_slyp.update_attribute(:unseen, true)
       end
     to_user_slyp.add_unseen_activity
-    self.sent_reslyps.create({
+    attributes = {
       :recipient_id            => to_user.id,
       :recipient_user_slyp_id  => to_user_slyp.id,
       :sender_id               => self.user.id,
       :sender_user_slyp_id     => self.id,
       :comment                 => comment,
       :slyp_id                 => self.slyp_id
-      })
+    }
+    if to_user.invitation_pending?
+      User.invite!({:email => email}, self.user)
+      Reslyp.without_callback(:create, :after, :notify) do
+        self.sent_reslyps.create(attributes)
+      end
+    else
+      self.sent_reslyps.create(attributes)
+    end
   end
 end

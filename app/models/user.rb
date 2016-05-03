@@ -8,13 +8,21 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable,
          :omniauthable, :omniauth_providers => [:google_oauth2, :facebook]
 
-  has_many :user_slyps
+  has_many :user_slyps, :dependent => :destroy
   has_many :slyps, through: :user_slyps
   has_many :sent_reslyps, through: :user_slyps
   has_many :received_reslyps, through: :user_slyps
   has_many :friendships
   has_many :friends, through: :friendships
   scope :all_except, ->(user) { where.not(id: user) }
+
+  def invitation_pending?
+    !self.invitation_token.nil? and self.invitation_accepted_at.nil?
+  end
+
+  def full_name
+    return [self.first_name, self.last_name].reject { |part| part.empty? }.join(" ")
+  end
 
   def send_welcome_email
     UserMailer.new_user_beta(self).deliver_later
