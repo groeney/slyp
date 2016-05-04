@@ -39,11 +39,12 @@
         <div class="ui comments js-reslyps-container"></div>
       </div>
       <i id="favorite-action" class="right floated large star icon" rv-class-active="userSlyp:favourite" data-content="favorite" data-variation="tiny"></i>
-      <i id="archive-action" class="right floated large archive icon" rv-class-active="userSlyp:archived" data-content="archive" data-variation="tiny"></i>
+      <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" data-content="archive" data-variation="tiny"></i>
     </div>
 
     <div class="row" rv-show="userSlyp.hasComments < :comments">
       <a id="comment-label" class="ui small pointing basic label">
+        <span data-title="james@gmail.com" class="ui avatar letter d"></span>
         <span class="extra content">{ userSlyp:comments | chooseComment }</span>
       </a>
     </div>
@@ -51,8 +52,8 @@
 
   <div rv-fade-show="state.gotAttention" class="ui fluid mobile show" style="display: none;">
     <div class="ui fluid multiple selection search dropdown labeled icon button" rv-data-user-slyp-id="userSlyp:id">
-      <i class="add user icon"></i>
-      <div class="default text">send to friends</div>
+      <i class="send icon"></i>
+      <div class="default text">paste email or search</div>
       <input id="recipient-emails" type="hidden" name="reslyps">
       <div class="menu"></div>
     </div>

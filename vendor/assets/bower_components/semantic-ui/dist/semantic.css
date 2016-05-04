@@ -24597,6 +24597,25 @@ a.ui.card:hover,
 .ui.card > .content .active.archive.icon {
   color: #21BA45;
 }
+
+.ui.cards > .card > .content .checkmark.icon,
+.ui.card > .content .checkmark.icon {
+  cursor: pointer;
+  opacity: 0.75;
+  -webkit-transition: color 0.1s ease;
+  transition: color 0.1s ease;
+}
+
+.ui.cards > .card > .content .checkmark.icon:hover,
+.ui.card > .content .checkmark.icon:hover {
+  opacity: 1;
+  color: #198f35;
+}
+
+.ui.cards > .card > .content .active.checkmark.icon,
+.ui.card > .content .active.checkmark.icon {
+  color: #21BA45;
+}
 /*!
  * # Semantic UI 2.1.8 - Comment
  * http://github.com/semantic-org/semantic-ui/
