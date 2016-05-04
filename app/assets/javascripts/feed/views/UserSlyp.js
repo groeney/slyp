@@ -6,8 +6,8 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   events: {
     'click #reslyp-button'          : 'sendSlyp',
     'keypress #reslyp-comment'      : 'sendSlypIfValid',
-    'click .archive.icon'           : 'toggleArchive',
-    'click .star.icon'              : 'toggleStar',
+    'click #archive-action'         : 'toggleArchive',
+    'click #favorite-action'        : 'toggleStar',
     'mouseenterintent'              : 'giveAttention',
     'mouseleaveintent'              : 'takeAttention',
     'click #preview-button'         : 'showPreview',
