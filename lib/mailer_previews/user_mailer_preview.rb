@@ -12,6 +12,6 @@ class UserMailerPreview < ActionMailer::Preview
   end
 
   def reslyp_notification
-    UserMailer.reslyp_notification(Reslyp.where({:sender => false}).first)
+    UserMailer.reslyp_notification(Reslyp.first)
   end
 end

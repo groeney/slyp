@@ -22,6 +22,10 @@ Rails.application.routes.draw do
   get "/reslyp/replies/:id" => "replies#index"
   resource :user
 
+  if Rails.env.development?
+    get "/rails/mailers" => "rails/mailers#index"
+    get "/rails/mailers/*path" => "rails/mailers#preview"
+  end
   # Make sure this is last
   get "*unmatched_route", :to => redirect("/")
 end
