@@ -2,9 +2,9 @@
   <div class="ui top fixed borderless menu three column grid" style="background-color: #FAFAFA;">
     <div id="left-menu" class="ui column secondary menu">
       <div class="ui left secondary menu">
-        <%= link_to "/feed", :class => "item" do %>
+        <a id="refresh" class="ui basic button item" rv-class-loading="appState.resettingFeed">
           <img src="/assets/logo.png">
-        <% end %>
+        </a>
       </div>
     </div>
     <div class="ui column centered secondary item menu">

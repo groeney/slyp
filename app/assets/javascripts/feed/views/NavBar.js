@@ -6,8 +6,9 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     'focusin #searcher input'                 : 'enterSearchMode',
     'focusout #searcher'                      : 'doneSearching',
     'keypress #searcher input'                : 'searchingIfEnter',
-    'click #back-button'                      : 'exitSearchMode',
-    'click .right.secondary.menu.mobile.only' : 'toggleActions'
+    'click #back-button'                      : 'refreshFeed',
+    'click .right.secondary.menu.mobile.only' : 'toggleActions',
+    'click #refresh'                          : 'refreshFeed'
   },
   toggleActions: function(){
     this.$('#right-menu').toggleClass('hide');
@@ -19,10 +20,10 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   },
   doneSearching: function(){
     if (this.state.searchTerm === ''){
-      this.exitSearchMode();
+      this.refreshFeed();
     }
   },
-  exitSearchMode: function(){
+  refreshFeed: function(){
     slypApp.state.resettingFeed = true;
     var context = this;
     slypApp.userSlyps.fetch({
