@@ -4,8 +4,8 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   </head>
   <body>
-    <p><%= @comment %> -- <%= @slyp.url %></p>
-    <p/>
-    <p>To view all of your slyps in one place, head on over to <%= link_to "slyp.io", controller: "home", action: "index", email: @recipient.email %></p>
+    <p><b style="font-weight: bold;"><%= @sender.full_name %></b> sent you a slyp at <%= link_to "slyp.io", controller: "home", action: "index", email: @recipient.email %></p>
+    <p>They said <i>"<%= @comment %>"</i>:</p>
+    <p><%= link_to @slyp.title, @slyp.url %></p>
   </body>
 </html>

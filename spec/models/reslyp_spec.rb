@@ -35,7 +35,7 @@ RSpec.describe Reslyp, type: :model do
 
         delivered_email = ActionMailer::Base.deliveries.last
         expect(delivered_email.to.first).to eq to_user.email
-        expect(delivered_email.from.first).to eq "#{user.email}"
+        expect(delivered_email.from.first).to eq "robot@slyp.io"
         expect(delivered_email.subject).to eq comment.truncate(50)
 
         expect(delivered_email.text_part.body.decoded).to include comment
