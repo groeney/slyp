@@ -53,7 +53,7 @@ RSpec.describe Reslyp, type: :model do
         user_slyp.send_slyp(email, comment)
         delivered_email = ActionMailer::Base.deliveries.last
         expect(delivered_email.to.first).to eq email
-        expect(delivered_email.from.first).to eq "robot@slyp.io"
+        expect(delivered_email.from.first).to eq "jamesgroeneveld@gmail.com"
         expect(delivered_email.subject.include? "invited you to slyp beta!").to be true
       end
     end
