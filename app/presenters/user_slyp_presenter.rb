@@ -13,7 +13,7 @@ class UserSlypPresenter < BasePresenter
   def display_url
     display_url = @slyp.display_url
     invalid = (display_url.nil? or !%w[data:image .jpg .jpeg .png .gif .ico].any?{ |ext| display_url.include?(ext) })
-    invalid ? "/assets/blank-image.png": display_url
+    invalid ? "/assets/logo.png": display_url
   end
 
   def total_reslyps
