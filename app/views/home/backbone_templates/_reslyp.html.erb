@@ -1,8 +1,7 @@
 <script type="text/template" id="js-reslyp-tmpl">
-
-  <div class="avatar" rv-data-title="reslyp:sender.email">
-    <img class="round" rv-avatar="reslyp:sender.first_name | fallback reslyp:sender.email">
-  </div>
+  <a class="avatar" rv-data-title="reslyp:sender.email">
+    <img rv-src="reslyp:sender.first_name | getAvatar reslyp:sender.email">
+  </a>
   <div class="content">
     <span class="author">
       <span>

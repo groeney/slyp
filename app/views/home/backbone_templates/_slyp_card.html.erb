@@ -42,10 +42,10 @@
       <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" data-content="archive" data-variation="tiny"></i>
     </div>
 
-    <div class="row" rv-show="userSlyp.hasComments < :comments">
+    <div class="row" rv-show="userSlyp.hasComment < :latest_comment">
       <a id="comment-label" class="ui small pointing basic label">
-        <span data-title="james@gmail.com" class="ui avatar letter d"></span>
-        <span class="extra content">{ userSlyp:comments | chooseComment }</span>
+        <image class="ui avatar image" rv-src="userSlyp:latest_comment.email | getAvatar" rv-data-title="userSlyp:latest_comment.email"></span>
+        <span class="extra content">{ userSlyp:latest_comment.text }</span>
       </a>
     </div>
   </div>

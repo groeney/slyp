@@ -26,8 +26,11 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
   hideArchived: function(){
     return this.get('archived') && !slypApp.state.searchMode
   },
-  hasComments: function(){
-    var comments = this.get('comments');
-    return typeof comments !== 'undefined' && comments.length > 0
+  hasComment: function(){
+    var latest_comment = this.get('latest_comment');
+    if (typeof latest_comment == 'undefined'){
+      return false
+    }
+    return latest_comment.text && latest_comment.email
   }
-})
+});

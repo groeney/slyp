@@ -3,9 +3,6 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   className  : 'comment',
   childView: slypApp.Views.Reply,
   childViewContainer: '.js-replies-container',
-  modelEvents: {
-    'change' : 'renderAvatars'
-  },
   events     : {
     'click #reply'        : 'toggleReplies',
     'click #replies'      : 'toggleReplies',
@@ -26,18 +23,8 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   onRender: function(){
     this.binder = rivets.bind(this.$el, { reslyp: this.model, state: this.state });
   },
-  renderAvatars: function(){
-    window.LetterAvatar.transform_el(this.el);
-  },
   onShow: function(){
-    this.$('.avatar')
-      .popup({
-        delay :{
-          show: 100,
-          hide: 200
-        }
-      });
-    this.renderAvatars();
+    this.$('.avatar').popup();
   },
   toggleReplies: function(){
     this.model.get('replies').fetch();

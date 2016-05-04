@@ -53,16 +53,6 @@ slypApp.Views.Reply = slypApp.Base.CompositeView.extend({
     this.binder = rivets.bind(this.$el, { reply: this.model, state: this.state });
   },
   onShow: function(){
-    this.$('.avatar')
-      .popup({
-        delay :{
-          show: 100,
-          hide: 200
-        }
-      });
-    this.renderAvatars();
-  },
-  renderAvatars: function(){
-    window.LetterAvatar.transform_el(this.el);
+    this.$('.avatar').popup();
   }
 });

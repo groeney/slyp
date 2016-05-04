@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe UserSlypsController, type: :controller do
-  let(:expected_keys) { ["id", "display_url", "title", "site_name", "comments",
+  let(:expected_keys) { ["id", "display_url", "title", "site_name", "latest_comment",
   "author", "slyp_id", "url", "archived", "favourite", "deleted", "duration",
   "unseen", "unseen_activity", "friends_count", "total_reslyps", "slyp_type", "html"] }
   describe "#create" do

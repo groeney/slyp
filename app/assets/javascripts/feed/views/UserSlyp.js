@@ -188,6 +188,8 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     });
 
     this.$('.video_frame').first().addClass('ui').addClass('embed');
+
+    this.$('img.avatar').popup();
   },
   sendSlypIfValid: function(e){
     if (e.keyCode==13 && this.state.hasComment()){

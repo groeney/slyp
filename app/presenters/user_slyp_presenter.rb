@@ -20,7 +20,10 @@ class UserSlypPresenter < BasePresenter
     Reslyp.where(slyp_id: user_slyp.slyp_id).length
   end
 
-  def comments
-    user_slyp.reslyps.pluck(:comment)
+  def latest_comment
+    reslyp = user_slyp.reslyps.last
+    text = reslyp.try(:comment) || ""
+    email = reslyp.try(:sender).try(:email) || ""
+    { :text => text, :email => email }
   end
 end
