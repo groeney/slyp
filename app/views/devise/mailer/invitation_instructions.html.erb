@@ -2,6 +2,12 @@
 
 <p><%= t("devise.mailer.invitation_instructions.someone_invited_you", url: root_url, invited_by: @resource.invited_by.try(:full_name) || "Someone") %></p>
 
+<% if @resource.invitations_count <= 1 %>
+  <p><%= t("devise.mailer.invitation_instructions.what_is_slyp", invited_by: @resource.invited_by.try(:full_name) || "Someone") %></p>
+<% else %>
+  <p><%= t("devise.mailer.invitation_instructions.already_invited", invitations_count: @resource.invitations_count) %></p>
+<% end %>
+
 <p><%= link_to t("devise.mailer.invitation_instructions.accept"), accept_invitation_url(@resource, :invitation_token => @token) %></p>
 
 <% if @resource.invitation_due_at %>
@@ -9,3 +15,5 @@
 <% end %>
 
 <p><%= t("devise.mailer.invitation_instructions.ignore").html_safe %></p>
+
+<p><%= t("devise.mailer.invitation_instructions.ps").html_safe %></p>
