@@ -9,9 +9,9 @@
     </div>
     <div class="ui column centered secondary item menu">
       <div class="ui category search item">
-        <button id="back-button" class="ui basic button" rv-class-loading="appState.resettingFeed" rv-show="appState.searchMode">
+        <button id="back-button" class="ui basic icon button" rv-class-loading="appState.resettingFeed" rv-show="appState.searchMode">
           <i class="arrow left icon"></i>
-          Back
+          <span rv-hide="appState.isMobile < screenWidth">Back</span>
         </button>
         <div id="searcher" class="ui left icon input">
           <input class="prompt" type="text" rv-value="state.searchTerm" placeholder="search">
