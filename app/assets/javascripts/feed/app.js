@@ -60,7 +60,13 @@ rivets.formatters.numFriends = function(value){
 }
 
 rivets.formatters.numConversations = function(value){
-  return value ? 'conversation'.pluralize(value) : '0 conversations'
+  if (typeof value == 'number'){
+    return value > 0 ? 'conversation'.pluralize(value) : '0 conversations'
+  } else if (typeof value == 'object'){
+    return value.length > 0 ? 'conversation'.pluralize(value.length) : '0 conversations'
+  } else {
+    return '0 conversations'
+  }
 }
 
 rivets.formatters.chooseComment = function(comments){

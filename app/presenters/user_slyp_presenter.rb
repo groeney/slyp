@@ -2,7 +2,7 @@ class UserSlypPresenter < BasePresenter
   attr_accessor :user_slyp, :slyp
 
   delegate :title, :duration, :site_name, :author, :url, :slyp_type, :html, to: :slyp
-  delegate :id, :archived, :favourite, :deleted, :slyp_id, :friends_count,
+  delegate :id, :archived, :favourite, :deleted, :slyp_id, :friends,
     :unseen, :unseen_activity, to: :user_slyp
 
   def initialize(user_slyp)
