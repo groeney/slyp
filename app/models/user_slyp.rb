@@ -35,10 +35,11 @@ class UserSlyp < ActiveRecord::Base
 
   def send_slyp(email, comment="")
     to_user = User.find_by({:email => email})
-
+    invited = false
     User.without_callback(:create, :after, :send_welcome_email) do
       if to_user.nil?
         to_user = User.invite!({:email => email}, self.user)
+        invited = true
       end
     end
 
@@ -56,7 +57,7 @@ class UserSlyp < ActiveRecord::Base
       :slyp_id                 => self.slyp_id
     }
     if to_user.invitation_pending?
-      User.invite!({:email => email}, self.user)
+      User.invite!({:email => email}, self.user) unless invited
       Reslyp.without_callback(:create, :after, :notify) do
         self.sent_reslyps.create(attributes)
       end
