@@ -7,6 +7,6 @@ class UserSearchPresenter < BasePresenter
   end
 
   def display_name
-    user.invitation_pending? ? user.email + " (pending)" : [user.first_name, user.last_name].reject(&:empty?).join(" ")
+    user.invitation_pending? ? user.display_name + " (pending)" : user.display_name
   end
 end
