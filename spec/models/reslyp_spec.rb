@@ -54,7 +54,7 @@ RSpec.describe Reslyp, type: :model do
         delivered_email = ActionMailer::Base.deliveries.last
         expect(delivered_email.to.first).to eq email
         expect(delivered_email.from.first).to eq "jamesgroeneveld@gmail.com"
-        expect(delivered_email.subject.include? "invited you to slyp beta!").to be true
+        expect(delivered_email.subject).to include("invited you to slyp beta :)")
       end
     end
 

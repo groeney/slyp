@@ -57,7 +57,6 @@ class UserSlyp < ActiveRecord::Base
       :slyp_id                 => self.slyp_id
     }
     if to_user.invitation_pending?
-      User.invite!({:email => email}, self.user) unless invited
       Reslyp.without_callback(:create, :after, :notify) do
         self.sent_reslyps.create(attributes)
       end
