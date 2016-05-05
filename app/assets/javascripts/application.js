@@ -7,3 +7,4 @@
 //= require toastr/toastr.min
 //= require ./hoverIntent
 //= require ./globals
+//= require jquery.cookie/jquery.cookie
