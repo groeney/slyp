@@ -13,7 +13,7 @@ en:
         header: "Send invitation"
         submit_button: "Send an invitation"
       edit:
-        header: "Update your profile before you can join"
+        header: "Hey there! Please update your profile"
         submit_button: "Update"
     mailer:
       invitation_instructions:
