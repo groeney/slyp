@@ -1,3 +1,10 @@
+<div class="ui inline cookie nag">
+  <span class="title">
+    Hey <%= @user.first_name %>! James here, just letting you know this is a closed beta. Your data will be destroyed in 2 weeks when we move to an open beta. Feedback encouraged :)
+  </span>
+  <i class="close icon"></i>
+</div>
+
 <div id="js-nav-bar-region"></div>
 <div id="js-feed-region"></div>
 <%= javascript_include_tag "feed" %>
@@ -6,3 +13,8 @@
 <%= render "home/backbone_templates/nav_bar" %>
 <%= render "home/backbone_templates/reslyp" %>
 <%= render "home/backbone_templates/reply" %>
+<% if Rails.env.development? or Rails.env.staging? %>
+  <script type="text/javascript">
+    $('.cookie.nag').nag('show');
+  </script>
+<% end %>

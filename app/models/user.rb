@@ -21,7 +21,7 @@ class User < ActiveRecord::Base
   end
 
   def full_name
-    return [self.first_name, self.last_name].reject { |part| part.empty? }.join(" ")
+    return [self.first_name, self.last_name].reject(&:empty?).join(" ")
   end
 
   def send_welcome_email
@@ -33,8 +33,7 @@ class User < ActiveRecord::Base
   end
 
   def display_name
-    return self.first_name.empty? ? self.email :
-      [self.first_name, self.last_name].reject(&:empty?).join(" ")
+    return self.full_name.empty? ? self.email : self.full_name
   end
 
   def self.from_omniauth(auth)
