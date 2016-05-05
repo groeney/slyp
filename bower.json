@@ -17,19 +17,20 @@
     "tests"
   ],
   "dependencies": {
-    "semantic-ui": "2.1",
-    "jquery": "2.1.4",
-    "toastr": "2.1.1",
-    "backbone": "latest",
-    "backbone-relational": "0.10.0",
-    "marionette": "2.4.5",
-    "jquery.cookie": "latest",
-    "moment": "~2.9.0",
-    "jquery-mockjax": "~1.6.2",
-    "imagesloaded": "3.1.8",
-    "font-awesome": "4.3.0",
-    "rivets": "0.8.1",
-    "jquery-serialize-object": "2.5.0"
+    "semantic-ui"            : "2.1",
+    "jquery"                 : "2.1.4",
+    "toastr"                 : "2.1.1",
+    "backbone"               : "latest",
+    "backbone-relational"    : "0.10.0",
+    "marionette"             : "2.4.5",
+    "jquery.cookie"          : "latest",
+    "moment"                 : "~2.9.0",
+    "jquery-mockjax"         : "~1.6.2",
+    "imagesloaded"           : "3.1.8",
+    "font-awesome"           : "4.3.0",
+    "rivets"                 : "0.8.1",
+    "jquery-serialize-object": "2.5.0",
+    "js-cookie"              : "latest"
   },
   "resolutions": {
     "backbone.babysitter": "^0.1.0"
