@@ -3,12 +3,6 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
   url: '/user_slyps',
   initialize: function(){
     this.fetch();
-    var context = this;
-    window.setInterval(function(){
-      if (!slypApp.state.searchMode && !slypApp.state.resettingFeed && !slypApp.state.addMode){
-        context.fetch();
-      }
-    }, 30000);
   },
   moveToFront: function(model) {
     var index = this.indexOf(model);
