@@ -24,6 +24,7 @@ class UserSlypPresenter < BasePresenter
     reslyp = user_slyp.reslyps.last
     text = reslyp.try(:comment) || ""
     email = reslyp.try(:sender).try(:email) || ""
-    { :text => text, :email => email }
+    first_name = reslyp.try(:sender).try(:first_name) || ""
+    { :text => text, :email => email, :first_name => first_name }
   end
 end

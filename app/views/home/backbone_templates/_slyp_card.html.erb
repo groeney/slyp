@@ -44,7 +44,7 @@
 
     <div class="row" rv-show="userSlyp.hasComment < :latest_comment">
       <a id="comment-label" class="ui small pointing basic label">
-        <image class="ui avatar image" rv-src="userSlyp:latest_comment.email | getAvatar" rv-data-title="userSlyp:latest_comment.email"></span>
+        <image class="ui avatar image" rv-src="userSlyp:latest_comment.first_name | getAvatar userSlyp:latest_comment.email" rv-data-title="userSlyp:latest_comment.email"></span>
         <span class="extra content">{ userSlyp:latest_comment.text }</span>
       </a>
     </div>
