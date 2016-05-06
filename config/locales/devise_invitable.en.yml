@@ -20,7 +20,7 @@ en:
         subject: "%{invited_by} invited you to slyp beta :)"
         hello: "Hello, James here. I'm the founder of Slyp."
         someone_invited_you: "%{invited_by} has invited you to %{url}, you can accept it through the link below."
-        what_is_slyp: "What is slyp? Slyp is a platform that allows you to easily store and share articles with friends. The motivation behind this project stems from our frustration with clickbait media tactics, whose only purpose is to monetize our eye-balls. We are fundamentally changing the way people share and discover content online and the team here at slyp and %{invited_by} would love for you to join us!"
+        what_is_slyp: "What is slyp? Slyp is a platform that allows you to easily store and share articles with friends. The motivation behind this project stems from our frustration with clickbait media tactics, whose only purpose is to monetize our eye-balls. We are fundamentally changing the way people share and discover content online and the team here at slyp would love for you to join us!"
         already_invited: "It looks like this is invitation #%{invitations_count} for you, eeek..."
         accept: "Accept invitation"
         accept_until: "This invitation will be due in %{due_date}."
