@@ -1,28 +1,27 @@
 slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   template: '#js-nav-bar-tmpl',
+  onRender: function(){
+    this.state = {
+      slypURL      : '',
+      searchTerm   : '',
+      creatingSlyp : false
+    }
+    this.binder = rivets.bind(this.$el, { state: this.state, appState: slypApp.state })
+  },
+  onShow: function(){
+    this.initializeSemanticElements();
+  },
   events: {
-    'keypress #create-popup input'            : 'createSlypIfEnter',
+    'click #refresh'                          : 'refreshFeed',
+    'click #back-button'                      : 'refreshFeed',
     'click #create-popup button'              : 'createSlyp',
+    'keypress #create-popup input'            : 'createSlypIfEnter',
     'focusin #searcher input'                 : 'enterSearchMode',
     'focusout #searcher'                      : 'doneSearching',
-    'keypress #searcher input'                : 'searchingIfEnter',
-    'click #back-button'                      : 'refreshFeed',
-    'click .right.secondary.menu.mobile.only' : 'toggleActions',
-    'click #refresh'                          : 'refreshFeed'
+    'click .right.secondary.menu.mobile.only' : 'toggleActions'
   },
-  toggleActions: function(){
-    this.$('#right-menu').toggleClass('hide');
-    this.$('#right-menu').toggleClass('right');
-    slypApp.state.actionsMode = !slypApp.state.actionsMode
-  },
-  enterSearchMode: function(){
-    slypApp.state.searchMode = true;
-  },
-  doneSearching: function(){
-    if (this.state.searchTerm === ''){
-      this.refreshFeed();
-    }
-  },
+
+  // Event functions
   refreshFeed: function(){
     slypApp.state.resettingFeed = true;
     var context = this;
@@ -33,62 +32,6 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
         slypApp.state.resettingFeed = false;
       }
     });
-  },
-  onRender: function(){
-    this.state = {
-      slypURL      : '',
-      searchTerm   : '',
-      creatingSlyp : false
-    }
-    this.binder = rivets.bind(this.$el, { state: this.state, appState: slypApp.state })
-
-    this.$('#user-actions').dropdown({
-      on: 'hover'
-    });
-    this.$('#display-name').popup({
-      position: 'left center',
-      delay   : {
-        show: 1000,
-        hide: 0
-        }
-      });
-    $.fn.search.settings.templates = {
-      message: function(message, type) {
-        return ''
-      }
-    }
-    this.$('.ui.search')
-      .search({
-        cache: false,
-        apiSettings: {
-          url: '/search/user_slyps?q={query}',
-          onResponse: function(serverResponse){
-            serverResponse = _.map(serverResponse, function(value, index) {
-               return value;
-            });
-            slypApp.userSlyps.reset(serverResponse);
-            serverResponse = {};
-            return {'success': true, 'results': serverResponse }
-          }
-        },
-        minCharacters : 3,
-      });
-
-    var context = this;
-    this.$('#create-button').popup({
-      on       : 'click',
-      position : 'left center',
-      popup    : '#create-popup',
-      onShow   : function(){
-        resizePopup();
-        setTimeout(function() { context.$('#create-popup input').focus() }, 100);
-      }
-    })
-  },
-  createSlypIfEnter: function(e){
-    if (e.keyCode==13){
-      this.createSlyp();
-    }
   },
   createSlyp: function(){
     var context = this;
@@ -135,6 +78,73 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     } else {
       context.toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://')
     }
+  },
+  createSlypIfEnter: function(e){
+    if (e.keyCode==13){
+      this.createSlyp();
+    }
+  },
+  enterSearchMode: function(){
+    slypApp.state.searchMode = true;
+  },
+  doneSearching: function(){
+    if (this.state.searchTerm === ''){
+      this.refreshFeed();
+    }
+  },
+  toggleActions: function(){
+    this.$('#right-menu').toggleClass('hide');
+    this.$('#right-menu').toggleClass('right');
+    slypApp.state.actionsMode = !slypApp.state.actionsMode
+  },
+
+  // Helper functions
+  initializeSemanticElements: function(){
+    var context = this;
+    // Misc UI
+    this.$('#user-actions').dropdown({
+      on: 'hover'
+    });
+    this.$('#display-name').popup({
+      position: 'left center',
+      delay   : {
+        show: 1000,
+        hide: 0
+        }
+      });
+
+    // Search
+    $.fn.search.settings.templates = {
+      message: function(message, type) {
+        return ''
+      }
+    }
+    this.$('.ui.search')
+      .search({
+        cache: false,
+        apiSettings: {
+          url: '/search/user_slyps?q={query}',
+          onResponse: function(serverResponse){
+            serverResponse = _.map(serverResponse, function(value, index) {
+               return value;
+            });
+            slypApp.userSlyps.reset(serverResponse);
+            serverResponse = {};
+            return {'success': true, 'results': serverResponse }
+          }
+        },
+        minCharacters : 3,
+      });
+
+    // Create
+    this.$('#create-button').popup({
+      on       : 'click',
+      position : 'left center',
+      popup    : '#create-popup',
+      onShow   : function(){
+        resizePopup();
+        setTimeout(function() { context.$('#create-popup input').focus() }, 100);
+      }
+    });
   }
 });
-

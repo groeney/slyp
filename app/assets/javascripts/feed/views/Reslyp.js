@@ -3,14 +3,10 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   className  : 'comment',
   childView: slypApp.Views.Reply,
   childViewContainer: '.js-replies-container',
-  events     : {
-    'click #reply'        : 'toggleReplies',
-    'click #replies'      : 'toggleReplies',
-    'click #reply-button' : 'reply',
-    'keypress input'      : 'replyIfValid'
-  },
   initialize: function(options){
     this.collection = options.model.get('replies');
+  },
+  onRender: function(){
     var context = this;
     this.state = {
       hideReplies: true,
@@ -19,23 +15,24 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     this.state.hasReplyText = function(){
       return context.state.replyText.length > 0
     }
-  },
-  onRender: function(){
     this.binder = rivets.bind(this.$el, { reslyp: this.model, state: this.state });
   },
   onShow: function(){
     this.$('.avatar').popup();
   },
+  events: {
+    'click #reply'        : 'toggleReplies',
+    'click #replies'      : 'toggleReplies',
+    'click #reply-button' : 'reply',
+    'keypress input'      : 'replyIfValid'
+  },
+
+  // Event functions
   toggleReplies: function(){
     this.model.get('replies').fetch();
     this.state.hideReplies = !this.state.hideReplies;
     if (!this.state.hideReplies){
       this.$('.ui.action.input input').focus();
-    }
-  },
-  replyIfValid: function(e){
-    if (e.keyCode == 13 && this.state.hasReplyText()){
-      this.$('#reply-button').click();
     }
   },
   reply: function(){
@@ -61,5 +58,10 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
         context.toastr('error', 'Couldn\'t add that reply for some reason :(')
       }
     });
+  },
+  replyIfValid: function(e){
+    if (e.keyCode == 13 && this.state.hasReplyText()){
+      this.$('#reply-button').click();
+    }
   }
 });
