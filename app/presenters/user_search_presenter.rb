@@ -7,6 +7,7 @@ class UserSearchPresenter < BasePresenter
   end
 
   def display_name
-    user.invitation_pending? ? user.display_name + " (pending)" : user.display_name
+    pending = " (pending)"
+    user.invitation_pending? ? user.display_name + pending : user.display_name
   end
 end

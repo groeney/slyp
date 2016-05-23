@@ -4,11 +4,11 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   serialization_scope :view_context
 
-  def after_sign_up_path_for(resource)
+  def after_sign_up_path_for(_resource)
     "/feed"
   end
 
-  def after_sign_in_path_for(resource)
+  def after_sign_in_path_for(_resource)
     "/feed"
   end
 end

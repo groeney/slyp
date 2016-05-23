@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => {
-    :omniauth_callbacks => "users/omniauth_callbacks",
-    :registrations => "registrations",
-    :invitations => "invitations",
-    :sessions => "sessions"
+  devise_for :users, controllers: {
+    omniauth_callbacks: "users/omniauth_callbacks",
+    registrations: "registrations",
+    invitations: "invitations",
+    sessions: "sessions"
   }
 
   root to: "home#index"
@@ -28,5 +28,5 @@ Rails.application.routes.draw do
     get "/rails/mailers/*path" => "rails/mailers#preview"
   end
   # Make sure this is last
-  get "*unmatched_route", :to => redirect("/")
+  get "*unmatched_route", to: redirect("/")
 end

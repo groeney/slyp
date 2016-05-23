@@ -6,9 +6,9 @@ class User < ActiveRecord::Base
 
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
-         :omniauthable, :omniauth_providers => [:google_oauth2, :facebook]
+         :omniauthable, omniauth_providers: [:google_oauth2, :facebook]
 
-  has_many :user_slyps, :dependent => :destroy
+  has_many :user_slyps, dependent: :destroy
   has_many :slyps, through: :user_slyps
   has_many :sent_reslyps, through: :user_slyps
   has_many :received_reslyps, through: :user_slyps
@@ -17,11 +17,11 @@ class User < ActiveRecord::Base
   scope :all_except, ->(user) { where.not(id: user) }
 
   def invitation_pending?
-    !self.invitation_token.nil? and self.invitation_accepted_at.nil?
+    !invitation_token.nil? && invitation_accepted_at.nil?
   end
 
   def full_name
-    return [self.first_name, self.last_name].reject(&:empty?).join(" ")
+    [first_name, last_name].reject(&:empty?).join(" ")
   end
 
   def send_welcome_email
@@ -29,18 +29,18 @@ class User < ActiveRecord::Base
   end
 
   def remove_from_waitlist
-    BetaRequest.find_by({:email => self.email}).try(:update, {:signed_up => true})
+    BetaRequest.find_by(email: email).try(:update, signed_up: true)
   end
 
   def display_name
-    return self.full_name.empty? ? self.email : self.full_name
+    full_name.empty? ? email : full_name
   end
 
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
-      user.password = Devise.friendly_token[0,20]
-      user.first_name = auth.info.name   # assuming the user model has a name
+      user.password = Devise.friendly_token[0, 20]
+      user.first_name = auth.info.name # assuming the user model has a name
     end
   end
 end

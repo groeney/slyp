@@ -1,3 +1,4 @@
+# Preview UserMailer emails
 class UserMailerPreview < ActionMailer::Preview
   def beta_request
     UserMailer.beta_request(BetaRequest.first)
@@ -9,10 +10,6 @@ class UserMailerPreview < ActionMailer::Preview
 
   def new_user_beta
     UserMailer.new_user_beta(User.first)
-  end
-
-  def reslyp_notification
-    UserMailer.reslyp_notification(Reslyp.first)
   end
 
   def reslyp_notification

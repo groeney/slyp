@@ -27,12 +27,12 @@ RSpec.describe Slyp, type: :model do
 
   context "slyp exists but not complete", :vcr do
     let(:url) { "https://www.facebook.com/berniesanders/videos/1031395530248784/" }
-    let(:slyp_1) { Slyp.create({:url => url}) }
+    let(:slyp_1) { Slyp.create(url: url) }
 
     it "should update slyp with complete data" do
       expect(slyp_1.complete?).to be false
-      slyp_2 = Slyp.fetch(url)
-      slyp_1 = Slyp.find_by({:url => url})
+      Slyp.fetch(url)
+      slyp_1 = Slyp.find_by(url: url)
       expect(slyp_1.complete?).to be true
     end
   end

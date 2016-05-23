@@ -1,0 +1,25 @@
+AllCops:
+  Exclude:
+    - config/initializers/**
+    - bin/**
+    - vendor/**/*
+    - spec/**/*
+    - db/seeds/seed_data.rb
+    - db/schema.rb
+    - db/migrate/**
+    - app/services/diffbot_service.rb
+    - app/controllers/invitations_controller.rb
+  TargetRubyVersion: 2.3
+
+Style/StringLiterals:
+  EnforcedStyle: double_quotes
+  SupportedStyles:
+    - single_quotes
+    - double_quotes
+  ConsistentQuotesInMultiline: false
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Documentation:
+  Enabled: false

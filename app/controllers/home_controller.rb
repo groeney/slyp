@@ -14,9 +14,8 @@ class HomeController < ApplicationController
   end
 
   def index
-    if current_user
-      redirect_to "/feed"
-    end
+    return unless current_user
+    redirect_to "/feed"
   end
 
   def feed

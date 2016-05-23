@@ -9,3 +9,4 @@
 //= require_tree  ./feed/views
 //= require       ./feed/router
 //= require       ./feed/show
+//= require       ./feed/rivetsSetup

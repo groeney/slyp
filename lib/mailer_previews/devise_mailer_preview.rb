@@ -1,3 +1,4 @@
+# Preview Devise::Mailer emails
 class Devise::MailerPreview < ActionMailer::Preview
   def confirmation_instructions
     Devise::Mailer.confirmation_instructions(User.first, "faketoken")
@@ -7,5 +8,3 @@ class Devise::MailerPreview < ActionMailer::Preview
     Devise::Mailer.reset_password_instructions(User.first, "faketoken")
   end
 end
-
-

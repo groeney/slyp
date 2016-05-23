@@ -31,12 +31,13 @@ After setting up, you can run the application using [Heroku Local]:
 
 ## Guidelines
 
-Use the following guides for getting things done, programming well, and
+Use the following guides for getting things done well, and
 programming in style.
 
 * [Protocol](http://github.com/thoughtbot/guides/blob/master/protocol)
 * [Best Practices](http://github.com/thoughtbot/guides/blob/master/best-practices)
-* [Style](http://github.com/thoughtbot/guides/blob/master/style)
+* [Style I](https://github.com/bbatsov/rubocop)
+Rubocop configuation at [.rubocop.yml](.rubocop.yml)
 
 We follow the following naming convention for branches:
 `[group]/[name]`

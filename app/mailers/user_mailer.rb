@@ -21,7 +21,7 @@ class UserMailer < ApplicationMailer
     @recipient = @reslyp.recipient
     @sender = @reslyp.sender
     mail(to: @recipient.email,
-      subject: @comment.truncate(50),
-      from: "slyp.io <robot@slyp.io>" )
+         subject: @comment.truncate(50),
+         from: "slyp.io <robot@slyp.io>")
   end
 end

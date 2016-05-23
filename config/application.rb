@@ -1,4 +1,4 @@
-require File.expand_path('../boot', __FILE__)
+require File.expand_path("../boot", __FILE__)
 require "rails"
 require "active_model/railtie"
 require "active_job/railtie"
@@ -24,8 +24,8 @@ module SlypApp
     config.action_controller.action_on_unpermitted_parameters = :log
     config.active_record.raise_in_transactional_callbacks = true
     config.active_job.queue_adapter = :delayed_job
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components')
-    config.assets.paths << Rails.root.join('vendor', 'assets', 'bower_components', 'semantic-ui', 'dist')
+    config.assets.paths << Rails.root.join("vendor", "assets", "bower_components")
+    config.assets.paths << Rails.root.join("vendor", "assets", "bower_components", "semantic-ui", "dist")
     config.autoload_paths += %W(#{config.root}/lib)
   end
 end
