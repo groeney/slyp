@@ -1,4 +1,7 @@
 slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
+  defaults: {
+    friends: []
+  },
   relations: [{
     type: Backbone.HasMany,
     key: 'reslyps',
@@ -32,5 +35,8 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
       return false
     }
     return latest_comment.text && latest_comment.email
+  },
+  hasConversations: function(){
+    return this.get('friends').length > 0
   }
 });

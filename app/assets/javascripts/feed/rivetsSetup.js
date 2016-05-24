@@ -1,3 +1,4 @@
+// Adapters
 rivets.adapters[':'] = {
   observe: function(obj, keypath, callback) {
     obj.on('change:' + keypath, callback)
@@ -13,6 +14,7 @@ rivets.adapters[':'] = {
   }
 }
 
+// Formatters
 rivets.formatters.fromNow = function(value, updatedAt){
   updatedAt = typeof updatedAt !== 'undefined' ? updatedAt : value;
   var edited = value != updatedAt;
@@ -55,10 +57,6 @@ rivets.formatters.getAvatar = function(value, fallback){
   }
 }
 
-function readDuration(value){
-  return (value === undefined || value <= 60) ? 'short read' : Math.ceil(value/60) + ' min read'
-}
-
 rivets.formatters.consumption = function(duration, type){
   return (type === 'video') ? 'video' : readDuration(duration)
 }
@@ -95,6 +93,7 @@ rivets.formatters.authorship = function(author, siteName, url){
   }
 }
 
+//Binders
 rivets.binders['fade-hide'] = function(el, value) {
   return value ? $(el).fadeOut(function(){
     return $(this).attr('style', 'display: none !important;');
@@ -109,7 +108,13 @@ rivets.binders['fade-show'] = function(el, value) {
 };
 
 rivets.binders['class-unless-*'] = function(el, value) {
-  return value ? $(el).removeClass(this.args[0]) : $(el).addClass(this.args[0]);
+  var klass = this.args[0].replace('-', ' ');
+  return value ? $(el).removeClass(klass) : $(el).addClass(klass);
+};
+
+rivets.binders['class-*'] = function(el, value) {
+  var klass = this.args[0].replace('-', ' ');
+  return value ? $(el).addClass(klass) : $(el).removeClass(klass);
 };
 
 rivets.binders['hide-if'] = function(el, value) {
@@ -129,4 +134,10 @@ rivets.binders['live-value'] = {
   routine: function(el, value) {
     return rivets.binders.value.routine(el, value);
   }
-};
+}
+
+//Functions
+function readDuration(value){
+  return (value === undefined || value <= 60) ? 'short read' : Math.ceil(value/60) + ' min read'
+}
+
