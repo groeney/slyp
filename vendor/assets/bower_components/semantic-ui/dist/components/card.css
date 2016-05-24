@@ -24,12 +24,10 @@
   max-width: 100%;
   position: relative;
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-  -webkit-flex-direction: column;
       -ms-flex-direction: column;
           flex-direction: column;
   width: 250px;
@@ -65,17 +63,14 @@
 
 .ui.cards {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   margin: -0.75em -0.5em;
-  -webkit-flex-wrap: wrap;
-      -ms-flex-wrap: wrap;
-          flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
 }
 .ui.cards > .card {
   display: -webkit-box;
-  display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
   margin: 0em 1em 1.5em;
@@ -125,7 +120,6 @@
   position: relative;
   display: block;
   -webkit-box-flex: 0;
-  -webkit-flex: 0 0 auto;
       -ms-flex: 0 0 auto;
           flex: 0 0 auto;
   padding: 0em;
@@ -150,7 +144,6 @@
 .ui.cards > .card > .content,
 .ui.card > .content {
   -webkit-box-flex: 1;
-  -webkit-flex-grow: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
   border: none;
@@ -404,7 +397,6 @@
   max-width: 100%;
   min-height: 0em !important;
   -webkit-box-flex: 0;
-  -webkit-flex-grow: 0;
       -ms-flex-positive: 0;
           flex-grow: 0;
   border-top: none !important;
@@ -441,7 +433,6 @@
 
 .ui.centered.cards {
   -webkit-box-pack: center;
-  -webkit-justify-content: center;
       -ms-flex-pack: center;
           justify-content: center;
 }
@@ -953,27 +944,6 @@ a.ui.card:hover,
     User Variable Overrides
 *******************************/
 
-
-/*-----Archive----- */
-
-
-/* Icon */
-.ui.cards > .card > .content .archive.icon,
-.ui.card > .content .archive.icon {
-  cursor: pointer;
-  opacity: 0.75;
-  -webkit-transition: color 0.1s ease;
-  transition: color 0.1s ease;
-}
-.ui.cards > .card > .content .archive.icon:hover,
-.ui.card > .content .archive.icon:hover {
-  opacity: 1;
-  color: #198f35;
-}
-.ui.cards > .card > .content .active.archive.icon,
-.ui.card > .content .active.archive.icon {
-  color: #21BA45;
-}
 .ui.cards > .card > .content .checkmark.icon,
 .ui.card > .content .checkmark.icon {
   cursor: pointer;
@@ -989,4 +959,20 @@ a.ui.card:hover,
 .ui.cards > .card > .content .active.checkmark.icon,
 .ui.card > .content .active.checkmark.icon {
   color: #21BA45;
+}
+.ui.cards > .card > .content .heart.icon,
+.ui.card > .content .heart.icon {
+  cursor: pointer;
+  opacity: 0.75;
+  -webkit-transition: color 0.1s ease;
+  transition: color 0.1s ease;
+}
+.ui.cards > .card > .content .heart.icon:hover,
+.ui.card > .content .heart.icon:hover {
+  opacity: 1;
+  color: #fe6255;
+}
+.ui.cards > .card > .content .active.heart.icon,
+.ui.card > .content .active.heart.icon {
+  color: #ff6255;
 }
