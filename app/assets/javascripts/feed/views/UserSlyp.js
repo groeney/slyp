@@ -12,7 +12,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     var context = this;
     this.state = {
       canReslyp    : false,
-      gotAttention : false,
+      gotAttention : !this.model.hasConversations(),
       reslyping    : false,
       comment      : ''
     }
