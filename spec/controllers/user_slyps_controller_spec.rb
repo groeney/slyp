@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe UserSlypsController, type: :controller do
   let(:expected_keys) { ["id", "display_url", "title", "site_name", "latest_comment",
-  "author", "slyp_id", "url", "archived", "favourite", "deleted", "duration",
+  "author", "slyp_id", "url", "archived", "favourite", "deleted", "duration", "total_favourites",
   "unseen", "unseen_activity", "friends", "total_reslyps", "slyp_type", "html"] }
   describe "#create" do
     let(:user) { FactoryGirl.create(:user) }
