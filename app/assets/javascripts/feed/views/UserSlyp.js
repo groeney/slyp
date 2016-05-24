@@ -68,7 +68,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         this.toastr('error', 'No valid emails.');
       }
     } else {
-      this.toastr('error', 'Add a comment before sending :)');
+      this.toastr('error', 'Please add a comment before sending :)');
     }
   },
   sendSlypIfValid: function(e){
