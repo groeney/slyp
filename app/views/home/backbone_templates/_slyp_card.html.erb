@@ -58,9 +58,13 @@
       <input id="recipient-emails" type="hidden" name="reslyps">
       <div class="menu"></div>
     </div>
-    <div class="ui action input fluid focus" rv-show="state.canReslyp">
-      <input id="reslyp-comment" type="text" name="comment" placeholder="Write a comment..." rv-value="state.comment">
-      <button id="reslyp-button" class="ui positive button" rv-class-loading="state.reslyping" ><i class="send icon"></i>Send</button>
+    <div class="ui form" rv-show="state.canReslyp">
+      <div class="field">
+        <textarea id="reslyp-comment" type="text" name="comment" placeholder="Why is this shareworthy?" rv-value="state.comment" rows="1" autofocus></textarea>
+      </div>
+      <button id="reslyp-button" class="ui positive button">
+        <i class="send icon"></i> Send
+      </button>
     </div>
   </div>
 

@@ -36,6 +36,13 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     this.initializeSemanticElements();
     this.$('.video_frame').first().addClass('ui').addClass('embed');
     this.$('img.avatar').popup();
+
+    this.$('textarea').each(function () {
+      this.setAttribute('style', 'height:' + (this.scrollHeight+50) + 'px;overflow-y:hidden;');
+    }).on('input', function () {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    });
   },
   onClose: function() {
     if (this.binder) this.binder.unbind();
@@ -55,8 +62,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   sendSlyp: function(e){
     if (this.state.hasComment()){
       var emails = this.$('#recipient-emails').val().split(',');
-      this.$('.ui.dropdown').dropdown('restore defaults');
-      this.$('.ui.dropdown').dropdown('set text', 'send to friends'); // ^ 'restore defaults' not setting text
       this.$('#reslyp-comment').val('');
 
       if (emails.length > 0){
@@ -68,11 +73,11 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         this.toastr('error', 'No valid emails.');
       }
     } else {
-      this.toastr('error', 'Please add a comment before sending :)');
+      this.toastr('error', 'Gotta add a comment before sending ;)');
     }
   },
   sendSlypIfValid: function(e){
-    if (e.keyCode==13 && this.state.hasComment()){
+    if (e.keyCode==13 && this.state.hasComment() && !e.shiftKey){
       this.$('#reslyp-button').click();
     }
   },

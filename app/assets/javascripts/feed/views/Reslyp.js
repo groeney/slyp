@@ -19,6 +19,12 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   },
   onShow: function(){
     this.$('.avatar').popup();
+    this.$('textarea').each(function () {
+      this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+    }).on('input', function () {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    });
   },
   events: {
     'click #reply'        : 'toggleReplies',

@@ -25,10 +25,13 @@
   </div>
   <div class="ui minimal comments" rv-class-collapsed="state.hideReplies">
     <div class="ui comments js-replies-container"></div>
-    <div class="ui action input fluid" rv-hide="state.hideReplies">
-      <input placeholder="Write a reply..." rv-value="state.replyText" autofocus>
-      <button id="reply-button" class="ui positive button" rv-class-unless-disabled="state.hasReplyText < replyText">Reply</button>
+    <div class="ui form" rv-hide="state.hideReplies">
+      <div class="field">
+        <textarea type="text" placeholder="Write a reply..." rv-value="state.replyText" rows="1" autofocus></textarea>
+      </div>
+      <button id="reply-button" class="ui positive button" rv-class-unless-disabled="state.hasReplyText < replyText">
+        Reply
+      </button>
     </div>
   </div>
-
 </script>
