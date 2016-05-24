@@ -68,8 +68,6 @@ class Slyp < ActiveRecord::Base
     Slyp.find_title_match_or_use_response(parsed_response)
   end
 
-  protected
-
   def self.find_url_match(parsed_response)
     url_match = Slyp.find_by(url: parsed_response[:url])
     return url_match if url_match.try(:complete?)
