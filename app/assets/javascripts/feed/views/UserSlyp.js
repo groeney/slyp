@@ -2,8 +2,8 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   template: '#js-slyp-card-tmpl',
   className: 'ui card',
   attributes: {
-    'rv-fade-hide': 'userSlyp.hideArchived < :archived',
-    'rv-class-red': 'userSlyp:unseen'
+    'rv-fade-hide' : 'userSlyp.hideArchived < :archived',
+    'rv-class-red' : 'userSlyp:unseen'
   },
   childView: slypApp.Views.Reslyp,
   childViewContainer: '.js-reslyps-container',
@@ -97,9 +97,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
           'extendedTimeOut': 1000
         }
         if (context.model.get('archived')){
-          context.toastr('success', 'Slyp archived. Click to undo.', toastrOptions);
+          context.toastr('success', 'Marked as done. Click to Undo.', toastrOptions);
         } else {
-          context.toastr('success', 'Slyp unarchived. Click to undo.', toastrOptions);
+          context.toastr('success', 'Moved to reading list. Click to Undo.', toastrOptions);
         }
       },
       error: function() { context.toastr('error') }

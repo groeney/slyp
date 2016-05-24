@@ -100,6 +100,10 @@ rivets.formatters.convosTitle = function(friends){
   return friends.length > 0 ? genericTitle : zeroTitle;
 }
 
+rivets.formatters.doneText = function(value){
+  return value ? 'Move to Reading list' : 'Mark as Done';
+}
+
 //Binders
 rivets.binders['fade-hide'] = function(el, value) {
   return value ? $(el).fadeOut(function(){

@@ -45,7 +45,7 @@
         <div class="header" style="text-decoration: underline;">{ userSlyp:friends | convosTitle }</div>
         <div class="ui comments js-reslyps-container"></div>
       </div>
-      <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" data-content="archive" data-variation="tiny"></i>
+      <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" rv-data-content="userSlyp:archived | doneText" data-variation="tiny"></i>
     </div>
 
     <div class="row" rv-show="userSlyp.hasComment < :latest_comment">
