@@ -1,6 +1,11 @@
 <script type="text/template" id="js-slyp-card-tmpl">
   <div class="extra content" >
-    <div class="right floated">{ userSlyp:total_reslyps | numReslyps }</div>
+    <span class="right floated">
+      <i class="comments outline icon"></i>
+      { userSlyp:total_reslyps }
+      <i id="favorite-action" class="heart icon" rv-class-active="userSlyp:favourite"></i>
+      { userSlyp:total_favourites }
+    </span>
     <div class="left floated">
       { userSlyp:duration | consumption userSlyp:slyp_type }
     </div>
@@ -40,7 +45,6 @@
         <div class="header" style="text-decoration: underline;">{ userSlyp:friends | convosTitle }</div>
         <div class="ui comments js-reslyps-container"></div>
       </div>
-      <i id="favorite-action" class="right floated large star icon" rv-class-active="userSlyp:favourite" data-content="favorite" data-variation="tiny"></i>
       <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" data-content="archive" data-variation="tiny"></i>
     </div>
 

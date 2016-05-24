@@ -23,6 +23,10 @@ class UserSlypPresenter < BasePresenter
     Reslyp.where(slyp_id: user_slyp.slyp_id).length
   end
 
+  def total_favourites
+    UserSlyp.where(slyp_id: user_slyp.slyp_id, favourite: true).length
+  end
+
   def latest_comment
     reslyp = user_slyp.reslyps.last
     text = reslyp.try(:comment) || ""
