@@ -30,12 +30,13 @@ rivets.formatters.numFriends = function(value){
 }
 
 rivets.formatters.numConversations = function(value){
+  var zeroMessage = 'Only you see this';
   if (typeof value == 'number'){
-    return value > 0 ? 'conversation'.pluralize(value) : '0 conversations'
+    return value > 0 ? 'conversation'.pluralize(value) : zeroMessage
   } else if (typeof value == 'object'){
-    return value.length > 0 ? 'conversation'.pluralize(value.length) : '0 conversations'
+    return value.length > 0 ? 'conversation'.pluralize(value.length) : zeroMessage
   } else {
-    return '0 conversations'
+    return zeroMessage
   }
 }
 
@@ -91,6 +92,12 @@ rivets.formatters.authorship = function(author, siteName, url){
   } else {
     return urlDomain(url) == 'localhost' ? '' : urlDomain(url)
   }
+}
+
+rivets.formatters.convosTitle = function(friends){
+  var zeroTitle = 'You haven\'t sent this to anyone yet :(';
+  var genericTitle = 'Your private conversations';
+  return friends.length > 0 ? genericTitle : zeroTitle;
 }
 
 //Binders
