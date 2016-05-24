@@ -13,7 +13,7 @@ class UserSlypsController < BaseController
     @user_slyps = current_user.user_slyps.where(
       archived: false,
       deleted: false
-    ).order(unseen: :desc, unseen_activity: :desc, updated_at: :desc)
+    ).order(unseen_activity: :desc, updated_at: :desc)
     render status: 200, json: present_collection(@user_slyps),
            each_serializer: UserSlypSerializer
   end
