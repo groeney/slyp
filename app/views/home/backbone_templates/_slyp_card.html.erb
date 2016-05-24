@@ -15,8 +15,26 @@
     <div class="ui dimmer">
       <div class="content">
         <div class="center">
-          <div rv-show="userSlyp:html" id="preview-button" class="ui primary icon button"><i class="ui search icon"></i>Preview</div>
-          <a rv-hide="userSlyp:html" target="_blank" rv-href="userSlyp:url" class="ui primary icon button">Go there<i class="ui right arrow icon"></i></a>
+          <span rv-show="userSlyp:html">
+            <div id="send-button" class="ui positive icon button">
+              <i class="ui send icon"></i>
+              Send
+            </div>
+            <div id="preview-button" class="ui primary icon button">
+              <i class="ui search icon"></i>
+              Preview
+            </div>
+          </span>
+          <span rv-hide="userSlyp:html">
+            <div id="send-button" class="ui positive icon button">
+              <i class="ui send icon"></i>
+              Send
+            </div>
+            <a target="_blank" rv-href="userSlyp:url" class="ui primary icon button">
+              Go there
+              <i class="ui right arrow icon"></i>
+            </a>
+          </span>
         </div>
       </div>
     </div>

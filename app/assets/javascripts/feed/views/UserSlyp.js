@@ -55,6 +55,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'mouseenterintent'              : 'giveAttention',
     'mouseleaveintent'              : 'takeAttention',
     'click #preview-button'         : 'showPreview',
+    'click #send-button'            : 'reslypAttention',
     'click #comment-label'          : 'showConversations'
   },
 
@@ -135,6 +136,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     if (this.model.get('unseen')){
       this.model.save({ unseen: false });
     }
+  },
+  reslypAttention: function(){
+    this.$('.ui.multiple.selection.search.dropdown input.search').focus();
   },
   showConversations: function(){
     this.$('#conversations').popup('show');
