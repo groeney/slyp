@@ -30,7 +30,8 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     'click #reply'            : 'toggleReplies',
     'click #replies'          : 'toggleReplies',
     'click #reply-button'     : 'reply',
-    'keypress .form textarea' : 'replyIfValid'
+    'keypress .form textarea' : 'replyIfValid',
+    'click a.user-display'    : 'fetchMutualUserSlyps'
   },
 
   // Event functions
@@ -68,6 +69,19 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   replyIfValid: function(e){
     if (e.keyCode == 13 && this.state.hasReplyText()){
       this.$('#reply-button').click();
+    }
+  },
+  fetchMutualUserSlyps: function(e){
+    var friend_id = $(e.toElement).attr('data-user-id');
+    if (!friend_id){
+      return
+    }
+
+    var id = parseInt(friend_id);
+    if (id !== slypApp.user.get('id')){
+      slypApp.userSlyps.fetchMutualUserSlyps(id);
+    } else {
+      slypApp.userSlyps.fetch();
     }
   }
 });

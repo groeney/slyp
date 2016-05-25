@@ -3,9 +3,9 @@
     <img rv-src="reply:sender.first_name | getAvatar reply:sender.email">
   </a>
   <div class="content">
-    <span class="author">
+    <a class="author user-display" rv-data-user-id="reply:sender.id">
       { reply:sender.first_name | userDisplay reply:sender.last_name reply:sender.email }
-    </span>
+    </a>
     <div class="metadata">
       <span class="date">{ reply:created_at | fromNow reply:updated_at}</span>
     </div>
