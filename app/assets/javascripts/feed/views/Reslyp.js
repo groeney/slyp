@@ -27,10 +27,10 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     });
   },
   events: {
-    'click #reply'        : 'toggleReplies',
-    'click #replies'      : 'toggleReplies',
-    'click #reply-button' : 'reply',
-    'keypress input'      : 'replyIfValid'
+    'click #reply'            : 'toggleReplies',
+    'click #replies'          : 'toggleReplies',
+    'click #reply-button'     : 'reply',
+    'keypress .form textarea' : 'replyIfValid'
   },
 
   // Event functions
