@@ -1,12 +1,10 @@
 class Reslyp < ActiveRecord::Base
   belongs_to :recipient, class_name: "User", foreign_key: :recipient_id
   belongs_to :sender, class_name: "User", foreign_key: :sender_id
-
   belongs_to :sender_user_slyp,
              class_name: "UserSlyp", foreign_key: :sender_user_slyp_id
   belongs_to :recipient_user_slyp,
              class_name: "UserSlyp", foreign_key: :recipient_user_slyp_id
-
   belongs_to :slyp
 
   has_many :replies
@@ -20,17 +18,15 @@ class Reslyp < ActiveRecord::Base
   validates_presence_of :recipient_user_slyp
   validates_presence_of :comment
   validate :not_self_reslyp
-
   validate do |reslyp|
     user_slyp_owned_by_user reslyp.sender_user_slyp, reslyp.sender
   end
-
   validate do |reslyp|
     user_slyp_owned_by_user reslyp.recipient_user_slyp, reslyp.recipient
   end
 
   delegate :slyp, to: :sender_user_slyp
-
+  after_create :befriend
   after_create :notify
 
   def self.authorized_find(user, id)
@@ -65,5 +61,10 @@ class Reslyp < ActiveRecord::Base
 
   def notify
     UserMailer.reslyp_notification(self).deliver_later
+  end
+
+  def befriend
+    return if Friendship.friends? sender_id, recipient_id
+    Friendship.create(user_id: sender_id, friend_id: recipient_id)
   end
 end
