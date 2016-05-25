@@ -12,7 +12,7 @@
     <div class="text">
       <p rv-hide="state.editMode">{ reply:text }</p>
       <div rv-show="state.editMode">
-        <input rv-live-value="reply:text">
+        <textarea type="text" rv-live-value="reply:text" rows="1" autofocus></textarea>
         <div class="ui buttons">
           <div id="cancel-update" class="ui button">Cancel</div>
           <div id="update" class="ui positive button" rv-show="reply.hasText < :text">Save Changes</div>
