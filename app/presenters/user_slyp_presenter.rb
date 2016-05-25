@@ -27,11 +27,23 @@ class UserSlypPresenter < BasePresenter
     UserSlyp.where(slyp_id: user_slyp.slyp_id, favourite: true).length
   end
 
-  def latest_comment
-    reslyp = user_slyp.reslyps.last
-    text = reslyp.try(:comment) || ""
-    email = reslyp.try(:sender).try(:email) || ""
-    first_name = reslyp.try(:sender).try(:first_name) || ""
+  def latest_conversation
+    conversation = [latest_comment, latest_reply].reject(&:nil?)
+                                                 .max_by { |el| el.created_at }
+    text = conversation.try(:comment) || conversation.try(:text) || ""
+    email = conversation.try(:sender).try(:email) || ""
+    first_name = conversation.try(:sender).try(:first_name) || ""
     { text: text, email: email, first_name: first_name }
+  end
+
+  private
+
+  def latest_comment
+    user_slyp.reslyps.last
+  end
+
+  def latest_reply
+    replies = user_slyp.reslyps.map { |el| el.replies }.flatten
+    replies.max_by { |el| el.created_at }
   end
 end

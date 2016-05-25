@@ -66,10 +66,10 @@
       <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" rv-data-content="userSlyp:archived | doneText" data-variation="tiny"></i>
     </div>
 
-    <div class="row" rv-show="userSlyp.hasComment < :latest_comment">
+    <div class="row" rv-show="userSlyp.hasConversations < :latest_conversation">
       <a id="comment-label" class="ui small pointing basic label">
-        <image class="ui avatar image" rv-src="userSlyp:latest_comment.first_name | getAvatar userSlyp:latest_comment.email" rv-data-title="userSlyp:latest_comment.email"></span>
-        <span class="extra content">{ userSlyp:latest_comment.text }</span>
+        <image class="ui avatar image" rv-src="userSlyp:latest_conversation.first_name | getAvatar userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email"></span>
+        <span class="extra content">{ userSlyp:latest_conversation.text }</span>
       </a>
     </div>
   </div>

@@ -14,6 +14,10 @@ class UserSlyp < ActiveRecord::Base
     Reslyp.where(query, id, id)
   end
 
+  def replies
+    reslyps.map(replies).flatten
+  end
+
   def add_unseen_activity
     update_attributes(unseen_activity: true, archived: false)
   end
