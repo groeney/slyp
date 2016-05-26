@@ -2,9 +2,10 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   template: '#js-nav-bar-tmpl',
   onRender: function(){
     this.state = {
-      slypURL      : '',
-      searchTerm   : '',
-      creatingSlyp : false
+      slypURL        : '',
+      searchTerm     : '',
+      creatingSlyp   : false,
+      searchType     : 'user_slyps'
     }
     this.binder = rivets.bind(this.$el, { state: this.state, appState: slypApp.state })
   },
@@ -17,6 +18,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     'click #create-popup button'              : 'createSlyp',
     'keypress #create-popup input'            : 'createSlypIfEnter',
     'focusin #searcher input'                 : 'enterSearchMode',
+    'keyup #searcher input'                   : 'setAppropriateSearch',
     'focusout #searcher'                      : 'doneSearching',
     'click .right.secondary.menu.mobile.only' : 'toggleActions'
   },
@@ -87,8 +89,29 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   enterSearchMode: function(){
     slypApp.state.searchMode = true;
   },
+  setAppropriateSearch: function(){
+    var leadingChar = this.state.searchTerm[0] || ''
+    if (leadingChar == '@'){
+      if (this.state.searchType == 'user_slyps'){
+        this.state.searchType = 'friends'
+        this.setFriendsSearch();
+        this.$('.ui.search').search('cancel query');
+        this.$('.ui.search').search('search remote', this.state.searchTerm);
+      }
+
+    } else {
+        if (this.state.searchType == 'friends'){
+          this.state.searchType = 'user_slyps'
+          this.setUserSlypsSearch();
+          this.$('.ui.search').search('cancel query');
+          if (this.state.searchTerm.length >= 2){
+            this.$('.ui.search').search('search remote', this.state.searchTerm);
+          }
+        }
+    }
+  },
   doneSearching: function(){
-    if (this.state.searchTerm === ''){
+    if (this.state.searchTerm == ''){
       this.refreshFeed();
     }
   },
@@ -114,10 +137,56 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       });
 
     // Search
-    $.fn.search.settings.templates = {
-      message: function(message, type) {
-        return ''
+    this.initializeSearchBar();
+
+    // Create
+    this.$('#create-button').popup({
+      on       : 'click',
+      position : 'left center',
+      popup    : '#create-popup',
+      onShow   : function(){
+        resizePopup();
+        setTimeout(function() { context.$('#create-popup input').focus() }, 100);
       }
+    });
+  },
+  initializeSearchBar: function(){
+    if (this.state.searchType == 'friends'){
+      this.setFriendsSearch();
+    } else if (this.state.searchType == 'user_slyps'){
+      this.setUserSlypsSearch();
+    }
+  },
+  setFriendsSearch: function(){
+    var context = this;
+    this.$('.ui.search')
+      .search({
+        cache: false,
+        apiSettings: {
+          url: '/search/friends?q={query}',
+          onResponse: function(serverResponse){
+            serverResponse = _.map(serverResponse, function(value, index) {
+              var _nv =
+              {
+                title: value.display_name,
+                description: value.email,
+                image: generateAvatarURL(value.display_name),
+                id: value.id
+              }
+              return _nv
+            });
+            return { 'success': true, 'results': serverResponse }
+          }
+        },
+        onSelect: function(result, response){
+          slypApp.userSlyps.fetchMutualUserSlyps(result.id);
+        },
+        minCharacters : 1
+      });
+  },
+  setUserSlypsSearch: function(){
+    $.fn.search.settings.templates.message = function(message, type) {
+        return ''
     }
     this.$('.ui.search')
       .search({
@@ -130,21 +199,10 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
             });
             slypApp.userSlyps.reset(serverResponse);
             serverResponse = {};
-            return {'success': true, 'results': serverResponse }
+            return { 'success': true, 'results': serverResponse }
           }
         },
-        minCharacters : 3,
+        minCharacters : 2,
       });
-
-    // Create
-    this.$('#create-button').popup({
-      on       : 'click',
-      position : 'left center',
-      popup    : '#create-popup',
-      onShow   : function(){
-        resizePopup();
-        setTimeout(function() { context.$('#create-popup input').focus() }, 100);
-      }
-    });
   }
 });

@@ -15,8 +15,7 @@ slypApp.state = {
   addMode       : false,
   actionsMode   : false,
   screenWidth   : getScreenWidth(),
-  isMobile      : function() { return slypApp.state.screenWidth < 767 },
-  email : 'jamesgroeneveld@gmail.com'
+  isMobile      : function() { return slypApp.state.screenWidth < 767 }
 }
 
 // Want to keep updated so that rivets can use as dependency attr

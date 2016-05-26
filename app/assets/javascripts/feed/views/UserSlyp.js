@@ -21,8 +21,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     }
   },
   onRender: function(){
-    this.binder = rivets.bind(this.$el, { userSlyp: this.model, state: this.state })
-
+    this.binder = rivets.bind(this.$el, { userSlyp: this.model, state: this.state });
     var context = this;
     if (typeof this.model.get('url') !== 'undefined'){
       this.$('a[href^="' + this.model.get('url') + '"]').on('click', function(){
@@ -141,7 +140,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     this.$('.ui.multiple.selection.search.dropdown input.search').focus();
   },
   showConversations: function(){
-    this.$('#conversations').popup('show');
+    this.$('#conversations').popup('toggle');
   },
 
   // Helper functions
@@ -209,11 +208,11 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     // Misc UI
     this.$('#conversations')
       .popup({
-        on        : 'click',
-        inline    : true,
-        position  : 'right center',
-        lastResort: 'bottom left',
-        onShow    : function(module) {
+        on         : 'click',
+        inline     : true,
+        position   : 'right center',
+        lastResort : 'bottom left',
+        onShow     : function(module) {
           context.model.get('reslyps').fetch();
           resizePopup();
           if (context.model.get('unseen_activity')){

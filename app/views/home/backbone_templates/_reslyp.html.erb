@@ -4,12 +4,14 @@
   </a>
   <div class="content">
     <span class="author">
-      <span>
+      <a class="user-display" rv-data-user-id="reslyp:sender.id">
         { reslyp:sender.first_name | userDisplay reslyp:sender.last_name reslyp:sender.email }
-      </span>
+      </a>
       <span rv-show="reslyp.sentBySelf">
         <span style="font-weight: lighter;"> said to </span>
-        { reslyp:recipient.first_name | userDisplay reslyp:recipient.last_name reslyp:recipient.email }
+        <a class="user-display" rv-data-user-id="reslyp:recipient.id">
+          { reslyp:recipient.first_name | userDisplay reslyp:recipient.last_name reslyp:recipient.email }
+        </a>
       </span>
     </span>
     <div class="metadata">

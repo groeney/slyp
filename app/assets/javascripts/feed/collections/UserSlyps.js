@@ -18,5 +18,14 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
       this.remove(model);
       this.add(model, {at: backIndex});
     }
+  },
+  fetchMutualUserSlyps: function(friend_id) {
+    this.fetch({
+      url: '/search/mutual_user_slyps',
+      data: {
+        friend_id: friend_id
+      },
+      reset: true
+    });
   }
 });

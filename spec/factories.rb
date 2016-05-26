@@ -65,6 +65,15 @@ FactoryGirl.define do
     last_name "Blogs"
     sequence(:user_name) { |n| "#{first_name}#{last_name}_#{n}" }
 
+    trait :with_friends do
+      after(:create) do |user|
+        prospects = FactoryGirl.create_list(:user, 10)
+        prospects.each do |prospect|
+          user.befriend(prospect.id)
+        end
+      end
+    end
+
     trait :with_slyps do
       after(:create) do |user|
         user.slyps << FactoryGirl.create_list(:slyp, 10)

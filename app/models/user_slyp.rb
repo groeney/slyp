@@ -23,15 +23,17 @@ class UserSlyp < ActiveRecord::Base
   end
 
   def friends
-    friend_ids = reslyps.pluck(:sender_id) + reslyps.pluck(:recipient_id)
-    friend_ids = friend_ids.uniq - [user.id]
     User.where(id: friend_ids)
   end
 
+  def friend_ids
+    ids = reslyps.pluck(:sender_id) + reslyps.pluck(:recipient_id)
+    ids - [user.id]
+  end
+
   def friends_count
-    reslyps = self.reslyps
-    friend_ids = reslyps.pluck(:sender_id) + reslyps.pluck(:recipient_id)
-    friend_ids = friend_ids.uniq - [user.id]
+    friend_ids = [reslyps.pluck(:sender_id) + reslyps.pluck(:recipient_id)]
+                 .uniq - [user.id]
     friend_ids.length
   end
 
