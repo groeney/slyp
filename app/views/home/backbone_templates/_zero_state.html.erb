@@ -1,0 +1,71 @@
+<div id="zero-state" class="ui basic segment" rv-hide-if="appState.searchMode">
+<div class="ui doubling grid">
+  <div class="ui card four wide">
+    <div class="extra content">
+      <div class="right floated">314 reslyps</div>
+      <div class="left floated">
+        21 min read
+      </div>
+    </div>
+    <div class="blurring dimmable image">
+      <div class="ui dimmer">
+        <div class="content">
+          <div class="center">
+            <div rv-show="userSlyp:html" id="preview-button" class="ui primary icon button"><i class="ui search icon"></i>Disabled</div>
+          </div>
+        </div>
+      </div>
+      <a href="#">
+        <img type="image" class="ui small image display centered" src="/assets/blank-image.png">
+      </a>
+    </div>
+
+    <div class="content">
+      <a href="#" class="header center aligned wrap">This is an example slyp</a>
+      <div class="meta center aligned">
+        <a href="#">
+          <span>Donald Duck | slyp.io</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="extra content">
+      <a class="description">
+        <i class="user icon"></i>
+        <span>7 friends</span>
+      </a>
+      <i class="right floated large star active icon"></i>
+      <i class="right floated large archive icon"></i>
+    </div>
+
+    <div class="ui fluid show">
+      <div class="ui fluid multiple selection search dropdown labeled icon button" rv-data-user-slyp-id="userSlyp:id">
+        <i class="add user icon"></i>
+        <div class="default text">send to friends</div>
+        <input type="hidden">
+      </div>
+    </div>
+  </div>
+  <div class="ui twelve wide" style="padding-top: 10%;">
+    <div class="content">
+      <h2 class="header">Time to get some slyps :)</h2>
+    </div>
+    <div class="ui three steps">
+      <div class="step">
+        <div class="content">
+          <div class="title">Find a great article/video/blog post</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="content">
+          <div class="title">Copy paste the link into the + button above</div>
+        </div>
+      </div>
+      <div class="step">
+        <div class="content">
+          <div class="title">Slyp it to friends</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
