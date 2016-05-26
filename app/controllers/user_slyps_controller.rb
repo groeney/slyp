@@ -10,8 +10,9 @@ class UserSlypsController < BaseController
   end
 
   def index
+    archived = params[:archived] || false
     @user_slyps = current_user.user_slyps.where(
-      archived: false,
+      archived: archived,
       deleted: false
     ).order(unseen_activity: :desc, updated_at: :desc)
     render status: 200, json: present_collection(@user_slyps),

@@ -1,6 +1,6 @@
 class UserPresenter < BasePresenter
   attr_accessor :user
-  delegate :id, :first_name, :last_name, :email, to: :user
+  delegate :id, :first_name, :last_name, :email, :display_name, to: :user
 
   def initialize(user)
     @user = user
