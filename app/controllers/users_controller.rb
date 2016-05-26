@@ -14,7 +14,7 @@ class UsersController < BaseController
   end
 
   def show
-    render status: 200, json: present(current_user), serializer: UserSerializer
+    render status: 200, json: present_primary(current_user), serializer: PrimaryUserSerializer
   end
 
   private
@@ -25,5 +25,9 @@ class UsersController < BaseController
 
   def present_collection(users)
     users.map { |user| present(user) }
+  end
+
+  def present_primary(user)
+    PrimaryUserPresenter.new user
   end
 end
