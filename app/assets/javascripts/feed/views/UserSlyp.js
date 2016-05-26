@@ -26,7 +26,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     if (typeof this.model.get('url') !== 'undefined'){
       this.$('a[href^="' + this.model.get('url') + '"]').on('click', function(){
         if (context.model.get('unseen')){
-          context.model.save({unseen: false});
+          context.model.save({ unseen: false });
         }
       });
     }
@@ -43,7 +43,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       this.style.height = (this.scrollHeight) + 'px';
     });
   },
-  onClose: function() {
+  onDestroy: function(){
     if (this.binder) this.binder.unbind();
   },
   events: {
@@ -212,12 +212,15 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         inline     : true,
         position   : 'right center',
         lastResort : 'bottom left',
-        onShow     : function(module) {
+        onShow: function(module) {
           context.model.get('reslyps').fetch();
           resizePopup();
           if (context.model.get('unseen_activity')){
             context.model.save({ unseen_activity: false });
           }
+        },
+        onHide: function(){
+          context.model.get('reslyps').reset(); // Prevent CollectionView from trying to render when popup not visible
         }
       });
 

@@ -27,7 +27,7 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
     return this.get('title') ? this.get('title') : this.get('url')
   },
   hideArchived: function(){
-    return this.get('archived') && !slypApp.state.searchMode
+    return this.get('archived') && !slypApp.state.showArchived
   },
   hasConversations: function(){
     return this.get('friends').length > 0

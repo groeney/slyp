@@ -13,7 +13,6 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     this.initializeSemanticElements();
   },
   events: {
-    'click #refresh'                          : 'refreshFeed',
     'click #back-button'                      : 'refreshFeed',
     'click #create-popup button'              : 'createSlyp',
     'keypress #create-popup input'            : 'createSlypIfEnter',
@@ -25,15 +24,10 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
 
   // Event functions
   refreshFeed: function(){
-    slypApp.state.resettingFeed = true;
-    var context = this;
-    slypApp.userSlyps.fetch({
-      success: function(collection, response, options) {
-        slypApp.state.searchMode = false;
-        context.state.searchTerm = '';
-        slypApp.state.resettingFeed = false;
-      }
-    });
+    this.state.searchTerm = '';
+    if ($('#filter-dropdown').dropdown('get value') !== 'reading list'){
+      $('#filter-dropdown').dropdown('set selected', 'reading list');
+    }
   },
   createSlyp: function(){
     var context = this;
@@ -87,7 +81,9 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     }
   },
   enterSearchMode: function(){
-    slypApp.state.searchMode = true;
+    if ($('#filter-dropdown').dropdown('get value') !== 'search'){
+      $('#filter-dropdown').dropdown('set selected', 'search');
+    }
   },
   setAppropriateSearch: function(){
     var leadingChar = this.state.searchTerm[0] || ''

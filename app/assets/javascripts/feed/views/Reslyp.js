@@ -1,8 +1,8 @@
 slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
-  template   : '#js-reslyp-tmpl',
-  className  : 'comment',
-  childView: slypApp.Views.Reply,
-  childViewContainer: '.js-replies-container',
+  template           : '#js-reslyp-tmpl',
+  className          : 'comment',
+  childView          : slypApp.Views.Reply,
+  childViewContainer : '.js-replies-container',
   initialize: function(options){
     this.collection = options.model.get('replies');
   },
@@ -25,6 +25,9 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
       this.style.height = 'auto';
       this.style.height = (this.scrollHeight) + 'px';
     });
+  },
+  onDestroy: function(){
+    if (this.binder) this.binder.unbind();
   },
   events: {
     'click #reply'            : 'toggleReplies',
@@ -72,16 +75,16 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     }
   },
   fetchMutualUserSlyps: function(e){
+    this.$el.parentsUntil('#conversations').parent().find('#conversations').popup('toggle'); // wow
     var friend_id = $(e.toElement).attr('data-user-id');
     if (!friend_id){
       return
     }
 
-    var id = parseInt(friend_id);
-    if (id !== slypApp.user.get('id')){
-      slypApp.userSlyps.fetchMutualUserSlyps(id);
+    if (parseInt(friend_id) !== slypApp.user.get('id')) {
+      $('#filter-dropdown').dropdown('set selected', friend_id);
     } else {
-      slypApp.userSlyps.fetch();
+      $('#filter-dropdown').dropdown('set selected', 'reading list');
     }
   }
 });

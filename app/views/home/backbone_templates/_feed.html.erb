@@ -4,13 +4,40 @@
   <div class="ui hidden divider"></div>
   <div class="ui hidden divider"></div>
   <div class="ui hidden divider"></div>
+  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
+  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
+  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
+  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
+  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
+
+  <div id="filter-dropdown" class="ui floating labeled icon dropdown button">
+    <i class="filter icon"></i>
+    <span class="text">Filter</span>
+    <div class="menu">
+      <div class="item" data-value="reading list">
+        <i class="bookmark icon"></i>
+        Reading list
+      </div>
+      <div class="item" data-value="done">
+        <i class="checkmark icon" style="color: #21BA45;"></i>
+        Done
+      </div>
+      <div class="item" data-value="search">
+        <i class="search icon"></i>
+        Search
+      </div>
+      <div class="header">
+        <i class="users icon"></i>
+        view friendship
+      </div>
+      <div class="item" rv-each-friend="user:friends" rv-data-value="friend.id">
+        <img class="ui mini avatar image" rv-src="friend.first_name | getAvatar friend.email">
+        { friend.first_name | userDisplay friend.last_name friend.email }
+        <span class="description">{ friend.email }</span>
+      </div>
+    </div>
+  </div>
   <div class="ui hidden divider"></div>
-  <div class="ui hidden divider"></div>
-  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
-  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
-  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
-  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
-  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
 
   <div class="feed-region"></div>
   <%= render "home/backbone_templates/zero_state" %>

@@ -1,9 +1,6 @@
 slypApp.Collections.UserSlyps = Backbone.Collection.extend({
   model: slypApp.Models.UserSlyp,
   url: '/user_slyps',
-  initialize: function(){
-    this.fetch();
-  },
   moveToFront: function(model) {
     var index = this.indexOf(model);
     if (index > 0) {
@@ -24,6 +21,14 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
       url: '/search/mutual_user_slyps',
       data: {
         friend_id: friend_id
+      },
+      reset: true
+    });
+  },
+  fetchArchived: function(){
+    this.fetch({
+      data: {
+        archived: true
       },
       reset: true
     });
