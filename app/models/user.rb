@@ -17,6 +17,14 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friendships
   scope :all_except, ->(user) { where.not(id: user) }
 
+  before_save :ensure_authentication_token
+
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
+
   def friend?(user_id)
     friends.exists?(user_id)
   end
@@ -73,6 +81,15 @@ class User < ActiveRecord::Base
       user.email = auth.info.email
       user.password = Devise.friendly_token[0, 20]
       user.first_name = auth.info.name # assuming the user model has a name
+    end
+  end
+
+  private
+
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
     end
   end
 end
