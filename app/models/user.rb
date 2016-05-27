@@ -22,7 +22,10 @@ class User < ActiveRecord::Base
   end
 
   def slyps_exchanged_with(user_id)
-    find_mutual_user_slyps(user_id).length
+    query = "sender_user_slyp_id = ? and recipient_user_slyp_id = ?"
+    results_1 = Reslyp.where(query, user_id, id)
+    results_2 = Reslyp.where(query, id, user_id)
+    results_1.length + results_2.length
   end
 
   def active_user_slyps
@@ -55,10 +58,10 @@ class User < ActiveRecord::Base
 
   def find_mutual_user_slyps(friend_id)
     return active_user_slyps if friend_id == id
-    user_slyp_friend_map = Hash[user_slyps.map { |el| [el.id, el.friend_ids] }]
-    user_slyp_ids = user_slyp_friend_map
-                    .select{ |key, ids| ids.include? friend_id }.keys
-    UserSlyp.where(id: user_slyp_ids)
+    query = "sender_id = ? and recipient_id = ?"
+    user_slyps_received = Reslyp.where(query, friend_id, id).pluck(:recipient_user_slyp_id).uniq
+    user_slyps_sent = Reslyp.where(query, id, friend_id).pluck(:sender_user_slyp_id).uniq
+    UserSlyp.where(id: user_slyps_received + user_slyps_sent)
   end
 
   def befriend(friend_id)
