@@ -21,6 +21,10 @@ class User < ActiveRecord::Base
     friends.exists?(user_id)
   end
 
+  def slyps_exchanged_with(user_id)
+    find_mutual_user_slyps(user_id).length
+  end
+
   def active_user_slyps
     user_slyps.where(archived: false, deleted: false)
   end
