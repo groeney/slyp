@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
   end
 
   def slyps_exchanged_with(user_id)
-    query = "sender_user_slyp_id = ? and recipient_user_slyp_id = ?"
+    query = "sender_id = ? and recipient_id = ?"
     results_1 = Reslyp.where(query, user_id, id)
     results_2 = Reslyp.where(query, id, user_id)
     results_1.length + results_2.length
