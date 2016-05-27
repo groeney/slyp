@@ -19,7 +19,6 @@ class HomeController < ApplicationController
   end
 
   def feed
-    authenticate_user!
     @user = current_user
   end
 end

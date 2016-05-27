@@ -18,6 +18,7 @@ class UserMailer < ApplicationMailer
     @reslyp = reslyp
     @comment = @reslyp.comment
     @slyp = @reslyp.slyp
+    @user_slyp = @reslyp.recipient_user_slyp
     @recipient = @reslyp.recipient
     @sender = @reslyp.sender
     mail(to: @recipient.email,

@@ -48,6 +48,12 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       this.style.height = 'auto';
       this.style.height = (this.scrollHeight) + 'px';
     });
+
+    var hotPreviewId = getParameterByName('preview_user_slyp_id');
+    if (hotPreviewId != null && hotPreviewId == this.model.get('id')){
+      this.$('.ui.modal').modal('show');
+      window.history.pushState({}, document.title, window.location.pathname); // requires HTML5
+    }
   },
   onDestroy: function(){
     if (this.binder) this.binder.unbind();
