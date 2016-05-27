@@ -70,7 +70,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   sendSlyp: function(e){
     if (this.state.hasComment()){
       var emails = this.$('#recipient-emails').val().split(',');
-      this.$('#reslyp-comment').val('');
 
       if (emails.length > 0){
         var validatedEmails = _.filter(emails, function(email) { return validateEmail(email) });
@@ -172,6 +171,8 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
 
   // Helper functions
   reslyp: function(emails, comment){
+    this.$('#recipient-emails').val('');
+    this.$('#reslyp-comment').val('');
     var context = this;
     Backbone.ajax({
       url: '/reslyps',
