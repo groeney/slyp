@@ -31,5 +31,18 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
   },
   hasConversations: function(){
     return this.get('friends').length > 0
+  },
+  alreadyExchangedWith: function(user_email){
+    _.some(this.get('friends'), function(friend) {
+      return friend.email == user_email;
+    });
+  },
+  scrubFriends: function(friends){
+    var friendsToScrub = this.get('friends');
+    return _.filter(friends, function(friend) {
+      return !_.some(friendsToScrub, function(userSlypFriend){
+        return friend.email == userSlypFriend.email
+      });
+    });
   }
 });

@@ -14,14 +14,20 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       canReslyp    : false,
       gotAttention : !this.model.hasConversations(),
       reslyping    : false,
-      comment      : ''
+      comment      : '',
+      moreResults : null
     }
     this.state.hasComment = function(){
       return context.state.comment.length > 0;
     }
   },
   onRender: function(){
-    this.binder = rivets.bind(this.$el, { userSlyp: this.model, state: this.state });
+    var scrubbedFriends = this.model.scrubFriends(slypApp.user.get('friends'));
+    this.binder = rivets.bind(this.$el, {
+      userSlyp        : this.model,
+      state           : this.state,
+      scrubbedFriends : scrubbedFriends
+    });
     var context = this;
     if (typeof this.model.get('url') !== 'undefined'){
       this.$('a[href^="' + this.model.get('url') + '"]').on('click', function(){
@@ -55,7 +61,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'mouseleaveintent'              : 'takeAttention',
     'click #preview-button'         : 'showPreview',
     'click #send-button'            : 'reslypAttention',
-    'click #comment-label'          : 'showConversations'
+    'click #comment-label'          : 'showConversations',
+    'focusin .dropdown .search'     : 'scrollFriendsToTop',
+    'click #see-more'               : 'seeMoreResults'
   },
 
   // Event functions
@@ -141,6 +149,25 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   },
   showConversations: function(){
     this.$('#conversations').popup('toggle');
+  },
+  scrollFriendsToTop: function(){
+    // TODO: "Your friends" header is pushed out of view by dropdown default selection
+  },
+  seeMoreResults: function(){
+    var context = this;
+    var query = this.$('.ui.dropdown .search').val();
+    Backbone.ajax({
+      url: '/search/users?q=' + query,
+      method: 'GET',
+      accepts: {
+        json: 'application/json'
+      },
+      contentType: 'application/json',
+      dataType: 'json',
+      success: function(response) {
+        context.state.moreResults = slypApp.user.scrubFriends(response);
+      }
+    });
   },
 
   // Helper functions
@@ -247,33 +274,11 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         allowAdditions: true,
         message       : {
           addResult : 'Invite <b style="font-weight: bold;">{term}</b>',
-        },
-        apiSettings   : {
-          url    : '/search/users?q={query}',
-          method : 'post',
-          data   : {
-            user_slyp_id: this.model.get('id')
-          },
-          onResponse: function(serverResponse){
-            modResponse = context.filterFriends(_.values(serverResponse));
-            modResponse = _.map(modResponse, function(val){
-              return {
-                name        : val.display_name,
-                value       : val.email,
-                description : val.email
-              }
-            });
-            var response = {'success': true, 'results': modResponse}
-            return response
-          }
         }
       });
 
     this.$(dropdownSelector).dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
-      var friendExists = _.some(context.model.get('friends'), function(friend) {
-        return friend.email == addedValue;
-      });
-      if (friendExists){
+      if (context.model.alreadyExchangedWith(addedValue)){
         context.toastr('error', 'You have already exchanged this slyp with ' + addedValue);
         return false
       } else {
@@ -284,13 +289,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     });
 
     this.$(dropdownSelector).dropdown('setting', 'onLabelCreate', function(value, text) {
-      this.attr('data-content', value);
-      this.popup({
-        delay: {
-          show: 500,
-          hide: 0
-        }
-      })
       if (!validateEmail(value)){
         this.addClass('red');
       }
@@ -302,6 +300,10 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         context.state.reslyping = false;
         context.state.canReslyp = false;
       }
+    });
+
+    this.$(dropdownSelector).dropdown('setting', 'onHide', function(){
+      context.state.moreResults = null;
     });
 
     this.$(dropdownSelector).dropdown('setting', 'onLabelRemove', function(value){

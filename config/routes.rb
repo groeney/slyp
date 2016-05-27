@@ -9,7 +9,7 @@ Rails.application.routes.draw do
   root to: "home#index"
   get "/feed" => "home#feed"
   get "/friends" => "users#friends"
-  post "/search/users" => "search#users"
+  get "/search/users" => "search#users"
   get "/search/user_slyps" => "search#user_slyps"
   get "/search/friends" => "search#friends"
   get "/search/mutual_user_slyps" => "search#mutual_user_slyps"
