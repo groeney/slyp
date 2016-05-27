@@ -55,6 +55,32 @@ class UserSlyp < ActiveRecord::Base
     end
   end
 
+  def latest_conversation
+    conversation = [latest_comment, latest_reply].reject(&:nil?)
+                                                 .max_by { |el| el.created_at }
+    text = conversation.try(:comment) || conversation.try(:text) || ""
+    email = conversation.try(:sender).try(:email) || ""
+    first_name = conversation.try(:sender).try(:first_name) || ""
+    { text: text, email: email, first_name: first_name }
+  end
+
+  def latest_comment
+    reslyps.last
+  end
+
+  def latest_reply
+    replies = reslyps.includes(:replies).map { |el| el.replies }.flatten
+    replies.max_by { |el| el.created_at }
+  end
+
+  def total_reslyps
+    Reslyp.where(slyp_id: slyp_id).length
+  end
+
+  def total_favourites
+    UserSlyp.where(slyp_id: slyp_id, favourite: true).length
+  end
+
   private
 
   def invite_user_if_necessary(email)
