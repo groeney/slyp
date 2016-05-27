@@ -17,6 +17,10 @@ class User < ActiveRecord::Base
   has_many :friends, through: :friendships
   scope :all_except, ->(user) { where.not(id: user) }
 
+  def friend?(user_id)
+    friends.exists?(user_id)
+  end
+
   def active_user_slyps
     user_slyps.where(archived: false, deleted: false)
   end
@@ -54,7 +58,7 @@ class User < ActiveRecord::Base
   end
 
   def befriend(friend_id)
-    Friendship.create(user_id: id, friend_id: friend_id) unless friend_id.nil?
+    Friendship.find_or_create_by(user_id: id, friend_id: friend_id) unless friend_id.nil?
   end
 
   def self.from_omniauth(auth)
