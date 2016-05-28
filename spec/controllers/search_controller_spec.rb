@@ -87,6 +87,55 @@ RSpec.describe SearchController, type: :controller do
           expect(user_slyp.keys).to contain_exactly(*expected_keys)
         end
       end
+      it "should return exactly one result" do
+        slyp = FactoryGirl.create(:slyp, url: "http://www.searchme.com")
+        user.user_slyps.create(slyp_id: slyp.id)
+        post :user_slyps, q: "searchme", format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response_body_json.length).to eq 1
+      end
+    end
+    context "user searches over conversations" do
+      let(:user) { FactoryGirl.create(:user, :with_reslyps) }
+      let(:user_slyp) { user.user_slyps.first }
+      let(:reslyp) { user_slyp.reslyps.first }
+      let(:unique_string) { "thisisoneveryuniquepieceofstring" }
+      before do
+        sign_in user
+      end
+      it "should return all users' user_slyps" do
+        post :user_slyps, q: "&", format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        expect(response_body_json.length).to eq user.user_slyps.length
+      end
+      it "should return no user_slyps" do
+        post :user_slyps, q: "&#{unique_string}", format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        expect(response_body_json.length).to eq 0
+      end
+      it "should search over reslyp replies by user" do
+        reslyp.replies.create(sender_id: reslyp.recipient_id, text: unique_string)
+        post :user_slyps, q: "&#{unique_string}", format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        expect(response_body_json.length).to eq 1
+      end
+      it "should search over reslyp replies by friend" do
+        reslyp.replies.create(sender_id: reslyp.sender_id, text: unique_string)
+        post :user_slyps, q: "&#{unique_string}", format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        expect(response_body_json.length).to eq 1
+      end
+      it "should search over reslyp comment" do
+        reslyp.update_attribute(:comment, unique_string)
+        post :user_slyps, q: "&#{unique_string}", format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response.status).to eq 200
+        expect(response_body_json.length).to eq 1
+      end
     end
   end
 
