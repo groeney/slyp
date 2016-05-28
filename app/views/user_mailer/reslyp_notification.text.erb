@@ -1,3 +1,8 @@
-<%= @comment %> -- <%= @slyp.url %>
+<%= @sender.full_name %> says "<%= @comment %>" about:
 
-To view all of your slyps in one place, head on over to <%= link_to @slyp.title, controller: "home", action: "feed", user_email: @recipient.email, user_token: @recipient.authentication_token, preview_user_slyp_id: @user_slyp.id %>
+<%= @slyp.url %>
+
+<%= @slyp.description %>
+
+Have a nice day :)
+http://slyp.io

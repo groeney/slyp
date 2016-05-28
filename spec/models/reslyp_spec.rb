@@ -40,7 +40,7 @@ RSpec.describe Reslyp, type: :model do
         expect(delivered_email.subject).to eq comment.truncate(50)
 
         expect(delivered_email.text_part.body.decoded).to include comment
-        expect(delivered_email.text_part.body.decoded).to include expected_query_string
+        expect(delivered_email.text_part.body.decoded).to include reslyp.slyp.url
         expect(delivered_email.html_part.body.decoded).to include comment
         expect(delivered_email.html_part.body.decoded).to include expected_query_string
       end

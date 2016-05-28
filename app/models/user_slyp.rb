@@ -61,7 +61,7 @@ class UserSlyp < ActiveRecord::Base
     text = conversation.try(:comment) || conversation.try(:text) || ""
     email = conversation.try(:sender).try(:email) || ""
     first_name = conversation.try(:sender).try(:first_name) || ""
-    reslyp_id = conversation.try(:reslyp_id) || conversation.id
+    reslyp_id = conversation.try(:reslyp_id) || conversation.try(:id)
     { text: text, email: email, first_name: first_name, reslyp_id: reslyp_id }
   end
 

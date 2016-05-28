@@ -4,8 +4,9 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   </head>
   <body>
-    <p><b style="font-weight: bold;"><%= @sender.full_name %></b> sent you a slyp at <%= link_to "slyp.io", controller: "home", action: "feed", user_email: @recipient.email, user_token: @recipient.authentication_token, preview_user_slyp_id: @user_slyp.id %></p>
-    <p>They said <i>"<%= @comment %>"</i>:</p>
+    <p><b style="font-weight: bold;"><%= @sender.full_name %></b> says <i>"<%= @comment %>"</i> about:</p>
     <p><%= link_to @slyp.title, controller: "home", action: "feed", user_email: @recipient.email, user_token: @recipient.authentication_token, preview_user_slyp_id: @user_slyp.id %></p>
+    <p><%= @slyp.description %>   <%= link_to "continue on slyp", controller: "home", action: "feed", user_email: @recipient.email, user_token: @recipient.authentication_token, preview_user_slyp_id: @user_slyp.id %></p>
+    <p>Have a nice day :)<br/><%= link_to "slyp.io", controller: "home", action: "index" %></p>
   </body>
 </html>
