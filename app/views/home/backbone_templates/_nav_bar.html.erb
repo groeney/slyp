@@ -2,7 +2,7 @@
   <div class="ui top fixed borderless menu three column grid" style="background-color: #FAFAFA;">
     <div id="left-menu" class="ui column secondary menu">
       <div class="ui left secondary menu">
-        <a id="refresh" class="ui basic button item" rv-class-loading="appState.resettingFeed">
+        <a id="refresh" class="ui basic button item">
           <img src="/assets/logo.png">
           <span style="
               padding-bottom: 30%;
@@ -14,7 +14,7 @@
     </div>
     <div class="ui column centered secondary item menu">
       <div class="ui category search item">
-        <button id="back-button" class="ui basic icon button" rv-class-loading="appState.resettingFeed" rv-show="appState.searchMode">
+        <button id="back-button" class="ui basic icon button" rv-show="appState.searchMode">
           <i class="arrow left icon"></i>
           <span rv-hide="appState.isMobile < screenWidth">Back</span>
         </button>

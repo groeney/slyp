@@ -10,7 +10,7 @@
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
 
-  <div id="filter-dropdown" class="ui floating labeled icon dropdown button">
+  <div id="filter-dropdown" class="ui floating labeled icon dropdown button" rv-class-loading="appState.resettingFeed">
     <i class="filter icon"></i>
     <span class="text">Filter</span>
     <div class="menu">
