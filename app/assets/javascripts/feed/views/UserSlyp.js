@@ -15,10 +15,16 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       gotAttention : !this.model.hasConversations(),
       reslyping    : false,
       comment      : '',
-      moreResults : null
+      moreResults  : null,
+      intendingToReply : false,
+      replyText : '',
+
     }
     this.state.hasComment = function(){
       return context.state.comment.length > 0;
+    }
+    this.state.hasReplyText = function(){
+      return context.state.replyText.length > 0
     }
   },
   onRender: function(){
@@ -67,9 +73,12 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'mouseleaveintent'              : 'takeAttention',
     'click #preview-button'         : 'showPreview',
     'click #send-button'            : 'reslypAttention',
-    'click #comment-label'          : 'showConversations',
+    'click #comment-label'          : 'intendToReply',
     'focusin .dropdown .search'     : 'scrollFriendsToTop',
-    'click #see-more'               : 'seeMoreResults'
+    'click #see-more'               : 'seeMoreResults',
+    'focusout #reply-input'         : 'noReply',
+    'keypress #reply-input'         : 'sendReplyIfValid',
+    'click #reply-button'           : 'sendReply',
   },
 
   // Event functions
@@ -152,8 +161,13 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   reslypAttention: function(){
     this.$('.ui.multiple.selection.search.dropdown input.search').focus();
   },
-  showConversations: function(){
-    this.$('#conversations').popup('toggle');
+  intendToReply: function(){
+    if (this.state.intendingToReply){
+      this.state.intendingToReply = false;
+    } else {
+      this.state.intendingToReply = true;
+      this.$('#reply-input').focus();
+    }
   },
   scrollFriendsToTop: function(){
     // TODO: "Your friends" header is pushed out of view by dropdown default selection
@@ -171,6 +185,38 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       dataType: 'json',
       success: function(response) {
         context.state.moreResults = slypApp.user.scrubFriends(response);
+      }
+    });
+  },
+  noReply: function(){
+    this.state.intendingToReply = false;
+  },
+  sendReplyIfValid: function(e){
+    if (e.keyCode == 13 && this.state.hasReplyText()){
+      this.$('#reply-button').click();
+    }
+  },
+  sendReply: function(){
+    var context = this;
+    Backbone.ajax({
+      url: '/replies',
+      method: 'POST',
+      accepts: {
+        json: 'application/json'
+      },
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify({
+        reslyp_id: context.model.get('latest_conversation').reslyp_id,
+        text: context.state.replyText
+      }),
+      success: function(response) {
+        context.state.replyText = '';
+        context.state.intendingToReply = false;
+        context.model.fetch();
+      },
+      error: function(status, err) {
+        context.toastr('error', 'Couldn\'t add that reply for some reason :(')
       }
     });
   },

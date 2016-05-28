@@ -71,6 +71,14 @@
         <image class="ui avatar image" rv-src="userSlyp:latest_conversation.first_name | getAvatar userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email"></span>
         <span class="extra content">{ userSlyp:latest_conversation.text }</span>
       </a>
+      <div id="reply-form" class="ui form" rv-show="state.intendingToReply">
+        <div class="field">
+          <textarea id="reply-input" type="text" placeholder="Write a reply..." rv-value="state.replyText" rows="1" autofocus></textarea>
+        </div>
+        <button id="reply-button" class="ui positive button" rv-class-unless-disabled="state.hasReplyText < replyText">
+          Reply
+        </button>
+      </div>
     </div>
   </div>
 
