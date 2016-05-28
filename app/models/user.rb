@@ -25,6 +25,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def reslyps
+    query = "sender_id = ? or recipient_id = ?"
+    Reslyp.where(query, id, id)
+  end
+
   def friend?(user_id)
     friends.exists?(user_id)
   end

@@ -198,7 +198,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
             return { 'success': true, 'results': serverResponse }
           }
         },
-        minCharacters : 2,
+        minCharacters : 3,
       });
   }
 });
