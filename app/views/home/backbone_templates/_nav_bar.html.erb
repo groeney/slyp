@@ -35,7 +35,7 @@
       </div>
     </div>
 
-    <div id="right-menu" class="ui right secondary menu column" rv-hide="appState.hideNavFields < searchMode addMode">
+    <div id="right-menu" class="ui secondary menu column" rv-class-unless-right="appState.isMobile < screenWidth" rv-hide="appState.hideNavFields < searchMode addMode">
       <div id="search-button" class="ui item column">
         <button class="ui icon button">
           <i class="search icon"></i>
