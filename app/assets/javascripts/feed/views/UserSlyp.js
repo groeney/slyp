@@ -78,7 +78,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'click #see-more'               : 'seeMoreResults',
     'focusout #reply-input'         : 'noReply',
     'keypress #reply-input'         : 'sendReplyIfValid',
-    'click #reply-button'           : 'sendReply',
+    'click #reply-form #reply-button' : 'sendReply',
   },
 
   // Event functions
