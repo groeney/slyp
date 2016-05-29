@@ -342,6 +342,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     });
 
     this.$(dropdownSelector).dropdown('setting', 'onLabelCreate', function(value, text) {
+      $(this).find('span').detach();
       if (!validateEmail(value)){
         this.addClass('red');
       }
