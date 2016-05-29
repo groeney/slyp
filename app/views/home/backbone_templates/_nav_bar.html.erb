@@ -36,14 +36,15 @@
     </div>
 
     <div id="right-menu" class="ui secondary menu column" rv-class-unless-right="appState.isMobile < screenWidth" rv-hide="appState.hideNavFields < searchMode addMode">
-      <div id="search-button" class="ui item column">
-        <button class="ui icon button">
-          <i class="search icon"></i>
-        </button>
-      </div>
       <div id="add-button" class="ui item column">
         <button class="ui icon positive button" rv-class-loading="state.creatingSlyp">
           <i class="add link icon"></i>
+        </button>
+      </div>
+
+      <div id="search-button" class="ui item column">
+        <button class="ui icon button">
+          <i class="search icon"></i>
         </button>
       </div>
 
