@@ -1,6 +1,6 @@
 <script type="text/template" id="js-nav-bar-tmpl">
   <div class="ui top fixed borderless menu three column grid" style="background-color: #FAFAFA;">
-    <div id="left-menu" class="ui column secondary menu">
+    <div id="left-menu" class="ui column secondary menu" rv-hide="appState.hideNavFields < searchMode addMode">
       <div class="ui left secondary menu">
         <a id="refresh" class="ui basic button item">
           <img src="/assets/logo.png">
@@ -12,9 +12,10 @@
         </a>
       </div>
     </div>
-    <div class="ui column centered secondary item menu">
-      <div class="ui category search item">
-        <button id="back-button" class="ui basic icon button" rv-show="appState.searchMode">
+
+    <div class="ui column centered secondary fluid item menu" rv-show="appState.searchMode">
+      <div class="ui category large search item">
+        <button id="back-button" class="ui basic icon button">
           <i class="arrow left icon"></i>
           <span rv-hide="appState.isMobile < screenWidth">Back</span>
         </button>
@@ -25,21 +26,24 @@
       </div>
     </div>
 
-    <div id="right-menu" class="ui right secondary menu column">
-      <div id="create-button" class="ui item column">
-        <button class="ui icon positive button" rv-class-loading="state.creatingSlyp">
-          <i class="add link icon"></i>
+    <div class="ui column centered secondary fluid item menu" rv-show="appState.addMode">
+      <div class="ui fluid action input">
+        <input id="create-input" class="prompt" type="text" rv-value="state.slypURL" placeholder="http://" autofocus>
+        <button id="create-button" class="ui positive button">
+          Add
         </button>
       </div>
-      <div id="create-popup" class="ui fluid popup">
-        <div class="ui fluid action input">
-          <input class="prompt" type="text" rv-value="state.slypURL" placeholder="http://" autofocus>
-          <button class="ui positive button" rv-hide="appState.isMobile < screenWidth">
-            Add
-          </button>
-        </div>
-        <button class="ui positive button" rv-show="appState.isMobile < screenWidth">
-          Add
+    </div>
+
+    <div id="right-menu" class="ui right secondary menu column" rv-hide="appState.hideNavFields < searchMode addMode">
+      <div id="search-button" class="ui item column">
+        <button class="ui icon button">
+          <i class="search icon"></i>
+        </button>
+      </div>
+      <div id="add-button" class="ui item column">
+        <button class="ui icon positive button" rv-class-loading="state.creatingSlyp">
+          <i class="add link icon"></i>
         </button>
       </div>
 

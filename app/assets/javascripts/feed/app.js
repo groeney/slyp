@@ -11,12 +11,17 @@ slypApp.addRegions({
 
 slypApp.state = {
   searchMode    : false,
+  addMode       : false,
   showArchived  : false,
   resettingFeed : false,
   addMode       : false,
   actionsMode   : false,
   screenWidth   : getScreenWidth(),
   isMobile      : function() { return slypApp.state.screenWidth < 767 }
+}
+
+slypApp.state.hideNavFields = function(){
+  return slypApp.state.addMode || slypApp.state.searchMode
 }
 
 // Want to keep updated so that rivets can use as dependency attr

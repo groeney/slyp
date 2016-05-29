@@ -14,12 +14,14 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   },
   events: {
     'click #back-button'                      : 'refreshFeed',
-    'click #create-popup button'              : 'createSlyp',
-    'keypress #create-popup input'            : 'createSlypIfEnter',
-    'focusin #searcher input'                 : 'enterSearchMode',
+    'click #create-button'                    : 'createSlyp',
+    'keypress #create-input'                  : 'createSlypIfEnter',
+    'click #add-button'                       : 'enterAddMode',
     'keyup #searcher input'                   : 'setAppropriateSearch',
     'focusout #searcher'                      : 'doneSearching',
-    'click .right.secondary.menu.mobile.only' : 'toggleActions'
+    'focusout #create-input'                  : 'doneAdding',
+    'click .right.secondary.menu.mobile.only' : 'toggleActions',
+    'click #search-button'                    : 'enterSearchMode'
   },
 
   // Event functions
@@ -60,7 +62,6 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
           userSlyp.moveToFront();
           context.state.slypURL = '';
           context.state.creatingSlyp = false;
-          context.$('#create-popup').popup('hide');
         },
         error: function(status, err) {
           if (context.state.slypURL.http){
@@ -79,6 +80,10 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     if (e.keyCode==13){
       this.createSlyp();
     }
+  },
+  enterAddMode: function(){
+    slypApp.state.addMode = true;
+    this.$('#create-input').focus();
   },
   enterSearchMode: function(){
     if ($('#filter-dropdown').dropdown('get value') !== 'search'){
@@ -111,6 +116,9 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       this.refreshFeed();
     }
   },
+  doneAdding: function(){
+    slypApp.state.addMode = false;
+  },
   toggleActions: function(){
     this.$('#right-menu').toggleClass('hide');
     this.$('#right-menu').toggleClass('right');
@@ -134,17 +142,6 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
 
     // Search
     this.initializeSearchBar();
-
-    // Create
-    this.$('#create-button').popup({
-      on       : 'click',
-      position : 'left center',
-      popup    : '#create-popup',
-      onShow   : function(){
-        resizePopup();
-        setTimeout(function() { context.$('#create-popup input').focus() }, 100);
-      }
-    });
   },
   initializeSearchBar: function(){
     if (this.state.searchType == 'friends'){
