@@ -21,8 +21,12 @@ class UserMailer < ApplicationMailer
     @user_slyp = @reslyp.recipient_user_slyp
     @recipient = @reslyp.recipient
     @sender = @reslyp.sender
-    mail(to: @recipient.email,
-         subject: @comment.truncate(50),
+    mail(to: @recipient.email, subject: @comment.truncate(50),
          from: "slyp.io <robot@slyp.io>")
+  end
+
+  def closed_beta_thank_you(user)
+    @user = user
+    mail(to: @user.email, subject: "Thank you from Slyp! Back soon :)")
   end
 end

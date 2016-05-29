@@ -15,4 +15,8 @@ class UserMailerPreview < ActionMailer::Preview
   def reslyp_notification
     UserMailer.reslyp_notification(Reslyp.first)
   end
+
+  def closed_beta_thank_you
+    UserMailer.closed_beta_thank_you(User.first)
+  end
 end

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body>
+    <p>Hey <%= @user.first_name %>!</p>
+    <p>Thank you for trialing Slyp with us. We are extremely happy with the feedback and now have a long list of features and improvements to implement.</p>
+    <p>Absolutely stoked to be releasing our open Beta come July. We imagine a future in which we waste less time with clickbait media and more time engaging our smartest friends on the web's most meaningful content. We'll be in touch when the time comes. In the meantime we have 3 questions -- <%= link_to "http://goo.gl/forms/RS8tkzcFD1V3DKk52", "http://goo.gl/forms/RS8tkzcFD1V3DKk52" %>.</p>
+    <p>As promised we have deleted all of your data from our end. Here is the list links you had in your account before we deleted it:<br/>
+      <% @user.slyps.each do |slyp| %>
+        <%= link_to slyp.title, slyp.url %><br/>
+      <% end %>
+    </p>
+    <p>With much love,<br/>Slyp</p>
+  </body>
+</html>
