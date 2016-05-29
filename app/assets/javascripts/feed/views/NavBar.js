@@ -78,7 +78,12 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   },
   createSlypIfEnter: function(e){
     if (e.keyCode==13){
-      this.createSlyp();
+      if (this.state.slypURL.http){
+        this.doneAdding();
+        this.createSlyp();
+      } else {
+        this.toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://');
+      }
     }
   },
   enterAddMode: function(){
@@ -117,7 +122,9 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     }
   },
   doneAdding: function(){
-    slypApp.state.addMode = false;
+    setTimeout(function(){
+      slypApp.state.addMode = false;
+    }, 500)
   },
   toggleActions: function(){
     this.$('#right-menu').toggleClass('hide');
