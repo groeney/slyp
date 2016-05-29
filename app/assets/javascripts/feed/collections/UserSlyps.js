@@ -17,20 +17,36 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
     }
   },
   fetchMutualUserSlyps: function(friend_id) {
+    slypApp.state.resettingFeed = true;
     this.fetch({
       url: '/search/mutual_user_slyps',
       data: {
         friend_id: friend_id
       },
-      reset: true
+      reset: true,
+      success: function(model, response, options){
+        slypApp.state.resettingFeed = false;
+      },
+      error: function(model, response, options){
+        slypApp.state.resettingFeed = false;
+        toastr['error']('Something went wrong, sorry :(');
+      }
     });
   },
   fetchArchived: function(){
+    slypApp.state.resettingFeed = true;
     this.fetch({
       data: {
         archived: true
       },
-      reset: true
+      reset: true,
+      success: function(model, response, options){
+        slypApp.state.resettingFeed = false;
+      },
+      error: function(model, response, options){
+        slypApp.state.resettingFeed = false;
+        toastr['error']('Something went wrong, sorry :(');
+      }
     });
   }
 });

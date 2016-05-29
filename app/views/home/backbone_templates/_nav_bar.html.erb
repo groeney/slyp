@@ -1,5 +1,5 @@
 <script type="text/template" id="js-nav-bar-tmpl">
-  <div class="ui top fixed secondary menu three column grid" style="background-color: #FAFAFA;">
+  <div class="ui top fixed secondary menu" style="background-color:white;border-bottom:1px solid gainsboro;">
     <div id="left-menu" class="ui column secondary menu" rv-hide="appState.hideNavFields < searchMode addMode">
       <div class="ui left secondary menu">
         <a id="refresh" class="ui basic button item">
@@ -15,10 +15,7 @@
 
     <div class="ui column centered secondary fluid item menu" rv-show="appState.searchMode">
       <div class="ui category large search item">
-        <button id="back-button" class="ui basic icon button">
-          <i class="arrow left icon"></i>
-          <span rv-hide="appState.isMobile < screenWidth">Back</span>
-        </button>
+        <i id="back-button" class="arrow left link icon"></i>
         <div id="searcher" class="ui left icon input">
           <input class="prompt" type="text" rv-value="state.searchTerm" placeholder="search content, &conversations and @users">
           <i class="search icon"></i>
@@ -36,25 +33,48 @@
     </div>
 
     <div id="right-menu" class="ui secondary menu column" rv-class-unless-right="appState.isMobile < screenWidth" rv-hide="appState.hideNavFields < searchMode addMode">
+      <div id="filter-dropdown" class="ui item column labeled dropdown" rv-class-loading="appState.resettingFeed">
+        <span class="text">Filter</span>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          <div class="item" data-value="reading list">
+            <i class="bookmark icon"></i>
+            Reading list
+          </div>
+          <div class="item" data-value="done">
+            <i class="checkmark icon" style="color: #21BA45;"></i>
+            Done
+          </div>
+          <div class="item" data-value="search">
+            <i class="search icon"></i>
+            Search
+          </div>
+          <div class="header">
+            <i class="users icon"></i>
+            view friendship
+          </div>
+          <div class="item" rv-each-friend="user:friends" rv-data-value="friend.id">
+            <img class="ui mini avatar image" rv-src="friend.first_name | getAvatar friend.email">
+            { friend.first_name | userDisplay friend.last_name friend.email }
+            <span class="description">{ friend.email }</span>
+          </div>
+        </div>
+      </div>
+
       <div id="add-button" class="ui item column">
-        <button class="ui icon positive button" rv-class-loading="state.creatingSlyp">
-          <i class="add link icon"></i>
-        </button>
+        <i class="add link large icon" rv-class-loading="state.creatingSlyp"></i>
       </div>
 
       <div id="search-button" class="ui item column">
-        <button class="ui icon button">
-          <i class="search icon"></i>
-        </button>
+        <i class="search large link icon"></i>
       </div>
 
-      <div id="user-actions" class="ui right dropdown item column" data-content="<%= current_user.email %>" data-variation="mini">
-        <span id="display-name" data-content="<%= current_user.email %>" data-variation="mini"><%= current_user.first_name.empty? ? current_user.email : current_user.first_name %></span>
-        <i class="dropdown icon"></i>
+      <div id="user-actions" class="ui dropdown item column">
+        <i class="user large link icon"></i>
         <div class="menu">
           <div class="item">Settings</div>
-          <%= link_to "Log Out", destroy_user_session_path, :method => :delete, :class => "ui right item" %>
           <div class="item">Help</div>
+          <%= link_to "Log Out", destroy_user_session_path, :method => :delete, :class => "ui right item" %>
         </div>
       </div>
     </div>

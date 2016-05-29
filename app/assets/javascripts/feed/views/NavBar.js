@@ -7,10 +7,44 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       creatingSlyp   : false,
       searchType     : 'user_slyps'
     }
-    this.binder = rivets.bind(this.$el, { state: this.state, appState: slypApp.state })
+    this.binder = rivets.bind(this.$el, { state: this.state, appState: slypApp.state, user: slypApp.user })
   },
   onShow: function(){
     this.initializeSemanticElements();
+    this.$('#filter-dropdown').dropdown({
+      onChange: function(value, text, selectedItem) {
+        switch(value){
+          case "reading list":
+            slypApp.state.resettingFeed = true;
+            slypApp.userSlyps.fetch({
+              success: function(collection, response, options) {
+                slypApp.state.searchMode = false;
+                slypApp.state.showArchived = false;
+                slypApp.state.resettingFeed = false;
+              }
+            });
+            break;
+          case "done":
+            slypApp.state.showArchived = true;
+            slypApp.userSlyps.fetchArchived();
+            break;
+          case "search":
+            slypApp.state.searchMode = true;
+            slypApp.state.showArchived = true;
+            $('#searcher input').focus();
+            break;
+          default:
+            if (!isNaN(value)){
+              slypApp.state.showArchived = true;
+              slypApp.userSlyps.fetchMutualUserSlyps(value);
+            } else{
+              toastr['error']('Our robots cannot perform that action right now :(');
+            }
+            break;
+        }
+      }
+    });
+    this.$('#filter-dropdown').dropdown('set selected', 'reading list'); // Performs initial fetch!
   },
   events: {
     'click #back-button'                      : 'refreshFeed',
@@ -18,6 +52,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     'keypress #create-input'                  : 'createSlypIfEnter',
     'click #add-button'                       : 'enterAddMode',
     'keyup #searcher input'                   : 'setAppropriateSearch',
+    'keydown #searcher input'                 : 'handleSearchInput',
     'focusout #searcher'                      : 'doneSearching',
     'focusout #create-input'                  : 'doneAdding',
     'click .right.secondary.menu.mobile.only' : 'toggleActions',
@@ -114,6 +149,11 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
             this.$('.ui.search').search('search remote', this.state.searchTerm);
           }
         }
+    }
+  },
+  handleSearchInput: function(e){
+    if (e.keyCode == 27){
+      this.refreshFeed();
     }
   },
   doneSearching: function(){

@@ -3,7 +3,8 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   className: 'ui card',
   attributes: {
     'rv-fade-hide' : 'userSlyp.hideArchived < :archived',
-    'rv-class-red' : 'userSlyp:unseen'
+    'rv-class-red' : 'userSlyp:unseen',
+    'style'        : 'background-color:white;'
   },
   childView: slypApp.Views.Reslyp,
   childViewContainer: '.js-reslyps-container',
@@ -79,6 +80,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'focusout #reply-input'         : 'noReply',
     'keypress #reply-input'         : 'sendReplyIfValid',
     'click #reply-form #reply-button' : 'sendReply',
+    'click #title'                    : 'showPreview'
   },
 
   // Event functions

@@ -1,5 +1,5 @@
 <script type="text/template" id="js-slyp-card-tmpl">
-  <div class="extra content" >
+  <div class="extra content" style="padding:10px;">
     <span class="right floated">
       <i class="comments outline icon"></i>
       { userSlyp:total_reslyps }
@@ -15,25 +15,9 @@
     <div class="ui dimmer">
       <div class="content">
         <div class="center">
-          <span rv-show="userSlyp:html">
-            <div id="send-button" class="ui positive icon button">
-              <i class="ui send icon"></i>
-              Send
-            </div>
-            <div id="preview-button" class="ui primary icon button">
-              <i class="ui search icon"></i>
-              Preview
-            </div>
-          </span>
-          <span rv-hide="userSlyp:html">
-            <div id="send-button" class="ui positive icon button">
-              <i class="ui send icon"></i>
-              Send
-            </div>
-            <a target="_blank" rv-href="userSlyp:url" class="ui primary icon button">
-              Go there
-              <i class="ui right arrow icon"></i>
-            </a>
+          <span>
+            <i id="send-button" class="big send outline link icon"></i>
+            <i id="preview-button" class="big search link icon"></i>
           </span>
         </div>
       </div>
@@ -44,7 +28,7 @@
   </div>
 
   <div class="content">
-    <a class="header center aligned wrap" target="_blank" rv-href="userSlyp:url">{ userSlyp.displayTitle | trunc }</a>
+    <a  id="title" class="header center aligned wrap">{ userSlyp.displayTitle | trunc }</a>
     <div class="meta center aligned">
       <a target="_blank" rv-href="userSlyp:url">
         <span>{ userSlyp:author | authorship userSlyp:site_name userSlyp:url }</span>
@@ -52,7 +36,7 @@
     </div>
   </div>
 
-  <div class="extra content friend-data">
+  <div class="extra content friend-data" style="padding: 10px;">
     <div class="row">
       <a id="conversations" class="description">
         <i class="icon" rv-class-red="userSlyp:unseen_activity" rv-class-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
@@ -84,7 +68,7 @@
 
   <div rv-fade-show="state.gotAttention" class="ui fluid mobile show" style="display: none;">
     <div class="ui fluid multiple selection search dropdown labeled icon button" rv-data-user-slyp-id="userSlyp:id">
-      <i class="send icon"></i>
+      <i class="send outline icon"></i>
       <input class="search" autocomplete="off" tabindex="0" style="width: 2.1428em;">
       <div class="default text">send to friends</div>
       <input id="recipient-emails" type="hidden" name="reslyps">
@@ -92,10 +76,10 @@
         <div class="header" id="friends-header">
           Your friends
         </div>
-        <div class="item" rv-each-friend="scrubbedFriends" rv-data-value="friend.email">
+        <div class="item" rv-each-friend="scrubbedFriends" rv-data-value="friend.email" style="height:3.2em;">
           <img class="ui mini avatar image" rv-src="friend.first_name | getAvatar friend.email">
           { friend.first_name | userDisplay friend.last_name friend.email }
-          <span class="description">{ friend.email }</span>
+          <span class="description" style="font-size:smaller;">{ friend.email }</span>
         </div>
         <div class="header" rv-hide="state.moreResults">
           <a id="see-more">Find more friends...</a>
