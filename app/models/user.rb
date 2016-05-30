@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   after_create :send_welcome_email
   after_create :remove_from_waitlist
   after_create :befriend_inviter
+  before_destroy :thank_you
 
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -18,6 +19,10 @@ class User < ActiveRecord::Base
   scope :all_except, ->(user) { where.not(id: user) }
 
   before_save :ensure_authentication_token
+
+  def thank_you
+    UserMailer.closed_beta_thank_you(self).deliver_now
+  end
 
   def ensure_authentication_token
     if authentication_token.blank?

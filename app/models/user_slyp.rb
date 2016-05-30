@@ -1,10 +1,10 @@
 class UserSlyp < ActiveRecord::Base
   belongs_to :slyp
   belongs_to :user
-  has_many :sent_reslyps,
-           foreign_key: "sender_user_slyp_id", class_name: "Reslyp"
-  has_many :received_reslyps,
-           foreign_key: "recipient_user_slyp_id", class_name: "Reslyp"
+  has_many :sent_reslyps, foreign_key: "sender_user_slyp_id",
+            class_name: "Reslyp", dependent: :destroy
+  has_many :received_reslyps, foreign_key: "recipient_user_slyp_id",
+           class_name: "Reslyp", dependent: :destroy
   validates_uniqueness_of :slyp_id, scope: :user_id
   validates_presence_of   :slyp
   validates_presence_of   :user

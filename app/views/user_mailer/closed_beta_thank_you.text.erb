@@ -1,13 +1,15 @@
 Hey <%= @user.first_name %>!
 
-Thank you for trialing Slyp with us. We are extremely happy with the feedback and now have a long list of features and improvements to implement.
+Thank you for trialling Slyp. Feedback from everyone was exciting. We'll be back in July. In the meantime we have 3 questions -- http://goo.gl/forms/RS8tkzcFD1V3DKk52.
 
-Absolutely stoked to be releasing our open Beta come July. We imagine a future in which we waste less time with clickbait media and more time engaging our smartest friends on the web's most meaningful content. We'll be in touch when the time comes. In the meantime we have 3 questions we would like to hear from you on -- here is a link http://goo.gl/forms/RS8tkzcFD1V3DKk52.
+We imagine a future of less time wasted with clickbait media -- http://www.wired.com/2015/12/psychology-of-clickbait/ -- and more time engaging our smartest friends on the web's best content.
 
 As promised we have deleted all of your data from our end. Here is the list links you had in your account before we deleted it:
 <% @user.slyps.each do |slyp| %>
-  <%= slyp.url %>
+  <%= link_to slyp.title, slyp.url %>
 <% end %>
 
 With much love,
 Slyp
+
+PS: I'll always reply to your replies, so hit me up!

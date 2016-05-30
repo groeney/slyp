@@ -27,6 +27,6 @@ class UserMailer < ApplicationMailer
 
   def closed_beta_thank_you(user)
     @user = user
-    mail(to: @user.email, subject: "Thank you from Slyp! Back soon :)")
+    mail(to: @user.email, subject: "Thank you! Back soon :)")
   end
 end
