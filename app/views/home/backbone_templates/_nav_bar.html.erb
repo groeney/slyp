@@ -4,18 +4,14 @@
       <div class="ui left secondary menu">
         <a id="refresh" class="ui basic button item">
           <img src="/assets/logo.png">
-          <span style="
-              padding-bottom: 30%;
-              font-size: smaller;
-              padding-left: 5%;
-          ">BETA</span>
+          <span style="padding-bottom:30%;font-size:smaller;padding-left:5%;">BETA</span>
         </a>
       </div>
     </div>
 
     <div class="ui column centered secondary fluid item menu" rv-show="appState.searchMode">
       <div class="ui category large search item">
-        <i id="back-button" class="arrow left link icon"></i>
+        <i id="back-button" class="big long arrow left link icon" style="padding-left:15px;padding-right:45px;"></i>
         <div id="searcher" class="ui left icon input">
           <input class="prompt" type="text" rv-value="state.searchTerm" placeholder="search content, &conversations and @users">
           <i class="search icon"></i>

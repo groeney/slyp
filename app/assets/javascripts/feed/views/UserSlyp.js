@@ -75,7 +75,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'click #preview-button'         : 'showPreview',
     'click #send-button'            : 'reslypAttention',
     'click #comment-label'          : 'intendToReply',
-    'focusin .dropdown .search'     : 'scrollFriendsToTop',
+    'focusin .dropdown .search'     : 'handleDropdownSelect',
     'click #see-more'               : 'seeMoreResults',
     'focusout #reply-input'         : 'noReply',
     'keypress #reply-input'         : 'sendReplyIfValid',
@@ -171,8 +171,11 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       this.$('#reply-input').focus();
     }
   },
-  scrollFriendsToTop: function(){
-    // TODO: "Your friends" header is pushed out of view by dropdown default selection
+  handleDropdownSelect: function(){
+    if (this.model.scrubFriends(slypApp.user.get('friends')).length == 0){
+      this.seeMoreResults();
+    }
+    // TODO: "Your friends" and "Other people" header is pushed out of view by dropdown default selection
   },
   seeMoreResults: function(){
     var context = this;
