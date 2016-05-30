@@ -191,7 +191,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     });
   },
   noReply: function(){
-    this.state.intendingToReply = false;
+    setTimeout(function(){
+      this.state.intendingToReply = false;
+    }, 200);
   },
   sendReplyIfValid: function(e){
     if (e.keyCode == 13 && this.state.hasReplyText()){
