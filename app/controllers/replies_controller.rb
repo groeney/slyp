@@ -17,8 +17,8 @@ class RepliesController < BaseController
     return render_400 unless params.key? :id
     reslyp = Reslyp.authorized_find(current_user, params[:id])
 
-    @replies = reslyp.replies
-    @replies.where.not(sender_id: current_user.id).update_all(seen: true)
+    reslyp.replies.where.not(sender_id: current_user.id).update_all(seen: true)
+    @replies = reslyp.replies.order(:created_at)
     render status: 200, json: present_collection(@replies),
            each_serializer: ReplySerializer
   end
