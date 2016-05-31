@@ -74,7 +74,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'click #preview-button'         : 'showPreview',
     'click #send-button'            : 'reslypAttention',
     'click #comment-label'          : 'intendToReply',
-    'focusin .dropdown .search'     : 'handleDropdownSelect',
+    'click .dropdown.search'        : 'handleDropdownSelect',
     'click #see-more'               : 'seeMoreResults',
     'focusout #quick-reply-input'   : 'noReply',
     'keypress #quick-reply-input'   : 'sendQuickReplyIfValid',
@@ -167,7 +167,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     }
   },
   reslypAttention: function(){
-    this.$('.ui.multiple.selection.search.dropdown input.search').focus();
+    this.$('.search.dropdown').click();
   },
   intendToReply: function(){
     if (this.state.intendingToReply){
@@ -180,12 +180,16 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   handleDropdownSelect: function(){
     if (this.model.scrubFriends(slypApp.user.get('friends')).length == 0){
       this.seeMoreResults();
+      var context = this;
+      setTimeout(function(){
+        context.$('.dropdown.search input.search').focus();
+      }, 200);
     }
-    // TODO: "Your friends" and "Other people" header is pushed out of view by dropdown default selection
+    // TODO: "Your friends" and "Other people" header is pushed out of view by dropdown default selection need to scroll up
   },
   seeMoreResults: function(){
     var context = this;
-    var query = this.$('.ui.dropdown .search').val();
+    var query = this.$('.dropdown.search input.search').val();
     Backbone.ajax({
       url: '/search/users?q=' + query,
       method: 'GET',
