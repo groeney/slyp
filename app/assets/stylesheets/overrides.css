@@ -85,7 +85,12 @@
 }
 
 a:hover {
-  text-decoration: underline;
+  cursor: pointer;
+  color: rgba(0,0,0,1);
+}
+
+a {
+  color: rgba(0, 0, 0, 0.87);
 }
 
 .shift-left {
@@ -94,4 +99,9 @@ a:hover {
 
 .ui.wider.popup {
   min-width: 150% !important;
+}
+
+.ui.comments .comment .actions a.active {
+  font-weight: bold;
+  color: rgba(0, 0, 0, 0.8);
 }

@@ -59,6 +59,10 @@ class Reslyp < ActiveRecord::Base
     replies.length
   end
 
+  def unseen_replies(user_id)
+    replies.where.not(sender_id: user_id).where(seen: false).length
+  end
+
   def notify
     UserMailer.reslyp_notification(self).deliver_later
   end

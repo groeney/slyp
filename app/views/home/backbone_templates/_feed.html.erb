@@ -3,13 +3,12 @@
   <div class="ui hidden divider"></div>
   <div class="ui hidden divider"></div>
   <div class="ui hidden divider"></div>
-  <div class="ui hidden divider"></div>
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
 
-  <div class="feed-region"></div>
+  <div class="ui basic segment feed-region" rv-class-loading="appState.resettingFeed"></div>
   <%= render "home/backbone_templates/zero_state" %>
 </script>

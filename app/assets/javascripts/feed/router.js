@@ -8,5 +8,6 @@ slypApp.Controller = Marionette.Object.extend({
       collection: slypApp.userSlyps
     }));
     slypApp.navBarRegion.show(new slypApp.Views.NavBar());
+    slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({model: new Backbone.Model()}));
   }
 });

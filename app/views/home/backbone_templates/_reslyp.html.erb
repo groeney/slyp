@@ -23,13 +23,14 @@
     <div class="actions">
       <a id="reply">Reply</a>
       <a id="replies" rv-show="reslyp:reply_count">{ reslyp:reply_count | numReplies }</a>
+      <a class="ui red mini label" rv-show="reslyp:unseen_replies">{ reslyp:unseen_replies } new</a>
     </div>
   </div>
   <div class="ui minimal comments" rv-class-collapsed="state.hideReplies">
     <div class="ui comments js-replies-container"></div>
     <div class="ui form" rv-hide="state.hideReplies">
       <div class="field">
-        <textarea type="text" placeholder="Write a reply..." rv-value="state.replyText" rows="1" autofocus></textarea>
+        <textarea id="reply-area" type="text" placeholder="Write a reply..." rv-value="state.replyText" rows="1" autofocus></textarea>
       </div>
       <button id="reply-button" class="ui positive button" rv-class-unless-disabled="state.hasReplyText < replyText">
         Reply

@@ -1,8 +1,11 @@
 slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   template           : '#js-reslyp-tmpl',
-  className          : 'comment',
+  className          : 'ui item basic segment comment',
   childView          : slypApp.Views.Reply,
   childViewContainer : '.js-replies-container',
+  attributes         : {
+    'rv-class-loading' : 'state.loading'
+  },
   initialize: function(options){
     this.collection = options.model.get('replies');
   },
@@ -10,7 +13,8 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     var context = this;
     this.state = {
       hideReplies: true,
-      replyText  : ''
+      replyText  : '',
+      loading    : false
     }
     this.state.hasReplyText = function(){
       return context.state.replyText.length > 0
@@ -30,8 +34,7 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     if (this.binder) this.binder.unbind();
   },
   events: {
-    'click #reply'            : 'toggleReplies',
-    'click #replies'          : 'toggleReplies',
+    'click .actions a'        : 'toggleReplies',
     'click #reply-button'     : 'reply',
     'keypress .form textarea' : 'replyIfValid',
     'click a.user-display'    : 'fetchMutualUserSlyps'
@@ -39,10 +42,25 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
 
   // Event functions
   toggleReplies: function(){
-    this.model.get('replies').fetch();
-    this.state.hideReplies = !this.state.hideReplies;
-    if (!this.state.hideReplies){
-      this.$('.ui.action.input input').focus();
+    if (this.state.hideReplies){
+      this.state.loading = true;
+      var context = this;
+      this.collection.fetch({
+        reset: true,
+        success: function(model, response, options){
+          context.state.loading = false;
+          context.state.hideReplies = false;
+          context.$('#reply-area').focus();
+          context.model.get('user_slyp').fetch();
+          context.model.fetch();
+        },
+        error: function(model, response, options){
+          context.state.loading = false;
+          context.toastr('error', 'eeek. We had troubles fetching your conversations.')
+        }
+      });
+    } else {
+      this.state.hideReplies = true;
     }
   },
   reply: function(){
@@ -75,7 +93,7 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     }
   },
   fetchMutualUserSlyps: function(e){
-    this.$el.parentsUntil('#conversations').parent().find('#conversations').popup('toggle'); // wow
+    $('.ui.sidebar').sidebar('toggle');
     var friend_id = $(e.toElement).attr('data-user-id');
     if (!friend_id){
       return

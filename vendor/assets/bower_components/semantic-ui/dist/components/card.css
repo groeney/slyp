@@ -976,3 +976,8 @@ a.ui.card:hover,
 .ui.card > .content .active.heart.icon {
   color: #ff6255;
 }
+.ui.red.cards > .card,
+.ui.cards > .red.card,
+.ui.red.card {
+  box-shadow: 0px 0px 0px 1px #E6E6E6, 0px 2px 0px 0px #DB2828, 0px 0px 0px 0px #FFFFFF;
+}

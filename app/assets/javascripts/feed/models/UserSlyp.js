@@ -8,7 +8,7 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
     relatedModel: 'slypApp.Models.Reslyp',
     collectionType: 'slypApp.Collections.Reslyps',
     reverseRelation: {
-      key: 'userSlyp',
+      key: 'user_slyp',
       includeInJSON: 'id'
     },
     collectionOptions: function(userSlyp){
@@ -44,5 +44,8 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
         return friend.email == userSlypFriend.email
       });
     });
+  },
+  needsLove: function(){
+    return this.get('unseen_activity') || this.get('unseen_replies')
   }
 });

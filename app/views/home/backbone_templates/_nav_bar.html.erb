@@ -11,7 +11,9 @@
 
     <div class="ui column centered secondary fluid item menu" rv-show="appState.searchMode">
       <div class="ui category large search item">
-        <i id="back-button" class="big long arrow left link icon" style="padding-left:15px;padding-right:45px;"></i>
+        <div id="back-button">
+          <i class="large remove link icon" style="padding-left:15px;padding-right:25px;"></i>
+        </div>
         <div id="searcher" class="ui left icon input">
           <input class="prompt" type="text" rv-value="state.searchTerm" placeholder="search content, &conversations and @users">
           <i class="search icon"></i>

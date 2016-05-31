@@ -1,7 +1,8 @@
 require "rails_helper"
 
 RSpec.describe ReslypsController, type: :controller do
-  let(:expected_keys) { ["id", "sender", "recipient", "comment", "created_at", "reply_count"] }
+  let(:expected_keys) { ["id", "sender", "recipient", "comment", "created_at", "reply_count",
+                         "unseen_replies"] }
   describe "#create" do
     context "with invalid params" do
       let(:user) { FactoryGirl.create(:user, :with_user_slyps) }
@@ -57,11 +58,13 @@ RSpec.describe ReslypsController, type: :controller do
     context "with valid params" do
       let(:user) { FactoryGirl.create(:user, :with_user_slyps) }
       let(:to_users) { FactoryGirl.create_list(:user, 10) }
+      let(:to_user) { to_users.first }
+      let(:user_slyp) { user.user_slyps.first }
       before do
         sign_in user
       end
       it "responds with 201" do
-        post :create, slyp_id: user.user_slyps.first.slyp_id,
+        post :create, slyp_id: user_slyp.slyp_id,
           emails: to_users.map { |to_user| to_user.email},
           comment: "This is a comment", format: :json
 
@@ -70,7 +73,7 @@ RSpec.describe ReslypsController, type: :controller do
       end
 
       it "responds with valid body" do
-        post :create, slyp_id: user.user_slyps.first.slyp_id,
+        post :create, slyp_id: user_slyp.slyp_id,
           emails: to_users.map { |to_user| to_user.email},
           comment: "This is a comment", format: :json
 
@@ -82,8 +85,8 @@ RSpec.describe ReslypsController, type: :controller do
         end
       end
 
-      it "ensures unseen and unseen_activity was set to true on recipient_user_slyp" do
-        post :create, slyp_id: user.user_slyps.first.slyp_id,
+      it "should set unseen and unseen_activity on user_slyp" do
+        post :create, slyp_id: user_slyp.slyp_id,
           emails: to_users.map { |to_user| to_user.email},
           comment: "This is a comment", format: :json
         response_body_json = JSON.parse(response.body)
@@ -91,6 +94,17 @@ RSpec.describe ReslypsController, type: :controller do
           reslyp = Reslyp.find(reslyp_json["id"])
           expect(reslyp.recipient_user_slyp.unseen_activity).to be true
           expect(reslyp.recipient_user_slyp.unseen).to be true
+        end
+      end
+      it "should not set unseen on user_slyp" do
+        to_user.user_slyps.create(slyp_id: user_slyp.slyp_id)
+        post :create, slyp_id: user_slyp.slyp_id, emails: [to_user.email],
+                      comment: "This is a comment", format: :json
+        response_body_json = JSON.parse(response.body)
+        response_body_json.each do |reslyp_json|
+          reslyp = Reslyp.find(reslyp_json["id"])
+          expect(reslyp.recipient_user_slyp.unseen_activity).to be true
+          expect(reslyp.recipient_user_slyp.unseen).to be false
         end
       end
     end

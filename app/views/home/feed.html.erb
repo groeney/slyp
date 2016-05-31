@@ -1,20 +1,28 @@
-<div class="ui inline cookie nag">
-  <span class="title">
-    Hey <%= @user.first_name %>! James here, just letting you know this is a closed beta. Your data will be destroyed in less than a week.
-  </span>
-  <i class="close icon"></i>
+<div id="js-sidebar-region" class="ui right very wide sidebar vertical menu">
+  <%= render "home/backbone_templates/sidebar" %>
 </div>
+<div class="pusher">
+  <div class="ui inline cookie nag">
+    <span class="title">
+      Hey <%= @user.first_name %>! James here, just letting you know this is a closed beta. Your data will be destroyed in less than a week.
+    </span>
+    <i class="close icon"></i>
+  </div>
 
-<div id="js-nav-bar-region"></div>
-<div id="js-feed-region" style="background-color: #FAFAFA;"></div>
-<%= javascript_include_tag "feed" %>
-<%= render "home/backbone_templates/slyp_card" %>
-<%= render "home/backbone_templates/feed" %>
-<%= render "home/backbone_templates/nav_bar" %>
-<%= render "home/backbone_templates/reslyp" %>
-<%= render "home/backbone_templates/reply" %>
+  <div id="js-nav-bar-region"></div>
+  <div id="js-feed-region" style="background-color: #FAFAFA;"></div>
+  <%= javascript_include_tag "feed" %>
+  <%= render "home/backbone_templates/slyp_card" %>
+  <%= render "home/backbone_templates/feed" %>
+  <%= render "home/backbone_templates/nav_bar" %>
+  <%= render "home/backbone_templates/reslyp" %>
+  <%= render "home/backbone_templates/reply" %>
+</div>
 <% if Rails.env.development? or Rails.env.staging? %>
   <script type="text/javascript">
     $('.cookie.nag').nag('show');
+    $('.ui.sidebar').sidebar({
+      transition: 'overlay'
+    });
   </script>
 <% end %>

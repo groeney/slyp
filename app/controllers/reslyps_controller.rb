@@ -10,7 +10,6 @@ class ReslypsController < BaseController
     reslyps.each do |reslyp|
       return render_422(reslyp) unless reslyp.valid?
     end
-
     render status: 201, json: present_collection(reslyps),
            each_serializer: ReslypSerializer
   end
@@ -18,6 +17,7 @@ class ReslypsController < BaseController
   def index
     return render_400 unless params.key? :id
     user_slyp = current_user.user_slyps.find(params[:id])
+    user_slyp.update_attribute(:unseen_activity, false)
     @reslyps = user_slyp.reslyps.includes(:replies, :sender, :recipient)
     render status: 200, json: present_collection(@reslyps),
            each_serializer: ReslypSerializer
@@ -31,7 +31,7 @@ class ReslypsController < BaseController
   private
 
   def present(reslyp)
-    ReslypPresenter.new reslyp
+    ReslypPresenter.new reslyp, current_user
   end
 
   def present_collection(reslyps)

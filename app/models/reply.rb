@@ -25,7 +25,7 @@ class Reply < ActiveRecord::Base
 
   def new_activity
     recipient_user_slyp = reslyp.recipient_user_slyp
-    return recipient_user_slyp.add_unseen_activity if sender_id == reslyp.sender_id
-    reslyp.sender_user_slyp.add_unseen_activity
+    return recipient_user_slyp.new_activity if sender_id == reslyp.sender_id
+    reslyp.sender_user_slyp.new_activity
   end
 end

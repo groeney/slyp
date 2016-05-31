@@ -18,6 +18,7 @@ class RepliesController < BaseController
     reslyp = Reslyp.authorized_find(current_user, params[:id])
 
     @replies = reslyp.replies
+    @replies.where.not(sender_id: current_user.id).update_all(seen: true)
     render status: 200, json: present_collection(@replies),
            each_serializer: ReplySerializer
   end

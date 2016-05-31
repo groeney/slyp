@@ -3,7 +3,7 @@
     <span class="right floated">
       <i class="comments outline icon"></i>
       { userSlyp:total_reslyps }
-      <i id="favorite-action" class="heart icon" rv-class-active="userSlyp:favourite"></i>
+      <i id="favorite-action" class="heart outline icon" rv-class-active="userSlyp:favourite"></i>
       { userSlyp:total_favourites }
     </span>
     <div class="left floated">
@@ -39,34 +39,30 @@
   <div class="extra content friend-data" style="padding: 10px;">
     <div class="row">
       <a id="conversations" class="description">
-        <i class="icon" rv-class-red="userSlyp:unseen_activity" rv-class-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
-        <span rv-show="userSlyp.hasConversations < :friends" rv-class-bold="userSlyp:unseen_activity">{ userSlyp:friends | numConversations }</span>
+        <i class="icon" rv-class-red="userSlyp.needsLove < :unseen_replies :unseen_activity" rv-classes-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
+        <span rv-show="userSlyp.hasConversations < :friends" rv-class-bold="userSlyp.needsLove < :unseen_replies :unseen_activity">{ userSlyp:friends | numConversations }</span>
         <span rv-hide="userSlyp.hasConversations < :friends">Only you see this</span>
       </a>
-      <div class="ui fluid popup" rv-class-unless-wider="appState.isMobile < screenWidth">
-        <div class="header">{ userSlyp:friends | convosTitle }</div>
-        <div class="ui comments js-reslyps-container"></div>
-      </div>
       <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" rv-data-content="userSlyp:archived | doneText" data-variation="tiny"></i>
     </div>
 
     <div class="row" rv-show="userSlyp.hasConversations < :latest_conversation">
-      <a id="comment-label" class="ui small pointing basic label">
+      <a id="comment-label" class="ui pointing circular label" rv-class-medium="state.intendingToReply" rv-class-unless-small="state.intendingToReply">
         <image class="ui avatar image" rv-src="userSlyp:latest_conversation.first_name | getAvatar userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email"></span>
         <span class="extra content">{ userSlyp:latest_conversation.text }</span>
       </a>
-      <div id="reply-form" class="ui form" rv-show="state.intendingToReply">
+      <div id="quick-reply-form" class="ui form" rv-show="state.intendingToReply">
         <div class="field">
-          <textarea id="reply-input" type="text" placeholder="Write a reply..." rv-value="state.replyText" rows="1" autofocus></textarea>
+          <textarea id="quick-reply-input" type="text" placeholder="Write a quick reply..." rv-value="state.quickReplyText" rows="1" autofocus></textarea>
         </div>
-        <button id="reply-button" class="ui positive button" rv-class-unless-disabled="state.hasReplyText < replyText">
+        <button id="quick-reply-button" class="ui positive button" rv-class-unless-disabled="state.hasQuickReplyText < quickReplyText">
           Reply
         </button>
       </div>
     </div>
   </div>
 
-  <div rv-fade-show="state.gotAttention" class="ui fluid mobile show" style="display: none;">
+  <div rv-fade-show="state.gotAttention" class="ui fluid mobile show basic segment" style="display: none;">
     <div class="ui fluid multiple selection search dropdown labeled icon button" rv-data-user-slyp-id="userSlyp:id">
       <i class="send outline icon"></i>
       <input class="search" autocomplete="off" tabindex="0" style="width: 2.1428em;">
@@ -99,7 +95,7 @@
         <textarea id="reslyp-comment" type="text" name="comment" placeholder="Why is this shareworthy?" rv-value="state.comment" rows="1" autofocus></textarea>
       </div>
       <button id="reslyp-button" class="ui positive button">
-        <i class="send icon"></i> Send
+        Send
       </button>
     </div>
   </div>

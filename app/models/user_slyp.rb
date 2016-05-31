@@ -9,16 +9,18 @@ class UserSlyp < ActiveRecord::Base
   validates_presence_of   :slyp
   validates_presence_of   :user
 
+  def unseen_replies
+    reslyps.includes(:replies).map { |el|
+      el.replies.where.not(sender_id: user_id).where(seen: false).length
+    }.sum > 0
+  end
+
   def reslyps
     query = "sender_user_slyp_id = ? or recipient_user_slyp_id = ?"
     Reslyp.where(query, id, id)
   end
 
-  def replies
-    reslyps.map(replies).flatten
-  end
-
-  def add_unseen_activity
+  def new_activity
     update_attributes(unseen_activity: true, archived: false)
   end
 
@@ -47,7 +49,7 @@ class UserSlyp < ActiveRecord::Base
                           .find_or_create_by(slyp_id: slyp_id) do |user_slyp|
                             user_slyp.update_attribute(:unseen, true)
                           end
-    to_user_slyp.add_unseen_activity
+    to_user_slyp.new_activity
     attributes = build_reslyp_attributes(to_user, to_user_slyp, comment)
     return sent_reslyps.create(attributes) unless to_user.invitation_pending?
     Reslyp.without_callback(:create, :after, :notify) do

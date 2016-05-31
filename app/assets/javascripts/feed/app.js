@@ -5,8 +5,9 @@ slypApp.Models = {};
 slypApp.Base = {};
 
 slypApp.addRegions({
-  navBarRegion : '#js-nav-bar-region',
-  feedRegion   : '#js-feed-region'
+  navBarRegion  : '#js-nav-bar-region',
+  feedRegion    : '#js-feed-region',
+  sidebarRegion : '#js-sidebar-region'
 });
 
 slypApp.state = {

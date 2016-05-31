@@ -65,6 +65,10 @@ rivets.formatters.trunc = function(value){
   return value ? value.trunc(55) : ''
 }
 
+rivets.formatters.truncDescription = function(value){
+  return value ? value.trunc(140) : ''
+}
+
 rivets.formatters.slypDirection = function(value){
   return value ? 'You sent this slyp.' : 'This slyp was sent to you.'
 }
@@ -90,6 +94,9 @@ rivets.formatters.authorship = function(author, siteName, url){
 }
 
 rivets.formatters.convosTitle = function(friends){
+  if (friends == null){
+    return 'You haven\'t sent this to anyone yet :('
+  }
   var zeroTitle = 'You haven\'t sent this to anyone yet :(';
   var genericTitle = 'Your private conversations';
   return friends.length > 0 ? genericTitle : zeroTitle;
@@ -117,8 +124,8 @@ rivets.binders['class-unless-*'] = function(el, value) {
   return value ? $(el).removeClass(klass) : $(el).addClass(klass);
 };
 
-rivets.binders['class-*'] = function(el, value) {
-  var klass = this.args[0].replace('-', ' ');
+rivets.binders['classes-*'] = function(el, value) {
+  var klass = this.args[0].replace(/-/g, ' ');
   return value ? $(el).addClass(klass) : $(el).removeClass(klass);
 };
 

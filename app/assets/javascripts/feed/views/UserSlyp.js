@@ -4,12 +4,10 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   attributes: {
     'rv-fade-hide' : 'userSlyp.hideArchived < :archived',
     'rv-class-red' : 'userSlyp:unseen',
+    'rv-class-red' : 'userSlyp.needsLove < :unseen_replies :unseen_activity',
     'style'        : 'background-color:white;'
   },
-  childView: slypApp.Views.Reslyp,
-  childViewContainer: '.js-reslyps-container',
   initialize: function(options){
-    this.collection = options.model.get('reslyps');
     var context = this;
     this.state = {
       canReslyp    : false,
@@ -18,14 +16,13 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       comment      : '',
       moreResults  : null,
       intendingToReply : false,
-      replyText : '',
-
+      quickReplyText : ''
     }
     this.state.hasComment = function(){
       return context.state.comment.length > 0;
     }
-    this.state.hasReplyText = function(){
-      return context.state.replyText.length > 0
+    this.state.hasQuickReplyText = function(){
+      return context.state.quickReplyText.length > 0
     }
   },
   onRender: function(){
@@ -66,6 +63,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     if (this.binder) this.binder.unbind();
   },
   events: {
+    'click #conversations'          : 'showSidebar',
     'click #reslyp-button'          : 'sendSlyp',
     'keypress #reslyp-comment'      : 'sendSlypIfValid',
     'click #archive-action'         : 'toggleArchive',
@@ -77,13 +75,17 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'click #comment-label'          : 'intendToReply',
     'focusin .dropdown .search'     : 'handleDropdownSelect',
     'click #see-more'               : 'seeMoreResults',
-    'focusout #reply-input'         : 'noReply',
-    'keypress #reply-input'         : 'sendReplyIfValid',
-    'click #reply-form #reply-button' : 'sendReply',
-    'click #title'                    : 'showPreview'
+    'focusout #quick-reply-input'   : 'noReply',
+    'keypress #quick-reply-input'   : 'sendQuickReplyIfValid',
+    'click #quick-reply-button'     : 'sendQuickReply',
+    'click #title'                  : 'showPreview'
   },
 
   // Event functions
+  showSidebar: function(){
+    slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({ model: this.model }));
+    $('.ui.sidebar').sidebar('toggle');
+  },
   sendSlyp: function(e){
     if (this.state.hasComment()){
       var emails = this.$('#recipient-emails').val().split(',');
@@ -168,7 +170,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       this.state.intendingToReply = false;
     } else {
       this.state.intendingToReply = true;
-      this.$('#reply-input').focus();
+      this.$('#quick-reply-input').focus();
     }
   },
   handleDropdownSelect: function(){
@@ -194,17 +196,19 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     });
   },
   noReply: function(){
-    setTimeout(function(){
-      this.state.intendingToReply = false;
+    var context = this;
+    setTimeout(function(){ // Gives time to click quick-reply-button event, if applicable.
+      context.state.intendingToReply = false;
     }, 200);
   },
-  sendReplyIfValid: function(e){
-    if (e.keyCode == 13 && this.state.hasReplyText()){
-      this.$('#reply-button').click();
+  sendQuickReplyIfValid: function(e){
+    if (e.keyCode == 13 && this.state.hasQuickReplyText()){
+      this.$('#quick-reply-button').click();
     }
   },
-  sendReply: function(){
+  sendQuickReply: function(){
     var context = this;
+    console.debug('Sending quick reply: ' + this.state.quickReplyText);
     Backbone.ajax({
       url: '/replies',
       method: 'POST',
@@ -215,10 +219,10 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       dataType: 'json',
       data: JSON.stringify({
         reslyp_id: context.model.get('latest_conversation').reslyp_id,
-        text: context.state.replyText
+        text: context.state.quickReplyText
       }),
       success: function(response) {
-        context.state.replyText = '';
+        context.state.quickReplyText = '';
         context.state.intendingToReply = false;
         context.model.fetch();
       },
@@ -269,10 +273,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   removeRecipientsLabels: function(){
     this.$('.ui.dropdown a.label').remove();
   },
-  filterFriends: function(users){
-    var friends = _.pluck(this.model.get('friends'), 'email');
-    return _.filter(users, function(val){ return friends.indexOf(val.email) < 0 })
-  },
   initializeSemanticElements: function(){
     var context = this;
     // User actions
@@ -293,24 +293,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     });
 
     // Misc UI
-    this.$('#conversations')
-      .popup({
-        on         : 'click',
-        inline     : true,
-        position   : 'right center',
-        lastResort : 'bottom left',
-        onShow: function(module) {
-          context.model.get('reslyps').fetch();
-          resizePopup();
-          if (context.model.get('unseen_activity')){
-            context.model.save({ unseen_activity: false });
-          }
-        },
-        onHide: function(){
-          context.model.get('reslyps').reset(); // Prevent CollectionView from trying to render when popup not visible
-        }
-      });
-
     this.$('img').error(function () {
         $(this).attr('src', '/assets/blank-image.png');
     });

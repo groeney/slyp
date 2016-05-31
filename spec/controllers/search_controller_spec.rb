@@ -50,7 +50,8 @@ RSpec.describe SearchController, type: :controller do
   describe "#user_slyps" do
     let(:expected_keys) { ["id", "display_url", "title", "site_name", "latest_conversation",
     "author", "slyp_id", "url", "archived", "favourite", "deleted", "duration", "total_favourites",
-    "unseen", "unseen_activity", "friends", "total_reslyps", "slyp_type", "html"] }
+    "unseen", "unseen_replies", "unseen_activity", "friends", "total_reslyps", "slyp_type", "html",
+    "description"] }
     let(:user) { FactoryGirl.create(:user) }
     before do
       sign_in user
