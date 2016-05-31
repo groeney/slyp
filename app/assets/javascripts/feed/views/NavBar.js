@@ -237,12 +237,17 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
         cache: false,
         apiSettings: {
           url: '/search/user_slyps?q={query}',
+          beforeSend: function(settings){
+            slypApp.state.resettingFeed = true;
+            return settings
+          },
           onResponse: function(serverResponse){
             serverResponse = _.map(serverResponse, function(value, index) {
                return value;
             });
             slypApp.userSlyps.reset(serverResponse);
             serverResponse = {};
+            slypApp.state.resettingFeed = false;
             return { 'success': true, 'results': serverResponse }
           }
         },
