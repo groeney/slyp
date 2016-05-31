@@ -73,6 +73,9 @@
   .mobile.show {
     display: block !important;
   }
+  #js-sidebar-region {
+    width: 90%;
+  }
 }
 
 @media screen and (min-width: 768px) {
@@ -81,6 +84,9 @@
   }
   .mobile.only {
     display: none !important;
+  }
+  #js-sidebar-region {
+    width: 600px;
   }
 }
 

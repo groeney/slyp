@@ -26,13 +26,17 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     this.binder = rivets.bind(this.$el, { userSlyp: this.model, state: this.state });
   },
   events: {
-    'click #expand-description' : 'expandDescription',
-    'click #collapse-description' : 'collapseDescription'
+    'click #expand-description'   : 'expandDescription',
+    'click #collapse-description' : 'collapseDescription',
+    'click #close-sidebar'        : 'closeSidebar'
   },
   expandDescription: function(){
     this.state.expanded = true;
   },
   collapseDescription: function(){
     this.state.expanded = false;
+  },
+  closeSidebar: function(){
+    $('.ui.sidebar').sidebar('toggle');
   }
 })

@@ -32216,7 +32216,7 @@ html.ios body {
 
 .ui[class*="very wide"].left.sidebar,
 .ui[class*="very wide"].right.sidebar {
-  width: 600px;
+  width: 90%;
 }
 
 /* Left Visible */
@@ -32241,8 +32241,8 @@ html.ios body {
 
 .ui.visible[class*="very wide"].left.sidebar ~ .fixed,
 .ui.visible[class*="very wide"].left.sidebar ~ .pusher {
-  -webkit-transform: translate3d(600px, 0, 0);
-  transform: translate3d(600px, 0, 0);
+  -webkit-transform: translate3d(90%, 0, 0);
+  transform: translate3d(90%, 0, 0);
 }
 
 /* Right Visible */
@@ -32267,8 +32267,8 @@ html.ios body {
 
 .ui.visible[class*="very wide"].right.sidebar ~ .fixed,
 .ui.visible[class*="very wide"].right.sidebar ~ .pusher {
-  -webkit-transform: translate3d(-600px, 0, 0);
-  transform: translate3d(-600px, 0, 0);
+  -webkit-transform: translate3d(-90%, 0, 0);
+  transform: translate3d(-90%, 0, 0);
 }
 
 /*******************************
