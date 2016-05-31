@@ -85,6 +85,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
 
   // Event functions
   showSidebar: function(){
+    this.model.save({ unseen_activity: false });
     slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({ model: this.model }));
     $('.ui.sidebar').sidebar('toggle');
   },
