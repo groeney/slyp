@@ -28,7 +28,9 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
   events: {
     'click #expand-description'   : 'expandDescription',
     'click #collapse-description' : 'collapseDescription',
-    'click #close-sidebar'        : 'closeSidebar'
+    'click #close-sidebar'        : 'closeSidebar',
+    'click #facebook-share'       : 'shareOnFacebook',
+    'click #twitter-share'        : 'shareOnTwitter'
   },
   expandDescription: function(){
     this.state.expanded = true;
@@ -38,5 +40,11 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
   },
   closeSidebar: function(){
     $('.ui.sidebar').sidebar('toggle');
+  },
+  shareOnFacebook: function(){
+    this.toastrFeatNotImplemented();
+  },
+  shareOnTwitter: function(){
+    this.toastrFeatNotImplemented();
   }
 })

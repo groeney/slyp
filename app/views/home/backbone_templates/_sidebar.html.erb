@@ -5,6 +5,10 @@
     <div class="ui hidden divider"></div>
     <p rv-hide="state.expanded" class="description">{ userSlyp:description | truncDescription } <a id="expand-description" style="text-decoration:underline;">expand</a></p>
     <p rv-show="state.expanded" class="description">{ userSlyp:description } <a id="collapse-description" style="text-decoration:underline;">hide</a></p>
+    <span>
+      <i id="facebook-share" class="facebook link icon"></i>
+      <i id="twitter-share" class="twitter link icon"></i>
+    </span>
   </div>
   <span rv-hide="userSlyp.hasConversations">You haven't sent this to anyone yet :(</span>
   <div class="ui comments js-reslyps-container">
