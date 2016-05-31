@@ -17,7 +17,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       moreResults       : null,
       intendingToReply  : false,
       quickReplyText    : '',
-      loadingQuickReply : false
+      loadingQuickReply : false,
     }
     this.state.hasComment = function(){
       return context.state.comment.length > 0;
@@ -106,6 +106,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   },
   sendSlypIfValid: function(e){
     if (e.keyCode==13 && this.state.hasComment() && !e.shiftKey){
+      e.preventDefault();
       this.$('#reslyp-button').click();
     }
   },
@@ -205,12 +206,13 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   },
   sendQuickReplyIfValid: function(e){
     if (e.keyCode == 13 && this.state.hasQuickReplyText()){
+      e.preventDefault();
       this.$('#quick-reply-button').click();
     }
   },
   sendQuickReply: function(){
     var quickReplyText = this.state.quickReplyText;
-    this.state.quickReplyText = '';
+    this.$('#quick-reply-input').val('');
     this.state.loadingQuickReply = true;
     var context = this;
     Backbone.ajax({

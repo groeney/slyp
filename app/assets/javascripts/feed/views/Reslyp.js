@@ -65,7 +65,7 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   },
   reply: function(){
     var replyText = this.state.replyText;
-    this.state.replyText = '';
+    this.$('#reply-area').val('');
     this.state.loading = true;
     var context = this;
     Backbone.ajax({
@@ -93,6 +93,7 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   },
   replyIfValid: function(e){
     if (e.keyCode == 13 && this.state.hasReplyText()){
+      e.preventDefault();
       this.$('#reply-button').click();
     }
   },
