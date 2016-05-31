@@ -109,9 +109,12 @@ rivets.formatters.doneText = function(value){
 //Binders
 rivets.binders['fade-hide'] = function(el, value) {
   return value ? $(el).fadeOut(function(){
-    return $(this).css('display', 'none !important');
+    var currentStyle = $(this).attr('style');
+    return $(this).attr('style', 'display: none !important;' + currentStyle)
+
   }) : $(el).fadeIn(function(){
-    return $(this).css('display', 'block !important');
+    var currentStyle = $(this).attr('style');
+    return $(this).attr('style', 'display: block !important;' + currentStyle);
   });
 };
 
