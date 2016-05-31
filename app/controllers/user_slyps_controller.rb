@@ -39,7 +39,7 @@ class UserSlypsController < BaseController
   end
 
   def present_collection(user_slyps)
-    user_slyps.map { |user_slyp| present(user_slyp) }
+    user_slyps.includes(:slyp).map { |user_slyp| present(user_slyp) }
   end
 
   def user_slyp_params

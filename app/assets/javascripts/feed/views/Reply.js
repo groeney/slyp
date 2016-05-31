@@ -12,7 +12,7 @@ slypApp.Views.Reply = slypApp.Base.CompositeView.extend({
     this.$('.avatar').popup();
   },
   events: {
-    'click a.edit'         : 'enterEditMode',
+    'click i.edit'         : 'enterEditMode',
     'keypress input'       : 'handleInput',
     'click #update'        : 'updateReply',
     'click #delete'        : 'deleteReply',
@@ -22,7 +22,7 @@ slypApp.Views.Reply = slypApp.Base.CompositeView.extend({
   // Event functions
   enterEditMode: function(){
     this.state.cachedText = this.model.get('text');
-    this.$('.text input').val(this.model.get('text'));
+    this.$('.text textarea').val(this.model.get('text'));
     this.state.editMode = true;
   },
   handleInput: function(e){

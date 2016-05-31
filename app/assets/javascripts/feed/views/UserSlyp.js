@@ -4,7 +4,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   attributes: {
     'rv-fade-hide' : 'userSlyp.hideArchived < :archived',
     'rv-class-red' : 'userSlyp:unseen',
-    'rv-class-red' : 'userSlyp.needsLove < :unseen_replies :unseen_activity',
+    'rv-class-red' : 'userSlyp.hasLove < :unseen_replies :unseen_activity',
     'style'        : 'background-color:white;'
   },
   initialize: function(options){

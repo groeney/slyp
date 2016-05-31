@@ -12,7 +12,7 @@ class UserSlyp < ActiveRecord::Base
   def unseen_replies
     reslyps.includes(:replies).map { |el|
       el.replies.where.not(sender_id: user_id).where(seen: false).length
-    }.sum > 0
+    }.sum
   end
 
   def reslyps

@@ -32,9 +32,9 @@ rivets.formatters.numFriends = function(value){
 rivets.formatters.numConversations = function(value){
   var zeroMessage = 'Only you see this';
   if (typeof value == 'number'){
-    return value > 0 ? 'conversation'.pluralize(value) : zeroMessage
+    return value > 0 ? value.toString() : zeroMessage
   } else if (typeof value == 'object'){
-    return value.length > 0 ? 'conversation'.pluralize(value.length) : zeroMessage
+    return value.length > 0 ? value.length.toString() : zeroMessage
   } else {
     return zeroMessage
   }

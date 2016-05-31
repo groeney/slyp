@@ -39,9 +39,10 @@
   <div class="extra content friend-data" style="padding: 10px;">
     <div class="row">
       <a id="conversations" class="description">
-        <i class="icon" rv-class-red="userSlyp.needsLove < :unseen_replies :unseen_activity" rv-classes-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
-        <span rv-show="userSlyp.hasConversations < :friends" rv-class-bold="userSlyp.needsLove < :unseen_replies :unseen_activity">{ userSlyp:friends | numConversations }</span>
+        <i class="icon" rv-classes-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
+        <span rv-show="userSlyp.hasConversations < :friends">{ userSlyp:friends | numConversations }</span>
         <span rv-hide="userSlyp.hasConversations < :friends">Only you see this</span>
+        <span class="ui red mini label" rv-show="userSlyp.hasLove < :unseen_replies :unseen_activity">{ userSlyp.loveAmount < :unseen_replies :unseen_activity } new</span>
       </a>
       <i id="explore-us" class="right floated large map link icon" rv-class-active="userSlyp:archived" data-content="Find similar content" data-variation="tiny"></i>
       <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" rv-data-content="userSlyp:archived | doneText" data-variation="tiny"></i>
