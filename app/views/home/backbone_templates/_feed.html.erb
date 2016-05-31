@@ -9,6 +9,13 @@
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
 
+  <a id="friends-progress" class="ui indicating small progress" data-total="5">
+    <div class="bar">
+      <div class="progress"></div>
+    </div>
+    <div class="label"></div>
+  </a>
+
   <div class="ui basic segment feed-region" rv-class-loading="appState.resettingFeed"></div>
   <%= render "home/backbone_templates/zero_state" %>
 </script>

@@ -10,5 +10,8 @@ slypApp.Models.User = Backbone.Model.extend({
         return friend.email == userSlypFriend.email
       });
     });
+  },
+  friendsCount: function(){
+    return this.get('friends') ? this.get('friends').length : 5;
   }
 })
