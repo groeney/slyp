@@ -46,7 +46,7 @@
       <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" rv-data-content="userSlyp:archived | doneText" data-variation="tiny"></i>
     </div>
 
-    <div class="row" rv-show="userSlyp.hasConversations < :latest_conversation">
+    <div class="ui basic segment row" style="padding:0px;margin:0em;" rv-class-loading="state.loadingQuickReply" rv-show="userSlyp.hasConversations < :latest_conversation">
       <a id="comment-label" class="ui pointing circular label" rv-class-medium="state.intendingToReply" rv-class-unless-small="state.intendingToReply">
         <image class="ui avatar image" rv-src="userSlyp:latest_conversation.first_name | getAvatar userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email"></span>
         <span class="extra content">{ userSlyp:latest_conversation.text }</span>

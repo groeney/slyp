@@ -64,6 +64,9 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     }
   },
   reply: function(){
+    var replyText = this.state.replyText;
+    this.state.replyText = '';
+    this.state.loading = true;
     var context = this;
     Backbone.ajax({
       url: '/replies',
@@ -75,14 +78,15 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
       dataType: 'json',
       data: JSON.stringify({
         reslyp_id: context.model.get('id'),
-        text: context.state.replyText
+        text: replyText
       }),
       success: function(response) {
-        context.state.replyText = '';
         context.collection.add(response);
         context.model.fetch();
+        context.state.loading = false;
       },
       error: function(status, err) {
+        context.state.replyText = replyText;
         context.toastr('error', 'Couldn\'t add that reply for some reason :(')
       }
     });

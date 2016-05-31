@@ -53,7 +53,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     'click #add-button'                       : 'enterAddMode',
     'keyup #searcher input'                   : 'setAppropriateSearch',
     'keydown #searcher input'                 : 'handleSearchInput',
-    'focusout #searcher'                      : 'doneSearching',
+    'focusout #searcher'                      : 'focusOutSearch',
     'focusout #create-input'                  : 'doneAdding',
     'click .right.secondary.menu.mobile.only' : 'toggleActions',
     'click #search-button'                    : 'enterSearchMode'
@@ -160,8 +160,9 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       this.refreshFeed();
     }
   },
-  doneSearching: function(){
+  focusOutSearch: function(){
     if (this.state.searchTerm == ''){
+      slypApp.state.searchMode = false;
       this.refreshFeed();
     }
   },

@@ -10,13 +10,14 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   initialize: function(options){
     var context = this;
     this.state = {
-      canReslyp    : false,
-      gotAttention : !this.model.hasConversations(),
-      reslyping    : false,
-      comment      : '',
-      moreResults  : null,
-      intendingToReply : false,
-      quickReplyText : ''
+      canReslyp         : false,
+      gotAttention      : !this.model.hasConversations(),
+      reslyping         : false,
+      comment           : '',
+      moreResults       : null,
+      intendingToReply  : false,
+      quickReplyText    : '',
+      loadingQuickReply : false
     }
     this.state.hasComment = function(){
       return context.state.comment.length > 0;
@@ -207,8 +208,10 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     }
   },
   sendQuickReply: function(){
+    var quickReplyText = this.state.quickReplyText;
+    this.state.quickReplyText = '';
+    this.state.loadingQuickReply = true;
     var context = this;
-    console.debug('Sending quick reply: ' + this.state.quickReplyText);
     Backbone.ajax({
       url: '/replies',
       method: 'POST',
@@ -219,14 +222,16 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       dataType: 'json',
       data: JSON.stringify({
         reslyp_id: context.model.get('latest_conversation').reslyp_id,
-        text: context.state.quickReplyText
+        text: quickReplyText
       }),
       success: function(response) {
-        context.state.quickReplyText = '';
         context.state.intendingToReply = false;
+        context.state.loadingQuickReply = false;
         context.model.fetch();
       },
       error: function(status, err) {
+        context.state.quickReplyText = quickReplyText;
+        context.state.loadingQuickReply = false;
         context.toastr('error', 'Couldn\'t add that reply for some reason :(')
       }
     });
