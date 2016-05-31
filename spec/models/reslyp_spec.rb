@@ -44,6 +44,19 @@ RSpec.describe Reslyp, type: :model do
         expect(delivered_email.html_part.body.decoded).to include comment
         expect(delivered_email.html_part.body.decoded).to include expected_query_string
       end
+
+      it "should include slyp url when title is nil" do
+        perform_enqueued_jobs do
+          to_user = FactoryGirl.create(:user)
+          empty_slyp = FactoryGirl.create(:slyp)
+          comment = "Another dummy comment"
+
+          user_slyp = to_user.user_slyps.create(slyp_id: empty_slyp.id)
+          reslyp = user_slyp.send_slyp(to_user.email, comment)
+          delivered_email = ActionMailer::Base.deliveries.last
+          expect(delivered_email.text_part.body.decoded).to include empty_slyp.url
+        end
+      end
     end
 
     it "should send an invitation email" do

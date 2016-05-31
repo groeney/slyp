@@ -52,6 +52,17 @@ class Slyp < ActiveRecord::Base
     update_attribute(:url, candidate_url) if candidate_url.length < url.length
   end
 
+  def image
+    invalid_exts = %w(data:image .jpg .jpeg .png .gif .ico)
+    invalid = (display_url.nil? ||
+      !invalid_exts.any? { |ext| display_url.include?(ext) })
+    invalid ? "/assets/logo.png" : display_url
+  end
+
+  def display_title
+    title || url
+  end
+
   def self.fetch_from_db(url)
     slyp = Slyp.find_by(url: url)
     slyp.try(:complete?) ? slyp : nil
