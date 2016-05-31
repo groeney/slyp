@@ -43,6 +43,7 @@
         <span rv-show="userSlyp.hasConversations < :friends" rv-class-bold="userSlyp.needsLove < :unseen_replies :unseen_activity">{ userSlyp:friends | numConversations }</span>
         <span rv-hide="userSlyp.hasConversations < :friends">Only you see this</span>
       </a>
+      <i id="explore-us" class="right floated large map link icon" rv-class-active="userSlyp:archived" data-content="Find similar content" data-variation="tiny"></i>
       <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" rv-data-content="userSlyp:archived | doneText" data-variation="tiny"></i>
     </div>
 

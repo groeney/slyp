@@ -79,7 +79,8 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'focusout #quick-reply-input'   : 'noReply',
     'keypress #quick-reply-input'   : 'sendQuickReplyIfValid',
     'click #quick-reply-button'     : 'sendQuickReply',
-    'click #title'                  : 'showPreview'
+    'click #title'                  : 'showPreview',
+    'click #explore-us'             : 'featureNotImplemented'
   },
 
   // Event functions
@@ -236,6 +237,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       }
     });
   },
+  featureNotImplemented: function(){
+    this.toastrFeatNotImplemented();
+  },
 
   // Helper functions
   reslyp: function(emails, comment){
@@ -290,6 +294,14 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     });
 
     this.$('#favorite-action').popup({
+      position: 'bottom left',
+      delay: {
+        show: 500,
+        hide: 0
+      }
+    });
+
+    this.$('#explore-us').popup({
       position: 'bottom left',
       delay: {
         show: 500,

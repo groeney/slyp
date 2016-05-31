@@ -56,7 +56,8 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     'focusout #searcher'                      : 'focusOutSearch',
     'focusout #create-input'                  : 'doneAdding',
     'click .right.secondary.menu.mobile.only' : 'toggleActions',
-    'click #search-button'                    : 'enterSearchMode'
+    'click #search-button'                    : 'enterSearchMode',
+    'click #explore-button'                   : 'featureNotImplemented'
   },
 
   // Event functions
@@ -175,6 +176,9 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     this.$('#right-menu').toggleClass('hide');
     this.$('#right-menu').toggleClass('right');
     slypApp.state.actionsMode = !slypApp.state.actionsMode
+  },
+  featureNotImplemented: function(){
+    this.toastrFeatNotImplemented();
   },
 
   // Helper functions
