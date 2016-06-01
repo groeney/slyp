@@ -172,6 +172,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   intendToReply: function(){
     if (this.state.intendingToReply){
       this.state.intendingToReply = false;
+      this.showSidebar();
     } else {
       this.state.intendingToReply = true;
       this.$('#quick-reply-input').focus();
