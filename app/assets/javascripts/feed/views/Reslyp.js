@@ -29,6 +29,10 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
       this.style.height = 'auto';
       this.style.height = (this.scrollHeight) + 'px';
     });
+
+    if (this.model.get('user_slyp').get('reslyps').length <= 1){ // If only 1 reslyp, open replies by default
+      this.toggleReplies();
+    }
   },
   onDestroy: function(){
     if (this.binder) this.binder.unbind();

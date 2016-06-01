@@ -69,7 +69,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'keypress #reslyp-comment'      : 'sendSlypIfValid',
     'click #archive-action'         : 'toggleArchive',
     'click #favorite-action'        : 'toggleStar',
-    'mouseenterintent'              : 'giveAttention',
     'mouseleaveintent'              : 'takeAttention',
     'click #preview-button'         : 'showPreview',
     'click #send-button'            : 'reslypAttention',
@@ -167,6 +166,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     }
   },
   reslypAttention: function(){
+    this.giveAttention();
     this.$('.search.dropdown').click();
   },
   intendToReply: function(){
