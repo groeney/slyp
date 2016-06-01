@@ -29,6 +29,7 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     'click #expand-description'   : 'expandDescription',
     'click #collapse-description' : 'collapseDescription',
     'click #close-sidebar'        : 'closeSidebar',
+    'click #sidebar-title'        : 'openPreviewModal',
     'click #facebook-share'       : 'shareOnFacebook',
     'click #twitter-share'        : 'shareOnTwitter'
   },
@@ -40,6 +41,15 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
   },
   closeSidebar: function(){
     $('.ui.sidebar').sidebar('toggle');
+  },
+  openPreviewModal: function(){
+    var modalEl = $('.ui.fullscreen.modal[data-user-slyp-id="' + this.model.get('id') + '"]');
+    if (modalEl.exists()){
+      $('.ui.sidebar').sidebar('toggle');
+      modalEl.modal('show');
+    } else {
+      window.location.href = this.model.get('url');
+    }
   },
   shareOnFacebook: function(){
     this.toastrFeatNotImplemented();

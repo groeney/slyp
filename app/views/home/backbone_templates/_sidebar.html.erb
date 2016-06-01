@@ -1,7 +1,7 @@
 <script type="text/template" id="js-sidebar-region-tmpl">
   <i id="close-sidebar" class="big remove link icon"></i>
   <div class="ui basic center aligned segment" rv-class-loading="state.loading">
-    <a target="_blank" rv-href="userSlyp:url" class="ui header center aligned wrap">{ userSlyp.displayTitle }</a>
+    <a id="sidebar-title" class="ui header center aligned wrap">{ userSlyp.displayTitle }</a>
     <div class="ui hidden divider"></div>
     <p rv-hide="state.expanded" class="description">{ userSlyp:description | truncDescription } <a id="expand-description" style="text-decoration:underline;">expand</a></p>
     <p rv-show="state.expanded" class="description">{ userSlyp:description } <a id="collapse-description" style="text-decoration:underline;">hide</a></p>

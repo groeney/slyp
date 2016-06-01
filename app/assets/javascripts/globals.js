@@ -47,3 +47,7 @@ function randomFromInterval(min,max)
 {
     return Math.floor(Math.random()*(max-min+1)+min);
 }
+
+$.fn.exists = function () {
+    return this.length !== 0;
+}
