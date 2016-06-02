@@ -12,6 +12,9 @@ slypApp.Models.User = Backbone.Model.extend({
     });
   },
   friendsCount: function(){
-    return this.get('friends') ? this.get('friends').length : 5;
+    return this.get('friends') ? this.get('friends').length : 5
+  },
+  needsFriends: function(){
+    return this.friendsCount() < 5
   }
 })

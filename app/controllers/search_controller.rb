@@ -16,7 +16,7 @@ class SearchController < BaseController
 
   def user_slyps
     query = params[:q]
-    if query[0] == "&"
+    if query[0] == "$"
       query[0] = ""
       @user_slyps = parse_and_query_conversations(query)
     else
