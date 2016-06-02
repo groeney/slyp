@@ -9,7 +9,7 @@
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
   <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
 
-  <a id="friends-progress" class="ui indicating small progress" data-total="5">
+  <a id="friends-progress" class="ui indicating small progress" data-total="5" rv-show="user.needsFriends < :friends">
     <div class="bar">
       <div class="progress"></div>
     </div>
