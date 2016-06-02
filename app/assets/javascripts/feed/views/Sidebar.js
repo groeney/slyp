@@ -156,7 +156,6 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     var dropdownSelector = '.ui.multiple.selection.search.dropdown';
     this.$(dropdownSelector)
       .dropdown({
-        direction     : 'upward',
         allowAdditions: true,
         message       : {
           addResult : 'Invite <b style="font-weight: bold;">{term}</b>',
