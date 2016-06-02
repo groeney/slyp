@@ -29,8 +29,8 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
       this.style.height = 'auto';
       this.style.height = (this.scrollHeight) + 'px';
     });
-
-    if (this.model.get('user_slyp').get('reslyps').length <= 1){ // If only 1 reslyp, open replies by default
+    var userSlyp = this.model.get('user_slyp');
+    if (userSlyp != null && userSlyp.get('reslyps').length <= 1){ // If only 1 reslyp, open replies by default
       this.toggleReplies();
     }
   },
@@ -69,7 +69,7 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   },
   reply: function(){
     var replyText = this.state.replyText;
-    this.$('#reply-area').val('');
+    this.state.replyText = '';
     this.state.loading = true;
     var context = this;
     Backbone.ajax({
@@ -91,6 +91,7 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
       },
       error: function(status, err) {
         context.state.replyText = replyText;
+        context.state.loading = false;
         context.toastr('error', 'Couldn\'t add that reply for some reason :(')
       }
     });
@@ -102,7 +103,7 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     }
   },
   fetchMutualUserSlyps: function(e){
-    $('.ui.sidebar').sidebar('toggle');
+    $('.ui.right.sidebar').sidebar('toggle');
     var friend_id = $(e.toElement).attr('data-user-id');
     if (!friend_id){
       return

@@ -5,20 +5,23 @@ slypApp.Models = {};
 slypApp.Base = {};
 
 slypApp.addRegions({
-  navBarRegion  : '#js-nav-bar-region',
-  feedRegion    : '#js-feed-region',
-  sidebarRegion : '#js-sidebar-region'
+  navBarRegion         : '#js-nav-bar-region',
+  feedRegion           : '#js-feed-region',
+  sidebarRegion        : '#js-sidebar-region',
+  previewSidebarRegion : '#js-preview-sidebar-region'
 });
 
 slypApp.state = {
-  searchMode    : false,
-  addMode       : false,
-  showArchived  : false,
-  resettingFeed : false,
-  addMode       : false,
-  actionsMode   : false,
-  screenWidth   : getScreenWidth(),
-  isMobile      : function() { return slypApp.state.screenWidth < 767 }
+  searchMode           : false,
+  addMode              : false,
+  showArchived         : false,
+  resettingFeed        : false,
+  addMode              : false,
+  actionsMode          : false,
+  screenWidth          : getScreenWidth(),
+  previewingSlyp       : false,
+  viewingConversations : false,
+  isMobile             : function() { return slypApp.state.screenWidth < 767 }
 }
 
 slypApp.state.hideNavFields = function(){

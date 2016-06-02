@@ -86,7 +86,7 @@
     display: none !important;
   }
   #js-sidebar-region {
-    width: 600px;
+    width: 40%;
   }
 }
 
@@ -110,4 +110,8 @@ a {
 .ui.comments .comment .actions a.active {
   font-weight: bold;
   color: rgba(0, 0, 0, 0.8);
+}
+
+.ui.fullscreen.sidebar {
+  width: 100%;
 }

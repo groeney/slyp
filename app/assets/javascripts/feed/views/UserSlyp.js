@@ -11,13 +11,14 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     var context = this;
     this.state = {
       canReslyp         : false,
-      gotAttention      : !this.model.hasConversations(),
+      gotAttention      : !this.model.hasConversations() || slypApp.state.isMobile(),
       reslyping         : false,
       comment           : '',
       moreResults       : null,
       intendingToReply  : false,
       quickReplyText    : '',
       loadingQuickReply : false,
+      scrubbedFriends   : this.getPotentialFriends()
     }
     this.state.hasComment = function(){
       return context.state.comment.length > 0;
@@ -27,11 +28,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     }
   },
   onRender: function(){
-    var scrubbedFriends = this.model.scrubFriends(slypApp.user.get('friends'));
     this.binder = rivets.bind(this.$el, {
       userSlyp        : this.model,
-      state           : this.state,
-      scrubbedFriends : scrubbedFriends
+      state           : this.state
     });
     var context = this;
     if (typeof this.model.get('url') !== 'undefined'){
@@ -64,29 +63,29 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     if (this.binder) this.binder.unbind();
   },
   events: {
-    'click #conversations'          : 'showSidebar',
-    'click #reslyp-button'          : 'sendSlyp',
-    'keypress #reslyp-comment'      : 'sendSlypIfValid',
-    'click #archive-action'         : 'toggleArchive',
-    'click #favorite-action'        : 'toggleStar',
-    'mouseleaveintent'              : 'takeAttention',
-    'click #preview-button'         : 'showPreview',
-    'click #send-button'            : 'reslypAttention',
-    'click #comment-label'          : 'intendToReply',
-    'click .dropdown.search'        : 'handleDropdownSelect',
-    'click #see-more'               : 'seeMoreResults',
-    'focusout #quick-reply-input'   : 'noReply',
-    'keypress #quick-reply-input'   : 'sendQuickReplyIfValid',
-    'click #quick-reply-button'     : 'sendQuickReply',
-    'click #title'                  : 'showPreview',
-    'click #explore-us'             : 'featureNotImplemented'
+    'click #conversations'        : 'showConversationsSidebar',
+    'click #reslyp-button'        : 'sendSlyp',
+    'keypress #reslyp-comment'    : 'sendSlypIfValid',
+    'click #archive-action'       : 'toggleArchive',
+    'click #favorite-action'      : 'toggleStar',
+    'mouseleaveintent'            : 'takeAttention',
+    'click #preview-button'       : 'showPreview',
+    'click #title'                : 'showPreview',
+    'click #send-button'          : 'reslypAttention',
+    'click #comment-label'        : 'intendToReply',
+    'click .dropdown.search'      : 'handleDropdownSelect',
+    'click #see-more'             : 'seeMoreResults',
+    'focusout #quick-reply-input' : 'noReply',
+    'keypress #quick-reply-input' : 'sendQuickReplyIfValid',
+    'click #quick-reply-button'   : 'sendQuickReply',
+    'click #explore-us'           : 'featureNotImplemented'
   },
 
   // Event functions
-  showSidebar: function(){
+  showConversationsSidebar: function(){
     this.model.save({ unseen_activity: false });
     slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({ model: this.model }));
-    $('.ui.sidebar').sidebar('toggle');
+    $('.ui.right.sidebar').sidebar('toggle');
   },
   sendSlyp: function(e){
     if (this.state.hasComment()){
@@ -94,9 +93,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
 
       if (emails.length > 0){
         var validatedEmails = _.filter(emails, function(email) { return validateEmail(email) });
-        this.state.reslyping = true;
-        var comment = this.state.comment;
-        this.reslyp(validatedEmails, comment);
+        this.reslyp(validatedEmails);
       } else {
         this.toastr('error', 'No valid emails.');
       }
@@ -141,25 +138,17 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       error: function() { context.toastr('error') }
     });
   },
-  giveAttention: function(){
-    this.state.gotAttention = true;
-  },
   takeAttention: function(){
     if (!this.state.canReslyp){
       this.state.gotAttention = false;
     }
   },
-  showPreview: function(e){
-    var modalSelector = this.$('.ui.modal').first();
-    if (modalSelector.length === 0){
-      modalSelector = $('div[data-user-slyp-id=' + this.model.get('id') + '].ui.modal').first();
+  showPreview: function(){
+    if (slypApp.state.isMobile()){
+      this.showModalPreview();
+    } else {
+      this.showSidebarPreview();
     }
-    modalSelector.modal({
-      onHidden: function() { // Buggy if more than one video
-        iframe = $(this).find('.ui.embed iframe').first();
-        iframe.attr('src', iframe.attr('src'));
-      }
-    }).modal('show');
 
     if (this.model.get('unseen')){
       this.model.save({ unseen: false });
@@ -172,14 +161,14 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   intendToReply: function(){
     if (this.state.intendingToReply){
       this.state.intendingToReply = false;
-      this.showSidebar();
+      this.showConversationsSidebar();
     } else {
       this.state.intendingToReply = true;
       this.$('#quick-reply-input').focus();
     }
   },
   handleDropdownSelect: function(){
-    if (this.model.scrubFriends(slypApp.user.get('friends')).length == 0){
+    if (this.getPotentialFriends().length == 0){
       this.seeMoreResults();
       var context = this;
       setTimeout(function(){
@@ -218,7 +207,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   },
   sendQuickReply: function(){
     var quickReplyText = this.state.quickReplyText;
-    this.$('#quick-reply-input').val('');
+    this.state.quickReplyText = '';
     this.state.loadingQuickReply = true;
     var context = this;
     Backbone.ajax({
@@ -240,19 +229,41 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       },
       error: function(status, err) {
         context.state.quickReplyText = quickReplyText;
+        context.state.intendingToReply = true;
         context.state.loadingQuickReply = false;
         context.toastr('error', 'Couldn\'t add that reply for some reason :(')
       }
     });
   },
   featureNotImplemented: function(){
-    this.toastrFeatNotImplemented();
+    this.toastrFeatNotImplemented(); // On Base view
   },
 
   // Helper functions
-  reslyp: function(emails, comment){
-    this.$('#recipient-emails').val('');
-    this.$('#reslyp-comment').val('');
+  giveAttention: function(){
+    this.state.gotAttention = true;
+  },
+  showModalPreview: function(){
+    var modalSelector = this.$('.ui.modal').first();
+    if (modalSelector.length === 0){
+      modalSelector = $('div[data-user-slyp-id=' + this.model.get('id') + '].ui.modal').first();
+    }
+    modalSelector.modal({
+      onHidden: function() { // Buggy if more than one video
+        iframe = $(this).find('.ui.embed iframe').first();
+        iframe.attr('src', iframe.attr('src'));
+      }
+    }).modal('show');
+  },
+  showSidebarPreview: function(){
+    slypApp.previewSidebarRegion.show(new slypApp.Views.PreviewSidebar({ model: this.model }));
+    $('.ui.left.sidebar').sidebar('toggle');
+  },
+  reslyp: function(emails){
+    var comment = this.state.comment;
+    this.state.comment = '';
+    this.state.reslyping = true;
+
     var context = this;
     Backbone.ajax({
       url: '/reslyps',
@@ -268,27 +279,36 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         comment: comment
       }),
       success: function(response) {
-        context.toastr('success', 'Reslyp successful :)');
-        context.state.reslyping = false;
-        context.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
-        context.state.canReslyp = false;
-        context.state.comment = '';
-        context.model.fetch();
-        context.removeRecipientsLabels();
+        context.toastr('success', 'Started ' + 'conversation'.pluralize(emails.length));
+        context.refreshAfterReslyp();
       },
       error: function(status, err) {
-        context.toastr('error', 'Couldn\'t add all OR some of those users :(');
-        context.state.reslyping = false;
-        context.state.canReslyp = true; // Until figure out communication with view from dropdown callbacks
-        context.state.canReslyp = false;
-        context.state.comment = '';
-        context.model.fetch();
-        context.removeRecipientsLabels();
+        context.toastr('error', 'Couldn\'t send it to some of your friends');
+        context.state.comment = comment;
+        context.refreshAfterReslyp();
       }
     });
   },
-  removeRecipientsLabels: function(){
-    this.$('.ui.dropdown a.label').remove();
+  refreshAfterReslyp: function(){
+    this.state.reslyping = false;
+    this.state.canReslyp = false;
+    var context = this;
+    this.model.fetch({
+      success: function(){
+        context.state.scrubbedFriends = context.getPotentialFriends();
+      },
+      error: function(){
+        context.state.scrubbedFriends = context.getPotentialFriends();
+      }
+    });
+    this.refreshDropdown();
+  },
+  refreshDropdown: function(){
+    this.$('.ui.dropdown').dropdown('restore defaults');
+    this.$('.ui.dropdown .text').replaceWith('<div class="default text">send to friends</div>');
+  },
+  getPotentialFriends: function(){
+    return this.model.scrubFriends(slypApp.user.get('friends')) || [];
   },
   initializeSemanticElements: function(){
     var context = this;
@@ -331,6 +351,15 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         'type': 'image',
         'transition': 'fade in',
         'duration': 750
+    });
+
+    // Preview modal
+    this.$('.ui.fullscreen.modal').modal('setting', 'onShow', function(){
+      slypApp.state.previewingSlyp = true;
+    });
+
+    this.$('.ui.fullscreen.modal').modal('setting', 'onHide', function(){
+      slypApp.state.previewingSlyp = false;
     });
 
     // Reslyp dropdown

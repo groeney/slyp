@@ -1,0 +1,23 @@
+<script type="text/template" id="js-preview-sidebar-region-tmpl">
+  <i id="close-preview-sidebar" class="big angle double left link icon"></i>
+  <div class="ui basic center aligned segment">
+    <a rv-href="userSlyp:url" target="_blank" class="ui header center aligned wrap" style="font-size:2em;">{ userSlyp.displayTitle }</a>
+    <div class="ui hidden divider"></div>
+    <div class="ui basic center aligned segment">
+      <a target="_blank" rv-href="userSlyp:url" style="color: #b1b2b2; font-size: 1.33rem;" >
+        <span>{ userSlyp:author | authorship userSlyp:site_name userSlyp:url}</span>
+      </a>
+    </div>
+    <span>
+      <i id="facebook-share" class="facebook link icon"></i>
+      <i id="twitter-share" class="twitter link icon"></i>
+      <a id="conversations" class="description">
+        <i class="icon" rv-classes-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
+        <span rv-show="userSlyp.hasConversations < :friends">{ userSlyp:friends | numConversations }</span>
+        <span rv-hide="userSlyp.hasConversations < :friends">Send to friends</span>
+        <span class="ui red mini label" rv-show="userSlyp.hasLove < :unseen_replies :unseen_activity">{ userSlyp.loveAmount < :unseen_replies :unseen_activity } new</span>
+      </a>
+    </span>
+    <div class="ui aligned basic segment" rv-html="userSlyp:html"></div>
+  </div>
+</script>

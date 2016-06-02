@@ -4,13 +4,21 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
   childViewContainer: '.js-reslyps-container',
   className: 'ui basic segment',
   initialize: function(options){
+    var context = this;
     this.state = {
       loading  : true,
-      expanded : false
+      expanded : false,
+      gotAttention: true,
+      reslyping: false,
+      canReslyp: false,
+      moreResults: null,
+      comment: ''
+    }
+    this.state.hasComment = function(){
+      return context.state.comment.length > 0;
     }
     this.collection = this.model.get('reslyps');
     if (this.collection != null){
-      var context = this;
       this.collection.fetch({
         reset: true,
         success: function(collection, response, options){
@@ -23,15 +31,27 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     }
   },
   onRender: function(){
-    this.binder = rivets.bind(this.$el, { userSlyp: this.model, state: this.state });
+    this.state.scrubbedFriends = this.getPotentialFriends();
+    this.binder = rivets.bind(this.$el, {
+      userSlyp: this.model,
+      state: this.state,
+      appState: slypApp.state
+    });
+  },
+  onShow: function(){
+    this.initializeSemanticElements();
   },
   events: {
     'click #expand-description'   : 'expandDescription',
     'click #collapse-description' : 'collapseDescription',
     'click #close-sidebar'        : 'closeSidebar',
-    'click #sidebar-title'        : 'openPreviewModal',
+    'click #sidebar-title'        : 'showPreview',
     'click #facebook-share'       : 'shareOnFacebook',
-    'click #twitter-share'        : 'shareOnTwitter'
+    'click #twitter-share'        : 'shareOnTwitter',
+    'click #reslyp-button'        : 'sendSlyp',
+    'keypress #reslyp-comment'    : 'sendSlypIfValid',
+    'click .dropdown.search'      : 'handleDropdownSelect',
+    'click #see-more'             : 'seeMoreResults'
   },
   expandDescription: function(){
     this.state.expanded = true;
@@ -40,21 +60,197 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     this.state.expanded = false;
   },
   closeSidebar: function(){
-    $('.ui.sidebar').sidebar('toggle');
+    $('.ui.right.sidebar').sidebar('toggle');
   },
-  openPreviewModal: function(){
-    var modalEl = $('.ui.fullscreen.modal[data-user-slyp-id="' + this.model.get('id') + '"]');
-    if (modalEl.exists()){
-      $('.ui.sidebar').sidebar('toggle');
-      modalEl.modal('show');
+  showPreview: function(){
+    if ($(window).width() > 768){
+      this.showSidebarPreview();
     } else {
-      window.location.href = this.model.get('url');
+        var modalEl = $('.ui.fullscreen.modal[data-user-slyp-id="' + this.model.get('id') + '"]');
+        if (modalEl.exists()){
+          $('.ui.right.sidebar').sidebar('toggle');
+          modalEl.modal('show');
+        } else {
+          window.location.href = this.model.get('url');
+        }
     }
+  },
+  showSidebarPreview: function(){
+    $('.ui.left.sidebar').css('width', '60%');
+    slypApp.previewSidebarRegion.show(new slypApp.Views.PreviewSidebar({ model: this.model }));
+    $('.ui.left.sidebar').sidebar('toggle');
   },
   shareOnFacebook: function(){
     this.toastrFeatNotImplemented();
   },
   shareOnTwitter: function(){
     this.toastrFeatNotImplemented();
+  },
+  sendSlyp: function(e){
+    if (this.state.hasComment()){
+      var emails = this.$('#recipient-emails').val().split(',');
+
+      if (emails.length > 0){
+        var validatedEmails = _.filter(emails, function(email) { return validateEmail(email) });
+        this.state.reslyping = true;
+        var comment = this.state.comment;
+        this.reslyp(validatedEmails, comment);
+      } else {
+        this.toastr('error', 'No valid emails.');
+      }
+    } else {
+      this.toastr('error', 'Gotta add a comment before sending ;)');
+    }
+  },
+  sendSlypIfValid: function(e){
+    if (e.keyCode==13 && this.state.hasComment() && !e.shiftKey){
+      e.preventDefault();
+      this.$('#reslyp-button').click();
+    }
+  },
+  handleDropdownSelect: function(){
+    if (this.getPotentialFriends().length == 0){
+      this.seeMoreResults();
+      var context = this;
+      setTimeout(function(){
+        context.$('.dropdown.search input.search').focus();
+      }, 200);
+    }
+    // TODO: "Your friends" and "Other people" header is pushed out of view by dropdown default selection need to scroll up
+  },
+  seeMoreResults: function(){
+    var context = this;
+    var query = this.$('.dropdown.search input.search').val();
+    Backbone.ajax({
+      url: '/search/users?q=' + query,
+      method: 'GET',
+      accepts: {
+        json: 'application/json'
+      },
+      contentType: 'application/json',
+      dataType: 'json',
+      success: function(response) {
+        context.state.moreResults = slypApp.user.scrubFriends(response);
+      }
+    });
+  },
+
+  // Helper functions
+  initializeSemanticElements: function(){
+    var context = this;
+    // Conversations sidebar
+    $('.ui.right.sidebar').sidebar('setting', 'onShow', function(){
+        slypApp.state.viewingConversations = true;
+    });
+
+    $('.ui.right.sidebar').sidebar('setting', 'onHide', function(){
+        slypApp.state.viewingConversations = false;
+        if (slypApp.state.previewingSlyp){
+          $('.ui.left.sidebar').animate({
+            width: '100%'
+          }, 450);
+        }
+    });
+
+    // Reslyp dropdown
+    var dropdownSelector = '.ui.multiple.selection.search.dropdown';
+    this.$(dropdownSelector)
+      .dropdown({
+        direction     : 'upward',
+        allowAdditions: true,
+        message       : {
+          addResult : 'Invite <b style="font-weight: bold;">{term}</b>',
+        }
+      });
+
+    this.$(dropdownSelector).dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
+      if (context.model.alreadyExchangedWith(addedValue)){
+        context.toastr('error', 'You have already exchanged this slyp with ' + addedValue);
+        return false
+      } else {
+        context.state.reslyping = false;
+        context.state.canReslyp = true;
+      }
+      return true
+    });
+
+    this.$(dropdownSelector).dropdown('setting', 'onLabelCreate', function(value, text) {
+      $(this).find('span').detach();
+      if (!validateEmail(value)){
+        this.addClass('red');
+      }
+      return this
+    });
+
+    this.$(dropdownSelector).dropdown('setting', 'onRemove', function(removedValue, removedText, removedChoice) {
+      if (context.$el.find('.ui.dropdown a.label').length <= 1){
+        context.state.reslyping = false;
+        context.state.canReslyp = false;
+      }
+    });
+
+    this.$(dropdownSelector).dropdown('setting', 'onHide', function(){
+      context.state.moreResults = null;
+    });
+
+    this.$(dropdownSelector).dropdown('setting', 'onLabelRemove', function(value){
+      this.popup('destroy');
+    });
+
+    this.$(dropdownSelector).dropdown('save defaults');
+
+  },
+  reslyp: function(emails, comment){
+    var comment = this.state.comment;
+    this.state.comment = '';
+    this.state.reslyping = true;
+
+    var context = this;
+    Backbone.ajax({
+      url: '/reslyps',
+      method: 'POST',
+      accepts: {
+        json: 'application/json'
+      },
+      contentType: 'application/json',
+      dataType: 'json',
+      data: JSON.stringify({
+        emails: emails,
+        slyp_id: this.model.get('slyp_id'),
+        comment: comment
+      }),
+      success: function(response) {
+        context.toastr('success', 'Started ' + emails.length + ' new conversations');
+        context.refreshAfterReslyp();
+      },
+      error: function(status, err) {
+        context.toastr('error', 'Couldn\'t send it to some of your friends');
+        context.state.comment = comment;
+        context.refreshAfterReslyp();
+      }
+    });
+  },
+  refreshAfterReslyp: function(){
+    this.state.reslyping = false;
+    this.state.canReslyp = false;
+    var context = this;
+    this.model.fetch({
+      success: function(model, response, options){
+        context.state.scrubbedFriends = context.getPotentialFriends();
+        context.collection.fetch();
+      },
+      error: function(model, response, options){
+        context.toastr('error', 'Uh oh. We might have lost connection, or our robots are mad :-(');
+        context.state.scrubbedFriends = context.getPotentialFriends();
+      }
+    });
+    this.refreshDropdown();
+  },
+  refreshDropdown: function(){
+    this.$('.ui.dropdown').dropdown('restore defaults');
+    this.$('.ui.dropdown .text').replaceWith('<div class="default text">send to friends</div>');
+  },
+  getPotentialFriends: function(){
+    return this.model.scrubFriends(slypApp.user.get('friends')) || [];
   }
-})
+});
