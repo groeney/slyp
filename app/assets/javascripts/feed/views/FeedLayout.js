@@ -24,12 +24,7 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
       text: {
         active  : 'You need {left} more friends'
       },
-      label: 'ratio',
-      onChange: function(p,v,t){
-        if (v>=5){
-          context.state.needsFriends = false;
-        }
-      }
+      label: 'ratio'
     });
   },
   zeroState: function(){

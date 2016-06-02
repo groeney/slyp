@@ -40,7 +40,8 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   events: {
     'click .actions a'        : 'toggleReplies',
     'click #reply-button'     : 'reply',
-    'keypress .form textarea' : 'replyIfValid',
+    'keypress .form textarea' : 'handleKeypress',
+    'keydown .form textarea'  : 'handleKeydown',
     'click a.user-display'    : 'fetchMutualUserSlyps'
   },
 
@@ -97,10 +98,18 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
       }
     });
   },
-  replyIfValid: function(e){
+  handleKeypress: function(e){
     if (e.keyCode == 13 && this.state.hasReplyText()){
       e.preventDefault();
       this.$('#reply-button').click();
+    }
+  },
+  handleKeydown: function(e){
+    if (e.keyCode == 38){
+      var validReplies = this.model.get('replies').where({ sender_id: slypApp.user.get('id') });
+      if (validReplies.length > 0){
+        this.$('.comment[data-reply-id="' + validReplies[validReplies.length-1].get('id') + '"] i.edit').click();
+      }
     }
   },
   fetchMutualUserSlyps: function(e){

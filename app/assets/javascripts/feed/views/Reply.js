@@ -1,6 +1,9 @@
 slypApp.Views.Reply = slypApp.Base.CompositeView.extend({
   template : '#js-reply-tmpl',
   className: 'comment',
+  attributes: {
+    'rv-data-reply-id' : 'reply:id'
+  },
   onRender: function(){
     this.state = {
       editMode   : false,
@@ -10,10 +13,17 @@ slypApp.Views.Reply = slypApp.Base.CompositeView.extend({
   },
   onShow: function(){
     this.$('.avatar').popup();
+    this.$('textarea').each(function () {
+      this.setAttribute('style', 'height:' + (this.scrollHeight) + 'px;overflow-y:hidden;');
+    }).on('input', function () {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
+    });
   },
   events: {
     'click i.edit'         : 'enterEditMode',
-    'keypress input'       : 'handleInput',
+    'keypress area'        : 'handleKeypress',
+    'keydown textarea'     : 'handleKeydown',
     'click #update'        : 'updateReply',
     'click #delete'        : 'deleteReply',
     'click #cancel-update' : 'resetFromEditMode'
@@ -22,13 +32,18 @@ slypApp.Views.Reply = slypApp.Base.CompositeView.extend({
   // Event functions
   enterEditMode: function(){
     this.state.cachedText = this.model.get('text');
-    this.$('.text textarea').val(this.model.get('text'));
     this.state.editMode = true;
+    this.$('textarea').focus();
+    this.$('textarea').val(this.model.get('text'));
+    this.$('textarea').trigger('input');
   },
-  handleInput: function(e){
+  handleKeypress: function(e){
     if (e.keyCode == 13){
       this.updateReply();
-    } else if (e.keyCode == 27){
+    }
+  },
+  handleKeydown: function(e){
+    if (e.keyCode == 27){
       this.resetFromEditMode();
     }
   },
