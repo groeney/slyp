@@ -47,6 +47,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     this.$('#filter-dropdown').dropdown('set selected', 'reading list'); // Performs initial fetch!
   },
   events: {
+    'click #home'                             : 'forceRefresh',
     'click #back-button'                      : 'exitSearchMode',
     'click #create-button'                    : 'createSlyp',
     'keypress #create-input'                  : 'createSlypIfEnter',
@@ -64,6 +65,9 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   exitSearchMode: function(){
     slypApp.state.searchMode = false;
     this.refreshFeed();
+  },
+  forceRefresh: function(){
+    $('#filter-dropdown').dropdown('set selected', 'reading list');
   },
   refreshFeed: function(){
     this.state.searchTerm = '';

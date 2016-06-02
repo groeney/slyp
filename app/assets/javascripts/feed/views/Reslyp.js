@@ -87,6 +87,7 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
       success: function(response) {
         context.collection.add(response);
         context.model.fetch();
+        context.model.get('user_slyp').fetch();
         context.state.loading = false;
       },
       error: function(status, err) {

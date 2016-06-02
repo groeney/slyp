@@ -6,6 +6,7 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
   },
   onShow: function(){
     this.initializeSemanticElements();
+    this.$('p').css('text-align', 'left');
   },
   events: {
     'click #close-preview-sidebar' : 'closePreview',
@@ -21,9 +22,13 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
       this.model.save({ unseen_activity: false });
       slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({ model: this.model }));
       $('.ui.right.sidebar').sidebar('toggle');
-      $('.ui.left.sidebar').animate({
-        width: '60%'
-      }, 450);
+      if (slypApp.state.isMobile()){
+        this.closePreview();
+      } else {
+        $('.ui.left.sidebar').animate({
+          width: '60%'
+        }, 450);
+      }
     }
   },
 
