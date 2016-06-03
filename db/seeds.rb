@@ -13,8 +13,8 @@ end
 
 # Create alice and bob users
 def create_alice_and_bob
-  create_user_softly("alice@example.com", "Alice", "Jones")
-  create_user_softly("bob@example.com", "Bob", "Jones")
+  @alice = create_user_softly("alice@example.com", "Alice", "Jones")
+  @bob = create_user_softly("bob@example.com", "Bob", "Jones")
 end
 
 def create_user_softly(email, first_name, last_name)
@@ -24,8 +24,9 @@ def create_user_softly(email, first_name, last_name)
       first_name: first_name,
       last_name: last_name
     )
-    user.password = "password" if alice.encrypted_password.blank?
+    user.password = "password" if user.encrypted_password.blank?
     user.save!
+    user
   end
 end
 
@@ -50,19 +51,18 @@ end
 # Generate bulk reslyps
 def generate_bulk_reslyps_and_replies
   100.times do
-    reslyp(@alice, pick_user(@alice.id))
-    reslyp(@bob, pick_user(@bob.id))
-    reslyp(pick_user(@alice.id), @alice)
-    reslyp(pick_user(@bob.id), @bob)
-    reslyp(pick_user) # Potential for conflict but meh
+    perform_reslyp(@alice, pick_user(@alice.id))
+    perform_reslyp(@bob, pick_user(@bob.id))
+    perform_reslyp(pick_user(@alice.id), @alice)
+    perform_reslyp(pick_user(@bob.id), @bob)
+    perform_reslyp(pick_user) # Potential for conflict but meh
   end
 end
 
 ################################### EXECUTE ###################################
 seed_slyps
-
 if ENV["RACK_ENV"] == "development"
-  @alice, @bob = create_alice_and_bob
+  create_alice_and_bob
   create_example_users
   generate_bulk_reslyps_and_replies
 end
