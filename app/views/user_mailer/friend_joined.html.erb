@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  </head>
+  <body>
+    <p><%= @user.display_name %></p>
+    <p>Your friend <b><%= @friend.display_name %></b> just joined you on <%= link_to "Slyp", controller: "home", action: "feed", user_email: @user.email, user_token: @user.authentication_token %>. It's a celebration!</p>
+    <p>With much love,<br/>Slyp</p>
+  </body>
+</html>

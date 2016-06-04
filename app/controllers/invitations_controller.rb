@@ -1,25 +1,23 @@
 class InvitationsController < Devise::InvitationsController
 
   before_filter :update_sanitized_params, only: :update
+  after_action :complete_update, only: :update
 
-  # PUT /resource/invitation
-  def update
-    respond_to do |format|
-      invitation_token = Devise.token_generator.digest(resource_class, :invitation_token, update_resource_params[:invitation_token])
-      format.js do
-        self.resource = resource_class.where(invitation_token: invitation_token).first
-        resource.send_welcome_email
-        resource.skip_password = true
-        resource.update_attributes update_resource_params.except(:invitation_token)
-      end
-      format.html do
-        resource_class.where(invitation_token: invitation_token).first.send_welcome_email
-        super
-      end
-    end
+  # GET /resource/invitation/accept?invitation_token=abcdef
+  def edit
+    set_minimum_password_length if respond_to? :set_minimum_password_length
+    resource.invitation_token = params[:invitation_token]
+    session[:invitation_token] = params[:invitation_token]
+    render :edit
   end
 
   protected
+
+  def complete_update
+    return if resource.invitation_token
+    session[:invitation_token] = nil
+    resource.send_welcome_email
+  end
 
   def update_sanitized_params
     devise_parameter_sanitizer.permit(:accept_invitation) do |user|

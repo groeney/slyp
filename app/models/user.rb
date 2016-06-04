@@ -20,14 +20,14 @@ class User < ActiveRecord::Base
 
   before_save :ensure_authentication_token
 
-  def thank_you
-    UserMailer.closed_beta_thank_you(self).deliver_now
-  end
-
   def ensure_authentication_token
     if authentication_token.blank?
-      self.authentication_token = generate_authentication_token
+      authentication_token = generate_authentication_token
     end
+  end
+
+  def thank_you
+    UserMailer.closed_beta_thank_you(self).deliver_now
   end
 
   def reslyps
@@ -86,11 +86,44 @@ class User < ActiveRecord::Base
     Friendship.find_or_create_by(user_id: id, friend_id: friend_id) unless friend_id.nil?
   end
 
+  def social_signup
+    send_welcome_email
+    if provider == "facebook"
+      discover_facebook_friends
+    end
+  end
+
+  def discover_facebook_friends
+    graph = Koala::Facebook::API.new(authentication_token)
+    graph.get_connections("me", "friends").each do |fb_friend|
+      user = User.where(provider: "facebook", uid: fb_friend["id"]).first
+      next if user.nil?
+      befriend(user.id)
+      friend_joined(user)
+    end
+  end
+
+  def friend_joined(user)
+    UserMailer.friend_joined(user, self).deliver_later
+  end
+
+  def apply_omniauth(auth)
+    names = auth.info.name.split(" ")
+    update(
+      provider: auth.provider,
+      uid: auth.uid,
+      image: auth.info.image,
+      first_name: names.shift || "",
+      last_name: names.join(" "),
+      password: Devise.friendly_token[0, 20],
+      authentication_token: auth.credentials.token
+      )
+  end
+
   def self.from_omniauth(auth)
     self.where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
-      user.password = Devise.friendly_token[0, 20]
-      user.first_name = auth.info.name # assuming the user model has a name
+      user.apply_omniauth(auth)
     end
   end
 
