@@ -31,12 +31,11 @@ RSpec.describe Reslyp, type: :model do
       perform_enqueued_jobs do
         comment = "Another dummy comment"
         reslyp = user_slyp.send_slyp(to_user.email, comment)
-
         expected_query_string = "?preview_user_slyp_id=#{reslyp.recipient_user_slyp.id}"\
           "&amp;user_email=#{to_user.email.gsub("@", "%40")}&amp;user_token=#{to_user.authentication_token}"
         delivered_email = ActionMailer::Base.deliveries.last
         expect(delivered_email.to.first).to eq to_user.email
-        expect(delivered_email.from.first).to eq "robot@slyp.io"
+        expect(delivered_email.from.first).to eq user.email
         expect(delivered_email.subject).to eq comment.truncate(50)
 
         expect(delivered_email.text_part.body.decoded).to include comment

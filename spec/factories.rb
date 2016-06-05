@@ -61,6 +61,7 @@ FactoryGirl.define do
   factory :user, aliases: [:recipient, :sender, :friend] do
     sequence(:email) { |n| "#{first_name}.#{last_name}_#{n}@example.com" }
     password { SecureRandom.hex(8) }
+    authentication_token { Devise.friendly_token }
     first_name "Joe"
     last_name "Blogs"
     sequence(:user_name) { |n| "#{first_name}#{last_name}_#{n}" }
