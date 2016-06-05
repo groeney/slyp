@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     invitations: "invitations",
     sessions: "sessions"
   }
+  devise_scope :user do
+    put "/users/waitlist" => "invitations#waitlist"
+  end
 
   root to: "home#index"
   get "/feed" => "home#feed"

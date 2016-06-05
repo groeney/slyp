@@ -115,3 +115,13 @@ a {
 .ui.fullscreen.sidebar {
   width: 100%;
 }
+
+.devise {
+  background-color: #CCE2FF;
+  padding: 150px 0;
+}
+
+.login-form {
+  max-width: 500px;
+  padding: 15px;
+}

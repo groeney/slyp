@@ -108,19 +108,23 @@ class User < ActiveRecord::Base
   end
 
   def apply_omniauth(auth)
-    names = auth.info.name.split(" ")
     update(
       provider: auth.provider,
       uid: auth.uid,
       image: auth.info.image,
-      first_name: names.shift || "",
-      last_name: names.join(" "),
+      first_name: auth.info.first_name,
+      last_name: auth.info.last_name,
       password: Devise.friendly_token[0, 20],
       authentication_token: auth.credentials.token
       )
   end
 
   def self.from_omniauth(auth)
+    unless auth.info.first_name && auth.info.last_name
+      names = auth.info.name.split(" ")
+      auth.info.first_name = names.shift || ""
+      auth.info.last_name = names.join(" ")
+    end
     self.where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email
       user.apply_omniauth(auth)

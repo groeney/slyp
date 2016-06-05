@@ -1,12 +1,46 @@
-<h2><%= t 'devise.invitations.edit.header' %></h2>
+<div class="ui middle aligned center aligned grid">
+  <div class="column login-form">
+    <h2 class="ui image header">
+      <img src="/assets/logo.png" class="image">
+    </h2>
 
-<%= simple_form_for resource, as: resource_name, url: invitation_path(resource_name), html: { method: :put } do |f| %>
-  <%= devise_error_messages! %>
-  <%= f.hidden_field :invitation_token %>
+    <div class="ui very padded segment">
+      <div class="ui header" style="color:rgba(0,0,0,0.60);padding-bottom:10px;">
+        Accept invitation from <b style="color:rgba(0,0,0,0.87);"><%= @inviter.try(:display_name) %></b>
+      </div>
+      <%= link_to user_facebook_omniauth_authorize_path do %>
+        <button class="ui facebook big button">
+          <i class="facebook icon"></i>
+         Continue with Facebook
+        </button>
+      <% end %>
+    </div>
 
-  <%= f.input :first_name, :required => true %>
-  <%= f.input :last_name, :required => true %>
-  <%= f.input :password, :required => true %>
+    <div id="no-facebook" class="ui message">
+      <a>Don't have Facebook?</a>
+    </div>
+    <div id="manual-signup" class="ui segment" style="display: none;">
+      <div class="ui very padded segment">
+        <div class="ui header" style="color: rgba(0,0,0,0.60);">
+          We are only accepting signups via Facebook at this time. Enter your details to join the waitlist.
+        </div>
+      </div>
+      <%= simple_form_for resource, as: resource_name, url: "/users/waitlist", html: { autocomplete: "off", method: :put } do |f| %>
+        <%= devise_error_messages! %>
+        <%= f.hidden_field :invitation_token %>
 
-  <%= f.button :submit, t("devise.invitations.edit.submit_button") %>
-<% end %>
+        <%= f.input :first_name, :required => true %>
+        <%= f.input :last_name, :required => true %>
+        <%= f.input :email, disabled: true %>
+        <%= f.button :submit, "Join waitlist" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+  $('body').addClass('devise');
+  $('#no-facebook').on('click', function(){
+    $('#manual-signup').toggle();
+  });
+</script>
