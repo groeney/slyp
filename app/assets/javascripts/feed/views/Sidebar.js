@@ -76,9 +76,9 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     }
   },
   showSidebarPreview: function(){
-    $('.ui.left.sidebar').css('width', '60%');
+    $('#js-preview-sidebar-region').css('width', '60%');
     slypApp.previewSidebarRegion.show(new slypApp.Views.PreviewSidebar({ model: this.model }));
-    $('.ui.left.sidebar').sidebar('toggle');
+    $('#js-preview-sidebar-region').sidebar('toggle');
   },
   shareOnFacebook: function(){
     this.toastrFeatNotImplemented();
@@ -146,7 +146,7 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     $('.ui.right.sidebar').sidebar('setting', 'onHide', function(){
         slypApp.state.viewingConversations = false;
         if (slypApp.state.previewingSlyp){
-          $('.ui.left.sidebar').animate({
+          $('#js-preview-sidebar-region').animate({
             width: '100%'
           }, 450);
         }

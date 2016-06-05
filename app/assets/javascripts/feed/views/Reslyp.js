@@ -120,7 +120,15 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     }
 
     if (parseInt(friend_id) !== slypApp.user.get('id')) {
-      $('#filter-dropdown').dropdown('set selected', friend_id);
+      if ($('#filter-dropdown').dropdown('get item', friend_id)){
+        $('#filter-dropdown').dropdown('set selected', friend_id);
+      } else {
+        slypApp.user.fetch({
+          success: function(){
+            $('#filter-dropdown').dropdown('set selected', friend_id);
+          }
+        })
+      }
     } else {
       $('#filter-dropdown').dropdown('set selected', 'reading list');
     }

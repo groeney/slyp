@@ -97,11 +97,11 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
           var userSlyp = slypApp.userSlyps.get(response.id);
           if (userSlyp.get('archived')){
             userSlyp.save({ archived: false });
-            context.toastr('info', 'We took this slyp out of your archive for you :)');
+            context.toastr('info', 'We moved this slyp from Done to Reading list :)');
           } else if (contains) {
-            context.toastr('info', 'We just moved this slyp to the front for you :)');
+            context.toastr('info', 'We reordered this slyp to be in 1st position! :)');
           } else {
-            context.toastr('success', 'Added slyp! :)');
+            context.toastr('success', 'Added to Reading list :)');
           }
           userSlyp.moveToFront();
           context.state.slypURL = '';

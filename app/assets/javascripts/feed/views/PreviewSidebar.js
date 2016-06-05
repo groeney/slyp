@@ -6,14 +6,16 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
   },
   onShow: function(){
     this.initializeSemanticElements();
-    this.$('p').css('text-align', 'left');
+    this.$('p').css('text-align', 'left').
+                css('font-size', 'larger').
+                css('font-family', "'Palatino Linotype','Book Antiqua',Palatino,serif");
   },
   events: {
     'click #close-preview-sidebar' : 'closePreview',
     'click #conversations'         : 'toggleConversations'
   },
   closePreview: function(){
-    $('.ui.left.sidebar').sidebar('toggle');
+    $('#js-preview-sidebar-region').sidebar('toggle');
   },
   toggleConversations: function(){
     if (slypApp.state.viewingConversations){
@@ -25,7 +27,7 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
       if (slypApp.state.isMobile()){
         this.closePreview();
       } else {
-        $('.ui.left.sidebar').animate({
+        $('#js-preview-sidebar-region').animate({
           width: '60%'
         }, 450);
       }
@@ -38,7 +40,7 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
     this.$('.video_frame').first().addClass('ui').addClass('embed');
 
     // Preview sidebar
-    $('.ui.left.sidebar').sidebar('setting', 'onShow', function(){
+    $('#js-preview-sidebar-region').sidebar('setting', 'onShow', function(){
       slypApp.state.previewingSlyp = true;
       if (slypApp.state.viewingConversations){
         $(this).css('width', '60%');
@@ -46,7 +48,7 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
         $(this).css('width', '100%');
       }
     });
-    $('.ui.left.sidebar').sidebar('setting', 'onHide', function(){
+    $('#js-preview-sidebar-region').sidebar('setting', 'onHide', function(){
       slypApp.state.previewingSlyp = false;
     });
   }

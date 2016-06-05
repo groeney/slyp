@@ -257,7 +257,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   },
   showSidebarPreview: function(){
     slypApp.previewSidebarRegion.show(new slypApp.Views.PreviewSidebar({ model: this.model }));
-    $('.ui.left.sidebar').sidebar('toggle');
+    $('#js-preview-sidebar-region').sidebar('toggle');
   },
   reslyp: function(emails){
     var comment = this.state.comment;
