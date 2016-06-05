@@ -55,19 +55,20 @@ RSpec.describe RepliesController, type: :controller do
       let(:user) { FactoryGirl.create(:user, :with_reslyps_and_replies) }
       let(:user_slyp) { user.user_slyps.first }
       let(:reslyp) { user_slyp.reslyps.first }
+      let(:reply_text) { "this is a reply text" }
       before do
         sign_in user
       end
 
       it "should respond with 201" do
-        post :create, reslyp_id: reslyp.id, text: "this is a reply text", format: :json
+        post :create, reslyp_id: reslyp.id, text: reply_text, format: :json
 
         expect(response.status).to eq(201)
         expect(response.content_type).to eq(Mime::JSON)
       end
 
       it "should respond with valid data" do
-        post :create, reslyp_id: reslyp.id, text: "this is a reply text", format: :json
+        post :create, reslyp_id: reslyp.id, text: reply_text, format: :json
 
         response_body_json = JSON.parse(response.body)
         expect(response_body_json["id"]).not_to be_nil
@@ -84,8 +85,22 @@ RSpec.describe RepliesController, type: :controller do
           user_slyp = reslyp.recipient_user_slyp
         end
         user_slyp.update_attribute(:unseen_activity, true)
-        post :create, reslyp_id: reslyp.id, text: "this is a reply text", format: :json
+        post :create, reslyp_id: reslyp.id, text: reply_text, format: :json
         expect(user_slyp.unseen_activity).to be true
+      end
+
+      it "should mark last reply as seen" do
+        reply = reslyp.replies.create(sender_id: reslyp.recipient_id, text: reply_text)
+        expect(reply.seen).to be false
+        post :create, reslyp_id: reslyp.id, text: reply_text, format: :json
+        expect(Reply.find(reply.id).seen).to be true
+      end
+
+      it "should not mark last reply as seen" do
+        reply = reslyp.replies.create(sender_id: reslyp.recipient_id, text: reply_text)
+        reslyp.replies.create(sender_id: user.id, text: reply_text)
+        post :create, reslyp_id: reslyp.id, text: reply_text, format: :json
+        expect(Reply.find(reply.id).seen).to be false
       end
     end
   end

@@ -2,11 +2,13 @@ class RepliesController < BaseController
   before_action :authenticate_user!
   def create
     return render_400 unless [:reslyp_id, :text].all? { |s| params.key? s }
-    reslyp = Reslyp.authorized_find(current_user, params[:reslyp_id])
-    @reply = reslyp.replies.create(
+    @reslyp = Reslyp.authorized_find(current_user, params[:reslyp_id])
+    @last_reply = @reslyp.replies.try(:last)
+    @reply = @reslyp.replies.create(
       sender_id: current_user.id,
       text: params[:text]
     )
+    mark_last_as_seen
     return render_422(@reply) unless @reply.valid?
     render status: 201, json: present(@reply), serializer: ReplySerializer
   end
@@ -48,7 +50,6 @@ class RepliesController < BaseController
   def show
     return render_400 unless params.key? :id
     @reply = Reply.authorized_find(current_user, params[:id])
-
     render status: 200, json: present(@reply), serializer: ReplySerializer
   end
 
@@ -64,5 +65,10 @@ class RepliesController < BaseController
 
   def reply_params
     params.require(:reply).permit(:text)
+  end
+
+  def mark_last_as_seen
+    valid = @last_reply && @last_reply.sender_id != current_user.id
+    @last_reply.update(seen: true) if valid
   end
 end
