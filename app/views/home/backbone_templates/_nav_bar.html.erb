@@ -74,8 +74,8 @@
       <div id="user-actions" class="ui dropdown item column">
         <i class="user large link icon"></i>
         <div class="menu">
-          <div class="item">Settings</div>
-          <div class="item">Help</div>
+          <a id="goto-settings" class="item">Settings</a>
+          <a id="goto-help" class="item">Help</a>
           <%= link_to "Log Out", destroy_user_session_path, :method => :delete, :class => "ui right item" %>
         </div>
       </div>

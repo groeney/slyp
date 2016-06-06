@@ -58,7 +58,8 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     'focusout #create-input'                  : 'doneAdding',
     'click .right.secondary.menu.mobile.only' : 'toggleActions',
     'click #search-button'                    : 'enterSearchMode',
-    'click #explore-button'                   : 'featureNotImplemented'
+    'click #explore-button'                   : 'featureNotImplemented',
+    'click #goto-settings'                    : 'goToSettings'
   },
 
   // Event functions
@@ -182,6 +183,10 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   },
   featureNotImplemented: function(){
     this.toastrFeatNotImplemented();
+  },
+  goToSettings: function(){
+    slypApp.settingsSidebarRegion.show(new slypApp.Views.SettingsSidebar({ model: slypApp.user }));
+    $('#js-settings-sidebar-region').sidebar('toggle');
   },
 
   // Helper functions

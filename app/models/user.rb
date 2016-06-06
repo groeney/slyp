@@ -23,6 +23,21 @@ class User < ActiveRecord::Base
   before_invitation_created :set_invited_status
   after_invitation_accepted :set_active_status
 
+  # Apply _prefix manually until upgrade to Rails 5, then use _prefix: true
+  enum notify_friend_joined: [:notify_friend_joined_immediately,
+                              :notify_friend_joined_daily,
+                              :notify_friend_joined_weekly,
+                              :notify_friend_joined_never]
+
+  enum notify_reslyp: [:notify_reslyp_immediately,
+                       :notify_reslyp_daily,
+                       :notify_reslyp_weekly,
+                       :notify_reslyp_never]
+
+  enum notify_replies: [:notify_replies_daily,
+                        :notify_replies_weekly,
+                        :notify_replies_never]
+
   def ensure_authentication_token
     if authentication_token.blank?
       authentication_token = generate_authentication_token

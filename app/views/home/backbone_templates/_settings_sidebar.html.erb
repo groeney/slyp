@@ -1,0 +1,53 @@
+<script type="text/template" id="js-settings-sidebar-region-tmpl">
+  <i id="close-sidebar" class="big angle double left link icon" style="margin-bottom:1.5%;"></i>
+  <div class="ui center aligned grid">
+    <div class="ui left fixed vertical large secondary menu six wide column">
+      <a class="item" style="line-height:2.0em;font-size:1.3em;">Profile</a>
+      <a class="item" style="line-height:2.0em;font-size:1.3em;">Emails</a>
+      <a class="item" style="line-height:2.0em;font-size:1.3em;">Terms and conditions</a>
+      <a class="item" style="line-height:2.0em;font-size:1.3em;">Privacy statement</a>
+    </div>
+    <article id="content" class="center aligned ten wide column">
+      <h2 class="header">Send me these emails</h2>
+      <div class="ui divider"></div>
+      <div class="ui left aligned padded basic segment">
+        <div class="ui form">
+          <div class="ui basic segment grouped fields">
+            <h3>Email me when my friends send me something:</h3>
+            <div rv-each-frequency="state.reslypFrequency" class="field">
+              <div class="ui slider checkbox">
+                <input type="radio" name="reslyp" rv-checked="user:notify_reslyp" rv-value="frequency.value">
+                <label rv-text="frequency.text"></label>
+              </div>
+            </div>
+          </div>
+          <div class="ui basic segment grouped fields">
+            <h3>Email me when my Facebook friends join Slyp:</h3>
+            <div rv-each-frequency="state.friendJoinedFrequency" class="field">
+              <div class="ui slider checkbox">
+                <input type="radio" name="friend-joined" rv-checked="user:notify_friend_joined" rv-value="frequency.value">
+                <label rv-text="frequency.text"></label>
+              </div>
+            </div>
+          </div>
+          <div class="ui basic segment grouped fields">
+            <h3>Email me when I receive replies in my conversations:</h3>
+            <div rv-each-frequency="state.repliesFrequency" class="field">
+              <div class="ui slider checkbox">
+                <input type="radio" name="replies" rv-checked="user:notify_replies" rv-value="frequency.value">
+                <label rv-text="frequency.text"></label>
+              </div>
+            </div>
+          </div>
+          <div class="ui toggle checkbox">
+            <label>Send me a summary of all the articles my friends have sent me at the end of the week.</label>
+            <input type="checkbox" name="summary" rv-checked="user:weekly_summary">
+          </div>
+        </div>
+      </div>
+    </article>
+  </section>
+</script>
+<script type="text/javascript">
+
+</script>

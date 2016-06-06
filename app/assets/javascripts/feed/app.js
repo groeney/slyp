@@ -8,7 +8,8 @@ slypApp.addRegions({
   navBarRegion         : '#js-nav-bar-region',
   feedRegion           : '#js-feed-region',
   sidebarRegion        : '#js-sidebar-region',
-  previewSidebarRegion : '#js-preview-sidebar-region'
+  previewSidebarRegion : '#js-preview-sidebar-region',
+  settingsSidebarRegion : '#js-settings-sidebar-region'
 });
 
 slypApp.state = {

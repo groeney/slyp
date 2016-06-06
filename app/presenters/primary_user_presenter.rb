@@ -1,6 +1,7 @@
 class PrimaryUserPresenter < BasePresenter
   attr_accessor :user
-  delegate :id, :first_name, :last_name, :email, :display_name, to: :user
+  delegate :id, :first_name, :last_name, :email, :display_name, :notify_reslyp,
+           :notify_friend_joined, :notify_replies, :weekly_summary, to: :user
 
   def initialize(user)
     @user = user

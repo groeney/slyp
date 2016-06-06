@@ -18,14 +18,18 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
     }));
   },
   setProgress: function(){
-    var context = this;
-    $('#friends-progress').progress({
-      value: slypApp.user.friendsCount(),
-      text: {
-        active  : 'You need {left} more friends'
-      },
-      label: 'ratio'
-    });
+    if (slypApp.user.friendsCount() >= 5){
+      $('#friends-progress').remove();
+    } else {
+      var context = this;
+      $('#friends-progress').progress({
+        value: slypApp.user.friendsCount(),
+        text: {
+          active  : 'You need {left} more friends'
+        },
+        label: 'ratio'
+      });
+    }
   },
   zeroState: function(){
     if (this.collection.where({ archived: false }).length === 0 && !slypApp.state.showArchived){
