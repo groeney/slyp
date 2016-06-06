@@ -17,8 +17,11 @@ class User < ActiveRecord::Base
   has_many :friendships
   has_many :friends, through: :friendships
   scope :all_except, ->(user) { where.not(id: user) }
+  enum status: [:active, :invited, :waitlisted]
 
   before_save :ensure_authentication_token
+  before_invitation_created :set_invited_status
+  after_invitation_accepted :set_active_status
 
   def ensure_authentication_token
     if authentication_token.blank?
@@ -138,5 +141,13 @@ class User < ActiveRecord::Base
       token = Devise.friendly_token
       break token unless User.where(authentication_token: token).first
     end
+  end
+
+  def set_invited_status
+    invited!
+  end
+
+  def set_active_status
+    active!
   end
 end
