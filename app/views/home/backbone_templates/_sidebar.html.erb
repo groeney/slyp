@@ -1,6 +1,6 @@
 <script type="text/template" id="js-sidebar-region-tmpl">
   <i id="close-sidebar" class="big angle double right link icon"></i>
-  <div class="ui basic center aligned segment" rv-class-loading="state.loading" rv-hide="appState.previewingSlyp">
+  <div class="ui basic center aligned segment" rv-class-loading="state.loading" rv-hide="appState.leftPaneActive" style="margin: 0;">
     <a id="sidebar-title" class="ui header center aligned wrap" style="font-size:2em;">{ userSlyp.displayTitle }</a>
     <div class="ui hidden divider"></div>
     <p rv-hide="state.expanded" class="description">{ userSlyp:description | truncDescription } <a id="expand-description" style="text-decoration:underline;">expand</a></p>
@@ -10,7 +10,7 @@
       <i id="twitter-share" class="twitter link icon"></i>
     </span>
   </div>
-  <div class="ui basic center aligned segment" rv-show="appState.previewingSlyp">
+  <div class="ui basic center aligned segment" rv-show="appState.leftPaneActive">
     <span class="ui header center aligned wrap" style="font-size:1.28em;">Conversations</a>
   </div>
   <span rv-hide="userSlyp.hasConversations < :friends">You haven't sent this to anyone yet :(</span>

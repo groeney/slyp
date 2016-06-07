@@ -76,7 +76,6 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     }
   },
   showSidebarPreview: function(){
-    $('#js-preview-sidebar-region').css('width', '60%');
     slypApp.previewSidebarRegion.show(new slypApp.Views.PreviewSidebar({ model: this.model }));
     $('#js-preview-sidebar-region').sidebar('toggle');
   },
@@ -140,16 +139,11 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     var context = this;
     // Conversations sidebar
     $('.ui.right.sidebar').sidebar('setting', 'onShow', function(){
-        slypApp.state.viewingConversations = true;
+        slypApp.state.rightPaneActive = true;
     });
 
     $('.ui.right.sidebar').sidebar('setting', 'onHide', function(){
-        slypApp.state.viewingConversations = false;
-        if (slypApp.state.previewingSlyp){
-          $('#js-preview-sidebar-region').animate({
-            width: '100%'
-          }, 450);
-        }
+        slypApp.state.rightPaneActive = false;
     });
 
     // Reslyp dropdown

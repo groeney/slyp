@@ -20,8 +20,8 @@ slypApp.state = {
   addMode              : false,
   actionsMode          : false,
   screenWidth          : getScreenWidth(),
-  previewingSlyp       : false,
-  viewingConversations : false,
+  leftPaneActive       : false,
+  rightPaneActive      : false,
   isMobile             : function() { return slypApp.state.screenWidth < 767 }
 }
 

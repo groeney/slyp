@@ -352,11 +352,11 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
 
     // Preview modal
     this.$('.ui.fullscreen.modal').modal('setting', 'onShow', function(){
-      slypApp.state.previewingSlyp = true;
+      slypApp.state.leftPaneActive = true;
     });
 
     this.$('.ui.fullscreen.modal').modal('setting', 'onHide', function(){
-      slypApp.state.previewingSlyp = false;
+      slypApp.state.leftPaneActive = false;
     });
 
     // Reslyp dropdown

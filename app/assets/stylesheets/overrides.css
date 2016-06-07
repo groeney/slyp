@@ -29,7 +29,6 @@
 .ui.main.container {
   min-height: 100vh;
   vertical-align: middle;
-  /*display: table-cell;*/
 }
 .ui.information.container {
   padding-top: 18%;
@@ -116,6 +115,17 @@ a {
   width: 100%;
 }
 
+@keyframes shrink {
+  from { width: 100%; }
+  to { width: 60%; }
+}
+
+.ui.majority-width.sidebar {
+  width: 60%;
+  animation-name: shrink;
+  animation-duration: 0.5s;
+}
+
 .devise {
   background-color: #CCE2FF;
   padding: 150px 0;
@@ -125,3 +135,42 @@ a {
   max-width: 500px;
   padding: 15px;
 }
+
+i.floating-action {
+  position: fixed;
+  z-index: 999;
+  right: 2%;
+  font-size: 2.7em;
+}
+
+@keyframes contract {
+  from { right: 2%; }
+  to { right: 42%; }
+}
+
+i.floating-action.share {
+  right: 42%;
+  animation-name: contract;
+  animation-duration: 0.5s;
+}
+
+i.floating-action.first {
+  top: 2.8%;
+}
+
+i.floating-action.second {
+  top: 7.5%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -9,27 +9,31 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
     this.$('p').css('text-align', 'left').
                 css('font-size', 'larger').
                 css('font-family', "'Palatino Linotype','Book Antiqua',Palatino,serif");
+    var context = this;
+    $('#close-left-pane').on('click', function(){
+      context.closePreview();
+    });
+    $('#open-conversations').on('click', function(){
+      context.toggleConversations();
+    })
   },
   events: {
-    'click #close-preview-sidebar' : 'closePreview',
     'click #conversations'         : 'toggleConversations'
   },
   closePreview: function(){
     $('#js-preview-sidebar-region').sidebar('toggle');
   },
   toggleConversations: function(){
-    if (slypApp.state.viewingConversations){
+    if (slypApp.state.rightPaneActive){
+      slypApp.state.rightPaneActive = false;
       $('.ui.right.sidebar').sidebar('toggle');
     } else {
+      slypApp.state.rightPaneActive = true;
       this.model.save({ unseen_activity: false });
-      slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({ model: this.model }));
       $('.ui.right.sidebar').sidebar('toggle');
+      slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({ model: this.model }));
       if (slypApp.state.isMobile()){
         this.closePreview();
-      } else {
-        $('#js-preview-sidebar-region').animate({
-          width: '60%'
-        }, 450);
       }
     }
   },
@@ -41,15 +45,10 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
 
     // Preview sidebar
     $('#js-preview-sidebar-region').sidebar('setting', 'onShow', function(){
-      slypApp.state.previewingSlyp = true;
-      if (slypApp.state.viewingConversations){
-        $(this).css('width', '60%');
-      } else {
-        $(this).css('width', '100%');
-      }
+      slypApp.state.leftPaneActive = true;
     });
     $('#js-preview-sidebar-region').sidebar('setting', 'onHide', function(){
-      slypApp.state.previewingSlyp = false;
+      slypApp.state.leftPaneActive = false;
     });
   }
 });
