@@ -1,0 +1,35 @@
+<h1 class="header"> Profile </h1>
+<div class="ui divider"></div>
+<div class="ui padded left aligned basic segment grid" rv-class-loading="state.saving" rv-class-disabled="state.disabled">
+  <div class="ui vertical segment row">
+    <h4 class="four wide column">First name</h4>
+    <div class="ui ten wide column transparent input" rv-class-unless-disabled="state.editProfile">
+      <input type="text" rv-live-value="user:first_name" rows="1">
+    </div>
+  </div>
+  <div class="ui vertical segment row">
+    <h4 class="four wide column">Last name</h4>
+    <div class="ui ten wide column transparent input" rv-class-unless-disabled="state.editProfile">
+      <input type="text" rv-live-value="user:last_name" rows="1">
+    </div>
+  </div>
+  <div class="ui vertical segment row">
+    <h4 class="four wide column">Email</h4>
+    <div class="ui ten wide column transparent input" rv-class-unless-disabled="state.editProfile">
+      <input type="text" rv-live-value="user:email" rows="1">
+    </div>
+  </div>
+  <div class="ui vertical segment row">
+    <h4 class="four wide column">Password</h4>
+    <div class="ui ten wide column" rv-class-unless-disabled="state.editProfile">
+      <a id="update-password">Update password</a>
+    </div>
+  </div>
+</div>
+<div class="ui right aligned buttons" rv-show="state.editProfile">
+  <div id="cancel" class="ui button">Cancel</div>
+  <div id="save" class="ui positive button">Save Changes</div>
+</div>
+<div class="ui right aligned buttons" rv-hide="state.editProfile">
+  <div id="edit" class="ui button">Edit</div>
+</div>

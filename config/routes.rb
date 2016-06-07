@@ -27,6 +27,7 @@ Rails.application.routes.draw do
   resources :replies, only: [:create, :update, :destroy, :show]
   get "/reslyp/replies/:id" => "replies#index"
   put "/user/:id" => "users#update"
+  get "/user/:id" => "users#show"
   resource :user
 
   if Rails.env.development?

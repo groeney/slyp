@@ -1,9 +1,6 @@
 slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
   template: '#js-settings-sidebar-region-tmpl',
   className: 'ui basic right aligned segment',
-  attributes: {
-    'rv-class-loading' : 'state.saving'
-  },
   regions: {
     menu: '#menu',
     content: '#content'
@@ -27,7 +24,12 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
                           { value: 'notify_replies_weekly', text: 'Weekly' },
                           { value: 'notify_replies_never', text: 'Never' }
                        ],
-      saving: false
+      saving: false,
+      profile: true,
+      emails: false,
+      terms: false,
+      privacy: false,
+      editProfile: false
     }
   },
   onRender: function(){
@@ -37,29 +39,99 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
     this.$('.ui.checkbox').checkbox();
   },
   events: {
-    'click #close-sidebar' : 'closeSidebar'
+    'click #edit'            : 'enterEditMode',
+    'click #cancel'          : 'cancelEdit',
+    'click #save'            : 'saveChanges',
+    'click #close-sidebar'   : 'closeSidebar',
+    'click #profile'         : 'showProfile',
+    'click #emails'          : 'showEmails',
+    'click #terms'           : 'showTerms',
+    'click #privacy'         : 'showPrivacy',
+    'click #update-password' : 'notImplemented'
   },
-  modelEvents: {
-    'change:notify_reslyp'         : 'persist',
-    'change:notify_friend_joined'  : 'persist',
-    'change:notify_replies'        : 'persist',
-    'change:weekly_summary' : 'persist'
+
+  // UI event functions
+  enterEditMode: function(){
+    if (this.state.profile){
+      this.state.editProfile = true;
+    }
+  },
+  cancelEdit: function(){
+    this.model.fetch();
+    this.exitEditMode();
+  },
+  saveChanges: function(){
+    if (this.model.get('first_name') && this.model.get('last_name')){
+      this.persist();
+      this.exitEditMode();
+    } else {
+      toastr['error']('First and last names cannot be empty.');
+      this.state.disabled = true;
+      var context = this;
+      this.model.fetch({
+        success: function(){
+          context.state.disabled = false;
+        },
+        error: function(){
+          context.state.disabled = false;
+        }
+      });
+    }
   },
   closeSidebar: function(){
     $('#js-settings-sidebar-region').sidebar('toggle');
   },
-  persist: function(e){
+  showProfile: function(){
+    this.changeMode('profile');
+  },
+  showEmails: function(){
+    this.changeMode('emails');
+  },
+  showTerms: function(){
+    this.changeMode('terms');
+  },
+  showPrivacy: function(){
+    this.changeMode('privacy');
+  },
+  notImplemented: function(){
+    toastr['info']('We\'ve logged your interest. Coming soon :)');
+  },
+
+  modelEvents: {
+    'change:notify_reslyp'         : 'persist',
+    'change:notify_friend_joined'  : 'persist',
+    'change:notify_replies'        : 'persist',
+    'change:weekly_summary'        : 'persist'
+  },
+
+  // Model event functions
+  persist: function(){
     this.state.saving = true;
     var context = this;
     this.model.save(null, {
-      success: function(){
-        context.state.saving = false;
+      success: function(model, response){
+        context.doneSaving();
         toastr['success']('Settings saved!');
       },
-      error: function(){
-        context.state.saving = false;
-        toastr['error']('Something went wrong when saving those settings :(');
+      error: function(model, response){
+        context.doneSaving();
+        toastr['error'](response.responseJSON[0].message);
+        context.model.fetch();
       }
     });
-  }
+  },
+
+  // Helper functions
+  changeMode: function(mode){
+    this.state.profile = this.state.emails = this.state.terms = this.state.privacy = false;
+    this.state[mode] = true;
+  },
+  doneSaving: function(){
+    this.state.saving = false;
+  },
+  exitEditMode: function(){
+    if (this.state.profile){
+      this.state.editProfile = false;
+    }
+  },
 });

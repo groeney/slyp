@@ -1,0 +1,40 @@
+<h2 class="header">Send me these emails</h2>
+<div class="ui divider"></div>
+<span>(we will do our best to bundle these emails together where appropriate)</span>
+<div class="ui left aligned padded basic segment" rv-class-loading="state.saving" rv-class-disabled="state.disabled" style="margin:0em;">
+  <div class="ui form">
+    <div class="ui vertical segment grouped fields">
+      <h3>When my friends send me something:</h3>
+      <div rv-each-frequency="state.reslypFrequency" class="field">
+        <div class="ui slider checkbox">
+          <input type="radio" name="reslyp" rv-checked="user:notify_reslyp" rv-value="frequency.value">
+          <label rv-text="frequency.text"></label>
+        </div>
+      </div>
+    </div>
+    <div class="ui vertical segment grouped fields">
+      <h3>When my Facebook friends join Slyp:</h3>
+      <div rv-each-frequency="state.friendJoinedFrequency" class="field">
+        <div class="ui slider checkbox">
+          <input type="radio" name="friend-joined" rv-checked="user:notify_friend_joined" rv-value="frequency.value">
+          <label rv-text="frequency.text"></label>
+        </div>
+      </div>
+    </div>
+    <div class="ui vertical segment grouped fields">
+      <h3>When I receive replies in my conversations:</h3>
+      <div rv-each-frequency="state.repliesFrequency" class="field">
+        <div class="ui slider checkbox">
+          <input type="radio" name="replies" rv-checked="user:notify_replies" rv-value="frequency.value">
+          <label rv-text="frequency.text"></label>
+        </div>
+      </div>
+    </div>
+    <div class="ui vertical segment">
+      <div class="ui toggle checkbox">
+        <label>Send me a summary of all unread slyps and replies at the end of the week.</label>
+        <input type="checkbox" name="summary" rv-checked="user:weekly_summary">
+      </div>
+    </div>
+  </div>
+</div>
