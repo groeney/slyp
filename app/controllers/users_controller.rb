@@ -13,6 +13,17 @@ class UsersController < BaseController
            serializer: PrimaryUserSerializer
   end
 
+  def update_password
+    @user = User.find(current_user.id)
+    if @user.update_with_password(user_password_params)
+      sign_in @user, :bypass => true
+      render status: 200, json: present_primary(current_user),
+             serializer: PrimaryUserSerializer
+    else
+      render_401
+    end
+  end
+
   def friends
     @friends = current_user.friends
     render status: 200, json: present_collection(@friends),
@@ -40,6 +51,11 @@ class UsersController < BaseController
 
   def user_params
     params.require(:user).permit(:notify_reslyp, :notify_friend_joined,
-                                 :notify_replies, :weekly_summary)
+                                 :notify_replies, :weekly_summary,
+                                 :first_name, :last_name, :email)
+  end
+
+  def user_password_params
+    params.require(:user).permit(:current_password, :password)
   end
 end
