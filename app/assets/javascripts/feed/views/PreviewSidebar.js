@@ -9,6 +9,8 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
     this.$('p').css('text-align', 'left').
                 css('font-size', 'larger').
                 css('font-family', "'Palatino Linotype','Book Antiqua',Palatino,serif");
+
+    // ###### DANGER ZONE ######
     var context = this;
     $('#close-left-pane').on('click', function(){
       context.closePreview();
@@ -22,9 +24,11 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
   },
   closePreview: function(){
     $('#js-preview-sidebar-region').sidebar('toggle');
-    $('#open-conversations').off('click', function(){
-      context.toggleConversations();
-    });
+
+    // ###### SAFETY ZONE ######
+    $('#close-left-pane').unbind();
+    $('#open-conversations').unbind();
+    this.destroy();
   },
   toggleConversations: function(){
     if (slypApp.state.rightPaneActive){
