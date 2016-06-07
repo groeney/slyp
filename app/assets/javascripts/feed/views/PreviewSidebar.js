@@ -15,23 +15,24 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
     });
     $('#open-conversations').on('click', function(){
       context.toggleConversations();
-    })
+    });
   },
   events: {
     'click #conversations'         : 'toggleConversations'
   },
   closePreview: function(){
     $('#js-preview-sidebar-region').sidebar('toggle');
+    $('#open-conversations').off('click', function(){
+      context.toggleConversations();
+    });
   },
   toggleConversations: function(){
     if (slypApp.state.rightPaneActive){
-      slypApp.state.rightPaneActive = false;
       $('.ui.right.sidebar').sidebar('toggle');
     } else {
-      slypApp.state.rightPaneActive = true;
       this.model.save({ unseen_activity: false });
-      $('.ui.right.sidebar').sidebar('toggle');
       slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({ model: this.model }));
+      $('.ui.right.sidebar').sidebar('toggle');
       if (slypApp.state.isMobile()){
         this.closePreview();
       }
