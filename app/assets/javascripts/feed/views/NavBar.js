@@ -162,13 +162,12 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   },
   handleSearchInput: function(e){
     if (e.keyCode == 27){
-      this.refreshFeed();
+      this.exitSearchMode();
     }
   },
   focusOutSearch: function(){
     if (this.state.searchTerm == ''){
-      slypApp.state.searchMode = false;
-      this.refreshFeed();
+      this.exitSearchMode();
     }
   },
   doneAdding: function(){
