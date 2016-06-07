@@ -13,7 +13,7 @@ Rails.application.configure do
   config.active_support.deprecation = :log
   config.active_record.migration_error = :page_load
   config.assets.debug = true
-  config.log_level = :debug
+  config.log_level = :info
   config.logger = Logger.new(STDOUT)
   config.assets.digest = true
   config.action_mailer.smtp_settings = SMTP_SETTINGS

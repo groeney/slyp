@@ -6,7 +6,7 @@ slypApp.Base.CompositeView = Backbone.Marionette.CompositeView.extend({
     toastr.options = options;
     toastr[type](message);
   },
-  toastrFeatNotImplemented: function(){
-    this.toastr('info', 'Thanks for your interest in this feature. Coming soon :)')
+  notImplemented: function(){
+    this.toastr('info', 'We\'ve logged your interest. Coming soon :)');
   }
 });

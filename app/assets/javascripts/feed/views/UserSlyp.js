@@ -78,7 +78,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'focusout #quick-reply-input' : 'noReply',
     'keypress #quick-reply-input' : 'sendQuickReplyIfValid',
     'click #quick-reply-button'   : 'sendQuickReply',
-    'click #explore-us'           : 'featureNotImplemented'
+    'click #explore-us'           : 'notImplemented'
   },
 
   // Event functions
@@ -234,9 +234,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         context.toastr('error', 'Couldn\'t add that reply for some reason :(')
       }
     });
-  },
-  featureNotImplemented: function(){
-    this.toastrFeatNotImplemented(); // On Base view
   },
 
   // Helper functions
