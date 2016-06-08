@@ -3,31 +3,22 @@
 <span>(we will do our best to bundle these emails together when we can)</span>
 <div class="ui left aligned padded basic segment" rv-class-loading="state.saving" rv-class-disabled="state.disabled" style="margin:0em;">
   <div class="ui form">
-    <div class="ui vertical segment grouped fields">
-      <h3>When my friends send me something:</h3>
-      <div rv-each-frequency="state.reslypFrequency" class="field">
-        <div class="ui slider checkbox">
-          <input type="radio" name="reslyp" rv-checked="user:notify_reslyp" rv-value="frequency.value">
-          <label rv-text="frequency.text"></label>
-        </div>
+    <div class="ui vertical segment">
+      <div class="ui toggle checkbox">
+        <label>Email me when friends send me new slyps</label>
+        <input type="checkbox" name="summary" rv-checked="user:notify_reslyp">
       </div>
     </div>
-    <div class="ui vertical segment grouped fields">
-      <h3>When my Facebook friends join Slyp:</h3>
-      <div rv-each-frequency="state.friendJoinedFrequency" class="field">
-        <div class="ui slider checkbox">
-          <input type="radio" name="friend-joined" rv-checked="user:notify_friend_joined" rv-value="frequency.value">
-          <label rv-text="frequency.text"></label>
-        </div>
+    <div class="ui vertical segment">
+      <div class="ui toggle checkbox">
+        <label>Email me about new conversation or friend activity</label>
+        <input type="checkbox" name="summary" rv-checked="user:notify_activity">
       </div>
     </div>
-    <div class="ui vertical segment grouped fields">
-      <h3>When I receive replies in my conversations:</h3>
-      <div rv-each-frequency="state.repliesFrequency" class="field">
-        <div class="ui slider checkbox">
-          <input type="radio" name="replies" rv-checked="user:notify_replies" rv-value="frequency.value">
-          <label rv-text="frequency.text"></label>
-        </div>
+    <div class="ui vertical segment">
+      <div class="ui toggle checkbox">
+        <label>CC me when I send a slyp to an email contact not on Slyp</label>
+        <input type="checkbox" name="summary" rv-checked="user:cc_me_on_email_reslyp">
       </div>
     </div>
     <div class="ui vertical segment">

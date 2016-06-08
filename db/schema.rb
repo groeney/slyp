@@ -133,10 +133,11 @@ ActiveRecord::Schema.define(version: 20160606092224) do
     t.datetime "last_seen_at"
     t.string   "authentication_token"
     t.string   "image"
-    t.integer  "notify_friend_joined",   default: 0,    null: false
-    t.integer  "notify_reslyp",          default: 0,    null: false
-    t.integer  "notify_replies",         default: 0,    null: false
+    t.boolean  "notify_reslyp",          default: true, null: false
+    t.boolean  "notify_activity",        default: true, null: false
+    t.boolean  "cc_me_on_email_reslyp",  default: true, null: false
     t.boolean  "weekly_summary",         default: true, null: false
+    t.boolean  "searchable",             default: true, null: false
     t.integer  "status",                 default: 0,    null: false
   end
 

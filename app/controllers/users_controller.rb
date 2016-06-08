@@ -50,8 +50,8 @@ class UsersController < BaseController
   end
 
   def user_params
-    params.require(:user).permit(:notify_reslyp, :notify_friend_joined,
-                                 :notify_replies, :weekly_summary,
+    params.require(:user).permit(:notify_reslyp, :notify_activity, :searchable,
+                                 :cc_me_on_email_reslyp, :weekly_summary,
                                  :first_name, :last_name, :email)
   end
 

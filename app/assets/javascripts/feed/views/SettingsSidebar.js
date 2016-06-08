@@ -7,23 +7,6 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
   },
   initialize: function(options){
     this.state = {
-      reslypFrequency: [
-                          { value: 'notify_reslyp_immediately', text: 'Immediately' },
-                          { value: 'notify_reslyp_daily', text: 'Daily' },
-                          { value: 'notify_reslyp_weekly', text: 'Weekly' },
-                          { value: 'notify_reslyp_never', text: 'Never' }
-                       ],
-      friendJoinedFrequency: [
-                          { value: 'notify_friend_joined_immediately', text: 'Immediately' },
-                          { value: 'notify_friend_joined_daily', text: 'Daily' },
-                          { value: 'notify_friend_joined_weekly', text: 'Weekly' },
-                          { value: 'notify_friend_joined_never', text: 'Never' }
-                       ],
-      repliesFrequency: [
-                          { value: 'notify_replies_daily', text: 'Daily' },
-                          { value: 'notify_replies_weekly', text: 'Weekly' },
-                          { value: 'notify_replies_never', text: 'Never' }
-                       ],
       saving: false,
       profile: true,
       emails: false,
@@ -99,9 +82,10 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
 
   modelEvents: {
     'change:notify_reslyp'         : 'persist',
-    'change:notify_friend_joined'  : 'persist',
-    'change:notify_replies'        : 'persist',
-    'change:weekly_summary'        : 'persist'
+    'change:notify_activity'       : 'persist',
+    'change:cc_me_on_email_reslyp' : 'persist',
+    'change:weekly_summary'        : 'persist',
+    'change:searchable'            : 'persist'
   },
 
   // Model event functions
