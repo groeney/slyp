@@ -24,7 +24,6 @@ $('#beta-request').api({
   },
   onError       : function(errorMessage, element, xhr) {
     if (xhr.status == 400){
-      debugger
       $('#beta-error .content').html("It seems like you are already a user with us. Find the login button at the top right or look for an invitation email from us!");
       $('#beta-error').modal('show');
     } else {

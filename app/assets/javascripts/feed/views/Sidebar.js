@@ -50,7 +50,7 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     'click #twitter-share'        : 'shareOnTwitter',
     'click #reslyp-button'        : 'sendSlyp',
     'keypress #reslyp-comment'    : 'sendSlypIfValid',
-    'click .dropdown.search'      : 'handleDropdownSelect',
+    'click #reslyp-dropdown'      : 'handleDropdownSelect',
     'click #see-more'             : 'seeMoreResults'
   },
   expandDescription: function(){
@@ -115,14 +115,14 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
       this.seeMoreResults();
       var context = this;
       setTimeout(function(){
-        context.$('.dropdown.search input.search').focus();
+        context.$('#reslyp-dropdown input.search').focus();
       }, 200);
     }
     // TODO: "Your friends" and "Other people" header is pushed out of view by dropdown default selection need to scroll up
   },
   seeMoreResults: function(){
     var context = this;
-    var query = this.$('.dropdown.search input.search').val();
+    var query = this.$('#reslyp-dropdown input.search').val();
     Backbone.ajax({
       url: '/search/users?q=' + query,
       method: 'GET',
@@ -150,8 +150,7 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     });
 
     // Reslyp dropdown
-    var dropdownSelector = '.ui.multiple.selection.search.dropdown';
-    this.$(dropdownSelector)
+    this.$('#reslyp-dropdown')
       .dropdown({
         allowAdditions: true,
         message       : {
@@ -159,7 +158,7 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
         }
       });
 
-    this.$(dropdownSelector).dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
+    this.$('#reslyp-dropdown').dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
       if (context.model.alreadyExchangedWith(addedValue)){
         context.toastr('error', 'You have already exchanged this slyp with ' + addedValue);
         return false
@@ -170,7 +169,7 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
       return true
     });
 
-    this.$(dropdownSelector).dropdown('setting', 'onLabelCreate', function(value, text) {
+    this.$('#reslyp-dropdown').dropdown('setting', 'onLabelCreate', function(value, text) {
       $(this).find('span').detach();
       if (!validateEmail(value)){
         this.addClass('red');
@@ -178,22 +177,22 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
       return this
     });
 
-    this.$(dropdownSelector).dropdown('setting', 'onRemove', function(removedValue, removedText, removedChoice) {
-      if (context.$el.find('.ui.dropdown a.label').length <= 1){
+    this.$('#reslyp-dropdown').dropdown('setting', 'onRemove', function(removedValue, removedText, removedChoice) {
+      if (context.$el.find('#reslyp-dropdown a.label').length <= 1){
         context.state.reslyping = false;
         context.state.canReslyp = false;
       }
     });
 
-    this.$(dropdownSelector).dropdown('setting', 'onHide', function(){
+    this.$('#reslyp-dropdown').dropdown('setting', 'onHide', function(){
       context.state.moreResults = null;
     });
 
-    this.$(dropdownSelector).dropdown('setting', 'onLabelRemove', function(value){
+    this.$('#reslyp-dropdown').dropdown('setting', 'onLabelRemove', function(value){
       this.popup('destroy');
     });
 
-    this.$(dropdownSelector).dropdown('save defaults');
+    this.$('#reslyp-dropdown').dropdown('save defaults');
 
   },
   reslyp: function(emails, comment){
@@ -243,8 +242,8 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     this.refreshDropdown();
   },
   refreshDropdown: function(){
-    this.$('.ui.dropdown').dropdown('restore defaults');
-    this.$('.ui.dropdown .text').replaceWith('<div class="default text">send to friends</div>');
+    this.$('#reslyp-dropdown').dropdown('restore defaults');
+    this.$('#reslyp-dropdown .text').replaceWith('<div class="default text">send to friends</div>');
   },
   getPotentialFriends: function(){
     return this.model.scrubFriends(slypApp.user.get('friends')) || [];
