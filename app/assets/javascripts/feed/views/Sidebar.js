@@ -66,18 +66,21 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     if ($(window).width() > 768){
       this.showSidebarPreview();
     } else {
-        var modalEl = $('.ui.fullscreen.modal[data-user-slyp-id="' + this.model.get('id') + '"]');
-        if (modalEl.exists()){
-          $('.ui.right.sidebar').sidebar('toggle');
-          modalEl.modal('show');
-        } else {
-          window.location.href = this.model.get('url');
-        }
+      this.showModalPreview();
     }
   },
   showSidebarPreview: function(){
     slypApp.previewSidebarRegion.show(new slypApp.Views.PreviewSidebar({ model: this.model }));
     $('#js-preview-sidebar-region').sidebar('toggle');
+  },
+  showModalPreview: function(){
+    var modalEl = $('.ui.fullscreen.modal[data-user-slyp-id="' + this.model.get('id') + '"]');
+    if (modalEl.exists()){
+      $('.ui.right.sidebar').sidebar('toggle');
+      modalEl.modal('show');
+    } else {
+      window.location.href = this.model.get('url');
+    }
   },
   shareOnFacebook: function(){
     this.toastrFeatNotImplemented();

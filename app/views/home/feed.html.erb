@@ -27,7 +27,12 @@
 <% if Rails.env.development? or Rails.env.staging? %>
   <script type="text/javascript">
     $('.ui.sidebar').sidebar({
-      transition: 'overlay'
+      transition: 'overlay',
+      onVisible: function(){
+        if ($(window).width() < 769){
+          $(this).removeClass('uncover').addClass('overlay');
+        }
+      }
     });
     rivets.bind($(document), { appState: slypApp.state });
   </script>

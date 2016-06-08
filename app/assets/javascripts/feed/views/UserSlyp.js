@@ -351,11 +351,11 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     });
 
     // Preview modal
-    this.$('.ui.fullscreen.modal').modal('setting', 'onShow', function(){
+    $('.ui.fullscreen.modal').modal('setting', 'onShow', function(){
       slypApp.state.leftPaneActive = true;
     });
 
-    this.$('.ui.fullscreen.modal').modal('setting', 'onHide', function(){
+    $('.ui.fullscreen.modal').modal('setting', 'onHide', function(){
       slypApp.state.leftPaneActive = false;
     });
 
