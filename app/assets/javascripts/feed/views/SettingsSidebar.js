@@ -99,9 +99,10 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
 
   modelEvents: {
     'change:notify_reslyp'         : 'persist',
-    'change:notify_friend_joined'  : 'persist',
-    'change:notify_replies'        : 'persist',
-    'change:weekly_summary'        : 'persist'
+    'change:notify_activity'       : 'persist',
+    'change:cc_me_on_email_reslyp' : 'persist',
+    'change:weekly_summary'        : 'persist',
+    'change:searchable'            : 'persist'
   },
 
   // Model event functions
