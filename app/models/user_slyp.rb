@@ -44,7 +44,7 @@ class UserSlyp < ActiveRecord::Base
   end
 
   def send_slyp(email, comment = "")
-    to_user = invite_user_if_necessary(email)
+    to_user = find_or_invite_user(email)
     to_user_slyp = to_user.user_slyps
                           .find_or_create_by(slyp_id: slyp_id) do |user_slyp|
                             user_slyp.update_attribute(:unseen, true)
@@ -86,7 +86,7 @@ class UserSlyp < ActiveRecord::Base
 
   private
 
-  def invite_user_if_necessary(email)
+  def find_or_invite_user(email)
     to_user = User.find_by(email: email)
     return to_user unless to_user.nil?
     User.without_callback(:create, :after, :send_welcome_email) do

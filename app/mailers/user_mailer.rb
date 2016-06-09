@@ -14,15 +14,14 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, subject: "welcome to slyp beta :)")
   end
 
-  def reslyp_notification(reslyp)
+  def reslyp_friend(reslyp)
     @reslyp = reslyp
-    @comment = @reslyp.comment
-    @slyp = @reslyp.slyp
-    @user_slyp = @reslyp.recipient_user_slyp
     @recipient = @reslyp.recipient
     @sender = @reslyp.sender
-    mail(to: @recipient.email, subject: @comment.truncate(50),
-         from: "#{@sender.full_name} <#{@sender.email}>")
+    mail_attributes = { to: @recipient.email, subject: @reslyp.slyp.title,
+                        from: "#{@sender.display_name} <#{@sender.email}>" }
+    mail(mail_attributes)
+  end
   end
 
   def closed_beta_thank_you(user)

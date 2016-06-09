@@ -1,7 +1,18 @@
 slypApp.Models.User = Backbone.Model.extend({
   urlRoot: '/user',
   initialize: function(){
-    this.fetch();
+    this.fetch({
+      success: function(){
+        var skipTo = getParameterByName('skip_to');
+        if (skipTo == 'email_settings'){
+          $('#goto-settings').click();
+          setTimeout(function(){
+              $('#emails').click()
+          },500);
+          window.history.pushState({}, document.title, window.location.pathname); // requires HTML5
+        }
+      }
+    });
   },
   scrubFriends: function(friends){
     var friendsToScrub = this.get('friends');
@@ -17,4 +28,4 @@ slypApp.Models.User = Backbone.Model.extend({
   needsFriends: function(){
     return this.friendsCount() < 5
   }
-})
+});
