@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  attr_reader :raw_invitation_token
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
   after_create :send_welcome_email
@@ -25,7 +26,7 @@ class User < ActiveRecord::Base
 
   def ensure_authentication_token
     if authentication_token.blank?
-      authentication_token = generate_authentication_token
+      self.authentication_token = generate_authentication_token
     end
   end
 
