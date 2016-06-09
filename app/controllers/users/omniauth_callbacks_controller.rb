@@ -1,12 +1,4 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
-  # This is currently not being used.
-  def google_oauth2
-    parse_user(request)
-    redirect_to root_path unless omniauth_user?("Google+")
-    sign_in_and_redirect @user, event: :authentication
-    set_flash_message(:notice, :success, kind: "Google") if is_navigational_format?
-  end
-
   # Handle both normal sign in and sign up
   # On sign up handles complete new user sign up and from invitation
   # Note: we don't accept invitation if FB user has already signed up
