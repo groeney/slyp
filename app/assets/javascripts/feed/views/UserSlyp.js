@@ -3,8 +3,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   className: 'ui card',
   attributes: {
     'rv-fade-hide' : 'userSlyp.hideArchived < :archived',
-    'rv-class-red' : 'userSlyp:unseen',
-    'rv-class-red' : 'userSlyp.hasLove < :unseen_replies :unseen_activity',
+    'rv-class-red' : 'userSlyp.needsAttention < :unseen_replies :unseen_activity :unseen',
     'style'        : 'background-color:white;'
   },
   initialize: function(options){

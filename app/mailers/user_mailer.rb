@@ -30,7 +30,7 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, subject: "Thank you! Back soon :)")
   end
 
-  def friend_joined(user, friend)
+  def new_friend(user, friend)
     @user = user
     @friend = friend
     mail(to: "#{@existing_user.email}",

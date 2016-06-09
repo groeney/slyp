@@ -50,5 +50,8 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
   },
   loveAmount: function(){
     return this.get('unseen_replies') || 1;
+  },
+  needsAttention: function(){
+    return this.hasLove() || this.get('unseen')
   }
 });

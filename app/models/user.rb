@@ -102,12 +102,12 @@ class User < ActiveRecord::Base
       user = User.where(provider: "facebook", uid: fb_friend["id"]).first
       next if user.nil?
       befriend(user.id)
-      friend_joined(user)
+      new_friend(user)
     end
   end
 
-  def friend_joined(user)
-    UserMailer.friend_joined(user, self).deliver_later
+  def new_friend(user)
+    UserMailer.new_friend(user, self).deliver_later
   end
 
   def apply_omniauth(auth)
