@@ -20,15 +20,7 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
     });
   },
   events: {
-    'click #conversations'         : 'toggleConversations'
-  },
-  closePreview: function(){
-    $('#js-preview-sidebar-region').sidebar('toggle');
-
-    // ###### SAFETY ZONE ######
-    $('#close-left-pane').unbind();
-    $('#open-conversations').unbind();
-    this.destroy();
+    'click #conversations' : 'toggleConversations',
   },
   toggleConversations: function(){
     if (slypApp.state.rightPaneActive){
@@ -55,5 +47,13 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
     $('#js-preview-sidebar-region').sidebar('setting', 'onHide', function(){
       slypApp.state.leftPaneActive = false;
     });
+  },
+  closePreview: function(){
+    $('#js-preview-sidebar-region').sidebar('toggle');
+
+    // ###### SAFETY ZONE ######
+    $('#close-left-pane').unbind();
+    $('#open-conversations').unbind();
+    this.destroy();
   }
 });

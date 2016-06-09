@@ -111,27 +111,39 @@ class User < ActiveRecord::Base
   end
 
   def apply_omniauth(auth)
-    update(
-      provider: auth.provider,
-      uid: auth.uid,
-      image: auth.info.image,
-      first_name: auth.info.first_name,
-      last_name: auth.info.last_name,
-      password: Devise.friendly_token[0, 20],
-      authentication_token: auth.credentials.token
-      )
+    auth = self.ensure_valid_oauth_params(auth)
+    provider = auth.provider
+    uid = auth.uid
+    image = auth.info.image
+    first_name = auth.info.first_name
+    last_name = auth.info.last_name
+    authentication_token = auth.credentials.token
+    password = Devise.friendly_token[0, 20] unless encrypted_password?
+    save
   end
 
   def self.from_omniauth(auth)
+    provider, uid, email = self.parse_oauth_params(auth)
+    query = "(provider = ? AND uid = ?) OR (email = ?)"
+    self.where(query, provider, uid, email).first_or_create do |user|
+      user.email = email
+      user.apply_omniauth(auth)
+    end
+  end
+
+  # TODO - Refactor these helper functions
+  def self.parse_oauth_params(auth)
+    auth = self.ensure_valid_oauth_params(auth)
+    return auth.provider, auth.uid, auth.info.email
+  end
+
+  def self.ensure_valid_oauth_params(auth)
     unless auth.info.first_name && auth.info.last_name
       names = auth.info.name.split(" ")
       auth.info.first_name = names.shift || ""
       auth.info.last_name = names.join(" ")
     end
-    self.where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.apply_omniauth(auth)
-    end
+    return auth
   end
 
   private
