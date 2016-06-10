@@ -143,14 +143,13 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     }
   },
   showPreview: function(){
+    if (this.model.get('unseen')){
+      this.model.save({ unseen: false });
+    }
     if (slypApp.state.isMobile()){
       this.showModalPreview();
     } else {
       this.showSidebarPreview();
-    }
-
-    if (this.model.get('unseen')){
-      this.model.save({ unseen: false });
     }
   },
   reslypAttention: function(){

@@ -61,6 +61,9 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     $('.ui.right.sidebar').sidebar('toggle');
   },
   showPreview: function(){
+    if (this.model.get('unseen')){
+      this.model.save({ unseen: false });
+    }
     if ($(window).width() > 768){
       this.showSidebarPreview();
     } else {
