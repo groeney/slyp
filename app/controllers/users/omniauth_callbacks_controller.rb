@@ -19,6 +19,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       else # New user
         user = User.from_omniauth(auth)
       end
+
       if user.valid?
         user.social_signup
         sign_in_and_redirect(user, event: :authentication)

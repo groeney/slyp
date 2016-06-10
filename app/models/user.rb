@@ -1,4 +1,5 @@
 class User < ActiveRecord::Base
+  extend ApplicationHelper
   attr_reader :raw_invitation_token
   # Include default devise modules. Others available are:
   # :lockable, :timeoutable and :omniauthable
@@ -111,40 +112,32 @@ class User < ActiveRecord::Base
     UserMailer.new_friend(user, self).deliver_later
   end
 
-  def apply_omniauth(auth)
-    auth = self.ensure_valid_oauth_params(auth)
-    provider = auth.provider
-    uid = auth.uid
-    image = auth.info.image
-    first_name = auth.info.first_name
-    last_name = auth.info.last_name
-    authentication_token = auth.credentials.token
-    password = Devise.friendly_token[0, 20] unless encrypted_password?
-    save
-  end
-
+  # To handle potential duplicate users, prioritize provider & uid
+  # if
   def self.from_omniauth(auth)
-    provider, uid, email = self.parse_oauth_params(auth)
-    query = "(provider = ? AND uid = ?) OR (email = ?)"
-    self.where(query, provider, uid, email).first_or_create do |user|
-      user.email = email
+    provider, uid, email = parse_oauth_params(auth)
+    if user = self.find_by(provider: provider, uid: uid) # Existing social user
+      user.apply_omniauth(user)
+    elsif user = self.find_by(email: email) # Existing email user
+      user.update(provider: provider, uid: uid)
+      user.apply_omniauth(auth)
+    else
+      user = self.create(provider: provider, uid: uid, email: email)
       user.apply_omniauth(auth)
     end
+    return user
   end
 
-  # TODO - Refactor these helper functions
-  def self.parse_oauth_params(auth)
-    auth = self.ensure_valid_oauth_params(auth)
-    return auth.provider, auth.uid, auth.info.email
-  end
-
-  def self.ensure_valid_oauth_params(auth)
-    unless auth.info.first_name && auth.info.last_name
-      names = auth.info.name.split(" ")
-      auth.info.first_name = names.shift || ""
-      auth.info.last_name = names.join(" ")
-    end
-    return auth
+  def apply_omniauth(auth)
+    auth = User.ensure_valid_oauth_params(auth)
+    self.provider = auth.provider
+    self.uid = auth.uid
+    self.image = auth.info.image
+    self.first_name = auth.info.first_name
+    self.last_name = auth.info.last_name
+    self.authentication_token = auth.credentials.token
+    self.password = Devise.friendly_token[0, 20] if encrypted_password.blank?
+    save!
   end
 
   private

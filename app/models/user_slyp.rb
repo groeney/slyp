@@ -57,11 +57,17 @@ class UserSlyp < ActiveRecord::Base
   def latest_conversation
     conversation = [latest_reslyp, latest_reply].reject(&:nil?)
                                                  .max_by { |el| el.created_at }
+    parse_params_from_conversation(conversation)
+  end
+
+  def parse_params_from_conversation(conversation)
     text = conversation.try(:comment) || conversation.try(:text) || ""
     email = conversation.try(:sender).try(:email) || ""
     first_name = conversation.try(:sender).try(:first_name) || ""
+    image = conversation.try(:sender).try(:image) || ""
     reslyp_id = conversation.try(:reslyp_id) || conversation.try(:id)
-    { text: text, email: email, first_name: first_name, reslyp_id: reslyp_id }
+    { text: text, email: email, first_name: first_name,
+      reslyp_id: reslyp_id, image: image }
   end
 
   def latest_reslyp
