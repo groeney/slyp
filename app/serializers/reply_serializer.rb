@@ -1,5 +1,5 @@
 class ReplyUserSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :email
+  attributes :id, :first_name, :last_name, :email, :image
 end
 
 class ReplySerializer < ActiveModel::Serializer

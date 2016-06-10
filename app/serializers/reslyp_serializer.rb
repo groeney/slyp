@@ -1,5 +1,5 @@
 class ReslypUserSerializer < ActiveModel::Serializer
-  attributes :id, :first_name, :last_name, :email
+  attributes :id, :first_name, :last_name, :email, :image
 end
 
 class ReslypSerializer < ActiveModel::Serializer

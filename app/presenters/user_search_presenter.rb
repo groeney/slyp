@@ -1,6 +1,6 @@
 class UserSearchPresenter < BasePresenter
   attr_accessor :user
-  delegate :id, :email, to: :user
+  delegate :id, :email, :image, to: :user
 
   def initialize(user)
     @user = user

@@ -9,7 +9,7 @@
         Your friends
       </div>
       <div class="item" rv-each-friend="state.scrubbedFriends" rv-data-value="friend.email" style="height:3.2em;">
-        <img class="ui mini avatar image" rv-src="friend.first_name | getAvatar friend.email">
+        <img class="ui mini avatar image" rv-src="friend.image | getAvatar friend.first_name friend.email">
         { friend.first_name | userDisplay friend.last_name friend.email }
         <span class="description" style="font-size:smaller;">{ friend.email }</span>
       </div>
@@ -20,7 +20,7 @@
         Other people
       </div>
       <div class="item" rv-each-other="state.moreResults" rv-data-value="other.email">
-        <img class="ui mini avatar image" rv-src="other.display_name | getAvatar other.email">
+        <img class="ui mini avatar image" rv-src="other.image | getAvatar other.display_name other.email">
         { other.display_name }
         <span class="description"><i class="add user icon"></i></span>
       </div>

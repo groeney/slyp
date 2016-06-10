@@ -1,6 +1,6 @@
 <script type="text/template" id="js-reply-tmpl">
   <a class="avatar" rv-data-title="reply:sender.email">
-    <img rv-src="reply:sender.first_name | getAvatar reply:sender.email">
+    <img rv-src="reply:sender.image | getAvatar reply:sender.first_name reply:sender.email">
   </a>
   <div class="content">
     <a class="author user-display" rv-data-user-id="reply:sender.id">

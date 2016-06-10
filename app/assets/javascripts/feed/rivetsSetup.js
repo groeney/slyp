@@ -49,8 +49,9 @@ rivets.formatters.numReplies = function(value){
   return value ? 'reply'.pluralize(value, 'replies') : '0 replies'
 }
 
-rivets.formatters.getAvatar = function(value, fallback){
-  return generateAvatarURL(value, fallback)
+rivets.formatters.getAvatar = function(image, firstName, fallback){
+  if (image) return image
+  return generateAvatarURL(firstName, fallback)
 }
 
 rivets.formatters.consumption = function(duration, type){
