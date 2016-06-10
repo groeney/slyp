@@ -46,7 +46,6 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     'click #collapse-description' : 'collapseDescription',
     'click #close-sidebar'        : 'closeSidebar',
     'click #sidebar-title'        : 'showPreview',
-    'click #facebook-share'       : 'shareOnFacebook',
     'click #twitter-share'        : 'shareOnTwitter',
     'click #reslyp-button'        : 'sendSlyp',
     'keypress #reslyp-comment'    : 'sendSlypIfValid',
@@ -82,11 +81,8 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
       window.location.href = this.model.get('url');
     }
   },
-  shareOnFacebook: function(){
-    this.toastrFeatNotImplemented();
-  },
   shareOnTwitter: function(){
-    this.toastrFeatNotImplemented();
+    this.notImplemented();
   },
   sendSlyp: function(e){
     if (this.state.hasComment()){
@@ -152,9 +148,9 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     // Reslyp dropdown
     this.$('#reslyp-dropdown')
       .dropdown({
-        allowAdditions: true,
-        message       : {
-          addResult : 'Invite <b style="font-weight: bold;">{term}</b>',
+        allowAdditions : true,
+        message        : {
+          addResult : 'Send to <b style="font-weight: bold;">{term}</b>',
         }
       });
 

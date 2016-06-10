@@ -361,9 +361,10 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     // Reslyp dropdown
     this.$('#reslyp-dropdown')
       .dropdown({
-        allowAdditions: true,
-        message       : {
-          addResult : 'Invite <b style="font-weight: bold;">{term}</b>',
+        allowAdditions : true,
+        direction      : 'upward',
+        message        : {
+          addResult : 'Send to <b style="font-weight: bold;">{term}</b>',
         }
       });
 

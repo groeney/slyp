@@ -6,7 +6,11 @@
     <p rv-hide="state.expanded" class="description">{ userSlyp:description | truncDescription } <a id="expand-description" style="text-decoration:underline;">expand</a></p>
     <p rv-show="state.expanded" class="description">{ userSlyp:description } <a id="collapse-description" style="text-decoration:underline;">hide</a></p>
     <span>
-      <i id="facebook-share" class="facebook link icon"></i>
+      <span class="fb-share-button" rv-data-href="userSlyp:url" data-layout="icon" data-mobile-iframe="true">
+        <a class="fb-xfbml-parse-ignore" target="_blank" rv-href="userSlyp.fbURL < :url">
+          <i id="facebook-share" class="facebook link icon"></i>
+        </a>
+      </span>
       <i id="twitter-share" class="twitter link icon"></i>
     </span>
   </div>

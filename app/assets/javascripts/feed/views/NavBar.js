@@ -8,6 +8,14 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       searchType     : 'user_slyps'
     }
     this.binder = rivets.bind(this.$el, { state: this.state, appState: slypApp.state, user: slypApp.user })
+    var context = this;
+    $(document).keydown(function(e){
+      if( e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA" ) return;
+      if (e.shiftKey && e.keyCode == 187){
+        e.preventDefault();
+        context.$('#add-button').click();
+      }
+    })
   },
   onShow: function(){
     this.initializeSemanticElements();

@@ -1,13 +1,13 @@
 <div class="ui middle aligned center aligned grid">
   <div class="column login-form">
     <h2 class="ui image header">
-      <img src="/assets/logo.png" class="image">
+      <%= link_to image_tag("/assets/logo.png"), root_path, { class: "image" } %>
     </h2>
 
     <div class="ui very padded segment">
-      <div class="ui header" style="color:rgba(0,0,0,0.60);padding-bottom:10px;">
-        Accept invitation from <b style="color:rgba(0,0,0,0.87);"><%= @inviter.try(:display_name) %></b>
-      </div>
+      <h4 class="ui header" style="color:rgba(0,0,0,0.60);padding-bottom:10px;">
+        Hi! Welcome to Slyp :) You are currently accepting an invitation from <b style="color:rgba(0,0,0,0.87);"><%= @inviter.try(:display_name) %></b> for <b style="color:rgba(0,0,0,0.87);"><%= @invitee.try(:display_name) %></b>. <br/><br/>Find out more about <%= link_to "Slyp", root_path, target: "_blank" %>.
+      </h4>
       <%= link_to user_facebook_omniauth_authorize_path do %>
         <button class="ui facebook big button">
           <i class="facebook icon"></i>
@@ -22,7 +22,7 @@
     <div id="manual-signup" class="ui segment" style="display: none;">
       <div class="ui very padded segment">
         <div class="ui header" style="color: rgba(0,0,0,0.60);">
-          We are only accepting signups via Facebook at this time. Enter your details to join the waitlist.
+          We are currently only accepting signups via Facebook. If you'd prefer not to sign up with Facebook (or don't have one) you can enter your details to join the waitlist.
         </div>
       </div>
       <%= simple_form_for resource, as: resource_name, url: "/users/waitlist", html: { autocomplete: "off", method: :put } do |f| %>
