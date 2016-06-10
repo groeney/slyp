@@ -46,7 +46,6 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     'click #collapse-description' : 'collapseDescription',
     'click #close-sidebar'        : 'closeSidebar',
     'click #sidebar-title'        : 'showPreview',
-    'click #twitter-share'        : 'shareOnTwitter',
     'click #reslyp-button'        : 'sendSlyp',
     'keypress #reslyp-comment'    : 'sendSlypIfValid',
     'click #reslyp-dropdown'      : 'handleDropdownSelect',
@@ -80,9 +79,6 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     } else {
       window.location.href = this.model.get('url');
     }
-  },
-  shareOnTwitter: function(){
-    this.notImplemented();
   },
   sendSlyp: function(e){
     if (this.state.hasComment()){

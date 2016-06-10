@@ -56,5 +56,8 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
   },
   fbURL: function(){
     return 'https://www.facebook.com/sharer/sharer.php?u=' + encodeURIComponent(this.get('url')) + '&amp;src=sdkpreparse'
+  },
+  tweetURL: function(){
+    return 'https://twitter.com/intent/tweet?url=' + this.get('url')
   }
 });
