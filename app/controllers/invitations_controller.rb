@@ -10,7 +10,7 @@ class InvitationsController < Devise::InvitationsController
     resource.invitation_token = params[:invitation_token]
     session[:invitation_token] = params[:invitation_token]
     @invitee = resource
-    @inviter = User.find_by_id(resource.invited_by_id)
+    @inviter = User.find_by_id(@invitee.invited_by_id)
     render :edit
   end
 

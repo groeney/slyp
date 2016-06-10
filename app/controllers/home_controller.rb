@@ -14,12 +14,25 @@ class HomeController < ApplicationController
   end
 
   def index
-    return unless current_user
+    return unless current_user && current_user.active?
     redirect_to "/feed"
   end
 
+  # If authenticated user is not active?, generate new invitation_token
+  # cache and reset invited_by_id and redirect to accept_user_invitation_path
+  # Otherwise display feed as usual
   def feed
-    redirect_to root_path unless current_user
+    return redirect_to root_path unless current_user
     @user = current_user
+    unless current_user.active?
+      inviter_id = current_user.invited_by_id
+      invitee = User.invite!({ email: current_user.email}) do |u|
+        u.skip_invitation = true
+      end
+      invitee.update(invited_by_id: inviter_id)
+      attrs = { invitation_token: invitee.raw_invitation_token }
+      return redirect_to Rails.application.routes.url_helpers
+                              .accept_user_invitation_path(invitee, attrs)
+    end
   end
 end

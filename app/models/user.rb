@@ -63,7 +63,7 @@ class User < ActiveRecord::Base
   end
 
   def send_welcome_email
-    UserMailer.new_user_beta(self).deliver_later
+    UserMailer.new_user_beta(self).deliver_later unless invited?
   end
 
   def remove_from_waitlist

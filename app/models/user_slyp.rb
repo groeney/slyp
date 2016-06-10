@@ -51,10 +51,7 @@ class UserSlyp < ActiveRecord::Base
                           end
     to_user_slyp.new_activity
     attributes = build_reslyp_attributes(to_user, to_user_slyp, comment)
-    return sent_reslyps.create(attributes) unless to_user.invitation_pending?
-    Reslyp.without_callback(:create, :after, :notify) do
-      return sent_reslyps.create(attributes)
-    end
+    return sent_reslyps.create(attributes)
   end
 
   def latest_conversation
@@ -90,7 +87,10 @@ class UserSlyp < ActiveRecord::Base
     to_user = User.find_by(email: email)
     return to_user unless to_user.nil?
     User.without_callback(:create, :after, :send_welcome_email) do
-      return User.invite!({ email: email }, user)
+      invitee = User.invite!({ email: email }, user) do |u|
+        u.skip_invitation = true
+      end
+      return invitee
     end
   end
 

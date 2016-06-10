@@ -59,12 +59,12 @@ FactoryGirl.define do
   end
 
   factory :user, aliases: [:recipient, :sender, :friend] do
-    sequence(:email) { |n| "#{first_name}.#{last_name}_#{n}@example.com" }
+    sequence(:email) { |n| "#{SecureRandom.hex(8)}_#{n}@example.com" }
     password { SecureRandom.hex(8) }
     authentication_token { Devise.friendly_token }
     first_name "Joe"
     last_name "Blogs"
-    sequence(:user_name) { |n| "#{first_name}#{last_name}_#{n}" }
+    sequence(:user_name) { |n| "#{email.split('@')[0]}" }
 
     trait :with_friends do
       after(:create) do |user|

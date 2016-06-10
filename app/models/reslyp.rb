@@ -64,7 +64,9 @@ class Reslyp < ActiveRecord::Base
   end
 
   def notify
-    UserMailer.reslyp_notification(self).deliver_later
+    return unless recipient.notify_reslyp
+    return UserMailer.reslyp_friend(self).deliver_later if recipient.active?
+    UserMailer.reslyp_email_contact(self).deliver_later
   end
 
   def befriend

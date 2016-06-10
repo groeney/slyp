@@ -18,10 +18,22 @@ class UserMailer < ApplicationMailer
     @reslyp = reslyp
     @recipient = @reslyp.recipient
     @sender = @reslyp.sender
-    mail_attributes = { to: @recipient.email, subject: @reslyp.slyp.title,
+    mail_attributes = { to: @recipient.email, subject: @reslyp.slyp.display_title,
                         from: "#{@sender.display_name} <#{@sender.email}>" }
     mail(mail_attributes)
   end
+
+  def reslyp_email_contact(reslyp)
+    @reslyp = reslyp
+    @slyp = reslyp.slyp
+    @recipient = @reslyp.recipient
+    @sender = @reslyp.sender
+    subject = "#{@sender.display_name} sent you: \"#{@slyp.display_title}\""
+    mail_attributes = { to: @recipient.email, subject: subject,
+                        from: "#{@sender.display_name} <robot@slyp.io>" }
+    cc_attributes = { cc: "#{@sender.display_name} <#{@sender.email}>" }
+    mail_attributes.merge!(cc_attributes) if @sender.cc_on_reslyp_email_contact
+    mail(mail_attributes)
   end
 
   def closed_beta_thank_you(user)
