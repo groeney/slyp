@@ -7,8 +7,9 @@
       <a class="user-display" rv-data-user-id="reslyp:sender.id">
         { reslyp:sender.first_name | userDisplay reslyp:sender.last_name reslyp:sender.email }
       </a>
-      <span rv-show="reslyp.sentBySelf">
-        <span style="font-weight: lighter;"> > </span>
+      <span rv-show="reslyp.selfReslyp" style="font-weight:lighter;">(note to self)</span>
+      <span rv-hide="reslyp.isRecipientMe">
+        <span style="font-weight:lighter;"> > </span>
         <a class="user-display" rv-data-user-id="reslyp:recipient.id">
           { reslyp:recipient.first_name | userDisplay reslyp:recipient.last_name reslyp:recipient.email }
         </a>

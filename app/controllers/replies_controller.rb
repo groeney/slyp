@@ -6,7 +6,8 @@ class RepliesController < BaseController
     @last_reply = @reslyp.replies.try(:last)
     @reply = @reslyp.replies.create(
       sender_id: current_user.id,
-      text: params[:text]
+      text: params[:text],
+      seen: @reslyp.self_reslyp?
     )
     mark_last_as_seen
     return render_422(@reply) unless @reply.valid?
@@ -67,6 +68,7 @@ class RepliesController < BaseController
     params.require(:reply).permit(:text)
   end
 
+  # For replies via quick reply feature
   def mark_last_as_seen
     valid = @last_reply && @last_reply.sender_id != current_user.id
     @last_reply.update(seen: true) if valid

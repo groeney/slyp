@@ -75,6 +75,7 @@ rivets.formatters.slypDirection = function(value){
 }
 
 rivets.formatters.userDisplay = function(firstName, lastName, email){
+  if (slypApp.user.get('email') === email) return 'me'
   return firstName ? firstName.concat(' ', lastName) : email
 }
 

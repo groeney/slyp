@@ -15,8 +15,11 @@ slypApp.Models.Reslyp = Backbone.RelationalModel.extend({
       }
     }
   }],
-  sentBySelf: function(){
-    return this.get('sender').id == slypApp.user.get('id')
+  isRecipientMe: function(){
+    return this.get('recipient').id == slypApp.user.get('id')
+  },
+  selfReslyp: function(){
+    return this.get('sender').id == this.get('recipient').id
   },
   hasReplies: function(){
     return this.get('replies').models.length > 0

@@ -24,6 +24,7 @@ class Reply < ActiveRecord::Base
   end
 
   def new_activity
+    return if reslyp.self_reslyp?
     recipient_user_slyp = reslyp.recipient_user_slyp
     return recipient_user_slyp.new_activity if sender_id == reslyp.sender_id
     reslyp.sender_user_slyp.new_activity

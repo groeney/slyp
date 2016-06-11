@@ -45,13 +45,29 @@ class UserSlyp < ActiveRecord::Base
 
   def send_slyp(email, comment = "")
     to_user = find_or_invite_user(email)
+    return self_reslyp(comment) if to_user.id == user_id
     to_user_slyp = to_user.user_slyps
                           .find_or_create_by(slyp_id: slyp_id) do |user_slyp|
                             user_slyp.update_attribute(:unseen, true)
                           end
-    to_user_slyp.new_activity
+    to_user_slyp.new_activity unless to_user_slyp.id == id
     attributes = build_reslyp_attributes(to_user, to_user_slyp, comment)
     return sent_reslyps.create(attributes)
+  end
+
+  def self_reslyp(comment)
+    return sent_reslyps.create(self_reslyp_attributes(comment))
+  end
+
+  def self_reslyp_attributes(comment)
+    {
+      recipient_id: user_id,
+      recipient_user_slyp_id: id,
+      sender_id: user_id,
+      sender_user_slyp_id: id,
+      comment: comment,
+      slyp_id: slyp_id
+    }
   end
 
   def latest_conversation

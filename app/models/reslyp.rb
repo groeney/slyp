@@ -17,7 +17,6 @@ class Reslyp < ActiveRecord::Base
   validates_presence_of :sender_user_slyp
   validates_presence_of :recipient_user_slyp
   validates_presence_of :comment
-  validate :not_self_reslyp
   validate do |reslyp|
     user_slyp_owned_by_user reslyp.sender_user_slyp, reslyp.sender
   end
@@ -39,10 +38,8 @@ class Reslyp < ActiveRecord::Base
     sender == user || recipient == user
   end
 
-  def not_self_reslyp
-    if sender.try(:id) == recipient.try(:id)
-      errors.add(:base, "Cannot reslyp to self.")
-    end
+  def self_reslyp?
+    sender.try(:id) == recipient.try(:id)
   end
 
   def user_slyp_owned_by_user(user_slyp, user)
@@ -64,7 +61,7 @@ class Reslyp < ActiveRecord::Base
   end
 
   def notify
-    return unless recipient.notify_reslyp
+    return unless recipient.notify_reslyp && !self_reslyp?
     return UserMailer.reslyp_friend(self).deliver_later if recipient.active?
     UserMailer.reslyp_email_contact(self).deliver_later
   end
