@@ -20,6 +20,15 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
   },
   onShow: function(){
     this.$('.ui.checkbox').checkbox();
+    var context = this;
+    this.$('.inline.dropdown').dropdown({
+      onChange: function(value, text, $choice){
+        if (validateEmail(value) && context.model.get('send_reslyp_email_from') !== value){
+          context.model.set('send_reslyp_email_from', value);
+          context.persist();
+        }
+      }
+    })
   },
   events: {
     'click #edit'            : 'enterEditMode',

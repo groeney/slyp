@@ -18,8 +18,10 @@ class UserMailer < ApplicationMailer
     @reslyp = reslyp
     @recipient = @reslyp.recipient
     @sender = @reslyp.sender
-    mail_attributes = { to: @recipient.email, subject: @reslyp.slyp.display_title,
-                        from: "#{@sender.display_name} <#{@sender.email}>" }
+    from = "#{@sender.display_name} <#{@sender.send_reslyp_email_from}>"
+    to = @recipient.email
+    subject = @reslyp.slyp.display_title
+    mail_attributes = { from: from, to: to, subject: subject }
     mail(mail_attributes)
   end
 
