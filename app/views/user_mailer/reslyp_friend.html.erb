@@ -7,7 +7,7 @@
     <p><%= link_to @reslyp.slyp.display_title, controller: "home", action: "feed", user_email: @recipient.email, user_token: @recipient.authentication_token, preview_user_slyp_id: @reslyp.recipient_user_slyp.id %></p>
     <p><%= truncate @reslyp.slyp.description, length: 300, separator: /./, omission: "..." %></p>
     <p><b><%= @sender.display_name %></b>: <%= @reslyp.comment %></p>
-    <p style="text-align:center;"><%= link_to "powered by Slyp", controller: "home", action: "feed", user_email: @recipient.email, user_token: @recipient.authentication_token, preview_user_slyp_id: @reslyp.recipient_user_slyp.id %></p>
+    <p style="text-align:center;"><%= link_to "sent by Slyp on behalf of #{@sender.display_name}", controller: "home", action: "feed", user_email: @recipient.email, user_token: @recipient.authentication_token, preview_user_slyp_id: @reslyp.recipient_user_slyp.id %></p>
     <p style="text-align:center;">
       <%= link_to "update your email preferences", { controller: "home", action: "feed", user_email: @recipient.email, user_token: @recipient.authentication_token, skip_to: "email_settings" }, { style: "color:#a0a0a0;" } %>
     </p>
