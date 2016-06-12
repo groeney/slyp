@@ -8,8 +8,14 @@
       </a>
     </div>
     <span>
-      <i id="facebook-share" class="facebook link icon"></i>
-      <i id="twitter-share" class="twitter link icon"></i>
+      <span class="fb-share-button" rv-data-href="userSlyp:url" data-layout="icon" data-mobile-iframe="true">
+        <a class="fb-xfbml-parse-ignore" target="_blank" rv-href="userSlyp.fbURL < :url">
+          <i id="facebook-share" class="facebook link icon"></i>
+        </a>
+      </span>
+      <a class="twitter-share-button" rv-href="userSlyp.tweetURL < :url">
+        <i id="twitter-share" class="twitter link icon"></i>
+      </a>
       <a id="conversations" class="description">
         <i class="icon" rv-classes-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
         <span rv-show="userSlyp.hasConversations < :friends">{ userSlyp:friends | numConversations }</span>
