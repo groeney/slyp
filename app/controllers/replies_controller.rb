@@ -1,14 +1,13 @@
 class RepliesController < BaseController
   before_action :authenticate_user!
+
   def create
     return render_400 unless [:reslyp_id, :text].all? { |s| params.key? s }
     @reslyp = Reslyp.authorized_find(current_user, params[:reslyp_id])
     @last_reply = @reslyp.replies.try(:last)
-    @reply = @reslyp.replies.create(
-      sender_id: current_user.id,
-      text: params[:text],
-      seen: @reslyp.self_reslyp?
-    )
+    attrs = { sender_id: current_user.id, text: params[:text],
+              seen: @reslyp.self_reslyp? }
+    @reply = @reslyp.replies.create(attrs)
     mark_last_as_seen
     return render_422(@reply) unless @reply.valid?
     render status: 201, json: present(@reply), serializer: ReplySerializer

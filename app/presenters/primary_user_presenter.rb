@@ -13,6 +13,8 @@ class PrimaryUserPresenter < BasePresenter
   end
 
   def friends
-    user.friends.sort { |a, b| b.slyps_exchanged_with(user.id) <=> a.slyps_exchanged_with(user.id)  }
+    user.friends.sort do |a, b|
+      b.slyps_exchanged_with(user.id) <=> a.slyps_exchanged_with(user.id)
+    end
   end
 end

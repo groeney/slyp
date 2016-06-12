@@ -2,17 +2,17 @@ class UserSlyp < ActiveRecord::Base
   belongs_to :slyp
   belongs_to :user
   has_many :sent_reslyps, foreign_key: "sender_user_slyp_id",
-            class_name: "Reslyp", dependent: :destroy
+                          class_name: "Reslyp", dependent: :destroy
   has_many :received_reslyps, foreign_key: "recipient_user_slyp_id",
-           class_name: "Reslyp", dependent: :destroy
+                              class_name: "Reslyp", dependent: :destroy
   validates_uniqueness_of :slyp_id, scope: :user_id
   validates_presence_of   :slyp
   validates_presence_of   :user
 
   def unseen_replies
-    reslyps.includes(:replies).map { |el|
+    reslyps.includes(:replies).map do |el|
       el.replies.where.not(sender_id: user_id).where(seen: false).length
-    }.sum
+    end.sum
   end
 
   def reslyps
@@ -52,11 +52,11 @@ class UserSlyp < ActiveRecord::Base
                           end
     to_user_slyp.new_activity unless to_user_slyp.id == id
     attributes = build_reslyp_attributes(to_user, to_user_slyp, comment)
-    return sent_reslyps.create(attributes)
+    sent_reslyps.create(attributes)
   end
 
   def self_reslyp(comment)
-    return sent_reslyps.create(self_reslyp_attributes(comment))
+    sent_reslyps.create(self_reslyp_attributes(comment))
   end
 
   def self_reslyp_attributes(comment)
@@ -72,7 +72,7 @@ class UserSlyp < ActiveRecord::Base
 
   def latest_conversation
     conversation = [latest_reslyp, latest_reply].reject(&:nil?)
-                                                 .max_by { |el| el.created_at }
+                                                .max_by(&:created_at)
     parse_params_from_conversation(conversation)
   end
 
@@ -91,8 +91,8 @@ class UserSlyp < ActiveRecord::Base
   end
 
   def latest_reply
-    replies = reslyps.includes(:replies).map { |el| el.replies }.flatten
-    replies.max_by { |el| el.created_at }
+    replies = reslyps.includes(:replies).map(&:replies).flatten
+    replies.max_by(&:created_at)
   end
 
   def total_reslyps

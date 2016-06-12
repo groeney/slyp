@@ -80,22 +80,24 @@ class User < ActiveRecord::Base
   end
 
   def find_mutual_user_slyps(friend_id)
-    return active_user_slyps if friend_id == id
+    return active_user_slyps if friend_id.eql? id
     query = "sender_id = ? and recipient_id = ?"
-    user_slyps_received = Reslyp.where(query, friend_id, id).pluck(:recipient_user_slyp_id).uniq
-    user_slyps_sent = Reslyp.where(query, id, friend_id).pluck(:sender_user_slyp_id).uniq
+    user_slyps_received = Reslyp.where(query, friend_id, id)
+                                .pluck(:recipient_user_slyp_id).uniq
+    user_slyps_sent = Reslyp.where(query, id, friend_id)
+                            .pluck(:sender_user_slyp_id).uniq
     UserSlyp.where(id: user_slyps_received + user_slyps_sent)
   end
 
   def befriend(friend_id)
-    Friendship.find_or_create_by(user_id: id, friend_id: friend_id) unless friend_id.nil?
+    attrs = { user_id: id, friend_id: friend_id }
+    Friendship.find_or_create_by(attrs) unless friend_id.nil?
   end
 
   def social_signup
     send_welcome_email
-    if provider == "facebook"
-      discover_facebook_friends
-    end
+    return unless provider.eql? "facebook"
+    discover_facebook_friends
   end
 
   def discover_facebook_friends
@@ -112,20 +114,16 @@ class User < ActiveRecord::Base
     UserMailer.new_friend(user, self).deliver_later
   end
 
-  # To handle potential duplicate users, prioritize provider & uid
-  # if
   def self.from_omniauth(auth)
     provider, uid, email = parse_oauth_params(auth)
-    if user = self.find_by(provider: provider, uid: uid) # Existing social user
-      user.apply_omniauth(user)
-    elsif user = self.find_by(email: email) # Existing email user
+    user = User.find_by(provider: provider, uid: uid)
+    if user || user = User.find_by(email: email)
       user.update(provider: provider, uid: uid)
-      user.apply_omniauth(auth)
-    else
-      user = self.create(provider: provider, uid: uid, email: email)
-      user.apply_omniauth(auth)
+    else # Completely new user
+      user = User.create(provider: provider, uid: uid, email: email)
     end
-    return user
+    user.apply_omniauth(auth)
+    user
   end
 
   def apply_omniauth(auth)
@@ -137,7 +135,7 @@ class User < ActiveRecord::Base
     self.last_name = auth.info.last_name
     self.authentication_token = auth.credentials.token
     self.password = Devise.friendly_token[0, 20] if encrypted_password.blank?
-    save!
+    save
   end
 
   private

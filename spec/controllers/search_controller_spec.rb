@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe SearchController, type: :controller do
   describe "#users" do
-    let(:expected_keys) { ["id", "display_name", "email"] }
+    let(:expected_keys) { ["id", "display_name", "email", "image"] }
     let(:user) { FactoryGirl.create(:user) }
     before do
       sign_in user
@@ -173,7 +173,7 @@ RSpec.describe SearchController, type: :controller do
   end
 
   describe "#friends" do
-    let(:expected_keys) { ["id", "display_name", "email"] }
+    let(:expected_keys) { ["id", "display_name", "email", "image"] }
     context "User has no friends" do
       let(:user) { FactoryGirl.create(:user) }
       before do

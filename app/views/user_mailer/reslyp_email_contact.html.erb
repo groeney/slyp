@@ -7,6 +7,6 @@
     <p><%= link_to @slyp.url, @slyp.url %></p>
     <p><%= truncate @slyp.description, :length   => 300, :separator => /./, :omission => "..." %></p>
     <p><b><%= @sender.display_name %></b>: <%= @reslyp.comment %></p>
-    <p style="text-align:center;"><%= link_to "powered by Slyp", controller: "home", action: "feed", user_email: @recipient.email, user_token: @recipient.authentication_token, preview_user_slyp_id: @reslyp.recipient_user_slyp.id %></p>
+    <p style="text-align:center;"><%= link_to "sent by Slyp on behalf of #{@sender.display_name}", controller: "home", action: "feed", user_email: @recipient.email, user_token: @recipient.authentication_token, preview_user_slyp_id: @reslyp.recipient_user_slyp.id %></p>
   </body>
 </html>

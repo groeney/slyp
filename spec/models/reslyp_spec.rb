@@ -22,6 +22,11 @@ RSpec.describe Reslyp, type: :model do
       expect(reslyp.valid?).to be true
     end
 
+    it "should be valid to send to self" do
+      reslyp = user.user_slyps.first.send_slyp(user.email, "should be valid")
+      expect(reslyp.valid?).to be true
+    end
+
     it "should enforce uniqueness of recipient_user_slyp scoped to sender" do
       expect(reslyp.valid?).to be true
       second_reslyp = user_slyp.send_slyp(recipient.email, "Dummy comment")
@@ -139,18 +144,14 @@ RSpec.describe Reslyp, type: :model do
     let(:friend) { FactoryGirl.create(:user) }
     let(:friend_user_slyp) { FactoryGirl.create(:user_slyp, user: friend,
       slyp: user_slyp.slyp) }
-    let(:reslyp_params) {{
-        :sender_id              => user.id,
-        :recipient_id           => friend.id,
-        :sender_user_slyp_id    => user_slyp.id,
-        :recipient_user_slyp_id => friend_user_slyp.id,
-        :comment                => "This is a comment.",
-        :slyp_id                => user_slyp.slyp.id
-        }}
-    it "should not be valid to send to self" do
-      reslyp = user.user_slyps.first.send_slyp(user.email, "not valid reslyp")
-      expect(reslyp.valid?).to be false
-    end
+    let(:reslyp_params) { {
+        sender_id: user.id,
+        recipient_id: friend.id,
+        sender_user_slyp_id: user_slyp.id,
+        recipient_user_slyp_id: friend_user_slyp.id,
+        comment: "This is a comment.",
+        slyp_id: user_slyp.slyp.id
+        } }
 
     it "should not be valid to reslyp without sender" do
       reslyp_params.delete(:sender_id)

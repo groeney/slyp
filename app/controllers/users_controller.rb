@@ -16,7 +16,7 @@ class UsersController < BaseController
   def update_password
     @user = User.find(current_user.id)
     if @user.update_with_password(user_password_params)
-      sign_in @user, :bypass => true
+      sign_in @user, bypass: true
       render status: 200, json: present_primary(current_user),
              serializer: PrimaryUserSerializer
     else

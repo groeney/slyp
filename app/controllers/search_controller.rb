@@ -40,7 +40,7 @@ class SearchController < BaseController
     query = "email ilike :user_query or LOWER(first_name || ' ' || last_name)"\
       " ilike :user_query"
     User.where(query, user_query: "%#{user_query}%").where
-                                                    .not(id: current_user.id)
+        .not(id: current_user.id)
   end
 
   def parse_and_query_user_slyps(user_query)
@@ -55,7 +55,7 @@ class SearchController < BaseController
   def parse_and_query_conversations(user_query)
     return current_user.user_slyps if user_query.blank?
     reslyp_ids = query_reslyps(user_query) +
-      query_replies(user_query).pluck(:reslyp_id)
+                 query_replies(user_query).pluck(:reslyp_id)
     user_slyp_ids = Reslyp.where(id: reslyp_ids)
                           .pluck(:recipient_user_slyp_id, :sender_user_slyp_id)
                           .flatten.uniq
@@ -66,7 +66,7 @@ class SearchController < BaseController
     reslyps_query = "(sender_id = :user_id or recipient_id = :user_id) and "\
       "comment ilike :flexi_query"
     Reslyp.where(reslyps_query, flexi_query: "%#{user_query}%",
-                              user_id: current_user.id).pluck(:id)
+                                user_id: current_user.id).pluck(:id)
   end
 
   def query_replies(user_query)

@@ -1,21 +1,15 @@
 require "rails_helper"
 
 RSpec.describe ReslypsController, type: :controller do
-  let(:expected_keys) { ["id", "sender", "recipient", "comment", "created_at", "reply_count",
-                         "unseen_replies"] }
+  let(:expected_keys) { ["id", "sender", "recipient", "comment", "created_at",
+                         "reply_count", "unseen_replies"] }
   describe "#create" do
     context "with invalid params" do
       let(:user) { FactoryGirl.create(:user, :with_user_slyps) }
       before do
         sign_in user
       end
-      it "should respond to reslyp to self with 422" do
-        post :create, slyp_id: user.user_slyps.first.slyp_id,
-        emails: [user.email], comment: "This is a comment", format: :json
 
-        expect(response.status).to eq(422)
-        expect(response.content_type).to eq(Mime::JSON)
-      end
     end
 
     context "with missing params" do
@@ -60,9 +54,19 @@ RSpec.describe ReslypsController, type: :controller do
       let(:to_users) { FactoryGirl.create_list(:user, 10) }
       let(:to_user) { to_users.first }
       let(:user_slyp) { user.user_slyps.first }
+
       before do
         sign_in user
       end
+
+      it "should respond to reslyp to self with 201" do
+        post :create, slyp_id: user.user_slyps.first.slyp_id,
+        emails: [user.email], comment: "This is a self_reslyp (note to self)", format: :json
+
+        expect(response.status).to eq(201)
+        expect(response.content_type).to eq(Mime::JSON)
+      end
+
       it "responds with 201" do
         post :create, slyp_id: user_slyp.slyp_id,
           emails: to_users.map { |to_user| to_user.email},

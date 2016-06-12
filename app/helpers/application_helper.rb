@@ -5,11 +5,11 @@ module ApplicationHelper
       auth.info.first_name = names.shift || ""
       auth.info.last_name = names.join(" ")
     end
-    return auth
+    auth
   end
 
   def parse_oauth_params(auth)
     auth = ensure_valid_oauth_params(auth)
-    return auth.provider, auth.uid, auth.info.email
+    [auth.provider, auth.uid, auth.info.email]
   end
 end

@@ -1,7 +1,7 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   # Handle both normal sign in and sign up
   # On sign up handles complete new user sign up and from invitation
-  # Note: we don't accept invitation if FB user has already signed up
+  # Note: we don't accept invitation if the FB user has already signed up
   def facebook
     auth = request.env["omniauth.auth"]
     user = User.find_by_invitation_token(session[:invitation_token], true)
@@ -25,7 +25,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         sign_in_and_redirect(user, event: :authentication)
       else
         if email_present?(auth)
-          flash[:error] = "We're not sure what went wrong there but something went wrong :-("
+          flash[:error] = "We're not sure what went wrong there but something"\
+                          " went wrong :-("
         end
         redirect_to root_path
       end
