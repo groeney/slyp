@@ -256,6 +256,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     this.$('.ui.search')
       .search({
         cache: false,
+        searchDelay: 350,
         apiSettings: {
           url: '/search/user_slyps?q={query}',
           beforeSend: function(settings){
