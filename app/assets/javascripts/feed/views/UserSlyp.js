@@ -28,8 +28,8 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   },
   onRender: function(){
     this.binder = rivets.bind(this.$el, {
-      userSlyp        : this.model,
-      state           : this.state
+      userSlyp : this.model,
+      state    : this.state
     });
     var context = this;
     if (typeof this.model.get('url') !== 'undefined'){
@@ -42,7 +42,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   },
   onShow: function(){
     this.initializeSemanticElements();
-    this.$('.video_frame').first().addClass('ui').addClass('embed');
     this.$('img.avatar').popup();
 
     this.$('textarea').each(function () {
@@ -239,16 +238,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     this.state.gotAttention = true;
   },
   showModalPreview: function(){
-    var modalSelector = this.$('.ui.modal').first();
-    if (modalSelector.length === 0){
-      modalSelector = $('div[data-user-slyp-id=' + this.model.get('id') + '].ui.modal').first();
-    }
-    modalSelector.modal({
-      onHidden: function() { // Buggy if more than one video
-        iframe = $(this).find('.ui.embed iframe').first();
-        iframe.attr('src', iframe.attr('src'));
-      }
-    }).modal('show');
+    slypApp.modalsRegion.show(new slypApp.Views.PreviewModal({ model: this.model }));
   },
   showSidebarPreview: function(){
     slypApp.previewSidebarRegion.show(new slypApp.Views.PreviewSidebar({ model: this.model }));
@@ -349,13 +339,13 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     });
 
     // Preview modal
-    $('.ui.fullscreen.modal').modal('setting', 'onShow', function(){
-      slypApp.state.leftPaneActive = true;
-    });
+    // $('.ui.fullscreen.modal').modal('setting', 'onShow', function(){
+    //   slypApp.state.leftPaneActive = true;
+    // });
 
-    $('.ui.fullscreen.modal').modal('setting', 'onHide', function(){
-      slypApp.state.leftPaneActive = false;
-    });
+    // $('.ui.fullscreen.modal').modal('setting', 'onHide', function(){
+    //   slypApp.state.leftPaneActive = false;
+    // });
 
     // Reslyp dropdown
     this.$('#reslyp-dropdown')

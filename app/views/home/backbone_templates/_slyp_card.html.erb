@@ -65,16 +65,4 @@
   </div>
 
   <%= render "home/backbone_templates/reslyp_widget" %>
-
-  <div class="ui fullscreen modal" target="_blank" rv-href="userSlyp:url" rv-data-user-slyp-id="userSlyp:id">
-    <i class="close icon"></i>
-    <span class="ui header center aligned wrap">{ userSlyp.displayTitle }</span>
-    <div class="ui basic center aligned segment">
-      <a target="_blank" rv-href="userSlyp:url" style="color: #b1b2b2; font-size: 1.33rem;" >
-        <span>{ userSlyp:author | authorship userSlyp:site_name userSlyp:url}</span>
-      </a>
-    </div>
-    <div class="ui aligned basic segment" rv-html="userSlyp:html">
-    </div>
-  </div>
 </script>
