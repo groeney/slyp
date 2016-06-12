@@ -1,6 +1,6 @@
 slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
   template           : '#js-reslyp-tmpl',
-  className          : 'ui item basic segment comment',
+  className          : 'ui basic segment comment',
   childView          : slypApp.Views.Reply,
   childViewContainer : '.js-replies-container',
   attributes         : {
