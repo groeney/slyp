@@ -17,12 +17,6 @@ class Reply < ActiveRecord::Base
 
   after_create :new_activity
 
-  def self.authorized_find(user, id)
-    reply = Reply.find(id)
-    raise ActiveRecord::RecordNotFound unless reply.sender == user
-    reply
-  end
-
   def new_activity
     return if reslyp.self_reslyp?
     recipient_user_slyp = reslyp.recipient_user_slyp

@@ -28,7 +28,7 @@ class SearchController < BaseController
 
   def mutual_user_slyps
     friend_id = params[:friend_id].to_i
-    @user_slyps = current_user.find_mutual_user_slyps(friend_id)
+    @user_slyps = current_user.mutual_user_slyps(friend_id)
                               .order(unseen_activity: :desc, updated_at: :desc)
     render status: 200, json: present_user_slyp_collection(@user_slyps),
            each_serializer: UserSlypSerializer

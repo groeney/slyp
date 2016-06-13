@@ -22,14 +22,14 @@ RSpec.describe RepliesController, type: :controller do
         sign_in user
       end
 
-      it "should respond to no text with 400" do
+      it "should respond with 422" do
         post :create, reslyp_id: reslyp.id, format: :json
 
-        expect(response.status).to eq(400)
+        expect(response.status).to eq(422)
         expect(response.content_type).to eq(Mime::JSON)
       end
 
-      it "should respond to no reslyp_id with 400" do
+      it "should respond with 400" do
         post :create, text: "this is a reply text", format: :json
 
         expect(response.status).to eq(400)
@@ -144,6 +144,13 @@ RSpec.describe RepliesController, type: :controller do
           expect(reslyp.replies.find(reply["id"]).valid?).to be true
         end
       end
+
+      it "should update unseen" do
+        friend_id = reslyp.sender_id == user.id ? reslyp.recipient_id : reslyp.sender_id
+        latest_reply = reslyp.replies.create(sender_id: friend_id, text: "valid text", seen: false)
+        get :index, id: reslyp.id, format: :json
+        expect(reslyp.replies.find(latest_reply.id).seen).to be true
+      end
     end
   end
 
@@ -193,36 +200,38 @@ RSpec.describe RepliesController, type: :controller do
 
   describe "#destroy" do
     let(:user) { FactoryGirl.create(:user, :with_reslyps_and_replies) }
-    let(:user_slyp) { user.user_slyps.first }
-    let(:reslyp) { user_slyp.reslyps.first }
-    let(:reply) { reslyp.replies.first }
+    let(:friend) { user.friends.first }
+    let(:reply) { user.replies.first }
+    let(:friend_reply) { friend.replies.first }
     before do
       sign_in user
     end
 
-    context "invalid params" do
-      let(:reply) { FactoryGirl.create(:reply) }
+    it "should respond with 404" do
+      delete :destroy, id: friend_reply.id, format: :json
 
-      it "should respond to reply not owned by user with 404" do
-        delete :destroy, id: reply.id, format: :json
-
-        expect(response.status).to eq(404)
-        expect(response.content_type).to eq(Mime::JSON)
-      end
+      expect(response.status).to eq(404)
+      expect(response.content_type).to eq(Mime::JSON)
     end
 
-    context "valid params" do
-      it "should respond with 204" do
-        delete :destroy, id: reply.id, format: :json
+    it "should respond with 404" do
+      delete :destroy, id: friend_reply.id, format: :json
 
-        expect(response.status).to eq(204)
-        expect(response.content_type).to eq(Mime::JSON)
-      end
-      it "should actually delete the resource" do
-        delete :destroy, id: reply.id, format: :json
+      expect(response.status).to eq(404)
+      expect(response.content_type).to eq(Mime::JSON)
+    end
 
-        expect(Reslyp.find_by_id(reply.id)).to be_nil
-      end
+    it "should respond with 204" do
+      delete :destroy, id: reply.id, format: :json
+
+      expect(response.status).to eq(204)
+      expect(response.content_type).to eq(Mime::JSON)
+    end
+
+    it "should delete the resource" do
+      expect(Reply.find(reply.id)).not_to be_nil
+      delete :destroy, id: reply.id, format: :json
+      expect(Reply.find_by(id: reply.id)).to be_nil
     end
   end
 end

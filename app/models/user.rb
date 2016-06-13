@@ -36,19 +36,16 @@ class User < ActiveRecord::Base
   end
 
   def reslyps
-    query = "sender_id = ? or recipient_id = ?"
-    Reslyp.where(query, id, id)
+    query = "sender_id = :user_id or recipient_id = :user_id"
+    Reslyp.where(query, user_id: id)
   end
 
-  def friend?(user_id)
+  def replies
+    Reply.where(sender_id: id)
+  end
+
+  def friends?(user_id)
     friends.exists?(user_id)
-  end
-
-  def slyps_exchanged_with(user_id)
-    query = "sender_id = ? and recipient_id = ?"
-    results_1 = Reslyp.where(query, user_id, id)
-    results_2 = Reslyp.where(query, id, user_id)
-    results_1.length + results_2.length
   end
 
   def active_user_slyps
@@ -79,19 +76,25 @@ class User < ActiveRecord::Base
     full_name.empty? ? email : full_name
   end
 
-  def find_mutual_user_slyps(friend_id)
+  # This is an expensive operation, use with care.
+  def mutual_user_slyps(friend_id)
     return active_user_slyps if friend_id.eql? id
-    query = "sender_id = ? and recipient_id = ?"
-    user_slyps_received = Reslyp.where(query, friend_id, id)
-                                .pluck(:recipient_user_slyp_id).uniq
-    user_slyps_sent = Reslyp.where(query, id, friend_id)
-                            .pluck(:sender_user_slyp_id).uniq
-    UserSlyp.where(id: user_slyps_received + user_slyps_sent)
+    query = "(sender_id = :user_id and recipient_id = :friend_id) OR "\
+            "(sender_id = :friend_id and recipient_id = :user_id)"
+    user_slyp_ids = Reslyp.where(query, user_id: id, friend_id: friend_id)
+                          .pluck(:recipient_user_slyp_id, :sender_user_slyp_id)
+                          .flatten.uniq
+    user_slyps.where(id: user_slyp_ids)
+  end
+
+  def mutual_user_slyps?(friend_id)
+    return false unless friends? friend_id
+    mutual_user_slyps(friend_id).exists?
   end
 
   def befriend(friend_id)
-    attrs = { user_id: id, friend_id: friend_id }
-    Friendship.find_or_create_by(attrs) unless friend_id.nil?
+    return nil if friend_id.nil?
+    Friendship.find_or_create_by(user_id: id, friend_id: friend_id)
   end
 
   def social_signup

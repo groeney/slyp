@@ -24,7 +24,7 @@ class ReslypsController < BaseController
   end
 
   def show
-    @reslyp = Reslyp.authorized_find(current_user, params[:id])
+    @reslyp = current_user.reslyps.find(params[:id])
     render status: 200, json: present(@reslyp), serializer: ReslypSerializer
   end
 

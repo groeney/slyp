@@ -28,16 +28,6 @@ class Reslyp < ActiveRecord::Base
   after_create :befriend
   after_create :notify
 
-  def self.authorized_find(user, id)
-    reslyp = Reslyp.find(id)
-    raise ActiveRecord::RecordNotFound unless reslyp.owner(user)
-    reslyp
-  end
-
-  def owner(user)
-    sender == user || recipient == user
-  end
-
   def self_reslyp?
     sender.try(:id) == recipient.try(:id)
   end

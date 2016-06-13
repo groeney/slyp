@@ -2,8 +2,8 @@ class RepliesController < BaseController
   before_action :authenticate_user!
 
   def create
-    return render_400 unless [:reslyp_id, :text].all? { |s| params.key? s }
-    @reslyp = Reslyp.authorized_find(current_user, params[:reslyp_id])
+    return render_400 unless reslyp_id = params[:reslyp_id]
+    @reslyp = current_user.reslyps.find(reslyp_id)
     @last_reply = @reslyp.replies.try(:last)
     attrs = { sender_id: current_user.id, text: params[:text],
               seen: @reslyp.self_reslyp? }
@@ -16,9 +16,7 @@ class RepliesController < BaseController
   # All replies for a particular reslyp
   # GET /reslyp/replies/:id
   def index
-    return render_400 unless params.key? :id
-    reslyp = Reslyp.authorized_find(current_user, params[:id])
-
+    reslyp = current_user.reslyps.find(params[:id])
     reslyp.replies.where.not(sender_id: current_user.id).update_all(seen: true)
     @replies = reslyp.replies.order(:created_at)
     render status: 200, json: present_collection(@replies),
@@ -26,8 +24,7 @@ class RepliesController < BaseController
   end
 
   def update
-    return render_400 unless params.key? :id
-    @reply = Reply.authorized_find(current_user, params[:id])
+    @reply = current_user.replies.find(params[:id])
 
     if @reply.update(reply_params)
       render status: 200, json: present(@reply), serializer: ReplySerializer
@@ -37,9 +34,7 @@ class RepliesController < BaseController
   end
 
   def destroy
-    return render_400 unless params.key? :id
-    @reply = Reply.authorized_find(current_user, params[:id])
-
+    @reply = current_user.replies.find(params[:id])
     if @reply.destroy
       render status: 204, json: {}
     else
@@ -48,8 +43,7 @@ class RepliesController < BaseController
   end
 
   def show
-    return render_400 unless params.key? :id
-    @reply = Reply.authorized_find(current_user, params[:id])
+    @reply = current_user.replies.find(params[:id])
     render status: 200, json: present(@reply), serializer: ReplySerializer
   end
 

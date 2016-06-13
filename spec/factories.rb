@@ -64,7 +64,6 @@ FactoryGirl.define do
     authentication_token { Devise.friendly_token }
     first_name "Joe"
     last_name "Blogs"
-    sequence(:user_name) { |n| "#{email.split('@')[0]}" }
 
     trait :with_friends do
       after(:create) do |user|

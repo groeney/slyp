@@ -164,7 +164,7 @@ RSpec.describe SearchController, type: :controller do
         friend = user.friends.first
         get :mutual_user_slyps, friend_id: friend.id, format: :json
 
-        expected_results = user.find_mutual_user_slyps(friend.id)
+        expected_results = user.mutual_user_slyps(friend.id)
         response_body_json = JSON.parse(response.body)
         expect(response.status).to eq 200
         expect(response_body_json.length).to eq expected_results.length
