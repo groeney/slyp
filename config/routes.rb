@@ -11,7 +11,6 @@ Rails.application.routes.draw do
 
   root to: "home#index"
   get "/feed" => "home#feed"
-  get "/friends" => "users#friends"
   get "/search/users" => "search#users"
   get "/search/user_slyps" => "search#user_slyps"
   get "/search/friends" => "search#friends"
@@ -19,6 +18,7 @@ Rails.application.routes.draw do
 
   resources :beta_request, only: [:create]
   resources :users, only: [:index]
+  resources :friendships, only: [:index, :create, :destroy]
   resources :user_slyps, only: [:create, :index, :show, :update]
   get "/reslyps/:id" => "reslyps#index"
   get "/reslyp/:id" => "reslyps#show"
@@ -27,7 +27,7 @@ Rails.application.routes.draw do
   resources :replies, only: [:create, :update, :destroy, :show]
   get "/reslyp/replies/:id" => "replies#index"
   put "/user/:id" => "users#update"
-  get "/user/:id" => "users#show"
+  get "/user" => "users#index"
   resource :user
 
   if Rails.env.development?
