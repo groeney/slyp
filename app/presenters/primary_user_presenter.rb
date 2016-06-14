@@ -8,13 +8,9 @@ class PrimaryUserPresenter < BasePresenter
     @user = user
   end
 
-  def full_name
-    [user.first_name, user.last_name].reject(&:empty?).join(" ")
-  end
-
   def friends
     user.friends.sort do |a, b|
-      b.slyps_exchanged_with(user.id) <=> a.slyps_exchanged_with(user.id)
+      Friendship.total_reslyps(user, b) <=> Friendship.total_reslyps(user, a)
     end
   end
 end

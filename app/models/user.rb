@@ -1,8 +1,6 @@
 class User < ActiveRecord::Base
   extend ApplicationHelper
   attr_reader :raw_invitation_token
-  # Include default devise modules. Others available are:
-  # :lockable, :timeoutable and :omniauthable
   after_create :send_welcome_email
   after_create :remove_from_waitlist
   after_create :befriend_inviter
