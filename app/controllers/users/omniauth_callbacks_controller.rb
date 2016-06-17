@@ -15,14 +15,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else # Sign up
       if user # From invitation
         user.apply_omniauth(auth)
-        user.accept_invitation!
-      else # New user
+        user.active!
+        user.update(invitation_token: nil, invitation_accepted_at: Time.now)
+      else # New user or linking fb to existing account
         user = User.from_omniauth(auth)
       end
-
-      if user.valid?
+      if user.persisted?
         user.social_signup
-        sign_in_and_redirect(user, event: :authentication)
+        sign_in_and_redirect user, event: :authentication
       else
         if email_present?(auth)
           flash[:error] = "We're not sure what went wrong there but something"\

@@ -134,7 +134,7 @@ class User < ActiveRecord::Base
     self.first_name = auth.info.first_name
     self.last_name = auth.info.last_name
     self.authentication_token = auth.credentials.token
-    self.password = Devise.friendly_token[0, 20] if encrypted_password.blank?
+    self.password = Devise.friendly_token[0, 20] if self.encrypted_password.blank?
     save
   end
 
