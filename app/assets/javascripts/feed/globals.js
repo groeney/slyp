@@ -21,20 +21,22 @@ var generateAvatarURL = function(value, fallback){
 }
 
 var openSettings = function(){
-  $('#goto-settings').click();
+  setTimeout(function(){
+    $('#goto-settings').click();
+  }, 250);
 }
 
 var openEmailsSettings = function(){
   openSettings();
   setTimeout(function(){
-      $('#emails').click()
+    $('#emails').click()
   }, 500);
 }
 
 var openFriendsSettings = function(){
   openSettings();
   setTimeout(function(){
-      $('#friends').click()
+    $('#friends').click()
   }, 500);
 }
 

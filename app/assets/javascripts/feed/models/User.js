@@ -7,6 +7,9 @@ slypApp.Models.User = Backbone.Model.extend({
         if (skipTo == 'email_settings'){
           openEmailsSettings();
           window.history.pushState({}, document.title, window.location.pathname); // requires HTML5
+        } else if (skipTo == 'friends_settings'){
+          openFriendsSettings();
+          window.history.pushState({}, document.title, window.location.pathname); // requires HTML5
         }
       }
     });
