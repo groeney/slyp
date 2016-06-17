@@ -52,6 +52,12 @@ class BaseController < ApplicationController
            each_serializer: ErrorSerializer
   end
 
+  def render_403(error_msg)
+    render status: 403,
+           json: present_error(message: error_msg),
+           each_serializer: ErrorSerializer
+  end
+
   private
 
   def authenticate_user!

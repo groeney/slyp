@@ -2,9 +2,15 @@
 rivets.adapters[':'] = {
   observe: function(obj, keypath, callback) {
     obj.on('change:' + keypath, callback)
+    if (obj.get(keypath) instanceof Backbone.Collection){
+      obj.get(keypath).on('update', callback)
+    }
   },
   unobserve: function(obj, keypath, callback) {
     obj.off('change:' + keypath, callback)
+    if (obj.get(keypath) instanceof Backbone.Collection){
+      obj.get(keypath).off('update', callback)
+    }
   },
   get: function(obj, keypath) {
     return obj.get(keypath)
@@ -134,6 +140,11 @@ rivets.binders['classes-*'] = function(el, value) {
   return value ? $(el).addClass(klass) : $(el).removeClass(klass);
 };
 
+rivets.binders['classes-unless-*'] = function(el, value) {
+  var klass = this.args[0].replace(/-/g, ' ');
+  return value ? $(el).removeClass(klass) : $(el).addClass(klass);
+};
+
 rivets.binders['hide-if'] = function(el, value) {
   if (value){
     return $(el).hide();
@@ -157,4 +168,3 @@ rivets.binders['live-value'] = {
 function readDuration(value){
   return (value === undefined || value <= 60) ? 'short read' : Math.ceil(value/60) + ' min read'
 }
-

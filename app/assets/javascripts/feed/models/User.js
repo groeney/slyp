@@ -5,10 +5,7 @@ slypApp.Models.User = Backbone.Model.extend({
       success: function(){
         var skipTo = getParameterByName('skip_to');
         if (skipTo == 'email_settings'){
-          $('#goto-settings').click();
-          setTimeout(function(){
-              $('#emails').click()
-          },500);
+          openEmailsSettings();
           window.history.pushState({}, document.title, window.location.pathname); // requires HTML5
         }
       }

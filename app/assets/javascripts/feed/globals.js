@@ -19,3 +19,29 @@ var generateAvatarURL = function(value, fallback){
     return 'https://ssl.gstatic.com/bt/C3341AA7A1A076756462EE2E5CD71C11/avatars/avatar_tile_'+letter.toLowerCase()+'_28.png'
   }
 }
+
+var openSettings = function(){
+  $('#goto-settings').click();
+}
+
+var openEmailsSettings = function(){
+  openSettings();
+  setTimeout(function(){
+      $('#emails').click()
+  }, 500);
+}
+
+var openFriendsSettings = function(){
+  openSettings();
+  setTimeout(function(){
+      $('#friends').click()
+  }, 500);
+}
+
+Backbone.Collection.prototype.whereNot = function(options) {
+  var key = Object.keys(options).pop();
+  var value = options[key];
+  return this.filter(function(model) {
+          return model.get(key) !== value;
+         });
+}
