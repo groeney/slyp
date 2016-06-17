@@ -13,7 +13,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       end
       sign_in_and_redirect(identity, event: :authentication)
     else # Sign up
-      if user # From invitation
+      if user # From invitation, warning: accept_invitation! breaks authentication from here
         user.apply_omniauth(auth)
         user.active!
         user.update(invitation_token: nil, invitation_accepted_at: Time.now)

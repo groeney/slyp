@@ -119,7 +119,7 @@ class User < ActiveRecord::Base
   end
 
   def new_friend(friend)
-    UserMailer.new_friend(self, friend).deliver_later
+    UserMailer.new_friend(self, friend).deliver_later if friend.active?
   end
 
   def self.from_omniauth(auth)

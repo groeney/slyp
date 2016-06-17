@@ -40,3 +40,4 @@ slypApp.state.actionsOnMobile = function(){
 }
 
 window.slypApp = slypApp;
+toastr.options = { 'positionClass' : 'toast-top-center' }
