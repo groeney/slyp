@@ -14,7 +14,8 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
       terms: false,
       privacy: false,
       editProfile: false,
-      showOthers: false
+      showOthers: false,
+      inviteEmail: ''
     }
   },
   onRender: function(){
@@ -22,7 +23,7 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
       user: slypApp.user,
       state: this.state
     });
-    this.listenTo(slypApp.persons, 'change:friendship_id', this.showFriends, this);
+    this.listenTo(slypApp.persons, 'change:friendship_id update', this.showFriends, this);
   },
   onShow: function(){
     this.$('.ui.checkbox').checkbox();
@@ -48,6 +49,8 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
     'click #terms'           : 'showTerms',
     'click #privacy'         : 'showPrivacy',
     'click #show-others'     : 'showOthers',
+    'click #invite-button'    : 'inviteByEmail',
+    'keypress #invite-input'    : 'inviteByEmailIfValid',
     'click #update-password' : 'notImplemented'
   },
 
@@ -109,6 +112,49 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
   },
   showPrivacy: function(){
     this.changeMode('privacy');
+  },
+  inviteByEmailIfValid: function(e){
+    if (e.keyCode == 13) {
+      this.$('#invite-button').click();
+    }
+  },
+  inviteByEmail: function(){
+    if (validateEmail(this.state.inviteEmail)){
+      var context = this;
+      this.state.saving = true;
+      Backbone.ajax({
+        url: '/persons/invite',
+        method: 'POST',
+        accepts: {
+          json: 'application/json'
+        },
+        contentType: 'application/json',
+        dataType: 'json',
+        data: JSON.stringify({
+          email: this.state.inviteEmail
+        }),
+        success: function(response) {
+          var newPerson = !(slypApp.persons.findWhere({ id: response.id }));
+          var newFriendship = !(slypApp.persons.findWhere({ friendship_id: response.friendship_id }));
+          slypApp.persons.add([response], { merge: true });
+          context.state.saving = false;
+          context.state.inviteEmail = '';
+          if (newPerson){
+            toastr['success']('Invitation email sent to ' + response.email + '. Celebration time!');
+          } else if (newFriendship){
+            toastr['success']('Added ' + response.display_name + ' to your friends list. #makingfriends');
+          } else{
+            toastr['success']('Doh! ' + response.display_name + ' is already a friend! #popular');
+          }
+        },
+        error: function(a,b,c){
+          context.state.saving = false;
+          toastr['error']('Hmm looks like the email might not be valid :-(')
+        }
+      });
+    } else {
+      toastr['error']('Need a valid email!');
+    }
   },
   notImplemented: function(){
     toastr['info']('We\'ve logged your interest. Coming soon :)');
