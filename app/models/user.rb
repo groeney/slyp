@@ -100,7 +100,6 @@ class User < ActiveRecord::Base
   end
 
   def social_signup
-    send_welcome_email
     return unless provider.eql? "facebook"
     discover_facebook_friends
   end
