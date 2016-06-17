@@ -1,6 +1,6 @@
 class PersonPresenter < BasePresenter
   attr_accessor :user, :friendship
-  delegate :id, :first_name, :last_name, :display_name, :image, to: :user
+  delegate :id, :first_name, :last_name, :display_name, :image, :status, to: :user
 
   def initialize(user, friendship)
     @user = user

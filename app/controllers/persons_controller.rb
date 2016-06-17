@@ -13,6 +13,14 @@ class PersonsController < BaseController
            serializer: PersonSerializer
   end
 
+  def invite
+    @invitee = User.invite!(invite_params, current_user)
+    return render_422(@invitee) unless @invitee.valid?
+    current_user.befriend(@invitee.id)
+    render status: 201, json: present(@invitee),
+           serializer: PersonSerializer
+  end
+
   private
 
   def present(person)
@@ -21,5 +29,9 @@ class PersonsController < BaseController
 
   def present_collection(persons)
     persons.map { |person| present(person) }
+  end
+
+  def invite_params
+    { email: params[:email] }
   end
 end

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   get "/search/user_slyps" => "search#user_slyps"
   get "/search/friends" => "search#friends"
   get "/search/mutual_user_slyps" => "search#mutual_user_slyps"
+  post "/persons/invite" => "persons#invite"
 
   resources :persons, only: [:index, :show]
   resources :beta_request, only: [:create]
