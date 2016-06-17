@@ -5,31 +5,37 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
     feedRegion : '.feed-region'
   },
   initialize: function(){
-    this.collection.bind('change:archived add remove', this.zeroState, this);
-    slypApp.user.bind('change', this.setProgress, this);
+    this.collection.bind('change:archived update', this.zeroState, this);
     this.collection.bind('sync', this.zeroState, this);
+    slypApp.persons.on('change:friendship_id update', this.updateFriendsProgress, this);
   },
   onRender: function(){
-    this.binder = rivets.bind(this.$el, { appState: slypApp.state, user: slypApp.user })
+    this.binder = rivets.bind(this.$el, {
+      appState: slypApp.state,
+      user: slypApp.user
+    });
   },
   onShow: function() {
     this.feedRegion.show(new slypApp.Views.UserSlyps({
       collection: this.collection
     }));
+    this.updateFriendsProgress()
   },
-  setProgress: function(){
-    if (slypApp.user.friendsCount() >= 5){
-      $('#friends-progress').remove();
-    } else {
-      var context = this;
-      $('#friends-progress').progress({
+  updateFriendsProgress: function(){
+    var progressMeter = this.$('#friends-progress');
+    if (slypApp.user.needsFriends()){
+      progressMeter.show();
+      progressMeter.progress({
+        label: 'ratio',
         value: slypApp.user.friendsCount(),
         text: {
-          active  : 'You need {left} more friends'
-        },
-        label: 'ratio'
+          active: 'You need {left} more friends'
+        }
       });
+    } else {
+      progressMeter.hide();
     }
+
   },
   zeroState: function(){
     if (this.collection.where({ archived: false }).length === 0 && !slypApp.state.showArchived){
@@ -39,11 +45,9 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
     }
   },
   events: {
-    'click #friends-progress' : 'openInviteModal'
+    'click #friends-progress' : 'showFriendsSettings'
   },
-  openInviteModal: function(){
-    console.debug('Opening invite modal');
+  showFriendsSettings: function(){
+    openFriendsSettings();
   }
 });
-
-

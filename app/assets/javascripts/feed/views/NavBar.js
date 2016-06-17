@@ -7,7 +7,12 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       creatingSlyp   : false,
       searchType     : 'user_slyps'
     }
-    this.binder = rivets.bind(this.$el, { state: this.state, appState: slypApp.state, user: slypApp.user })
+    this.binder = rivets.bind(this.$el, {
+      state: this.state,
+      appState: slypApp.state,
+      user: slypApp.user,
+      persons: slypApp.persons.models
+    })
     var context = this;
     $(document).keydown(function(e){
       if( e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA" ) return;

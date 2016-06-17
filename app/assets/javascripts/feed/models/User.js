@@ -11,8 +11,11 @@ slypApp.Models.User = Backbone.Model.extend({
       }
     });
   },
+  friends: function(){
+    return slypApp.persons.whereNot({ friendship_id: null })
+  },
   scrubFriends: function(friends){
-    var friendsToScrub = this.get('friends');
+    var friendsToScrub = this.friends();
     return _.filter(friends, function(friend) {
       return !_.some(friendsToScrub, function(userSlypFriend){
         return friend.email == userSlypFriend.email
@@ -20,7 +23,8 @@ slypApp.Models.User = Backbone.Model.extend({
     });
   },
   friendsCount: function(){
-    return this.get('friends') ? this.get('friends').length : 5
+    var friends = this.friends();
+    return friends.length > 0 ? friends.length : 5
   },
   needsFriends: function(){
     return this.friendsCount() < 5

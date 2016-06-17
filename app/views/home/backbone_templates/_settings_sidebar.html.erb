@@ -3,6 +3,7 @@
   <div class="ui center aligned grid">
     <div class="ui left fixed vertical large secondary menu six wide column">
       <a id="profile" class="item" rv-class-active="state.profile" style="line-height:2.0em;font-size:1.3em;">Profile</a>
+      <a id="friends" class="item" rv-class-active="state.friends" style="line-height:2.0em;font-size:1.3em;">Friends</a>
       <a id="emails" class="item" rv-class-active="state.emails" style="line-height:2.0em;font-size:1.3em;">Emails</a>
       <a id="terms" class="item" rv-class-active="state.terms" style="line-height:2.0em;font-size:1.3em;">Terms and conditions</a>
       <a id="privacy" class="item" rv-class-active="state.privacy" style="line-height:2.0em;font-size:1.3em;">Privacy statement</a>
@@ -10,6 +11,11 @@
 
     <article class="center aligned ten wide column" rv-show="state.profile">
       <%= render "home/backbone_templates/settings/profile" %>
+    </article>
+
+    <article class="left aligned ten wide column" rv-show="state.friends">
+      <%= render "home/backbone_templates/settings/friends" %>
+      <%= render "home/backbone_templates/settings/person" %>
     </article>
 
     <article class="center aligned ten wide column" rv-show="state.emails">
@@ -24,7 +30,4 @@
       <%= render "home/backbone_templates/settings/privacy" %>
     </article>
   </section>
-</script>
-<script type="text/javascript">
-
 </script>
