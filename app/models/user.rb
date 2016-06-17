@@ -67,7 +67,7 @@ class User < ActiveRecord::Base
   end
 
   def befriend_inviter
-    befriend(invited_by_id)
+    befriend(invited_by_id, false) unless invited_by_id.nil?
   end
 
   def display_name
@@ -90,9 +90,14 @@ class User < ActiveRecord::Base
     mutual_user_slyps(friend_id).exists?
   end
 
-  def befriend(friend_id)
+  def befriend(friend_id, notify = true)
     return nil if friend_id.nil?
-    Friendship.find_or_create_by(user_id: id, friend_id: friend_id)
+    unless friendship = Friendship.find_by(user_id: id, friend_id: friend_id)
+      friendship = Friendship.create(user_id: id, friend_id: friend_id)
+      self.new_friend(User.find(friend_id)) if notify
+    end
+    friendship.active! if friendship.pending?
+    friendship
   end
 
   def friendship(friend_id)
@@ -110,12 +115,11 @@ class User < ActiveRecord::Base
       user = User.where(provider: "facebook", uid: fb_friend["id"]).first
       next if user.nil?
       befriend(user.id)
-      new_friend(user)
     end
   end
 
-  def new_friend(user)
-    UserMailer.new_friend(user, self).deliver_later
+  def new_friend(friend)
+    UserMailer.new_friend(self, friend).deliver_later
   end
 
   def self.from_omniauth(auth)

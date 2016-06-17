@@ -4,7 +4,7 @@ class PersonPresenter < BasePresenter
 
   def initialize(user, friendship)
     @user = user
-    @friendship = friendship
+    @friendship = friendship.try(:active?) ? friendship : nil
   end
 
   def friendship_id

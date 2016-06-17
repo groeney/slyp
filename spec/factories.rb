@@ -69,7 +69,7 @@ FactoryGirl.define do
       after(:create) do |user|
         prospects = FactoryGirl.create_list(:user, 10)
         prospects.each do |prospect|
-          user.befriend(prospect.id)
+          user.befriend(prospect.id, false)
         end
       end
     end

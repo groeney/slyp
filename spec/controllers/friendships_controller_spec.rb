@@ -17,6 +17,13 @@ RSpec.describe FriendshipsController, type: :controller do
         expect(response.content_type).to eq(Mime::JSON)
       end
 
+      it "should set friendship to active from pending" do
+        friend_id = user.friends.first.id
+        user.friendship(friend_id).pending!
+        post :create, user_id: friend_id, format: :json
+        expect(user.friendship(friend_id).active?).to be true
+      end
+
       it "should successfully create new resource" do
         post :create, user_id: prospect.id, format: :json
         expect(response.status).to eq(201)
@@ -28,6 +35,24 @@ RSpec.describe FriendshipsController, type: :controller do
         response_body_json = JSON.parse(response.body)
         expect(response_body_json.keys).to contain_exactly(*expected_keys)
       end
+
+      it "should send friendship notification" do
+        perform_enqueued_jobs do
+          post :create, user_id: prospect.id, format: :json
+          delivered_email = ActionMailer::Base.deliveries.last
+          expect(delivered_email.to.first).to eq prospect.email
+          expect(delivered_email.subject).to include("joined you on Slyp")
+        end
+      end
+
+      it "should not send friendship notification" do
+        perform_enqueued_jobs do
+          friend_id = user.friends.first.id
+          user.friendship(friend_id).pending!
+          post :create, user_id: user.friends.first.id, format: :json
+          expect(ActionMailer::Base.deliveries).to be_empty
+        end
+      end
     end
   end
 
@@ -37,40 +62,24 @@ RSpec.describe FriendshipsController, type: :controller do
       sign_in user
     end
 
-    it "should not destroy friendship" do
+    it "should keep friendship set to active?" do
       immutable_friendship = user.friendships.first
+      expect(immutable_friendship.active?).to be true
       delete :destroy, id: immutable_friendship.id, format: :json
       expect(response.status).to eq 403
       expect(response.content_type).to eq(Mime::JSON)
-      expect(user.friendships.find_by(id: immutable_friendship.id)).not_to be_nil
+      expect(user.friendships.find_by(id: immutable_friendship.id).active?).to be true
     end
 
-    it "should destroy friendship" do
+    it "should set friendship to pending" do
       prospect = FactoryGirl.create(:user)
       user.befriend(prospect.id)
       new_friendship = user.friendships.where(friend_id: prospect.id).first
-      expect(new_friendship.valid?).to be true
+      expect(new_friendship.active?).to be true
       delete :destroy, id: new_friendship.id, format: :json
-      expect(response.status).to eq 204
+      expect(response.status).to eq 200
       expect(response.content_type).to eq(Mime::JSON)
-      expect(user.friendships.find_by(id: new_friendship.id)).to be_nil
+      expect(user.friendships.find_by(id: new_friendship.id).pending?).to be true
     end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

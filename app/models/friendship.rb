@@ -7,12 +7,16 @@ class Friendship < ActiveRecord::Base
 
   def reciprocate_the_love
     Friendship.where(user_id: friend_id, friend_id: user_id)
-                        .first_or_create
+              .first_or_create
   end
 
   def reciprocate_the_hate
-    return unless friendship = Friendship.find_by(user_id: friend_id, friend_id: user_id)
+    return unless friendship = reciprocal
     friendship.destroy
+  end
+
+  def reciprocal
+    Friendship.find_by(user_id: friend_id, friend_id: user_id)
   end
 
   def self.friends?(alice_id, bob_id)
@@ -23,5 +27,21 @@ class Friendship < ActiveRecord::Base
   def self.total_reslyps(alice, bob)
     query = "recipient_id = :bob_id or sender_id = :bob_id"
     alice.reslyps.where(query, bob_id: bob.id).count
+  end
+
+  def active?
+    active && reciprocal.active
+  end
+
+  def pending?
+    !(active?)
+  end
+
+  def active!
+    update(active: true) && reciprocal.update(active: true)
+  end
+
+  def pending!
+    update(active: false) && reciprocal.update(active: false)
   end
 end

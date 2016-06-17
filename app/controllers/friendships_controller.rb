@@ -10,8 +10,9 @@ class FriendshipsController < BaseController
   def destroy
     @friendship = current_user.friendships.find(params[:id])
     return render_403(immutable_friendship_msg) if immutable_friendship
-    if @friendship.destroy
-      render status: 204, json: {}
+    if @friendship.pending!
+      render status: 200, json: present(@friendship),
+             serializer: FriendshipSerializer
     else
       render_422(@friendship)
     end
