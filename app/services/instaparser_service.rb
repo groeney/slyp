@@ -73,7 +73,8 @@ module InstaparserService
   end
 
   def self.fetch_html
-    @response["html"]
+    html = @response["html"]
+    html.gsub("iframe src=\"http:", "iframe src=\"https:") unless html.blank?
   end
 
   def self.fetch_description

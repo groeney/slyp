@@ -69,13 +69,7 @@ class Slyp < ActiveRecord::Base
   end
 
   def self.create_from_url(url)
-    Slyp.find_match_or_create_by(raw_attributes(url))
-  end
-
-  def raw_attributes(url)
-    raw = InstaparserService.fetch(url)
-    raw.html.gsub("iframe src=\"http:", "iframe src=\"https:")
-    return raw
+    Slyp.find_match_or_create_by(InstaparserService.fetch(url))
   end
 
   def self.find_match_or_create_by(parsed_response)

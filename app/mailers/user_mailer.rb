@@ -46,8 +46,8 @@ class UserMailer < ApplicationMailer
   def new_friend(user, friend)
     @user = user
     @friend = friend
-    mail(to: @existing_user.email.to_s,
-         subject: "#{@friend.display_name} joined you on Slyp",
+    mail(to: @friend.email.to_s,
+         subject: "#{@user.display_name} joined you on Slyp",
          from: "Slyp <admin@slyp.io>")
   end
 end
