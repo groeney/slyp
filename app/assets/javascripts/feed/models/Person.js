@@ -3,10 +3,10 @@ slypApp.Models.Person = Backbone.Model.extend({
   isFriend: function(){
     return this.get('friendship_id') != null
   },
-  toggleFriendship: function(){
-    return this.isFriend() ? this.destroyFriendship() : this.createFriendship()
+  toggleFriendship: function(callback){
+    return this.isFriend() ? this.destroyFriendship(callback) : this.createFriendship(callback)
   },
-  createFriendship: function(){
+  createFriendship: function(callback){
     var context = this;
     Backbone.ajax({
       url: '/friendships',
@@ -23,11 +23,11 @@ slypApp.Models.Person = Backbone.Model.extend({
         context.set('friendship_id', response.id);
         context.set('email', response.email);
       }
-    });
+    }).complete(callback);
   },
-  destroyFriendship: function(){
+  destroyFriendship: function(callback){
     if (this.get('friendship_id') == null){
-      return
+      return callback()
     }
 
     var context = this;
@@ -49,6 +49,6 @@ slypApp.Models.Person = Backbone.Model.extend({
       error: function(model, error){
         toastr['error'](model.responseJSON[0].message.message);
       }
-    });
+    }).complete(callback);
   }
 });
