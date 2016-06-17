@@ -19,7 +19,7 @@ class InvitationsController < Devise::InvitationsController
   def waitlist
     raw_invitation_token = update_resource_params[:invitation_token]
     resource = User.find_by_invitation_token(raw_invitation_token, true)
-    flash[:notice] = "We added you to the waitlist. Go back to the invitation page and continue with Facebook to sign up." if resource.update(update_resource_params)
+    flash[:notice] = "We added you to the waitlist. Go back to the invitation page and continue with Facebook to sign up." if resource.update(update_waitlist_params)
     resource.waitlisted!
     redirect_to root_path
   end
@@ -35,5 +35,9 @@ class InvitationsController < Devise::InvitationsController
     devise_parameter_sanitizer.permit(:accept_invitation) do |user|
       user.permit(:first_name, :last_name, :password, :password_confirmation, :invitation_token)
     end
+  end
+
+  def update_waitlist_params
+    params.require(:user).permit(:invitation_token, :first_name, :last_name)
   end
 end
