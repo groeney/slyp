@@ -1,4 +1,4 @@
-class BefriendSelf < ActiveRecord::Migration
+class MakeFriendsWithSelf < ActiveRecord::Migration
   def change
     User.find_each do |user|
       user.befriend(user.id)
