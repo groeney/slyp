@@ -7,10 +7,4 @@ class PrimaryUserPresenter < BasePresenter
   def initialize(user)
     @user = user
   end
-
-  def friends
-    user.friends.sort do |a, b|
-      Friendship.total_reslyps(user, b) <=> Friendship.total_reslyps(user, a)
-    end
-  end
 end

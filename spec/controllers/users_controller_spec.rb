@@ -2,7 +2,7 @@ require "rails_helper"
 
 RSpec.describe UsersController, type: :controller do
   let(:expected_keys) { ["id", "first_name", "last_name", "email", "display_name",
-                         "friends", "notify_reslyp", "notify_activity", "weekly_summary",
+                         "notify_reslyp", "notify_activity", "weekly_summary",
                          "searchable", "cc_on_reslyp_email_contact", "send_reslyp_email_from"] }
   describe "#index" do
     let(:user) { FactoryGirl.create(:user) }

@@ -7,14 +7,9 @@ class FriendshipsController < BaseController
            serializer: FriendshipSerializer
   end
 
-  def index
-    @friendships = current_user.friendships
-    render status: 200, json: present_collection(@friendships),
-           each_serializer: FriendshipSerializer
-  end
-
   def destroy
     @friendship = current_user.friendships.find(params[:id])
+    return render_403(immutable_friendship_msg) if immutable_friendship
     if @friendship.destroy
       render status: 204, json: {}
     else
@@ -30,5 +25,13 @@ class FriendshipsController < BaseController
 
   def present_collection(friendships)
     friendships.map { |friendship| present(friendship) }
+  end
+
+  def immutable_friendship_msg
+    "Friendships with shared content cannot be destroyed."
+  end
+
+  def immutable_friendship
+    current_user.mutual_user_slyps?(@friendship.friend_id)
   end
 end

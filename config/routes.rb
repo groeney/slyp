@@ -16,9 +16,10 @@ Rails.application.routes.draw do
   get "/search/friends" => "search#friends"
   get "/search/mutual_user_slyps" => "search#mutual_user_slyps"
 
+  resources :persons, only: [:index, :show]
   resources :beta_request, only: [:create]
   resources :users, only: [:index]
-  resources :friendships, only: [:index, :create, :destroy]
+  resources :friendships, only: [:create, :destroy]
   resources :user_slyps, only: [:create, :index, :show, :update]
   get "/reslyps/:id" => "reslyps#index"
   get "/reslyp/:id" => "reslyps#show"

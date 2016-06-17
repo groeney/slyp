@@ -2,12 +2,17 @@ class Friendship < ActiveRecord::Base
   belongs_to :user
   belongs_to :friend, class_name: "User"
   validates_uniqueness_of :user_id, scope: :friend_id
-  after_create :reciprocate_friendship
-  before_destroy :check_friendship
+  after_create :reciprocate_the_love
+  after_destroy :reciprocate_the_hate
 
-  def reciprocate_friendship
-    return if Friendship.exists?(user_id: friend_id, friend_id: user_id)
-    Friendship.create(user_id: friend_id, friend_id: user_id)
+  def reciprocate_the_love
+    Friendship.where(user_id: friend_id, friend_id: user_id)
+                        .first_or_create
+  end
+
+  def reciprocate_the_hate
+    return unless friendship = Friendship.find_by(user_id: friend_id, friend_id: user_id)
+    friendship.destroy
   end
 
   def self.friends?(alice_id, bob_id)
@@ -18,16 +23,5 @@ class Friendship < ActiveRecord::Base
   def self.total_reslyps(alice, bob)
     query = "recipient_id = :bob_id or sender_id = :bob_id"
     alice.reslyps.where(query, bob_id: bob.id).count
-  end
-
-  def check_friendship
-    if shared_content?
-      errors[:base] << "Cannot delete friendship as you have exchanged slyps"
-      return false
-    end
-  end
-
-  def shared_content?
-    user.mutual_user_slyps? friend_id
   end
 end

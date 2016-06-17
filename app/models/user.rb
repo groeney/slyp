@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   has_many :slyps, through: :user_slyps
   has_many :sent_reslyps, through: :user_slyps
   has_many :received_reslyps, through: :user_slyps
-  has_many :friendships
+  has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
   scope :all_except, ->(user) { where.not(id: user) }
   enum status: [:active, :invited, :waitlisted]
@@ -93,6 +93,10 @@ class User < ActiveRecord::Base
   def befriend(friend_id)
     return nil if friend_id.nil?
     Friendship.find_or_create_by(user_id: id, friend_id: friend_id)
+  end
+
+  def friendship(friend_id)
+    Friendship.find_by(user_id: id, friend_id: friend_id)
   end
 
   def social_signup

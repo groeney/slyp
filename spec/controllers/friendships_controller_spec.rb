@@ -1,8 +1,7 @@
 require "rails_helper"
 
 RSpec.describe FriendshipsController, type: :controller do
-  let(:expected_keys) { ["id", "friend"] }
-  let(:expected_friend_keys) { ["id", "first_name", "last_name", "email", "image"] }
+  let(:expected_keys) { ["id", "friend_id", "email", "display_name"] }
   let(:user) { FactoryGirl.create(:user, :with_friends) }
   let(:prospect) { FactoryGirl.create(:user) }
 
@@ -28,39 +27,7 @@ RSpec.describe FriendshipsController, type: :controller do
         post :create, user_id: prospect.id, format: :json
         response_body_json = JSON.parse(response.body)
         expect(response_body_json.keys).to contain_exactly(*expected_keys)
-        expect(response_body_json["friend"].keys).to contain_exactly(*expected_friend_keys)
       end
-    end
-  end
-
-  describe "#index" do
-    before do
-      sign_in user
-    end
-
-    it "should return correct keys" do
-      get :index, format: :json
-      response_body_json = JSON.parse(response.body)
-      response_body_json.each do |friendship_json|
-        expect(friendship_json.keys).to contain_exactly(*expected_keys)
-        expect(friendship_json["friend"].keys).to contain_exactly(*expected_friend_keys)
-      end
-    end
-
-    it "should successfully return all friendships" do
-      get :index, format: :json
-      response_body_json = JSON.parse(response.body)
-      expect(response.status).to eq 200
-      expect(response_body_json.length).to eq user.friends.length
-    end
-
-    it "should return newly created resources" do
-      total_friends = user.friends.count
-      user.befriend(prospect.id)
-      expect(user.friends.count).to eq(total_friends + 1)
-      get :index, format: :json
-      response_body_json = JSON.parse(response.body)
-      expect(response_body_json.length).to eq(total_friends + 1)
     end
   end
 
@@ -73,7 +40,7 @@ RSpec.describe FriendshipsController, type: :controller do
     it "should not destroy friendship" do
       immutable_friendship = user.friendships.first
       delete :destroy, id: immutable_friendship.id, format: :json
-      expect(response.status).to eq 422
+      expect(response.status).to eq 403
       expect(response.content_type).to eq(Mime::JSON)
       expect(user.friendships.find_by(id: immutable_friendship.id)).not_to be_nil
     end
