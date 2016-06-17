@@ -8,7 +8,7 @@ class RepliesController < BaseController
     attrs = { sender_id: current_user.id, text: params[:text],
               seen: @reslyp.self_reslyp? }
     @reply = @reslyp.replies.create(attrs)
-    mark_last_as_seen
+    update_user_notifications
     return render_422(@reply) unless @reply.valid?
     render status: 201, json: present(@reply), serializer: ReplySerializer
   end
@@ -68,7 +68,7 @@ class RepliesController < BaseController
   end
 
   # For replies via quick reply feature
-  def mark_last_as_seen
+  def update_user_notifications
     valid = @last_reply && @last_reply.sender_id != current_user.id
     @last_reply.update(seen: true) if valid
   end

@@ -222,6 +222,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       success: function(response) {
         context.state.intendingToReply = false;
         context.state.loadingQuickReply = false;
+        context.model.save({ unseen_activity: false });
         context.model.fetch();
       },
       error: function(status, err) {

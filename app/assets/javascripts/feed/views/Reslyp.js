@@ -105,7 +105,7 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     }
   },
   handleKeydown: function(e){
-    if (e.keyCode == 38){
+    if (e.keyCode == 38 && !this.state.hasReplyText()){
       var validReplies = this.model.get('replies').where({ sender_id: slypApp.user.get('id') });
       if (validReplies.length > 0){
         this.$('.comment[data-reply-id="' + validReplies[validReplies.length-1].get('id') + '"] i.edit').click();
