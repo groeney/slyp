@@ -16,6 +16,8 @@ Rails.application.routes.draw do
   get "/search/friends" => "search#friends"
   get "/search/mutual_user_slyps" => "search#mutual_user_slyps"
   post "/persons/invite" => "persons#invite"
+  get "/r/:referral_token" => "referrals#new"
+  post "/r/capture" => "referrals#capture"
 
   resources :persons, only: [:index, :show]
   resources :beta_request, only: [:create]

@@ -159,6 +159,10 @@ class User < ActiveRecord::Base
     save
   end
 
+  def referral_link
+    Rails.application.routes.url_helpers.root_url + "r/#{referral_token}"
+  end
+
   private
 
   def generate_authentication_token
