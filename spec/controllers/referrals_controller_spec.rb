@@ -35,6 +35,11 @@ RSpec.describe ReferralsController, type: :controller do
       post :capture, referred_by_id: referrer.id, email: "invalid_example", format: :html
       expect(response).to redirect_to root_path
     end
+    it "should redirect existing user to root_path" do
+      existing_user = FactoryGirl.create(:user)
+      post :capture, referred_by_id: referrer.id, email: existing_user.email, format: :html
+      expect(response).to redirect_to root_path
+    end
     it "should redirect to accept invitation" do
       resource_email = "valid@example.com"
       post :capture, referred_by_id: referrer.id, email: resource_email, format: :html
