@@ -136,6 +136,8 @@ GEM
       i18n
     globalid (0.3.6)
       activesupport (>= 4.1.0)
+    has_secure_token (1.0.0)
+      activerecord (>= 3.0)
     hashdiff (0.3.0)
     hashie (3.4.4)
     high_voltage (3.0.0)
@@ -392,6 +394,7 @@ DEPENDENCIES
   faker
   flutie
   formulaic
+  has_secure_token
   high_voltage
   jquery-rails
   koala

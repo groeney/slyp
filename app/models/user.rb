@@ -16,16 +16,24 @@ class User < ActiveRecord::Base
   has_many :received_reslyps, through: :user_slyps
   has_many :friendships, dependent: :destroy
   has_many :friends, through: :friendships
+  has_secure_token :referral_token
   scope :all_except, ->(user) { where.not(id: user) }
   enum status: [:active, :invited, :waitlisted]
 
   before_save :ensure_authentication_token
+  before_save :ensure_referral_token
   before_invitation_created :set_invited_status
   after_invitation_accepted :set_active_status
 
   def ensure_authentication_token
     if authentication_token.blank?
       self.authentication_token = generate_authentication_token
+    end
+  end
+
+  def ensure_referral_token
+    unless referral_token?
+      regenerate_referral_token
     end
   end
 

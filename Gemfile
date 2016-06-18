@@ -35,6 +35,7 @@ gem "rails-backbone"
 gem "validate_url"
 gem "sanitize"
 gem "activerecord-diff"
+gem "has_secure_token"
 
 group :development do
   gem "quiet_assets"
