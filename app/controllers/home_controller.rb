@@ -26,13 +26,12 @@ class HomeController < ApplicationController
 
   private
 
-  # Cache/set invited_by_id as invite! without invited_by param will reset it
+  # Cache/set invited_by_id as invite! method will set it to nil
   def accept_invitation_path
-    inviter_id = current_user.invited_by_id
-    invitee = User.invite!(email: current_user.email) do |u|
+    inviter = User.find_by_id(current_user.invited_by_id)
+    invitee = User.invite!({ email: current_user.email }, inviter) do |u|
       u.skip_invitation = true
     end
-    invitee.update(invited_by_id: inviter_id)
     attrs = { invitation_token: invitee.raw_invitation_token }
     Rails.application.routes.url_helpers
          .accept_user_invitation_path(invitee, attrs)

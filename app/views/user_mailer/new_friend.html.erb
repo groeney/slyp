@@ -4,7 +4,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   </head>
   <body>
-    <p>Good news <%= @friend.display_name %></p>
+    <p>Bringing the good news</p>
     <p>You have a new friend on Slyp... <b><%= @user.display_name %></b>. It's a celebration!</p>
     <p><%= link_to "View all the friends", controller: "home", action: "feed", user_email: @friend.email, user_token: @friend.authentication_token, skip_to: "friends_settings" %></p>
     <p>With much love,<br/><%= link_to "Slyp", controller: "home", action: "feed", user_email: @friend.email, user_token: @friend.authentication_token %>:</p>

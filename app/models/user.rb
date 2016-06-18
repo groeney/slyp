@@ -37,6 +37,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  def promote_from_waitlist
+    self.update(invitation_token: nil)
+    active!
+  end
+
   def thank_you
     UserMailer.closed_beta_thank_you(self).deliver_now
   end
