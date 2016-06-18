@@ -4,6 +4,9 @@ class User < ActiveRecord::Base
   after_create :send_welcome_email
   after_create :remove_from_waitlist
   after_create :befriend_inviter
+  after_create do |user|
+    user.befriend(user.id, false)
+  end
   before_destroy :thank_you
 
   devise :invitable, :database_authenticatable, :registerable,
