@@ -5,10 +5,13 @@ slypApp.Views.Person = Backbone.Marionette.ItemView.extend({
     'rv-data-person-id' : 'person:id',
     'style'             : 'padding:1em;'
   },
-  onRender: function(){
+  initialize: function(options){
     this.state = {
-      loading: false
+      loading: false,
+      hideEmail: options.hideEmail
     }
+  },
+  onRender: function(){
     this.binder = rivets.bind(this.$el, {
       person: this.model,
       state: this.state

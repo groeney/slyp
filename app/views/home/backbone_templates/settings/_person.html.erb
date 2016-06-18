@@ -7,6 +7,6 @@
   <img class="ui avatar image" rv-src="person:image | getAvatar person:first_name person:email">
   <div class="content">
     { person:display_name }
-    <span style="color:rgba(0, 0, 0, 0.4);margin: 0em 0em 0em 1em;">{ person:email }</span>
+    <span style="color:rgba(0, 0, 0, 0.4);margin: 0em 0em 0em 1em;" rv-show="state.showEmail">{ person:email }</span>
   </div>
 </script>

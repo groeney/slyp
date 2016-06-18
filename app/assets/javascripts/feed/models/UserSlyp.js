@@ -37,13 +37,17 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
       return friend.email == user_email;
     });
   },
-  scrubFriends: function(friends){
-    var friendsToScrub = this.get('friends');
-    return _.filter(friends, function(friend) {
-      return !_.some(friendsToScrub, function(userSlypFriend){
-        return friend.email == userSlypFriend.email
+  reslypableFriends: function(){
+    var allFriends = slypApp.user.friends();
+    var userSlypFriends = this.get('friends');
+    return _.filter(allFriends, function(friend){
+      return !_.some(userSlypFriends, function(userSlypFriend){
+        return friend.get('email') == userSlypFriend.email
       });
     });
+  },
+  otherPersons: function(){
+    return slypApp.persons.where({ friendship_id: null });
   },
   hasLove: function(){
     return this.get('unseen_activity') || this.get('unseen_replies')

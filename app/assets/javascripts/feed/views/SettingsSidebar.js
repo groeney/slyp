@@ -90,18 +90,18 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
   },
   showFriends: function(){
     var friends = slypApp.persons.whereNot({ friendship_id: null })
-    this.showChildView('friendships', new slypApp.Views.Persons({ models: friends }));
+    this.showChildView('friendships', new slypApp.Views.Persons({ models: friends, hideEmail: false }));
     this.changeMode('friends');
     if (this.state.showOthers){
       var others = slypApp.persons.where({ friendship_id: null });
-      this.showChildView('others', new slypApp.Views.Persons({ models: others }));
+      this.showChildView('others', new slypApp.Views.Persons({ models: others, hideEmail: true }));
     }
   },
   showOthers: function(){
     this.state.showOthers = !(this.state.showOthers);
     if (this.state.showOthers){
       var others = slypApp.persons.where({ friendship_id: null });
-      this.showChildView('others', new slypApp.Views.Persons({ models: others }));
+      this.showChildView('others', new slypApp.Views.Persons({ models: others, hideEmail: true }));
     }
   },
   showEmails: function(){

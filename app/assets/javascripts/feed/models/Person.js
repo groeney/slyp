@@ -21,7 +21,6 @@ slypApp.Models.Person = Backbone.Model.extend({
       }),
       success: function(response) {
         context.set('friendship_id', response.id);
-        context.set('email', response.email);
       }
     }).complete(callback);
   },
@@ -44,7 +43,6 @@ slypApp.Models.Person = Backbone.Model.extend({
       }),
       success: function(response) {
         context.set('friendship_id', null);
-        context.set('email', null);
       },
       error: function(model, error){
         toastr['error'](model.responseJSON[0].message.message);

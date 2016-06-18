@@ -13,11 +13,10 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       gotAttention      : !this.model.hasConversations() || slypApp.state.isMobile(),
       reslyping         : false,
       comment           : '',
-      moreResults       : null,
+      moreResults       : false,
       intendingToReply  : false,
       quickReplyText    : '',
-      loadingQuickReply : false,
-      scrubbedFriends   : this.getPotentialFriends()
+      loadingQuickReply : false
     }
     this.state.hasComment = function(){
       return context.state.comment.length > 0;
@@ -25,6 +24,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     this.state.hasQuickReplyText = function(){
       return context.state.quickReplyText.length > 0
     }
+    this.listenTo(slypApp.persons, 'change:friendship_id update', function(){
+      this.model.trigger('change:friends', this.model);
+    }, this);
   },
   onRender: function(){
     this.binder = rivets.bind(this.$el, {
@@ -165,8 +167,8 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     }
   },
   handleDropdownSelect: function(){
-    if (this.getPotentialFriends().length == 0){
-      this.seeMoreResults();
+    if (this.model.reslypableFriends().length == 0){
+      this.state.moreResults = true;
       var context = this;
       setTimeout(function(){
         context.$('#reslyp-dropdown input.search').focus();
@@ -175,20 +177,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     // TODO: "Your friends" and "Other people" header is pushed out of view by dropdown default selection need to scroll up
   },
   seeMoreResults: function(){
-    var context = this;
-    var query = this.$('#reslyp-dropdown input.search').val();
-    Backbone.ajax({
-      url: '/search/users?q=' + query,
-      method: 'GET',
-      accepts: {
-        json: 'application/json'
-      },
-      contentType: 'application/json',
-      dataType: 'json',
-      success: function(response) {
-        context.state.moreResults = slypApp.user.scrubFriends(response);
-      }
-    });
+    this.state.moreResults = true;
   },
   noReply: function(){
     var context = this;
@@ -278,23 +267,13 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   refreshAfterReslyp: function(){
     this.state.reslyping = false;
     this.state.canReslyp = false;
-    var context = this;
-    this.model.fetch({
-      success: function(){
-        context.state.scrubbedFriends = context.getPotentialFriends();
-      },
-      error: function(){
-        context.state.scrubbedFriends = context.getPotentialFriends();
-      }
-    });
+    this.model.fetch();
+    slypApp.persons.fetch();
     this.refreshDropdown();
   },
   refreshDropdown: function(){
     this.$('#reslyp-dropdown').dropdown('restore defaults');
     this.$('#reslyp-dropdown .text').replaceWith('<div class="default text">send to friends</div>');
-  },
-  getPotentialFriends: function(){
-    return this.model.scrubFriends(slypApp.user.get('friends')) || [];
   },
   initializeSemanticElements: function(){
     var context = this;
@@ -385,7 +364,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     });
 
     this.$('#reslyp-dropdown').dropdown('setting', 'onHide', function(){
-      context.state.moreResults = null;
+      context.state.moreResults = false;
       context.takeAttention();
     });
 
