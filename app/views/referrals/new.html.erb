@@ -1,0 +1,38 @@
+<div class="ui middle aligned center aligned grid">
+  <div class="ten wide column">
+    <div class="ui segment">
+      <div class="ui basic segment">
+        <div class="ui header" style="color: rgba(0,0,0,0.60);">
+          Hi there! You have been referred to Slyp by <b style="color:rgba(0,0,0,0.87);"><%= @referrer.display_name %></b>. <br/><br/>Enter your email below to join or <%= link_to "find out more about us", root_path, target: "_blank"  %>.
+        </div>
+      </div>
+      <%= form_tag("/r/capture", method: "post", html: { id: "referral-capture", class: "ui middle aligned form" }) do %>
+        <%= hidden_field_tag :referred_by_id, @referrer.id %>
+        <%= email_field_tag :email, "", placeholder: "you@email.com" %>
+        <button class="ui blue submit button">
+          Proceed
+        </button>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script type="text/javascript">
+  $('body').addClass('devise');
+  $('#referral-capture').form({
+    on     : 'blur',
+    inline : true,
+    fields : {
+      email: {
+        identifier : 'user[email]',
+        rules      : [
+          {
+            type     : 'email'
+          },
+          {
+            type     : 'empty'
+          }
+        ]
+      }
+    }
+  });
+</script>
