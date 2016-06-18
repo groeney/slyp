@@ -42,8 +42,11 @@ end
 # Seed db with slyps
 def seed_slyps
   VCR.use_cassette("slyp_seeds", record: :all) do
+    $stdout.sync = true
+    print "Creating slyps: "
     @slyp_seed_urls.each do |url|
-      Slyp.fetch(url)
+      print Slyp.fetch(url).valid? ? ".".green : "F".red
+      sleep 1
     end
   end
 end
