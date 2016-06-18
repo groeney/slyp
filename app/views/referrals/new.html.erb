@@ -1,16 +1,20 @@
 <div class="ui middle aligned center aligned grid">
   <div class="ten wide column">
+    <h2 class="ui image header">
+      <%= link_to image_tag("/assets/logo.png"), root_path, { class: "image" } %>
+    </h2>
     <div class="ui segment">
       <div class="ui basic segment">
-        <div class="ui header" style="color: rgba(0,0,0,0.60);">
-          Hi there! You have been referred to Slyp by <b style="color:rgba(0,0,0,0.87);"><%= @referrer.display_name %></b>. <br/><br/>Enter your email below to join or <%= link_to "find out more about us", root_path, target: "_blank"  %>.
-        </div>
+        <h4 class="ui header" style="color: rgba(0,0,0,0.60);">
+          Hi there! You have been referred to Slyp by <b style="color:rgba(0,0,0,0.87);"><%= @referrer.display_name %></b>. <br/><br/>Enter your email below to join or <%= link_to "find out more about us", root_path, target: "_blank"  %> in a new tab.
+        </h4>
       </div>
       <%= form_tag("/r/capture", method: "post", html: { id: "referral-capture", class: "ui middle aligned form" }) do %>
         <%= hidden_field_tag :referred_by_id, @referrer.id %>
         <%= email_field_tag :email, "", placeholder: "you@email.com" %>
-        <button class="ui blue submit button">
-          Proceed
+        <button class="ui blue submit right labeled icon button">
+          <i class="right arrow icon"></i>
+          Next
         </button>
       <% end %>
     </div>
