@@ -200,7 +200,7 @@ RSpec.describe RepliesController, type: :controller do
 
   describe "#destroy" do
     let(:user) { FactoryGirl.create(:user, :with_reslyps_and_replies) }
-    let(:friend) { user.friends.first }
+    let(:friend) { user.friends.last }
     let(:reply) { user.replies.first }
     let(:friend_reply) { friend.replies.first }
     before do
@@ -208,6 +208,7 @@ RSpec.describe RepliesController, type: :controller do
     end
 
     it "should respond with 404" do
+      expect(friend.id).not_to eq user.id
       delete :destroy, id: friend_reply.id, format: :json
 
       expect(response.status).to eq(404)
@@ -215,6 +216,7 @@ RSpec.describe RepliesController, type: :controller do
     end
 
     it "should respond with 404" do
+      expect(friend.id).not_to eq user.id
       delete :destroy, id: friend_reply.id, format: :json
 
       expect(response.status).to eq(404)

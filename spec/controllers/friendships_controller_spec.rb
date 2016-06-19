@@ -12,13 +12,13 @@ RSpec.describe FriendshipsController, type: :controller do
       end
 
       it "should be successful even when friendship exists" do
-        post :create, user_id: user.friends.first.id, format: :json
+        post :create, user_id: user.friends.last.id, format: :json
         expect(response.status).to eq(201)
         expect(response.content_type).to eq(Mime::JSON)
       end
 
       it "should set friendship to active from pending" do
-        friend_id = user.friends.first.id
+        friend_id = user.friends.last.id
         user.friendship(friend_id).pending!
         post :create, user_id: friend_id, format: :json
         expect(user.friendship(friend_id).active?).to be true
@@ -47,9 +47,9 @@ RSpec.describe FriendshipsController, type: :controller do
 
       it "should not send friendship notification" do
         perform_enqueued_jobs do
-          friend_id = user.friends.first.id
+          friend_id = user.friends.last.id
           user.friendship(friend_id).pending!
-          post :create, user_id: user.friends.first.id, format: :json
+          post :create, user_id: user.friends.last.id, format: :json
           expect(ActionMailer::Base.deliveries).to be_empty
         end
       end

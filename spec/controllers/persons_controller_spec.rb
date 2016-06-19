@@ -33,19 +33,6 @@ RSpec.describe PersonsController, type: :controller do
         end
       end
     end
-    context "user has no friends" do
-      let(:user) { FactoryGirl.create(:user) }
-      before do
-        sign_in user
-      end
-      it "should not return any emails" do
-        get :index, format: :json
-        response_body_json = JSON.parse(response.body)
-        response_body_json.each do |person_json|
-          expect(person_json["email"].blank?).to be true
-        end
-      end
-    end
     context "user not signed in" do
       let(:user) { FactoryGirl.create(:user) }
       it "should resond with 401" do
@@ -67,14 +54,8 @@ RSpec.describe PersonsController, type: :controller do
         response_body_json = JSON.parse(response.body)
         expect(response_body_json["email"]).to eq friend.email
       end
-      it "should not return email" do
-        friend = FactoryGirl.create(:user)
-        get :show, id: friend.id, format: :json
-        response_body_json = JSON.parse(response.body)
-        expect(response_body_json["email"].blank?).to be true
-      end
       it "should respond with 200" do
-        get :show, id: user.friends.first.id, format: :json
+        get :show, id: user.friends.last.id, format: :json
         expect(response.status).to eq 200
         expect(response.content_type).to eq(Mime::JSON)
       end
@@ -83,7 +64,7 @@ RSpec.describe PersonsController, type: :controller do
         expect(response.status).to eq 404
       end
       it "should respond with expected_keys" do
-        get :show, id: user.friends.first.id, format: :json
+        get :show, id: user.friends.last.id, format: :json
         response_body_json = JSON.parse(response.body)
         expect(response_body_json.keys).to contain_exactly(*expected_keys)
       end
@@ -91,7 +72,7 @@ RSpec.describe PersonsController, type: :controller do
     context "user not signed in" do
       let(:user) { FactoryGirl.create(:user, :with_reslyps) }
       it "should respond with 401" do
-        get :show, id: user.friends.first.id, format: :json
+        get :show, id: user.friends.last.id, format: :json
         expect(response.status).to eq 401
       end
     end
