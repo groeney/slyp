@@ -2,6 +2,9 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
   template: '#js-preview-sidebar-region-tmpl',
   className: 'ui basic right aligned segment',
   onRender: function(){
+    if (this.model.get('html') == null){
+      this.model.fetch();
+    }
     this.binder = rivets.bind(this.$el, { userSlyp: this.model });
   },
   onShow: function(){

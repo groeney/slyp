@@ -7,6 +7,9 @@ slypApp.Views.PreviewModal = Backbone.Marionette.ItemView.extend({
     'target'               : '_blank'
   },
   onRender: function(){
+    if (this.model.get('html') == null){
+      this.model.fetch();
+    }
     this.binder = rivets.bind(this.$el, { userSlyp : this.model });
   },
   onShow: function(){

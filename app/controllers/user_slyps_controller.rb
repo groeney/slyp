@@ -21,21 +21,21 @@ class UserSlypsController < BaseController
 
   def show
     @user_slyp = current_user.user_slyps.find(params[:id])
-    render status: 200, json: present(@user_slyp),
+    render status: 200, json: present(@user_slyp, true),
            serializer: UserSlypSerializer
   end
 
   def update
     @user_slyp = current_user.user_slyps.find(params[:id])
     return render_422(@user_slyp) unless @user_slyp.update(user_slyp_params)
-    render status: 200, json: present(@user_slyp),
+    render status: 200, json: present(@user_slyp, true),
            serializer: UserSlypSerializer
   end
 
   private
 
-  def present(user_slyp)
-    UserSlypPresenter.new user_slyp
+  def present(user_slyp, show_html = false)
+    UserSlypPresenter.new user_slyp, show_html
   end
 
   def present_collection(user_slyps)
