@@ -1,6 +1,9 @@
 <script type="text/template" id="js-reslyp-tmpl">
-  <a class="avatar" rv-data-title="reslyp:sender.email">
+  <a class="avatar" rv-data-title="reslyp:sender.email" rv-show="reslyp.isRecipientMe">
     <img rv-src="reslyp:sender.image | getAvatar reslyp:sender.first_name reslyp:sender.email">
+  </a>
+  <a class="avatar" rv-data-title="reslyp:recipient.email" rv-hide="reslyp.isRecipientMe">
+    <img rv-src="reslyp:recipient.image | getAvatar reslyp:recipient.first_name reslyp:recipient.email">
   </a>
   <div class="content">
     <span class="author">
