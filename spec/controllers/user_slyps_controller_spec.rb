@@ -65,9 +65,13 @@ RSpec.describe UserSlypsController, type: :controller do
   end
 
   describe "#index" do
-    context "user with reslyps" do
-      it "responds with 200 and correct number of slyps" do
-        sign_in FactoryGirl.create(:user, :with_reslyps)
+    context "user has user_slyps" do
+      let(:user) { FactoryGirl.create(:user) }
+      before do
+        sign_in user
+        FactoryGirl.create_list(:user_slyp, 100, user: user)
+      end
+      it "should respond with 200 and expected_keys" do
         get :index, format: :json
 
         response_body_json = JSON.parse(response.body)
@@ -75,6 +79,23 @@ RSpec.describe UserSlypsController, type: :controller do
         response_body_json.each do |user_slyp|
           expect(user_slyp.keys).to contain_exactly(*expected_keys)
         end
+      end
+      it "should respond with `step` user_slyps" do
+        step = 1
+        get :index, step: step, offset: 0, format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response_body_json.length).to eq step
+      end
+      it "should respond with empty response body" do
+        get :index, offset: user.user_slyps.count, format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response_body_json.length).to eq 0
+      end
+      it "should respond with correct number of user_slyps left" do
+        left = 3
+        get :index, offset: user.user_slyps.count - 3, step: 10, format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response_body_json.length).to eq left
       end
     end
   end

@@ -10,11 +10,16 @@ class UserSlypsController < BaseController
   end
 
   def index
+    step = params[:step] || 10
+    offset = params[:offset] || 0
     archived = params[:archived] || false
-    @user_slyps = current_user.user_slyps.where(
-      archived: archived,
-      deleted: false
-    ).order(unseen_activity: :desc, updated_at: :desc)
+    if friend_id = params[:friend_id]
+      @user_slyps = current_user.mutual_user_slyps(friend_id)
+    else
+      @user_slyps = current_user.user_slyps.where(archived: archived)
+    end
+    @user_slyps = @user_slyps.order(unseen_activity: :desc, updated_at: :desc)
+                             .offset(offset).limit(step)
     render status: 200, json: present_collection(@user_slyps),
            each_serializer: UserSlypSerializer
   end

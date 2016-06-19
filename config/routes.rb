@@ -18,12 +18,14 @@ Rails.application.routes.draw do
   post "/persons/invite" => "persons#invite"
   get "/r/:referral_token" => "referrals#new"
   post "/r/capture" => "referrals#capture"
+  get "/user_slyp/:id" => "user_slyps#show"
+  put "/user_slyp/:id" => "user_slyps#update"
 
   resources :persons, only: [:index, :show]
   resources :beta_request, only: [:create]
   resources :users, only: [:index]
   resources :friendships, only: [:create, :destroy]
-  resources :user_slyps, only: [:create, :index, :show, :update]
+  resources :user_slyps, only: [:create, :index]
   get "/reslyps/:id" => "reslyps#index"
   get "/reslyp/:id" => "reslyps#show"
   resources :reslyps, only: [:create, :destroy]

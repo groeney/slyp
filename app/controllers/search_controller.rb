@@ -8,8 +8,7 @@ class SearchController < BaseController
   def friends
     user_query = params[:q]
     user_query[0] = "" if user_query[0] == "@"
-    @matching_user_ids = parse_and_query_users(user_query).pluck(:id)
-    @friends = current_user.friends.where(id: @matching_user_ids)
+    @friends = parse_and_query_friends(params[:q])
     render status: 200, json: present_users_collection(@friends),
            each_serializer: UserSearchSerializer
   end
@@ -26,21 +25,20 @@ class SearchController < BaseController
            each_serializer: UserSlypSerializer
   end
 
-  def mutual_user_slyps
-    friend_id = params[:friend_id].to_i
-    @user_slyps = current_user.mutual_user_slyps(friend_id)
-                              .order(unseen_activity: :desc, updated_at: :desc)
-    render status: 200, json: present_user_slyp_collection(@user_slyps),
-           each_serializer: UserSlypSerializer
-  end
-
   private
 
   def parse_and_query_users(user_query)
     query = "email ilike :user_query or LOWER(first_name || ' ' || last_name)"\
       " ilike :user_query"
-    User.where(query, user_query: "%#{user_query}%").where
-        .not(id: current_user.id)
+    User.where(query, user_query: "%#{user_query}%")
+        .where.not(id: current_user.id)
+  end
+
+  def parse_and_query_friends(user_query)
+    query = "email ilike :user_query or LOWER(first_name || ' ' || last_name)"\
+      " ilike :user_query"
+    current_user.friends.where(query, user_query: "%#{user_query}%")
+                .where.not(id: current_user.id)
   end
 
   def parse_and_query_user_slyps(user_query)

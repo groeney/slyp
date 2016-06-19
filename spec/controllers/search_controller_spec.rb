@@ -140,38 +140,6 @@ RSpec.describe SearchController, type: :controller do
     end
   end
 
-  describe "#mutual_user_slyps" do
-    context "user has reslyps" do
-      let(:user) { FactoryGirl.create(:user, :with_reslyps) }
-      before do
-        sign_in user
-      end
-      it "should return correct number of active user_slyps" do
-        get :mutual_user_slyps, friend_id: user.id, format: :json
-
-        response_body_json = JSON.parse(response.body)
-        expect(response.status).to eq 200
-        expect(response_body_json.length).to eq user.active_user_slyps.length
-      end
-      it "should return no user_slyps" do
-        get :mutual_user_slyps, friend_id: User.last.id + 1, format: :json
-
-        response_body_json = JSON.parse(response.body)
-        expect(response.status).to eq 200
-        expect(response_body_json.length).to eq 0
-      end
-      it "should return correct number of user_slyps" do
-        friend = user.friends.first
-        get :mutual_user_slyps, friend_id: friend.id, format: :json
-
-        expected_results = user.mutual_user_slyps(friend.id)
-        response_body_json = JSON.parse(response.body)
-        expect(response.status).to eq 200
-        expect(response_body_json.length).to eq expected_results.length
-      end
-    end
-  end
-
   describe "#friends" do
     let(:expected_keys) { ["id", "display_name", "email", "image"] }
     context "User has no friends" do
@@ -187,7 +155,7 @@ RSpec.describe SearchController, type: :controller do
       end
     end
     context "User has friends" do
-      let(:user) { FactoryGirl.create(:user, :with_friends) }
+      let(:user) { FactoryGirl.create(:user, :with_friends, first_name: "Jane") }
       before do
         sign_in user
       end
@@ -195,7 +163,7 @@ RSpec.describe SearchController, type: :controller do
         get :friends, q: "@", format: :json
         response_body_json = JSON.parse(response.body)
         expect(response.status).to eq 200
-        expect(response_body_json.length).to eq user.friends.length
+        expect(response_body_json.length).to eq user.friends.where.not(id: user.id).length
       end
       it "should return correct data" do
         get :friends, q: "@", format: :json
@@ -213,7 +181,7 @@ RSpec.describe SearchController, type: :controller do
           expect(friend["display_name"].start_with?("Joe")).to be true
         end
       end
-      it "should return correct friends with lowercas user_query" do
+      it "should return correct friends with lowercase user_query" do
         friends_named_joe = user.friends.where(first_name: "Joe")
         get :friends, q: "@joe", format: :json
         response_body_json = JSON.parse(response.body)
