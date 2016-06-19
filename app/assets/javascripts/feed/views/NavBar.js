@@ -26,20 +26,20 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     this.initializeSemanticElements();
     this.$('#filter-dropdown').dropdown({
       onChange: function(value, text, selectedItem) {
+        slypApp.state.toPaginate = true;
         switch(value){
           case "reading list":
-            slypApp.state.resettingFeed = true;
-            slypApp.userSlyps.fetch({
-              success: function(collection, response, options) {
-                slypApp.state.searchMode = false;
-                slypApp.state.showArchived = false;
-                slypApp.state.resettingFeed = false;
-              }
-            });
+            slypApp.state.searchMode = false;
+            slypApp.state.showArchived = false;
+            slypApp.userSlyps.meta('friendID', null);
+            slypApp.userSlyps.meta('archived', false);
+            slypApp.userSlyps.paginate({ reset: true });
             break;
           case "done":
+            slypApp.userSlyps.meta('friendID', null);
+            slypApp.userSlyps.meta('archived', true);
             slypApp.state.showArchived = true;
-            slypApp.userSlyps.fetchArchived();
+            slypApp.userSlyps.paginate({ reset: true });
             break;
           case "search":
             slypApp.state.searchMode = true;
@@ -49,7 +49,8 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
           default:
             if (!isNaN(value)){
               slypApp.state.showArchived = true;
-              slypApp.userSlyps.fetchMutualUserSlyps(value);
+              slypApp.userSlyps.meta('friendID', value);
+              slypApp.userSlyps.paginate({ reset: true });
             } else{
               toastr['error']('Our robots cannot perform that action right now :(');
             }
@@ -249,7 +250,8 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
           }
         },
         onSelect: function(result, response){
-          slypApp.userSlyps.fetchMutualUserSlyps(result.id);
+          slypApp.userSlyps.meta('friendID', result.id)
+          slypApp.userSlyps.paginate({ reset: true });
         },
         minCharacters : 1
       });

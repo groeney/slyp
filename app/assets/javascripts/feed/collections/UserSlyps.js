@@ -1,6 +1,45 @@
 slypApp.Collections.UserSlyps = Backbone.Collection.extend({
+  initialize: function(){
+    this._meta = {
+        archived: false,
+        friendID: null
+    };
+  },
   model: slypApp.Models.UserSlyp,
-  url: '/user_slyps',
+  meta: function(prop, value){
+    if (value === undefined) {
+        return this._meta[prop]
+    } else {
+        this._meta[prop] = value;
+    }
+  },
+  url: function(){
+    if (this.meta('friendID') !== null){
+      return '/user_slyps?friend_id=' + this.meta('friendID');
+    } else {
+      return '/user_slyps?archived=' + this.meta('archived');
+    }
+  },
+  paginate: function(fetchOptions){
+    slypApp.state.toPaginate = true;
+    slypApp.state.resettingFeed = true;
+    var offset = (fetchOptions || {}).reset ? 0 : this.length;
+    var step = 10;
+    var paginateOptions = {
+      remove: false,
+      data: $.param({ offset: offset }),
+      error: function(model, response, options){
+        toastr['error']('Something went wrong, sorry :(');
+      }
+    }
+    var options = $.extend(fetchOptions, paginateOptions);
+    this.fetch(options).done(function(response){
+      if (response.length < step){
+        slypApp.state.toPaginate = false;
+      }
+      slypApp.state.resettingFeed = false;
+   });
+  },
   moveToFront: function(model) {
     var index = this.indexOf(model);
     if (index > 0) {
@@ -15,38 +54,5 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
       this.remove(model);
       this.add(model, {at: backIndex});
     }
-  },
-  fetchMutualUserSlyps: function(friend_id) {
-    slypApp.state.resettingFeed = true;
-    this.fetch({
-      url: '/search/mutual_user_slyps',
-      data: {
-        friend_id: friend_id
-      },
-      reset: true,
-      success: function(model, response, options){
-        slypApp.state.resettingFeed = false;
-      },
-      error: function(model, response, options){
-        slypApp.state.resettingFeed = false;
-        toastr['error']('Something went wrong, sorry :(');
-      }
-    });
-  },
-  fetchArchived: function(){
-    slypApp.state.resettingFeed = true;
-    this.fetch({
-      data: {
-        archived: true
-      },
-      reset: true,
-      success: function(model, response, options){
-        slypApp.state.resettingFeed = false;
-      },
-      error: function(model, response, options){
-        slypApp.state.resettingFeed = false;
-        toastr['error']('Something went wrong, sorry :(');
-      }
-    });
   }
 });

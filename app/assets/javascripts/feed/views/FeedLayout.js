@@ -6,7 +6,6 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
   },
   initialize: function(){
     this.collection.bind('change:archived update reset', this.zeroState, this);
-    this.collection.bind('sync', this.zeroState, this);
     slypApp.persons.on('change:friendship_id update', this.updateFriendsProgress, this);
   },
   onRender: function(){
@@ -36,17 +35,18 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
       progressMeter.hide();
     }
   },
-  zeroState: function(){
-    if (this.collection.where({ archived: false }).length === 0){
-      this.$('#zero-state').show();
-    } else if (this.collection.where({ archived: false }).length > 0){
-      this.$('#zero-state').hide();
-    }
-  },
   events: {
-    'click #friends-progress' : 'showFriendsSettings'
+    'click #friends-progress'         : 'showFriendsSettings',
+    'click #extend-feed i.add.circle' : 'paginate',
+    'click #extend-feed i.map'        : 'notImplemented'
   },
   showFriendsSettings: function(){
     openFriendsSettings();
+  },
+  paginate: function(){
+    this.collection.paginate();
+  },
+  notImplemented: function(){
+    toastr['info']('We\'ve logged your interest. Coming soon :)');
   }
 });

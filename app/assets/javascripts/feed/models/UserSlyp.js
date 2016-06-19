@@ -1,4 +1,5 @@
 slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
+  urlRoot: '/user_slyp',
   defaults: {
     friends: []
   },

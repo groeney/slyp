@@ -15,6 +15,7 @@ slypApp.addRegions({
 
 slypApp.state = {
   searchMode           : false,
+  toPaginate           : true,
   addMode              : false,
   showArchived         : false,
   resettingFeed        : false,
