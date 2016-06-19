@@ -18,7 +18,7 @@ class ReslypsController < BaseController
     return render_400 unless params.key? :id
     user_slyp = current_user.user_slyps.find(params[:id])
     user_slyp.update_attribute(:unseen_activity, false)
-    @reslyps = user_slyp.reslyps.includes(:replies, :sender, :recipient)
+    @reslyps = user_slyp.reslyps.includes(:replies, :sender, :recipient).reverse
     render status: 200, json: present_collection(@reslyps),
            each_serializer: ReslypSerializer
   end

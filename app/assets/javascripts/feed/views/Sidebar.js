@@ -210,6 +210,7 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     this.state.reslyping = false;
     this.state.canReslyp = false;
     this.model.fetch();
+    this.model.get('reslyps').fetch();
     slypApp.persons.fetch();
     this.refreshDropdown();
   },
