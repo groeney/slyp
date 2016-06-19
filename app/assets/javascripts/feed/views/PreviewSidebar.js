@@ -1,6 +1,14 @@
 slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
   template: '#js-preview-sidebar-region-tmpl',
   className: 'ui basic right aligned segment',
+  modelEvents : {
+    'change:html' : 'htmlChanged'
+  },
+  htmlChanged: function(e){
+    setTimeout(function(){
+      this.$('.video_frame').first().addClass('ui').addClass('embed');
+    }, 100);
+  },
   onRender: function(){
     if (this.model.get('html') == null){
       this.model.fetch();

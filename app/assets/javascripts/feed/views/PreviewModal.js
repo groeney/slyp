@@ -6,6 +6,14 @@ slypApp.Views.PreviewModal = Backbone.Marionette.ItemView.extend({
     'rv-data-user-slyp-id' : 'userSlyp:id',
     'target'               : '_blank'
   },
+  modelEvents : {
+    'change:html' : 'htmlChanged'
+  },
+  htmlChanged: function(){
+    setTimeout(function(){
+      this.$('.video_frame').first().addClass('ui').addClass('embed');
+    }, 100);
+  },
   onRender: function(){
     if (this.model.get('html') == null){
       this.model.fetch();
@@ -13,6 +21,9 @@ slypApp.Views.PreviewModal = Backbone.Marionette.ItemView.extend({
     this.binder = rivets.bind(this.$el, { userSlyp : this.model });
   },
   onShow: function(){
+    this.initializeSemanticUI();
+  },
+  initializeSemanticUI: function(){
     this.$('.video_frame').first().addClass('ui').addClass('embed');
     this.$el.modal({
       onHidden: function() { // Buggy if more than one video
