@@ -4,12 +4,12 @@ slypApp.Views.Persons = Backbone.Marionette.CollectionView.extend({
   initialize: function(options){
     this.collection = new slypApp.Collections.Persons(options.models);
     this.state = {
-      hideEmail: options.hideEmail
+      showEmail: options.showEmail
     }
   },
   childViewOptions: function(model, index) {
     return {
-      hideEmail: this.state.hideEmail
+      showEmail: this.state.showEmail
     }
   }
 });

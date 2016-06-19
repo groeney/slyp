@@ -8,7 +8,7 @@ slypApp.Views.Person = Backbone.Marionette.ItemView.extend({
   initialize: function(options){
     this.state = {
       loading: false,
-      hideEmail: options.hideEmail
+      showEmail: options.showEmail
     }
   },
   onRender: function(){
