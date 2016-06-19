@@ -5,7 +5,7 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
     feedRegion : '.feed-region'
   },
   initialize: function(){
-    this.collection.bind('change:archived update', this.zeroState, this);
+    this.collection.bind('change:archived update reset', this.zeroState, this);
     this.collection.bind('sync', this.zeroState, this);
     slypApp.persons.on('change:friendship_id update', this.updateFriendsProgress, this);
   },
@@ -35,10 +35,9 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
     } else {
       progressMeter.hide();
     }
-
   },
   zeroState: function(){
-    if (this.collection.where({ archived: false }).length === 0 && !slypApp.state.showArchived){
+    if (this.collection.where({ archived: false }).length === 0){
       this.$('#zero-state').show();
     } else if (this.collection.where({ archived: false }).length > 0){
       this.$('#zero-state').hide();

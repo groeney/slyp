@@ -255,30 +255,35 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       });
   },
   setUserSlypsSearch: function(){
+    var context = this;
+    var noResults = 'noResults';
     $.fn.search.settings.templates.message = function(message, type) {
-        return ''
+      return ''
     }
     this.$('.ui.search')
-      .search({
-        cache: false,
-        searchDelay: 350,
-        apiSettings: {
-          url: '/search/user_slyps?q={query}',
-          beforeSend: function(settings){
-            slypApp.state.resettingFeed = true;
-            return settings
+        .search({
+          cache: false,
+          searchDelay: 350,
+          apiSettings: {
+            url: '/search/user_slyps?q={query}',
+            beforeSend: function(settings){
+              slypApp.state.resettingFeed = true;
+              return settings
+            },
+            onResponse: function(serverResponse){
+              serverResponse = _.map(serverResponse, function(value, index) {
+                 return value;
+              });
+              slypApp.userSlyps.reset(serverResponse);
+              if (serverResponse.length == 0){
+                context.toastr('error', 'No slyps found for that search.')
+              }
+              serverResponse = {};
+              slypApp.state.resettingFeed = false;
+              return { 'success': true, 'results': serverResponse }
+            }
           },
-          onResponse: function(serverResponse){
-            serverResponse = _.map(serverResponse, function(value, index) {
-               return value;
-            });
-            slypApp.userSlyps.reset(serverResponse);
-            serverResponse = {};
-            slypApp.state.resettingFeed = false;
-            return { 'success': true, 'results': serverResponse }
-          }
-        },
-        minCharacters : 3,
-      });
+          minCharacters : 3,
+        });
   }
 });
