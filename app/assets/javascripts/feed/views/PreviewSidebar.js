@@ -20,7 +20,7 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
     });
   },
   events: {
-    'click #conversations' : 'toggleConversations',
+    'click #conversations' : 'toggleConversations'
   },
   toggleConversations: function(){
     if (slypApp.state.rightPaneActive){

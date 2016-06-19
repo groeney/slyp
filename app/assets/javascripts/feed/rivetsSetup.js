@@ -85,6 +85,11 @@ rivets.formatters.userDisplay = function(firstName, lastName, email){
   return firstName ? firstName.concat(' ', lastName) : email
 }
 
+rivets.formatters.reslypUserDisplay = function(displayName, email){
+  if (slypApp.user.get('email') === email) return 'me (send to myself)'
+  return displayName ? displayName : email
+}
+
 rivets.formatters.fallback = function(firstName, email){
   return firstName ? firstName : email
 }

@@ -10,7 +10,7 @@
       </div>
       <div class="item" rv-each-friend="userSlyp.reslypableFriends < :friends" rv-data-value="friend:email" style="height:3.2em;">
         <img class="ui mini avatar image" rv-src="friend:image | getAvatar friend:first_name friend:email">
-        { friend:first_name | userDisplay friend:last_name friend:email }
+        { friend:display_name | reslypUserDisplay friend:email }
         <span class="description" style="font-size:smaller;">{ friend:email }</span>
       </div>
       <div class="header" rv-hide="state.moreResults">

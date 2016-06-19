@@ -20,7 +20,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
         e.preventDefault();
         context.$('#add-button').click();
       }
-    })
+    });
   },
   onShow: function(){
     this.initializeSemanticElements();
