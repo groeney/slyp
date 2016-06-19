@@ -3,6 +3,7 @@ class PersonsController < BaseController
 
   def index
     @persons = User.all
+    @persons = order_persons
     render status: 200, json: present_collection(@persons),
            each_serializer: PersonSerializer
   end
@@ -33,5 +34,11 @@ class PersonsController < BaseController
 
   def invite_params
     { email: params[:email] }
+  end
+
+  def order_persons
+    @persons.sort_by do |person|
+      -Friendship.total_reslyps(current_user, person)
+    end
   end
 end
