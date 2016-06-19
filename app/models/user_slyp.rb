@@ -30,7 +30,7 @@ class UserSlyp < ActiveRecord::Base
 
   def friend_ids
     ids = reslyps.pluck(:sender_id) + reslyps.pluck(:recipient_id)
-    ids - [user.id] unless self_reslyp?
+    return ids - [user.id] unless self_reslyp?
     ids
   end
 
