@@ -3,7 +3,7 @@
     <a rv-href="userSlyp:url" target="_blank" class="ui header center aligned wrap" style="font-size:2em;">{ userSlyp.displayTitle }</a>
     <div class="ui hidden divider"></div>
     <div class="ui basic center aligned segment">
-      <a target="_blank" rv-href="userSlyp:url" style="color: #b1b2b2; font-size: 1.33rem;" >
+      <a target="_blank" rv-href="userSlyp:url" style="color: #b1b2b2; font-size: 1.33rem;">
         <span>{ userSlyp:author | authorship userSlyp:site_name userSlyp:url}</span>
       </a>
     </div>
@@ -22,6 +22,10 @@
         <span rv-hide="userSlyp.hasConversations < :friends">Send to friends</span>
         <span class="ui red mini label" rv-show="userSlyp.hasLove < :unseen_replies :unseen_activity">{ userSlyp.loveAmount < :unseen_replies :unseen_activity } new</span>
       </a>
+    </span>
+    <br/>
+    <span>
+      <span style="color: #b1b2b2;">{ userSlyp:duration | consumption userSlyp:slyp_type }</span>
     </span>
     <div class="ui aligned basic segment" rv-html="userSlyp:html"></div>
   </div>
