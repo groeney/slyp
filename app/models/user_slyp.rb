@@ -30,7 +30,8 @@ class UserSlyp < ActiveRecord::Base
 
   def friend_ids
     ids = reslyps.pluck(:sender_id) + reslyps.pluck(:recipient_id)
-    ids - [user.id]
+    ids - [user.id] unless self_reslyp?
+    ids
   end
 
   def friends_count
@@ -57,6 +58,10 @@ class UserSlyp < ActiveRecord::Base
 
   def self_reslyp(comment)
     sent_reslyps.create(self_reslyp_attributes(comment))
+  end
+
+  def self_reslyp?
+    reslyps.where(sender_id: user_id, recipient_id: user_id).exists?
   end
 
   def self_reslyp_attributes(comment)
