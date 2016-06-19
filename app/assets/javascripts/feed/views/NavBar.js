@@ -157,16 +157,16 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   setAppropriateSearch: function(){
     var leadingChar = this.state.searchTerm[0] || ''
     if (leadingChar == '@'){
-      if (this.state.searchType == 'user_slyps'){
-        this.state.searchType = 'friends'
+      if (this.state.searchType !== 'friends'){
+        this.state.searchType = 'friends';
         this.setFriendsSearch();
         this.$('.ui.search').search('cancel query');
         this.$('.ui.search').search('search remote', this.state.searchTerm);
       }
 
     } else {
-        if (this.state.searchType == 'friends'){
-          this.state.searchType = 'user_slyps'
+        if (this.state.searchType !== 'user_slyps'){
+          this.state.searchType = 'user_slyps';
           this.setUserSlypsSearch();
           this.$('.ui.search').search('cancel query');
           if (this.state.searchTerm.length >= 2){
