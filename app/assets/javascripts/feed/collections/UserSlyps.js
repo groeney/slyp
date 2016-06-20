@@ -2,7 +2,8 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
   initialize: function(){
     this._meta = {
         recent: true,
-        friendID: null
+        friendID: null,
+        cachedIDs: []
     };
   },
   model: slypApp.Models.UserSlyp,
@@ -27,6 +28,8 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
     slypApp.state.toPaginate = true;
     slypApp.state.resettingFeed = true;
     var offset = fetchOptions.reset ? 0 : this.length;
+    var cachedIDs = fetchOptions.reset ? [] : this.pluck('id');
+    this.meta('cachedIDs', cachedIDs);
     var step = 10;
     var paginateOptions = {
       remove: false,
@@ -36,12 +39,21 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
       }
     }
     var options = $.extend(fetchOptions, paginateOptions);
+    var self = this;
     this.fetch(options).done(function(response){
       if (response.length < step){
         slypApp.state.toPaginate = false;
       }
+      var responseIDs = _.pluck(response, 'id');
+      var validResp = responseIDs.filter(function(id){
+                        return self.meta('cachedIDs').indexOf(id) < 0;
+                      }).length > 0
+      if (!validResp){
+        toastr['error']('Uh oh, there\'s been a little hiccup. We\'re going to refresh your feed.');
+        self.fetch({ reset: true });
+      }
       slypApp.state.resettingFeed = false;
-   });
+    });
   },
   moveToFront: function(model) {
     var index = this.indexOf(model);

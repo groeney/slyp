@@ -130,7 +130,7 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
         })
       }
     } else {
-      $('#filter-dropdown').dropdown('set selected', 'reading list');
+      $('#filter-dropdown').dropdown('set selected', 'recent');
     }
   }
 });

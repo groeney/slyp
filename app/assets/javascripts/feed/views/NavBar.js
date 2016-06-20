@@ -85,12 +85,12 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     this.refreshFeed();
   },
   forceRefresh: function(){
-    $('#filter-dropdown').dropdown('set selected', 'reading list');
+    $('#filter-dropdown').dropdown('set selected', 'recent');
   },
   refreshFeed: function(){
     this.state.searchTerm = '';
-    if ($('#filter-dropdown').dropdown('get value') !== 'reading list'){
-      $('#filter-dropdown').dropdown('set selected', 'reading list');
+    if ($('#filter-dropdown').dropdown('get value') !== 'recent'){
+      $('#filter-dropdown').dropdown('set selected', 'recent');
     }
   },
   createSlyp: function(){
