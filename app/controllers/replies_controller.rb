@@ -71,5 +71,4 @@ class RepliesController < BaseController
       @reslyp.recipient_user_slyp.update(unseen_activity: true)
     end
   end
-  end
 end
