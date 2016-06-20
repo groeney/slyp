@@ -6,6 +6,9 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
   },
   htmlChanged: function(e){
     setTimeout(function(){
+      this.$('p').css('text-align', 'left').
+                  css('font-size', 'larger').
+                  css('font-family', "'Palatino Linotype','Book Antiqua',Palatino,serif");
       this.$('.video_frame').first().addClass('ui').addClass('embed');
     }, 100);
   },
