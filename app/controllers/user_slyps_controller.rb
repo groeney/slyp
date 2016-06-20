@@ -10,16 +10,7 @@ class UserSlypsController < BaseController
   end
 
   def index
-    step = params[:step] || 10
-    offset = params[:offset] || 0
-    archived = params[:archived] || false
-    if friend_id = params[:friend_id]
-      @user_slyps = current_user.mutual_user_slyps(friend_id)
-    else
-      @user_slyps = current_user.user_slyps.where(archived: archived)
-    end
-    @user_slyps = @user_slyps.order(unseen_activity: :desc, updated_at: :desc)
-                             .offset(offset).limit(step)
+    @user_slyps = fetch_filtered_user_slyps
     render status: 200, json: present_collection(@user_slyps),
            each_serializer: UserSlypSerializer
   end
@@ -50,5 +41,22 @@ class UserSlypsController < BaseController
   def user_slyp_params
     params.require(:user_slyp).permit(:archived, :deleted, :favourite, :unseen,
                                       :unseen_activity)
+  end
+
+  def fetch_filtered_user_slyps
+    step = params[:step] || 10
+    offset_by = params[:offset] || 0
+    sql_ordering = { unseen_activity: :desc, updated_at: :desc }
+    if friend_id = params[:friend_id]
+      current_user.mutual_user_slyps(friend_id).order(sql_ordering)
+                  .offset(offset_by).limit(step)
+    elsif params[:recent]
+      recent_query = "archived = false AND (updated_at >= ? "\
+                     "or unseen_activity = true)"
+      current_user.user_slyps.where(recent_query, 48.hours.ago)
+                             .order(sql_ordering).offset(offset_by).limit(step)
+    else
+      current_user.user_slyps.order(sql_ordering).offset(offset_by).limit(step)
+    end
   end
 end

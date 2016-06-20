@@ -35,13 +35,13 @@
         <span class="text">Filter</span>
         <i class="dropdown icon"></i>
         <div class="menu">
-          <div class="item" data-value="reading list">
-            <i class="bookmark icon"></i>
-            Reading list
+          <div class="item" data-value="recent">
+            <i class="circle notched icon"></i>
+            Recent
           </div>
-          <div class="item" data-value="done">
-            <i class="checkmark icon" style="color: #21BA45;"></i>
-            Done
+          <div class="item" data-value="all">
+            <i class="circle icon"></i>
+            All
           </div>
           <div class="item" data-value="search">
             <i class="search icon"></i>
@@ -49,7 +49,7 @@
           </div>
           <div class="header">
             <i class="users icon"></i>
-            view friendship
+            VIEW FRIENDSHIP
           </div>
           <div class="item" rv-each-person="persons" rv-data-value="person:id" rv-show="person.isFriend < :friendship_id">
             <img class="ui mini avatar image" rv-src="person:image | getAvatar person:first_name person:email">

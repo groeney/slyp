@@ -5,9 +5,9 @@ class RepliesController < BaseController
     return render_400 unless reslyp_id = params[:reslyp_id]
     @reslyp = current_user.reslyps.find(reslyp_id)
     @last_reply = @reslyp.replies.try(:last)
-    attrs = { sender_id: current_user.id, text: params[:text],
+    reply_attrs = { sender_id: current_user.id, text: params[:text],
               seen: @reslyp.self_reslyp? }
-    @reply = @reslyp.replies.create(attrs)
+    @reply = @reslyp.replies.create(reply_attrs)
     update_user_notifications
     return render_422(@reply) unless @reply.valid?
     render status: 201, json: present(@reply), serializer: ReplySerializer
@@ -25,7 +25,6 @@ class RepliesController < BaseController
 
   def update
     @reply = current_user.replies.find(params[:id])
-
     if @reply.update(reply_params)
       render status: 200, json: present(@reply), serializer: ReplySerializer
     else
@@ -61,9 +60,16 @@ class RepliesController < BaseController
     params.require(:reply).permit(:text)
   end
 
-  # For replies via quick reply feature
   def update_user_notifications
     valid = @last_reply && @last_reply.sender_id != current_user.id
     @last_reply.update(seen: true) if valid
+    if current_user.id.eql? @reslyp.recipient_id
+      @reslyp.recipient_user_slyp.touch
+      @reslyp.sender_user_slyp.update(unseen_activity: true)
+    else
+      @reslyp.sender_user_slyp.touch
+      @reslyp.recipient_user_slyp.update(unseen_activity: true)
+    end
+  end
   end
 end

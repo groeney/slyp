@@ -1,7 +1,7 @@
 slypApp.Collections.UserSlyps = Backbone.Collection.extend({
   initialize: function(){
     this._meta = {
-        archived: false,
+        recent: true,
         friendID: null
     };
   },
@@ -15,15 +15,18 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
   },
   url: function(){
     if (this.meta('friendID') !== null){
-      return '/user_slyps?friend_id=' + this.meta('friendID');
+      return '/user_slyps?friend_id=' + this.meta('friendID')
+    } else if (this.meta('recent')) {
+      return '/user_slyps?recent=' + this.meta('recent')
     } else {
-      return '/user_slyps?archived=' + this.meta('archived');
+      return '/user_slyps'
     }
   },
-  paginate: function(fetchOptions){
+  paginate: function(opts){
+    var fetchOptions = opts || {}
     slypApp.state.toPaginate = true;
     slypApp.state.resettingFeed = true;
-    var offset = (fetchOptions || {}).reset ? 0 : this.length;
+    var offset = fetchOptions.reset ? 0 : this.length;
     var step = 10;
     var paginateOptions = {
       remove: false,

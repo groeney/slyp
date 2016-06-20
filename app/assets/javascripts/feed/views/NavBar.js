@@ -15,7 +15,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     })
     var context = this;
     $(document).keydown(function(e){
-      if( e.target.nodeName == "INPUT" || e.target.nodeName == "TEXTAREA" ) return;
+      if( e.target.nodeName == 'INPUT' || e.target.nodeName == 'TEXTAREA' ) return;
       if (e.shiftKey && e.keyCode == 187){
         e.preventDefault();
         context.$('#add-button').click();
@@ -28,28 +28,31 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       onChange: function(value, text, selectedItem) {
         slypApp.state.toPaginate = true;
         switch(value){
-          case "reading list":
+          case 'recent':
+            slypApp.userSlyps.meta('friendID', null);
+            slypApp.userSlyps.meta('recent', true);
             slypApp.state.searchMode = false;
             slypApp.state.showArchived = false;
-            slypApp.userSlyps.meta('friendID', null);
-            slypApp.userSlyps.meta('archived', false);
             slypApp.userSlyps.paginate({ reset: true });
             break;
-          case "done":
+          case 'all':
             slypApp.userSlyps.meta('friendID', null);
-            slypApp.userSlyps.meta('archived', true);
+            slypApp.userSlyps.meta('recent', false);
             slypApp.state.showArchived = true;
             slypApp.userSlyps.paginate({ reset: true });
             break;
-          case "search":
+          case 'search':
+            slypApp.userSlyps.meta('friendID', null);
+            slypApp.userSlyps.meta('recent', false);
             slypApp.state.searchMode = true;
             slypApp.state.showArchived = true;
             $('#searcher input').focus();
             break;
-          default:
+          default: // View friendship
             if (!isNaN(value)){
               slypApp.state.showArchived = true;
               slypApp.userSlyps.meta('friendID', value);
+              slypApp.userSlyps.meta('recent', false);
               slypApp.userSlyps.paginate({ reset: true });
             } else{
               toastr['error']('Our robots cannot perform that action right now :(');
@@ -58,7 +61,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
         }
       }
     });
-    this.$('#filter-dropdown').dropdown('set selected', 'reading list'); // Performs initial fetch!
+    this.$('#filter-dropdown').dropdown('set selected', 'recent'); // Performs initial fetch!
   },
   events: {
     'click #home'                             : 'forceRefresh',
