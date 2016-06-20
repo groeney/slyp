@@ -4,7 +4,7 @@
   </h3>
   <div class="ui action input">
     <input id="invite-input" type="text" placeholder="Invite friends by email" rv-live-value="state.inviteEmail">
-    <button id="invite-button" class="ui positive button">Invite</button>
+    <button id="invite-button" class="ui positive button" rv-class-unless-disabled="state.inviteEmailValid < .inviteEmail">Invite</button>
   </div>
   <div class="ui hidden divider"></div>
   <div class="ui right labeled left icon input">
@@ -18,6 +18,12 @@
 <h3 class="ui horizontal divider header" style="line-height:1.2;">
   Manage friendships
 </h3>
-<article id="friendships"></article>
-<button id="show-others" class="fluid ui basic button">Load all</button>
-<article id="others" rv-show="state.showOthers"></article>
+<div class="ui center aligned basic segment">
+  <div id="person-search" class="ui right action left icon input">
+    <i class="remove link icon" rv-class-remove="state.searchingPersons" rv-class-unless-search="state.searchingPersons"></i>
+    <input type="text" placeholder="Find friends..." rv-live-value="state.personSearchTerm">
+    <button class="ui button" rv-class-unless-disabled="state.personSearchTermValid < .personSearchTerm">Search</button>
+  </div>
+</div>
+<article id="persons"></article>
+

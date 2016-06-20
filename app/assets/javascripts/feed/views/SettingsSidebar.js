@@ -2,8 +2,7 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
   template: '#js-settings-sidebar-region-tmpl',
   className: 'ui basic right aligned segment',
   regions:{
-    friendships: '#friendships',
-    others: '#others'
+    persons: '#persons'
   },
   initialize: function(options){
     this.state = {
@@ -14,8 +13,16 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
       terms: false,
       privacy: false,
       editProfile: false,
-      showOthers: false,
-      inviteEmail: ''
+      inviteEmail: '',
+      personSearchTerm: '',
+      searchingPersons: false
+    }
+    var context = this;
+    this.state.inviteEmailValid = function(){
+      return validateEmail(context.state.inviteEmail);
+    }
+    this.state.personSearchTermValid = function(){
+      return context.state.personSearchTerm.length > 0;
     }
   },
   onRender: function(){
@@ -23,7 +30,6 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
       user: slypApp.user,
       state: this.state
     });
-    this.listenTo(slypApp.persons, 'change:friendship_id update', this.showFriends, this);
   },
   onShow: function(){
     this.$('.ui.checkbox').checkbox();
@@ -39,19 +45,21 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
     $('.ui.accordion').accordion();
   },
   events: {
-    'click #edit'            : 'enterEditMode',
-    'click #cancel'          : 'cancelEdit',
-    'click #save'            : 'saveChanges',
-    'click #close-sidebar'   : 'closeSidebar',
-    'click #profile'         : 'showProfile',
-    'click #friends'         : 'showFriends',
-    'click #emails'          : 'showEmails',
-    'click #terms'           : 'showTerms',
-    'click #privacy'         : 'showPrivacy',
-    'click #show-others'     : 'showOthers',
-    'click #invite-button'    : 'inviteByEmail',
-    'keypress #invite-input'    : 'inviteByEmailIfValid',
-    'click #update-password' : 'notImplemented'
+    'click #edit'                  : 'enterEditMode',
+    'click #cancel'                : 'cancelEdit',
+    'click #save'                  : 'saveChanges',
+    'click #close-sidebar'         : 'closeSidebar',
+    'click #profile'               : 'showProfile',
+    'click #emails'                : 'showEmails',
+    'click #terms'                 : 'showTerms',
+    'click #privacy'               : 'showPrivacy',
+    'click #friends'               : 'showFriends',
+    'click #person-search .remove' : 'showFriends',
+    'keyup #person-search input'   : 'searchPersonsIfValid',
+    'click #person-search button'  : 'searchPersons',
+    'keyup #invite-input'          : 'inviteByEmailIfValid',
+    'click #invite-button'         : 'inviteByEmail',
+    'click #update-password'       : 'notImplemented'
   },
 
   // UI event functions
@@ -89,19 +97,28 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
     this.changeMode('profile');
   },
   showFriends: function(){
-    var friends = slypApp.persons.whereNot({ friendship_id: null })
-    this.showChildView('friendships', new slypApp.Views.Persons({ models: friends, showEmail: true }));
+    this.state.searchingPersons = false;
+    this.state.personSearchTerm = '';
+    var friendModels = slypApp.persons.whereNot({ friendship_id: null })
+    var friendsCollection = new slypApp.Collections.Persons(friendModels)
+    this.showChildView('persons', new slypApp.Views.Persons({
+      collection: friendsCollection
+    }));
     this.changeMode('friends');
-    if (this.state.showOthers){
-      var others = slypApp.persons.where({ friendship_id: null });
-      this.showChildView('others', new slypApp.Views.Persons({ models: others, showEmail: false }));
+  },
+  searchPersonsIfValid: function(e){
+    if (e.keyCode == 13){
+      this.$('#person-search button').click();
     }
   },
-  showOthers: function(){
-    this.state.showOthers = !(this.state.showOthers);
-    if (this.state.showOthers){
-      var others = slypApp.persons.where({ friendship_id: null });
-      this.showChildView('others', new slypApp.Views.Persons({ models: others, showEmail: false }));
+  searchPersons: function(el){
+    if (!$(el.target).hasClass('disabled')){
+      this.state.searchingPersons = true;
+      var searchModels = slypApp.persons.search(this.state.personSearchTerm);
+      var searchCollection = new slypApp.Collections.Persons(searchModels);
+      this.showChildView('persons', new slypApp.Views.Persons({
+        collection: searchCollection
+      }));
     }
   },
   showEmails: function(){
@@ -153,7 +170,7 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
         }
       });
     } else {
-      toastr['error']('Need a valid email!');
+      toastr['error']('That doesn\'t look like a valid email...');
     }
   },
   notImplemented: function(){
