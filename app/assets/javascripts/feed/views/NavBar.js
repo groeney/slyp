@@ -26,7 +26,6 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     this.initializeSemanticElements();
     this.$('#filter-dropdown').dropdown({
       onChange: function(value, text, selectedItem) {
-        slypApp.state.toPaginate = true;
         switch(value){
           case 'recent':
             slypApp.userSlyps.meta('friendID', null);
@@ -45,6 +44,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
             slypApp.userSlyps.meta('friendID', null);
             slypApp.userSlyps.meta('recent', false);
             slypApp.state.searchMode = true;
+            slypApp.state.toPaginate = false;
             slypApp.state.showArchived = true;
             $('#searcher input').focus();
             break;

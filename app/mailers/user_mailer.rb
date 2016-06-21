@@ -43,7 +43,7 @@ class UserMailer < ApplicationMailer
     mail(to: @user.email, subject: "Thank you! Back soon :)")
   end
 
-  def new_friend(user, friend)
+  def new_friend_notification(user, friend)
     @user = user
     @friend = friend
     mail(to: @friend.email.to_s,

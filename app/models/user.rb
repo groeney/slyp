@@ -4,9 +4,6 @@ class User < ActiveRecord::Base
   after_create :send_welcome_email
   after_create :remove_from_waitlist
   after_create :befriend_inviter
-  after_create do |user|
-    user.befriend(user.id, false)
-  end
   before_destroy :thank_you
 
   devise :invitable, :database_authenticatable, :registerable,
@@ -25,6 +22,7 @@ class User < ActiveRecord::Base
 
   before_save :ensure_authentication_token
   before_save :ensure_referral_token
+  before_save :ensure_friends_with_self
   before_invitation_created :set_invited_status
   after_invitation_accepted :set_active_status
 
@@ -38,6 +36,10 @@ class User < ActiveRecord::Base
     unless referral_token?
       regenerate_referral_token
     end
+  end
+
+  def ensure_friends_with_self
+    befriend(id, false)
   end
 
   def promote_from_waitlist
@@ -108,10 +110,8 @@ class User < ActiveRecord::Base
 
   def befriend(friend_id, notify = true)
     return nil if friend_id.nil?
-    unless friendship = Friendship.find_by(user_id: id, friend_id: friend_id)
-      friendship = Friendship.create(user_id: id, friend_id: friend_id)
-      self.new_friend(User.find(friend_id)) if notify
-    end
+    friendship = Friendship.find_or_create_by(user_id: id, friend_id: friend_id)
+    self.new_friend_notification(User.find(friend_id)) if notify
     friendship.active! if friendship.pending?
     friendship
   end
@@ -134,8 +134,8 @@ class User < ActiveRecord::Base
     end
   end
 
-  def new_friend(friend)
-    UserMailer.new_friend(self, friend).deliver_later if friend.active?
+  def new_friend_notification(friend)
+    UserMailer.new_friend_notification(self, friend).deliver_later if friend.active?
   end
 
   def self.from_omniauth(auth)
