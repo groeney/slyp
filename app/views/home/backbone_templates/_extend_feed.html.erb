@@ -1,7 +1,4 @@
 <div id="extend-feed" class="ui basic center aligned segment">
-  <div class="ui centered grid">
-    <i class="ui row huge link icon" rv-classes-unless-map="appState.toPaginate" rv-classes-add-circle="appState.toPaginate"></i>
-    <span class="ui row" rv-hide="appState.toPaginate">explore</span>
-    <span class="ui row" rv-show="appState.toPaginate">load more</span>
-  </div>
+  <button id="paginate-button" class="ui fluid large primary button" rv-show="appState.toPaginate">load more</button>
+  <button id="explore-button" class="ui fluid large secondary button" rv-hide="appState.toPaginate">explore</button>
 </div>

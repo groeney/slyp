@@ -36,9 +36,9 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
     }
   },
   events: {
-    'click #friends-progress'         : 'showFriendsSettings',
-    'click #extend-feed i.add.circle' : 'paginate',
-    'click #extend-feed i.map'        : 'notImplemented'
+    'click #friends-progress' : 'showFriendsSettings',
+    'click #paginate-button'  : 'paginate',
+    'click #explore-button'   : 'notImplemented'
   },
   showFriendsSettings: function(){
     openFriendsSettings();
