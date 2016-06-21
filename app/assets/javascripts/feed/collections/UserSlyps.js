@@ -41,13 +41,14 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
     var options = $.extend(fetchOptions, paginateOptions);
     var self = this;
     this.fetch(options).done(function(response){
-      if (response.length < step){
-        slypApp.state.toPaginate = false;
-      }
       var responseIDs = _.pluck(response, 'id');
       var validResp = responseIDs.filter(function(id){
                         return self.meta('cachedIDs').indexOf(id) < 0;
                       }).length > 0
+      if (response.length < step){
+        slypApp.state.toPaginate = false;
+        validResp = true;
+      }
       if (!validResp){
         toastr['error']('Uh oh, there\'s been a little hiccup. We\'re going to refresh your feed.');
         self.fetch({ reset: true });

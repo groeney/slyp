@@ -15,7 +15,6 @@
 
     <article class="left aligned ten wide column" rv-show="state.friends">
       <%= render "home/backbone_templates/settings/friends" %>
-      <%= render "home/backbone_templates/settings/person" %>
     </article>
 
     <article class="center aligned ten wide column" rv-show="state.emails">
@@ -29,5 +28,8 @@
     <article class="center aligned ten wide column" rv-show="state.privacy">
       <%= render "home/backbone_templates/settings/privacy" %>
     </article>
+
+    <!-- Actually the only real js-tmpl -->
+    <%= render "home/backbone_templates/settings/person" %>
   </section>
 </script>

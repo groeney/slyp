@@ -376,7 +376,15 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   }
 });
 
+var NoSlypsMessage = Backbone.Marionette.ItemView.extend({
+  template: '#js-no-slyps-message-tmpl',
+  attributes: {
+    'style' : 'margin-left:10em;'
+  }
+});
+
 slypApp.Views.UserSlyps = Backbone.Marionette.CollectionView.extend({
   childView: slypApp.Views.UserSlyp,
-  className: 'ui three doubling stackable cards'
+  className: 'ui three doubling stackable cards',
+  emptyView: NoSlypsMessage
 });
