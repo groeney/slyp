@@ -72,6 +72,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'click #preview-button'       : 'showPreview',
     'click #title'                : 'showPreview',
     'click #send-button'          : 'reslypAttention',
+    'click #conversations-button' : 'showConversationsSidebar',
     'click #comment-label'        : 'intendToReply',
     'click #reslyp-dropdown'      : 'handleDropdownSelect',
     'click #see-more'             : 'seeMoreResults',
