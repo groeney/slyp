@@ -76,7 +76,8 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     'click .right.secondary.menu.mobile.only' : 'toggleActions',
     'click #search-button'                    : 'enterSearchMode',
     'click #explore-button'                   : 'notImplemented',
-    'click #goto-settings'                    : 'goToSettings'
+    'click #goto-settings'                    : 'goToSettings',
+    'click #goto-help'                        : 'notImplemented'
   },
 
   // Event functions
