@@ -6,7 +6,7 @@
     <div class="ui segment">
       <div class="ui basic segment">
         <h4 class="ui header" style="color: rgba(0,0,0,0.60);">
-          Hi there! You have been referred to Slyp by <b style="color:rgba(0,0,0,0.87);"><%= @referrer.display_name %></b>. <br/><br/>Enter your email below to join or <%= link_to "find out more about us", root_path, target: "_blank"  %> in a new tab.
+          Hi there! You have been invited to Slyp by <b style="color:rgba(0,0,0,0.87);"><%= @referrer.display_name %></b>. <br/><br/>Enter your email below to accept your invitation or <%= link_to "find out more about us", root_path, target: "_blank"  %> in a new tab.
         </h4>
       </div>
       <%= form_tag("/r/capture", method: "post", html: { id: "referral-capture", class: "ui middle aligned form" }) do %>
@@ -14,7 +14,7 @@
         <%= email_field_tag :email, "", placeholder: "you@email.com" %>
         <button class="ui blue submit right labeled icon button">
           <i class="right arrow icon"></i>
-          Next
+          Accept invite
         </button>
       <% end %>
     </div>
