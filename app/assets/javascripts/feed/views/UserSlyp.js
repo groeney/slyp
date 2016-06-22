@@ -345,6 +345,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       } else {
         context.state.reslyping = false;
         context.state.canReslyp = true;
+        context.$('#reslyp-comment').focus();
       }
       return true
     });

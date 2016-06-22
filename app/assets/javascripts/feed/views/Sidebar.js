@@ -138,6 +138,7 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     // Reslyp dropdown
     this.$('#reslyp-dropdown')
       .dropdown({
+        direction: 'upward',
         allowAdditions : true,
         message        : {
           addResult : 'Send to <b style="font-weight: bold;">{term}</b>',
@@ -151,6 +152,7 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
       } else {
         context.state.reslyping = false;
         context.state.canReslyp = true;
+        context.$('#reslyp-comment').focus();
       }
       return true
     });
