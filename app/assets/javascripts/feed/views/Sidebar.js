@@ -79,12 +79,13 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     $('#js-preview-sidebar-region').sidebar('toggle');
   },
   showModalPreview: function(){
-    var modalEl = $('.ui.fullscreen.modal[data-user-slyp-id="' + this.model.get('id') + '"]');
-    if (modalEl.exists()){
-      $('.ui.right.sidebar').sidebar('toggle');
-      modalEl.modal('show');
+    if (this.model.get('html') == null){
+      var context = this;
+      this.model.fetch().done(function(){
+        slypApp.modalsRegion.show(new slypApp.Views.PreviewModal({ model: context.model }));
+      });
     } else {
-      window.location.href = this.model.get('url');
+      slypApp.modalsRegion.show(new slypApp.Views.PreviewModal({ model: this.model }));
     }
   },
   sendSlyp: function(e){

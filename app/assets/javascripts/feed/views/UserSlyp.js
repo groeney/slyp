@@ -229,7 +229,14 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     this.state.gotAttention = true;
   },
   showModalPreview: function(){
-    slypApp.modalsRegion.show(new slypApp.Views.PreviewModal({ model: this.model }));
+    if (this.model.get('html') == null){
+      var context = this;
+      this.model.fetch().done(function(){
+        slypApp.modalsRegion.show(new slypApp.Views.PreviewModal({ model: context.model }));
+      });
+    } else {
+      slypApp.modalsRegion.show(new slypApp.Views.PreviewModal({ model: this.model }));
+    }
   },
   showSidebarPreview: function(){
     slypApp.previewSidebarRegion.show(new slypApp.Views.PreviewSidebar({ model: this.model }));
