@@ -2,7 +2,6 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   template: '#js-nav-bar-tmpl',
   onRender: function(){
     this.state = {
-      slypURL        : '',
       searchTerm     : '',
       creatingSlyp   : false,
       searchType     : 'user_slyps'
@@ -96,8 +95,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   },
   createSlyp: function(){
     var context = this;
-    if (this.state.slypURL.http){
-      console.debug('Creating ' + this.state.slypURL + '...');
+    if (slypApp.state.slypURL.http){
       this.state.creatingSlyp = true;
       Backbone.ajax({
         url: '/user_slyps',
@@ -108,7 +106,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
         contentType: 'application/json',
         dataType: 'json',
         data: JSON.stringify({
-          url: context.state.slypURL
+          url: slypApp.state.slypURL
         }),
         success: function(response) {
           var contains = (slypApp.userSlyps.get(response.id) != null);
@@ -123,11 +121,11 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
             context.toastr('success', 'Added to Reading list :)');
           }
           userSlyp.moveToFront();
-          context.state.slypURL = '';
+          slypApp.state.slypURL = '';
           context.state.creatingSlyp = false;
         },
         error: function(status, err) {
-          if (context.state.slypURL.http){
+          if (slypApp.state.slypURL.http){
             context.toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://');
           } else {
             context.toastr('error');
@@ -141,7 +139,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   },
   createSlypIfEnter: function(e){
     if (e.keyCode==13){
-      if (this.state.slypURL.http){
+      if (slypApp.state.slypURL.http){
         this.doneAdding();
         this.createSlyp();
       } else {

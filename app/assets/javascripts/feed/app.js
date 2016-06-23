@@ -14,17 +14,18 @@ slypApp.addRegions({
 });
 
 slypApp.state = {
-  searchMode           : false,
-  toPaginate           : true,
-  addMode              : false,
-  showArchived         : false,
-  resettingFeed        : false,
-  addMode              : false,
-  actionsMode          : false,
-  screenWidth          : getScreenWidth(),
-  leftPaneActive       : false,
-  rightPaneActive      : false,
-  isMobile             : function() { return slypApp.state.screenWidth < 767 }
+  searchMode      : false,
+  toPaginate      : true,
+  addMode         : false,
+  showArchived    : false,
+  resettingFeed   : false,
+  addMode         : false,
+  actionsMode     : false,
+  screenWidth     : getScreenWidth(),
+  leftPaneActive  : false,
+  rightPaneActive : false,
+  isMobile        : function() { return slypApp.state.screenWidth < 767 },
+  slypURL         : ''
 }
 
 slypApp.state.hideNavFields = function(){
