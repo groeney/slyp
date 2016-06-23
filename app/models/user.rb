@@ -116,7 +116,7 @@ class User < ActiveRecord::Base
   def befriend(friend_id, notify = true)
     return nil if friend_id.nil?
     friendship = Friendship.find_or_create_by(user_id: id, friend_id: friend_id)
-    self.new_friend_notification(User.find(friend_id)) if notify
+    self.new_friend_notification(User.find(friend_id)) if (notify && friendship.active?)
     friendship.active! if friendship.pending?
     friendship
   end
