@@ -53,7 +53,7 @@ shepherd.addStep('3 select', {
 
 shepherd.addStep('4 send', {
   title: 'Add comment and send',
-  text: ['Now tell them why this slyp is shareworthy and send it!'],
+  text: ['Now tell them why this slyp is shareworthy and send it!', 'Suggestion: "good #weekendread, related to #work"', 'Hashtags will come in handy when you search for old content. You can search over your conversations!'],
   attachTo: '#card-0 #reslyp-comment right',
   buttons: false
 });
