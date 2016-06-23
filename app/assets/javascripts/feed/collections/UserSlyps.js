@@ -27,7 +27,8 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
     var fetchOptions = opts || {}
     slypApp.state.toPaginate = true;
     slypApp.state.resettingFeed = true;
-    var offset = fetchOptions.reset ? 0 : this.length;
+    var numSlyps = this.meta('recent') ? this.where({ archived: false }).length : this.length
+    var offset = fetchOptions.reset ? 0 : numSlyps;
     var cachedIDs = fetchOptions.reset ? [] : this.pluck('id');
     this.meta('cachedIDs', cachedIDs);
     var step = 10;

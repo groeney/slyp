@@ -47,6 +47,7 @@ class UserSlypsController < BaseController
     step = params[:step] || 10
     offset_by = params[:offset] || 0
     sql_ordering = { unseen_activity: :desc, updated_at: :desc }
+
     if friend_id = params[:friend_id]
       current_user.mutual_user_slyps(friend_id).order(sql_ordering)
                   .offset(offset_by).limit(step)
