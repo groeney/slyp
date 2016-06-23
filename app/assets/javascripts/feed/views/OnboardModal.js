@@ -13,6 +13,7 @@ slypApp.Views.OnboardModal = Backbone.Marionette.ItemView.extend({
   initializeSemanticUI: function(){
     this.$el.modal({
       onApprove: function($el){
+        $('#close-left-pane').click();
         $('html, body').animate({ scrollTop: '0px' });
         shepherd.cancel();
         shepherd.start();
