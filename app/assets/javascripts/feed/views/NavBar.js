@@ -61,6 +61,10 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       }
     });
     this.$('#filter-dropdown').dropdown('set selected', 'recent'); // Performs initial fetch!
+    var onboarded = ($.cookie('_onboard_tour') == 'true');
+    if (!onboarded){
+      this.$('#goto-help').click();
+    }
   },
   events: {
     'click #home'                             : 'forceRefresh',

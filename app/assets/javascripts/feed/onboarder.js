@@ -108,7 +108,7 @@ shepherd.addStep('6 actions', {
 
 shepherd.addStep('7 magic', {
   title: 'Magic',
-  text: 'We want to show you something cool. Do you want to see?',
+  text: 'We\'ve got something magical to show you...',
   attachTo: '#js-nav-bar-region bottom',
   buttons: [
     {
@@ -147,7 +147,8 @@ shepherd.addStep('8 simultaneous', {
 });
 
 shepherd.on('complete', function(){
-  toastr['success']('You\'re all set. Plenty more features to discover along the way, holla if you need a hand!')
+  toastr['success']('You\'re all set. Plenty more features to discover along the way, holla if you need a hand!');
+  $.cookie('_onboard_tour', true);
 });
 
 // Events
