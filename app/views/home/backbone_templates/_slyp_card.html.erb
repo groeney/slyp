@@ -54,11 +54,11 @@
         <image class="ui avatar image" rv-src="userSlyp:latest_conversation.image | getAvatar userSlyp:latest_conversation.first_name userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email"></span>
         <span class="extra content">{ userSlyp:latest_conversation.text }</span>
       </a>
-      <div id="quick-reply-form" class="ui form" rv-show="state.intendingToReply">
+      <div id="quick-reply-form" class="ui center aligned form" rv-show="state.intendingToReply">
         <div class="field">
           <textarea id="quick-reply-input" type="text" placeholder="Write a quick reply..." rv-value="state.quickReplyText" rows="1" autofocus></textarea>
         </div>
-        <button id="quick-reply-button" class="ui positive button" rv-class-unless-disabled="state.hasQuickReplyText < quickReplyText">
+        <button id="quick-reply-button" class="ui positive icon button" rv-class-unless-disabled="state.hasQuickReplyText < quickReplyText">
           Reply
         </button>
       </div>

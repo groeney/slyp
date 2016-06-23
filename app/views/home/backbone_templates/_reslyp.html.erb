@@ -33,11 +33,11 @@
   <div class="ui minimal comments" rv-class-collapsed="state.hideReplies">
     <div class="ui comments js-replies-container">
     </div>
-    <div class="ui form" rv-hide="state.hideReplies">
+    <div class="ui form" style="text-align:center;" rv-hide="state.hideReplies">
       <div class="field">
         <textarea id="reply-area" type="text" placeholder="Write a reply..." rv-value="state.replyText" rows="1" autofocus></textarea>
       </div>
-      <button id="reply-button" class="ui positive button" rv-class-unless-disabled="state.hasReplyText < replyText">
+      <button id="reply-button" class="ui positive icon button" rv-class-unless-disabled="state.hasReplyText < replyText">
         Reply
       </button>
     </div>
