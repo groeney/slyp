@@ -1,3 +1,5 @@
+//= require tether-shepherd/dist/js/tether
+//= require tether-shepherd/dist/js/shepherd
 //= require jquery
 //= require jquery_ujs
 //= require semantic.min
@@ -8,3 +10,4 @@
 //= require ./hoverIntent
 //= require ./globals
 //= require jquery.cookie/jquery.cookie
+

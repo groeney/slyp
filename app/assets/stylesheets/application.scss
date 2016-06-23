@@ -1,5 +1,6 @@
 @charset "utf-8";
 
+@import "tether-shepherd/dist/css/shepherd-theme-arrows";
 @import "normalize-rails";
 @import "bourbon";
 @import "base/grid-settings";
@@ -9,3 +10,4 @@
 @import "semantic";
 @import "toastr/toastr.min";
 @import "./overrides";
+

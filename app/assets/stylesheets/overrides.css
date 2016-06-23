@@ -1,3 +1,29 @@
+
+.shepherd-target.shepherd-enabled {
+opacity: 1;
+pointer-events: auto;
+}
+
+.shepherd-step {
+  z-index:999;
+}
+
+.shepherd-element.shepherd-theme-arrows .shepherd-content {
+  width: 400px;
+  max-width: 100%;
+}
+.shepherd-element.shepherd-theme-arrows .shepherd-content a {
+  color: inherit;
+}
+.shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
+  background: #55a892;
+}
+
+pre {
+  line-height: 1.4em;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+}
+
 .bold {
   font-weight: bold;
 }
