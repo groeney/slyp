@@ -272,8 +272,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       }),
       success: function(response) {
         context.toastr('success', 'Started ' + 'conversation'.pluralize(emails.length));
-        context.refreshAfterReslyp();
-        mediator.trigger('proceedTo', '5 label') // Onboarder
+        context.refreshAfterReslyp(function(){
+          mediator.trigger('proceedTo', '5 label') // Onboarder
+        });
       },
       error: function(status, err) {
         context.toastr('error', 'Couldn\'t send it to some of your friends');
@@ -282,10 +283,13 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       }
     });
   },
-  refreshAfterReslyp: function(){
+  refreshAfterReslyp: function(callback){
+    if (callback == null){
+      callback = function(){};
+    }
     this.state.reslyping = false;
     this.state.canReslyp = false;
-    this.model.fetch();
+    this.model.fetch().done(callback);
     slypApp.persons.fetch();
     this.refreshDropdown();
   },
@@ -363,7 +367,10 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       if (!validateEmail(value)){
         this.addClass('red');
       }
-      mediator.trigger('proceedTo', '4 send'); // Onboarder
+
+      setTimeout(function(){
+        mediator.trigger('proceedTo', '4 send'); // Onboarder
+      }, 100);
       return this
     });
 

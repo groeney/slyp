@@ -63,8 +63,8 @@ shepherd.addStep('4 send', {
 
 shepherd.addStep('5 label', {
   title: 'At a glance',
-  text: ['Nice job! This is your most recent conversation at a glance. Click it to reply quickly. Double click it to open your conversations.'],
-  attachTo: '#comment-label right',
+  text: ['Nice job! This is your most recent conversation at a glance. Click it once to reply quickly. Click it twice to open your conversations.'],
+  attachTo: '#card-0 #comment-label right',
   buttons: [
     {
       text: 'Nice',
@@ -109,7 +109,7 @@ shepherd.addStep('6 actions', {
 shepherd.addStep('7 magic', {
   title: 'Magic',
   text: 'We want to show you something cool. Do you want to see?',
-  attachTo: '.blurring.image bottom',
+  attachTo: '#js-nav-bar-region bottom',
   buttons: [
     {
       text: 'Yes, please!',
@@ -117,8 +117,11 @@ shepherd.addStep('7 magic', {
         $('#preview-button').first().click();
         setTimeout(function(){
           $('#open-conversations').click();
+          shepherd.currentStep.hide();
+        }, 50);
+        setTimeout(function(){
           shepherd.next();
-        },100);
+        }, 2000)
       },
       classes: 'shepherd-button-example-primary'
     },
@@ -132,8 +135,8 @@ shepherd.addStep('7 magic', {
 
 shepherd.addStep('8 simultaneous', {
   title: 'Engage',
-  text: ['These are your engagement panels. You can read and talk about this article with friends at the same time.', 'You can also send this article to friends via Messenger or post it to Twitter with the appropriate buttons.'],
-  attachTo: '#close-left-pane left',
+  text: ['These are your "engagement panels". Read and discuss content with friends, from here.', 'You can also send this article to friends via Facebook Messenger or post to Twitter.'],
+  attachTo: '#js-sidebar-region right',
   buttons: [
     {
       text: 'Great',
@@ -168,9 +171,7 @@ mediator.on('proceedTo', function(id){
         shepherd.next();
         break;
       case '3 select':
-        setTimeout(function(){
-          shepherd.show(id);
-        }, 500);
+        shepherd.show(id);
         break;
       case '4 send':
         shepherd.show(id);
@@ -186,3 +187,8 @@ mediator.on('proceedTo', function(id){
 
 window.shepherdMediator = mediator;
 window.shepherd = shepherd;
+
+// Helper methods
+shepherd.isActive = function(){
+    return this.currentStep.isOpen();
+}
