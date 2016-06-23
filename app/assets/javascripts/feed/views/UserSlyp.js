@@ -175,6 +175,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         context.$('#reslyp-dropdown input.search').focus();
       }, 200);
     }
+    this.$('.menu').first().animate({ scrollTop: '0px' });
     // TODO: "Your friends" and "Other people" header is pushed out of view by dropdown default selection need to scroll up
   },
   seeMoreResults: function(){
