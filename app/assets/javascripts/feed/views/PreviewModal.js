@@ -11,6 +11,9 @@ slypApp.Views.PreviewModal = Backbone.Marionette.ItemView.extend({
   },
   htmlChanged: function(){
     setTimeout(function(){
+      this.$('p').css('text-align', 'left').
+                  css('font-size', 'larger').
+                  css('font-family', "'Palatino Linotype','Book Antiqua',Palatino,serif");
       this.$('.video_frame').first().addClass('ui').addClass('embed');
     }, 100);
   },
@@ -22,6 +25,9 @@ slypApp.Views.PreviewModal = Backbone.Marionette.ItemView.extend({
   },
   onShow: function(){
     this.initializeSemanticUI();
+    this.$('p').css('text-align', 'left').
+                css('font-size', 'larger').
+                css('font-family', "'Palatino Linotype','Book Antiqua',Palatino,serif");
   },
   initializeSemanticUI: function(){
     this.$('.video_frame').first().addClass('ui').addClass('embed');

@@ -265,6 +265,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       success: function(response) {
         context.toastr('success', 'Started ' + 'conversation'.pluralize(emails.length));
         context.refreshAfterReslyp();
+        mediator.trigger('proceedTo', '5 label') // Onboarder
       },
       error: function(status, err) {
         context.toastr('error', 'Couldn\'t send it to some of your friends');
@@ -327,15 +328,6 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         'duration': 750
     });
 
-    // Preview modal
-    // $('.ui.fullscreen.modal').modal('setting', 'onShow', function(){
-    //   slypApp.state.leftPaneActive = true;
-    // });
-
-    // $('.ui.fullscreen.modal').modal('setting', 'onHide', function(){
-    //   slypApp.state.leftPaneActive = false;
-    // });
-
     // Reslyp dropdown
     this.$('#reslyp-dropdown')
       .dropdown({
@@ -363,6 +355,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       if (!validateEmail(value)){
         this.addClass('red');
       }
+      mediator.trigger('proceedTo', '4 send'); // Onboarder
       return this
     });
 

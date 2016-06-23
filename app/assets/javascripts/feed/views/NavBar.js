@@ -76,7 +76,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     'click #search-button'                    : 'enterSearchMode',
     'click #explore-button'                   : 'notImplemented',
     'click #goto-settings'                    : 'goToSettings',
-    'click #goto-help'                        : 'notImplemented'
+    'click #goto-help'                        : 'showHelp'
   },
 
   // Event functions
@@ -123,6 +123,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
           userSlyp.moveToFront();
           slypApp.state.slypURL = '';
           context.state.creatingSlyp = false;
+          shepherdMediator.trigger('proceedTo', '3 select'); // Onboarder
         },
         error: function(status, err) {
           if (slypApp.state.slypURL.http){
@@ -150,6 +151,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   enterAddMode: function(){
     slypApp.state.addMode = true;
     this.$('#create-input').focus();
+    shepherdMediator.trigger('proceedTo', '2 create'); // Onboarder
   },
   enterSearchMode: function(){
     if ($('#filter-dropdown').dropdown('get value') !== 'search'){
@@ -203,6 +205,9 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   goToSettings: function(){
     slypApp.settingsSidebarRegion.show(new slypApp.Views.SettingsSidebar({ model: slypApp.user }));
     $('#js-settings-sidebar-region').sidebar('toggle');
+  },
+  showHelp: function(){
+    shepherdMediator.trigger('start-onboarding');
   },
 
   // Helper functions

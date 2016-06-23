@@ -10,3 +10,4 @@
 //= require       ./feed/router
 //= require       ./feed/show
 //= require       ./feed/rivetsSetup
+//= require       ./feed/onboarder
