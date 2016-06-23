@@ -38,28 +38,28 @@ shepherd.addStep('2 create', {
 shepherd.addStep('3 select', {
   title: 'Select friends',
   text: ['Well done! Now select a friend to send to.', 'Hint: you can send to yourself and include a personal note.'],
-  attachTo: '#reslyp-dropdown bottom',
+  attachTo: '#card-0 #reslyp-dropdown right',
   buttons: false,
   when: {
     'before-show' : function(){
-      $('html, body').animate({ scrollTop: '200px' });
       $('#send-button').first().click();
+      $('html, body').animate({ scrollTop: '200px' });
     }
   }
 });
 
 // trigger
-// Find in ./views/UserSlyp.js:350
+// Find in ./views/UserSlyp.js:364
 
 shepherd.addStep('4 send', {
   title: 'Add comment and send',
   text: ['Now tell them why this slyp is shareworthy and send it!'],
-  attachTo: '#reslyp-comment right',
+  attachTo: '#card-0 #reslyp-comment right',
   buttons: false
 });
 
 // trigger
-// Find in ./views/UserSlyp.js:260
+// Find in ./views/UserSlyp.js:268
 
 shepherd.addStep('5 label', {
   title: 'At a glance',
@@ -85,7 +85,7 @@ shepherd.addStep('5 label', {
 shepherd.addStep('6 actions', {
   title: 'The fun part',
   text: ['Use <i class="send icon"></i> to send to friends (you\'ve done that!).', 'Use <i class="search icon"></i> to see the content and <i class="comment outline icon"></i> to view your conversations.'],
-  attachTo: '#slyp-actions bottom',
+  attachTo: '#card-0 #slyp-actions right',
   buttons: [
     {
       text: 'Got it, thanks',

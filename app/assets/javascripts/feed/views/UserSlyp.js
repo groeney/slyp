@@ -4,10 +4,14 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
   attributes: {
     'rv-fade-hide' : 'userSlyp.hideArchived < :archived',
     'rv-class-red' : 'userSlyp.needsAttention < :unseen_replies :unseen_activity :unseen',
-    'style'        : 'background-color:white;'
+    'style'        : 'background-color:white;',
+    'rv-id'        : 'state.id'
   },
   initialize: function(options){
     var context = this;
+    var setId = function(){
+      context.state.id = 'card-' + context.model.index();
+    }
     this.state = {
       canReslyp         : false,
       gotAttention      : !this.model.hasConversations() || slypApp.state.isMobile(),
@@ -18,6 +22,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       quickReplyText    : '',
       loadingQuickReply : false
     }
+    setId();
     this.state.hasComment = function(){
       return context.state.comment.length > 0;
     }
@@ -26,6 +31,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     }
     this.listenTo(slypApp.persons, 'change:friendship_id update', function(){
       this.model.trigger('change:friends', this.model);
+    }, this);
+    this.listenTo(slypApp.userSlyps, 'update', function(){
+      setId();
     }, this);
   },
   onRender: function(){

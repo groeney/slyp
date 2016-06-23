@@ -64,5 +64,8 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
   },
   tweetURL: function(){
     return 'https://twitter.com/intent/tweet?url=' + this.get('url')
+  },
+  index: function(){
+    return slypApp.userSlyps.indexOf(this);
   }
 });

@@ -57,16 +57,14 @@ slypApp.Collections.UserSlyps = Backbone.Collection.extend({
     });
   },
   moveToFront: function(model) {
-    var index = this.indexOf(model);
-    if (index > 0) {
+    if (model.index() > 0) {
       this.remove(model);
       this.add(model, {at: 0});
     }
   },
   moveToBack: function(model) {
-    var index = this.indexOf(model);
     var backIndex = this.models.length - 1;
-    if (index < backIndex) {
+    if (model.index() < backIndex) {
       this.remove(model);
       this.add(model, {at: backIndex});
     }
