@@ -107,7 +107,7 @@ shepherd.addStep('6 actions', {
 // Find inside step->buttons:action
 
 shepherd.addStep('7 magic', {
-  title: 'One last thing!',
+  title: 'Magic',
   text: 'We want to show you something cool. Do you want to see?',
   attachTo: '.blurring.image bottom',
   buttons: [
@@ -125,7 +125,7 @@ shepherd.addStep('7 magic', {
     {
       text: 'Nope, good for now',
       classes: 'shepherd-button-secondary',
-      action: shepherd.cancel
+      action: shepherd.complete
     }
   ]
 });
@@ -168,7 +168,9 @@ mediator.on('proceedTo', function(id){
         shepherd.next();
         break;
       case '3 select':
-        shepherd.show(id);
+        setTimeout(function(){
+          shepherd.show(id);
+        }, 500);
         break;
       case '4 send':
         shepherd.show(id);
