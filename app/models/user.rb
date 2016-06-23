@@ -42,6 +42,11 @@ class User < ActiveRecord::Base
     befriend(id, false)
   end
 
+  def ensure_friends_with_support
+    support = User.find_by(email: "support@slyp.io")
+    befriend(support.id, true) unless support.nil?
+  end
+
   def promote_from_waitlist
     self.update(invitation_token: nil)
     active!
