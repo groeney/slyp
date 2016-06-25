@@ -20,9 +20,9 @@ Rails.application.routes.draw do
   post "/r/capture" => "referrals#capture"
   get "/user_slyp/:id" => "user_slyps#show"
   put "/user_slyp/:id" => "user_slyps#update"
+  post "/users/beta_request" => "users#beta_request"
 
   resources :persons, only: [:index, :show]
-  resources :beta_request, only: [:create]
   resources :users, only: [:index]
   resources :friendships, only: [:create, :destroy]
   resources :user_slyps, only: [:create, :index]

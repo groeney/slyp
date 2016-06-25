@@ -1,23 +1,23 @@
 namespace :beta do
-  desc "Invites the next batch of beta request users on waitlist"
+  desc "Invites the next batch of users on waitlist"
   task invite_batch: :environment do
     batch_size = 10
-    invitees = BetaRequest.where(invited: false, signed_up: false)
-                          .first(batch_size)
+    invitees = User.where(status: 1).limit(batch_size)
     invitees.each do |invitee|
-      invitee.update(invited: true)
-      UserMailer.beta_invitation(invitee).deliver_now if invitee.save!
+      invitee.invite!
     end
   end
 
   desc "Invite particular user from waitlist"
-  task :invite_user, [:email] => :environment do |_t, args|
-    invitee = BetaRequest.find_by(email: args[:email])
+  task :invite_email, [:email] => :environment do |_t, args|
+    invitee = User.find_by(email: args[:email])
     if invitee.nil?
-      puts "Email #{args[:email]} not on waitlist."
+      puts "#{args[:email]} not found. Inviting new user."
+      User.invite!({ email: args[:email] }, User.support_user)
+    elsif invitee.active?
+      puts "User already active!"
     else
-      invitee.update(invited: true)
-      UserMailer.beta_invitation(invitee).deliver_now if invitee.save!
+      invitee.invite!
     end
   end
 end

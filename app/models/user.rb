@@ -2,7 +2,6 @@ class User < ActiveRecord::Base
   extend ApplicationHelper
   attr_reader :raw_invitation_token
   after_create :send_welcome_email
-  after_create :remove_from_waitlist
   after_create :befriend_inviter
   before_destroy :thank_you
 
@@ -48,8 +47,13 @@ class User < ActiveRecord::Base
   end
 
   def promote_from_waitlist
-    self.update(invitation_token: nil)
+    update(invitation_token: nil)
     active!
+  end
+
+  def add_to_waitlist
+    UserMailer.joined_waitlist(self).deliver_later
+    waitlisted!
   end
 
   def thank_you
@@ -82,11 +86,7 @@ class User < ActiveRecord::Base
   end
 
   def send_welcome_email
-    UserMailer.new_user_beta(self).deliver_later unless invited?
-  end
-
-  def remove_from_waitlist
-    BetaRequest.find_by(email: email).try(:update, signed_up: true)
+    UserMailer.new_user_beta(self).deliver_later if active?
   end
 
   def befriend_inviter
@@ -153,6 +153,25 @@ class User < ActiveRecord::Base
     end
     user.apply_omniauth(auth)
     user
+  end
+
+  def self.support_user
+    unless user = User.find_by(email: "support@slyp.io")
+      user = User.create_support_user
+    end
+    user
+  end
+
+  def self.create_support_user
+    support_user_attrs = {
+      email: "support@slyp.io", first_name: "Support", last_name: "Team"
+    }
+    User.without_callback(:create, :after, :send_welcome_email) do
+      support = User.find_or_create_by(support_user_attrs)
+      support.password = ENV.fetch("SUPPORT_USER_PASSWORD")
+      support.save
+      return support
+    end
   end
 
   def apply_omniauth(auth)

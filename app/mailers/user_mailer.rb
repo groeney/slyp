@@ -1,12 +1,7 @@
 class UserMailer < ApplicationMailer
-  def beta_request(beta_request)
-    @beta_request = beta_request
-    mail(to: @beta_request.email, subject: "waiting for slyp beta")
-  end
-
-  def beta_invitation(beta_request)
-    @beta_request = beta_request
-    mail(to: @beta_request.email, subject: "your invitation to slyp beta :)")
+  def joined_waitlist(user)
+    @user = user
+    mail(to: @user.email, subject: "you're on the waitlist!")
   end
 
   def new_user_beta(user)

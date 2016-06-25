@@ -1,0 +1,6 @@
+Welcome. You are #<%= @user.id %> on our waitlist.
+We are a community of curious minds, obssessed with solving one problem we face everyday: content overload.
+We do not believe in filling your screen with distracting, clickbait content. Slyp is your newsfeed, reimagined. It does not use complex algorithms to determine what posts are most likely to catch your eye (cue: countless cat videos). It simply facilitates a free exchange of content, thoughts and discussion between you and your friends.
+We will be in touch soon.
+Stay curious,
+<%= link_to "Slyp Team", controller: "home", action: "index", email: @user.email %>

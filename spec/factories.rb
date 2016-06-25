@@ -5,10 +5,6 @@ FactoryGirl.define do
     text "This is a reply from FactoryGirl"
   end
 
-  factory :beta_request do
-    sequence(:email) { |n| "beta_request_#{n}@example.com" }
-  end
-
   factory :friendship do
     user
     friend
