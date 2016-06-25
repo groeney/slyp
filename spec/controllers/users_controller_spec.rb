@@ -110,4 +110,42 @@ RSpec.describe UsersController, type: :controller do
       expect(response_body_json["send_reslyp_email_from"]).to eq "test@example.com"
     end
   end
+  describe "#beta_request" do
+    context "email has already been submitted" do
+      let(:user) { FactoryGirl.create(:user) }
+      it "respond with a 201" do
+        post :beta_request, email: user.email, format: :json
+        expect(response.status).to eq(201)
+      end
+      it "responds with correct priority" do
+        post :beta_request, email: user.email, format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response_body_json["priority"]).to eq user.id
+      end
+    end
+    context "correct params not supplied" do
+      it "respond with 400" do
+        post :beta_request, format: :json
+        expect(response.status).to eq(400)
+      end
+    end
+    context "valid request" do
+      let(:email) { "#{SecureRandom.hex(8)}@example.com" }
+      it "respond with a 201 and priority" do
+        post :beta_request, email: email, format: :json
+        expect(response.content_type).to eq(Mime::JSON)
+        expect(response.status).to eq(201)
+      end
+      it "responds with priority" do
+        post :beta_request, email: email, format: :json
+        response_body_json = JSON.parse(response.body)
+        expect(response_body_json["priority"]).to be_kind_of Integer
+      end
+      it "creates the user as waitlisted?" do
+        post :beta_request, email: email, format: :json
+        user = User.find_by(email: email)
+        expect(user.waitlisted?).to be true
+      end
+    end
+  end
 end

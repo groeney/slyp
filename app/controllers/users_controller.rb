@@ -1,5 +1,17 @@
 class UsersController < BaseController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, only: [:update, :update_password, :index]
+
+  def beta_request
+    return render_400 unless email = params[:email]
+    unless @user = User.find_by(email: email)
+      @user = User.invite!({ email: email, skip_invitation: true }, User.support_user)
+      @user.add_to_waitlist
+    end
+    unless @user.valid?
+      return render status: 422, json: { error: @user.errors.full_messages }
+    end
+    render status: 201, json: { priority: @user.id, status: @user.status }
+  end
 
   def update
     return render_422(current_user) unless current_user.update(user_params)
