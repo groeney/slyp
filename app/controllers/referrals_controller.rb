@@ -2,6 +2,7 @@ class ReferralsController < BaseController
   skip_before_action :ensure_request_accepts_json, only: [:new]
 
   def new
+    return redirect_to "/feed" if current_user
     @referrer = User.find_by_referral_token(params[:referral_token])
     return redirect_to root_path unless persisted_referrer
     render :new
@@ -13,7 +14,7 @@ class ReferralsController < BaseController
     @invitee = User.invite!({ email: params[:email] }, @referrer)
     return redirect_to root_path unless persisted_invitee
     if @invitee.invited?
-      return render status: 201, json: { email: @invitee.email }, format: :json if @invitee.invited?
+      return render status: 201, json: { email: @invitee.email }, format: :json
     end
     return render_404
   end

@@ -27,7 +27,7 @@ class UserMailer < ApplicationMailer
     @sender = @reslyp.sender
     subject = "#{@sender.display_name} sent you: \"#{@slyp.display_title}\""
     mail_attributes = { to: @recipient.email, subject: subject,
-                        from: "#{@sender.display_name} <admin@slyp.io>" }
+                        from: "#{@sender.display_name} <support@slyp.io>" }
     cc_attributes = { cc: "#{@sender.display_name} <#{@sender.email}>" }
     mail_attributes.merge!(cc_attributes) if @sender.cc_on_reslyp_email_contact
     mail(mail_attributes)
@@ -43,6 +43,6 @@ class UserMailer < ApplicationMailer
     @friend = friend
     mail(to: @friend.email.to_s,
          subject: "#{@user.display_name} joined you on Slyp",
-         from: "Slyp <admin@slyp.io>")
+         from: "Slyp <support@slyp.io>")
   end
 end
