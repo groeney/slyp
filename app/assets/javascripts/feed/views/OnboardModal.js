@@ -14,7 +14,8 @@ slypApp.Views.OnboardModal = Backbone.Marionette.ItemView.extend({
     this.$el.modal({
       onApprove: function($el){
         if (slypApp.state.isMobile()){
-          toastr['info']('Onboarding tour is disabled for mobiles and tablets. Login again from a desktop to take the tour!')
+          toastr['info']('Onboarding tour is disabled for mobiles and tablets. Login again from a desktop to take the tour!');
+          $.cookie('_onboard_tour', true);
         } else {
           $('#close-left-pane').click();
           $('html, body').animate({ scrollTop: '0px' });
