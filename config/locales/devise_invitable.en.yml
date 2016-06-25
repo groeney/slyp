@@ -17,15 +17,12 @@ en:
         submit_button: "Update"
     mailer:
       invitation_instructions:
-        subject: "%{invited_by} invited you to slyp beta :)"
-        hello: "Hello, James here. I'm the founder of Slyp."
-        someone_invited_you: "%{invited_by} has invited you to %{url}, you can accept it through the link below."
-        what_is_slyp: "What is slyp? Slyp is a platform that allows you to easily store and share articles with friends. The motivation behind this project stems from our frustration with clickbait media tactics, whose only purpose is to monetize our eye-balls. We are fundamentally changing the way people share and discover content online and the team here at slyp would love for you to join us!"
-        already_invited: "It looks like this is invitation #%{invitations_count} for you, eeek..."
-        accept: "Accept invitation"
-        accept_until: "This invitation will be due in %{due_date}."
-        ignore: "If you'd prefer not to join, simply ignore this email."
-        ps: "PS: Feel free to reply directly to this message with any questions, comments or confusions(?) you may have about slyp or why you recieved this email... I always reply :)<br />Bye for now,<br />j"
+        subject: "%{invited_by} invited you to Slyp"
+        hello: "Hello!"
+        what_is_slyp: "Slyp is your newsfeed, reimagined. Your beautiful home to store, share and discuss all the best content you find online. With friends, Slyp is your truly personalized newsfeed. Without friends, it is your digital library. Of course... Slyp can be both these things at the same time!"
+        accept: "Join %{invited_by}"
+        bye: "Stay curious,"
+        from: "Slyp Team"
   time:
     formats:
       devise:
