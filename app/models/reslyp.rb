@@ -29,7 +29,11 @@ class Reslyp < ActiveRecord::Base
   after_create :notify
 
   def self_reslyp?
-    sender.try(:id) == recipient.try(:id)
+    sender_id.eql? recipient_id
+  end
+
+  def other(user_id)
+    return user_id == sender_id ? recipient : sender
   end
 
   def user_slyp_owned_by_user(user_slyp, user)

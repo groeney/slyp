@@ -21,4 +21,8 @@ class UserMailerPreview < ActionMailer::Preview
   def closed_beta_thank_you
     UserMailer.closed_beta_thank_you(User.first)
   end
+
+  def activity
+    UserMailer.activity(User.with_notifications.first)
+  end
 end

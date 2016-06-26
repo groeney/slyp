@@ -97,6 +97,10 @@ class User < ActiveRecord::Base
     full_name.empty? ? email : full_name
   end
 
+  def display_name_short
+    first_name.empty? ? email : first_name
+  end
+
   # This is an expensive operation, use with care.
   def mutual_user_slyps(friend_id)
     return active_user_slyps if friend_id.eql? id
@@ -172,6 +176,32 @@ class User < ActiveRecord::Base
       support.save
       return support
     end
+  end
+
+  def self.with_activity
+    query = "user_slyps.unseen_activity = true and user_slyps.archived = false"
+    User.includes(:user_slyps).references(:user_slyps).where(query)
+  end
+
+  def activity_sum
+    user_slyps_with_activity.map do |user_slyp|
+      user_slyp.unseen_replies > 0 ? user_slyp.unseen_replies : 1
+    end.sum
+  end
+
+  def activity_people
+    names_arr = user_slyps_with_activity.map do |user_slyp|
+      user_slyp.activity_people
+    end.flatten.uniq
+    l = names_arr.length
+    people = names_arr[0..l-2].join(", ")
+    people += " and #{names_arr[l-1]}" if l > 1
+    return people
+  end
+
+  def user_slyps_with_activity
+    query = "user_slyps.unseen_activity = true and user_slyps.archived = false"
+    user_slyps.references(:user_slyps).where(query)
   end
 
   def apply_omniauth(auth)

@@ -10,9 +10,22 @@ class UserSlyp < ActiveRecord::Base
   validates_presence_of   :user
 
   def unseen_replies
-    reslyps.includes(:replies).map do |el|
-      el.replies.where.not(sender_id: user_id).where(seen: false).length
+    reslyps.includes(:replies).map do |reslyp|
+      reslyp.replies.where.not(sender_id: user_id).where(seen: false).length
     end.sum
+  end
+
+  def activity_people
+    if unseen_activity
+      reslyps.includes(:replies).map do |reslyp|
+        if unseen_replies > 0
+          replies = reslyp.replies.where.not(sender_id: user_id).where(seen: false)
+          replies.map { |reply| reply.sender.display_name_short }.uniq
+        else
+          [latest_reslyp.other(user_id).display_name_short]
+        end
+      end.flatten.uniq
+    end
   end
 
   def reslyps
