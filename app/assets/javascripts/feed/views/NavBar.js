@@ -99,6 +99,9 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   },
   createSlyp: function(){
     var context = this;
+    if (slypApp.state.slypURL == ''){
+      this.$('#create-input').trigger('keypress');
+    }
     if (slypApp.state.slypURL.http){
       this.state.creatingSlyp = true;
       Backbone.ajax({
