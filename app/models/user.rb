@@ -32,9 +32,9 @@ class User < ActiveRecord::Base
   end
 
   def ensure_referral_token
-    # unless referral_token?
-    #   regenerate_referral_token
-    # end
+    unless referral_token?
+      regenerate_referral_token
+    end
   end
 
   def ensure_friends_with_self
@@ -217,7 +217,7 @@ class User < ActiveRecord::Base
   end
 
   def referral_link
-    Rails.application.routes.url_helpers.root_url # + "r/#{referral_token}"
+    Rails.application.routes.url_helpers.root_url + "r/#{referral_token}"
   end
 
   private
