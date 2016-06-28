@@ -63,12 +63,13 @@ class RepliesController < BaseController
   def update_user_notifications
     valid = @last_reply && @last_reply.sender_id != current_user.id
     @last_reply.update(seen: true) if valid
+    @reslyp.recipient_user_slyp.touch
+    @reslyp.sender_user_slyp.touch
     return if @reslyp.self_reslyp?
+
     if current_user.id.eql? @reslyp.recipient_id
-      @reslyp.recipient_user_slyp.touch
       @reslyp.sender_user_slyp.update(unseen_activity: true)
     else
-      @reslyp.sender_user_slyp.touch
       @reslyp.recipient_user_slyp.update(unseen_activity: true)
     end
   end

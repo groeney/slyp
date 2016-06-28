@@ -8,6 +8,7 @@ class ReslypsController < BaseController
       slyp_id: params.delete(:slyp_id))
     reslyps = user_slyp.send_slyps(params[:emails], params[:comment])
     reslyps.each do |reslyp|
+      reslyp.recipient_user_slyp.touch
       return render_422(reslyp) unless reslyp.valid?
     end
     render status: 201, json: present_collection(reslyps),
