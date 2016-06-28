@@ -103,7 +103,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
       this.$('#create-input').trigger('keypress');
     }
     if (slypApp.state.slypURL.http){
-      this.state.creatingSlyp = true;
+      slypApp.state.resettingFeed = true;
       Backbone.ajax({
         url: '/user_slyps',
         method: 'POST',
@@ -137,7 +137,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
           }
           userSlyp.moveToFront();
           slypApp.state.slypURL = '';
-          context.state.creatingSlyp = false;
+          slypApp.state.resettingFeed = false;
 
           // Onboarder
           shepherdMediator.trigger('proceedTo', '3 select');
@@ -148,7 +148,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
           } else {
             context.toastr('error');
           }
-          context.state.creatingSlyp = false;
+          slypApp.state.resettingFeed = false;
         }
       });
     } else {
