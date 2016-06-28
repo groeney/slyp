@@ -147,11 +147,16 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     var context = this;
     // Conversations sidebar
     $('.ui.right.sidebar').sidebar('setting', 'onShow', function(){
-        slypApp.state.rightPaneActive = true;
+      slypApp.state.rightPaneActive = true;
+      $('#drift-widget-container').hide();
     });
 
     $('.ui.right.sidebar').sidebar('setting', 'onHide', function(){
-        slypApp.state.rightPaneActive = false;
+      slypApp.state.rightPaneActive = false;
+      var previewVisible = $('#js-preview-sidebar-region').sidebar('is visible');
+      if (!previewVisible){
+        $('#drift-widget-container').show();
+      }
     });
 
     // Reslyp dropdown

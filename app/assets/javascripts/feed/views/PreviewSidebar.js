@@ -81,9 +81,15 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
     // Preview sidebar
     $('#js-preview-sidebar-region').sidebar('setting', 'onShow', function(){
       slypApp.state.leftPaneActive = true;
+      $('#drift-widget-container').hide();
     });
+
     $('#js-preview-sidebar-region').sidebar('setting', 'onHide', function(){
       slypApp.state.leftPaneActive = false;
+      var sidebarVisible = $('.ui.right.sidebar').sidebar('is visible');
+      if (!sidebarVisible){
+        $('#drift-widget-container').show();
+      }
     });
   },
   closePreview: function(){

@@ -43,6 +43,13 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
       }
     });
     $('.ui.accordion').accordion();
+
+    $('#js-settings-sidebar-region').sidebar('setting', 'onShow', function(){
+      $('#drift-widget-container').hide();
+    });
+    $('#js-settings-sidebar-region').sidebar('setting', 'onHide', function(){
+      $('#drift-widget-container').show();
+    });
   },
   events: {
     'click #edit'                  : 'enterEditMode',
