@@ -22,6 +22,12 @@ slypApp.Views.OnboardModal = Backbone.Marionette.ItemView.extend({
           shepherd.cancel();
           shepherd.start();
         }
+      },
+      onShow: function(){
+        $('#drift-widget-container').hide();
+      },
+      onHide: function(){
+        $('#drift-widget-container').show();
       }
     }).modal('show');
   }

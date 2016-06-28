@@ -35,6 +35,12 @@ slypApp.Views.PreviewModal = Backbone.Marionette.ItemView.extend({
       onHidden: function() { // Buggy if more than one video
         iframe = $(this).find('.ui.embed iframe').first();
         iframe.attr('src', iframe.attr('src'));
+      },
+      onShow: function(){
+        $('#drift-widget-container').hide();
+      },
+      onHide: function(){
+        $('#drift-widget-container').show();
       }
     }).modal('show');
   }
