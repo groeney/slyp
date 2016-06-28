@@ -116,21 +116,31 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
           url: slypApp.state.slypURL
         }),
         success: function(response) {
-          var contains = (slypApp.userSlyps.get(response.id) != null);
+          var exists = (slypApp.userSlyps.get(response.id) != null);
           slypApp.userSlyps.add(response, { merge: true });
           var userSlyp = slypApp.userSlyps.get(response.id);
           if (userSlyp.get('archived')){
             userSlyp.save({ archived: false });
             context.toastr('info', 'We moved this slyp from Done to Reading list :)');
-          } else if (contains) {
+          } else if (exists) {
             context.toastr('info', 'We reordered this slyp to be in 1st position! :)');
           } else {
             context.toastr('success', 'Added to Reading list :)');
+
+            // Analytics
+            analytics.track('Created New Slyp', {
+              slyp_title: response.title,
+              total_reslyps: response.total_reslyps,
+              slyp_id: response.slyp_id,
+              slyp_url: response.url
+            });
           }
           userSlyp.moveToFront();
           slypApp.state.slypURL = '';
           context.state.creatingSlyp = false;
-          shepherdMediator.trigger('proceedTo', '3 select'); // Onboarder
+
+          // Onboarder
+          shepherdMediator.trigger('proceedTo', '3 select');
         },
         error: function(status, err) {
           if (slypApp.state.slypURL.http){
@@ -158,7 +168,9 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
   enterAddMode: function(){
     slypApp.state.addMode = true;
     this.$('#create-input').focus();
-    shepherdMediator.trigger('proceedTo', '2 create'); // Onboarder
+
+    // Onboarder
+    shepherdMediator.trigger('proceedTo', '2 create');
   },
   enterSearchMode: function(){
     if ($('#filter-dropdown').dropdown('get value') !== 'search'){

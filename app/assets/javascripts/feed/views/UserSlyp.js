@@ -95,6 +95,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     this.model.save({ unseen_activity: false });
     slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({ model: this.model }));
     $('.ui.right.sidebar').sidebar('toggle');
+
+    // Analytics
+    analytics.track('Open Sidebar');
   },
   sendSlyp: function(e){
     if (this.state.hasComment()){
@@ -272,8 +275,18 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
       }),
       success: function(response) {
         context.toastr('success', 'Started ' + 'conversation'.pluralize(emails.length));
+
+        // Analytics
+        analytics.track('Reslyp', {
+          num_emails: emails.length,
+          slyp_id: context.model.get('slyp_id'),
+          slyp_title: context.model.get('title'),
+          slyp_url: context.model.get('url')
+        });
+
+        // Onboarder
         context.refreshAfterReslyp(function(){
-          mediator.trigger('proceedTo', '5 label') // Onboarder
+          mediator.trigger('proceedTo', '5 label')
         });
       },
       error: function(status, err) {
@@ -368,8 +381,9 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
         this.addClass('red');
       }
 
+      // Onboarder
       setTimeout(function(){
-        mediator.trigger('proceedTo', '4 send'); // Onboarder
+        mediator.trigger('proceedTo', '4 send');
       }, 100);
       return this
     });

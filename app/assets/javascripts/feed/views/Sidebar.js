@@ -53,7 +53,9 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
     'click #reslyp-button'        : 'sendSlyp',
     'keypress #reslyp-comment'    : 'sendSlypIfValid',
     'click #reslyp-dropdown'      : 'handleDropdownSelect',
-    'click #see-more'             : 'seeMoreResults'
+    'click #see-more'             : 'seeMoreResults',
+    'click .fb-share-button'      : 'fbShareAttempt',
+    'click .twitter-share-button' : 'twitterShareAttempt'
   },
   expandDescription: function(){
     this.state.expanded = true;
@@ -119,10 +121,25 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
       }, 200);
     }
     this.$('.menu').first().animate({ scrollTop: '0px' });
-    // TODO: "Your friends" and "Other people" header is pushed out of view by dropdown default selection need to scroll up
   },
   seeMoreResults: function(){
     this.state.moreResults = true;
+  },
+  fbShareAttempt: function(){
+    // Analytics
+    analytics.track('FB Share', {
+      slyp_id: this.model.get('slyp_id'),
+      slyp_title: this.model.get('title'),
+      slyp_url: this.model.get('url')
+    });
+  },
+  twitterShareAttempt: function(){
+    // Analytics
+    analytics.track('Twitter Share', {
+      slyp_id: this.model.get('slyp_id'),
+      slyp_title: this.model.get('title'),
+      slyp_url: this.model.get('url')
+    });
   },
 
   // Helper functions
@@ -207,6 +224,14 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
       success: function(response) {
         context.toastr('success', 'Started ' + emails.length + ' new conversations');
         context.refreshAfterReslyp();
+
+        // Analytics
+        analytics.track('Reslyp', {
+          num_emails: emails.length,
+          slyp_id: context.model.get('slyp_id'),
+          slyp_title: context.model.get('title'),
+          slyp_url: context.model.get('url')
+        });
       },
       error: function(status, err) {
         context.toastr('error', 'Couldn\'t send it to some of your friends');

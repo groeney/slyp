@@ -2,7 +2,7 @@ slypApp.Models.User = Backbone.Model.extend({
   urlRoot: '/user',
   initialize: function(){
     this.fetch({
-      success: function(){
+      success: function(model, response, options){
         var skipTo = getParameterByName('skip_to');
         if (skipTo == 'email_settings'){
           openEmailsSettings();
@@ -11,6 +11,12 @@ slypApp.Models.User = Backbone.Model.extend({
           openFriendsSettings();
           window.history.pushState({}, document.title, window.location.pathname); // requires HTML5
         }
+
+        // Analytics
+        analytics.identify(model.get('id'), {
+          display_name: model.get('display_name'),
+          email: model.get('email')
+        });
       }
     });
   },

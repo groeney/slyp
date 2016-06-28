@@ -31,10 +31,15 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
     });
     $('#open-conversations').on('click', function(){
       context.toggleConversations();
+
+      // Analytics
+      analytics.track('Open Sidebar');
     });
   },
   events: {
-    'click #conversations' : 'toggleConversations'
+    'click #conversations'        : 'toggleConversations',
+    'click .fb-share-button'      : 'fbShareAttempt',
+    'click .twitter-share-button' : 'twitterShareAttempt'
   },
   toggleConversations: function(){
     if (slypApp.state.rightPaneActive){
@@ -46,7 +51,26 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
       if (slypApp.state.isMobile()){
         this.closePreview();
       }
+
+      // Analytics
+      analytics.track('Open Sidebar');
     }
+  },
+  fbShareAttempt: function(){
+    // Analytics
+    analytics.track('FB Share', {
+      slyp_id: this.model.get('slyp_id'),
+      slyp_title: this.model.get('title'),
+      slyp_url: this.model.get('url')
+    });
+  },
+  twitterShareAttempt: function(){
+    // Analytics
+    analytics.track('Twitter Share', {
+      slyp_id: this.model.get('slyp_id'),
+      slyp_title: this.model.get('title'),
+      slyp_url: this.model.get('url')
+    });
   },
 
   // Helper functions
