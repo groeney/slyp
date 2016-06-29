@@ -31,7 +31,7 @@
     </div>
 
     <div id="right-menu" class="ui secondary menu column" rv-class-unless-right="appState.isMobile < screenWidth" rv-hide="appState.hideNavFields < searchMode addMode" style="padding-right:30px;">
-      <div id="filter-dropdown" class="ui item column labeled dropdown" rv-class-loading="appState.resettingFeed">
+      <div id="filter-dropdown" class="ui item column labeled scrolling dropdown" rv-class-loading="appState.resettingFeed">
         <span class="text">Filter</span>
         <i class="dropdown icon"></i>
         <div class="menu">
@@ -49,7 +49,7 @@
           </div>
           <div class="header">
             <i class="users icon"></i>
-            VIEW FRIENDSHIP
+            VIEW FRIENDSHIPS
           </div>
           <div class="item" rv-each-person="persons" rv-data-value="person:id" rv-show="person.isFriend < :friendship_id">
             <img class="ui mini avatar image" rv-src="person:image | getAvatar person:first_name person:email">
