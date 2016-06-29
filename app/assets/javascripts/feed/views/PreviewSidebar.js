@@ -91,6 +91,8 @@ slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
         $('#drift-widget-container').show();
       }
     });
+
+    $('#js-preview-sidebar-region').sidebar('setting', 'transition', 'overlay');
   },
   closePreview: function(){
     $('#js-preview-sidebar-region').sidebar('toggle');

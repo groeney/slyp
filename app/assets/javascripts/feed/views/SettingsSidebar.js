@@ -32,24 +32,7 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
     });
   },
   onShow: function(){
-    this.$('.ui.checkbox').checkbox();
-    var context = this;
-    this.$('.inline.dropdown').dropdown({
-      onChange: function(value, text, $choice){
-        if (validateEmail(value) && context.model.get('send_reslyp_email_from') !== value){
-          context.model.set('send_reslyp_email_from', value);
-          context.persist();
-        }
-      }
-    });
-    $('.ui.accordion').accordion();
-
-    $('#js-settings-sidebar-region').sidebar('setting', 'onShow', function(){
-      $('#drift-widget-container').hide();
-    });
-    $('#js-settings-sidebar-region').sidebar('setting', 'onHide', function(){
-      $('#drift-widget-container').show();
-    });
+    this.initializeSemanticElements();
   },
   events: {
     'click #edit'                  : 'enterEditMode',
@@ -210,6 +193,27 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
   },
 
   // Helper functions
+  initializeSemanticElements: function(){
+    this.$('.ui.checkbox').checkbox();
+    var context = this;
+    this.$('.inline.dropdown').dropdown({
+      onChange: function(value, text, $choice){
+        if (validateEmail(value) && context.model.get('send_reslyp_email_from') !== value){
+          context.model.set('send_reslyp_email_from', value);
+          context.persist();
+        }
+      }
+    });
+    $('.ui.accordion').accordion();
+
+    $('#js-settings-sidebar-region').sidebar('setting', 'onShow', function(){
+      $('#drift-widget-container').hide();
+    });
+    $('#js-settings-sidebar-region').sidebar('setting', 'onHide', function(){
+      $('#drift-widget-container').show();
+    });
+    $('#js-settings-sidebar-region').sidebar('setting', 'transition', 'overlay');
+  },
   changeMode: function(mode){
     this.state.profile = this.state.friends = this.state.emails = this.state.terms = this.state.privacy = false;
     this.state[mode] = true;

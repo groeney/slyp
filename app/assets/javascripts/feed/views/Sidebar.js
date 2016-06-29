@@ -159,6 +159,8 @@ slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
       }
     });
 
+    $('.ui.right.sidebar').sidebar('setting', 'transition', 'overlay');
+
     // Reslyp dropdown
     this.$('#reslyp-dropdown')
       .dropdown({
