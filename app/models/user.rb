@@ -213,7 +213,7 @@ class User < ActiveRecord::Base
     auth = User.ensure_valid_oauth_params(auth)
     self.provider = auth.provider
     self.uid = auth.uid
-    self.image = auth.info.image
+    self.image = (auth.info.image || "").gsub("http://", "https://")
     self.first_name = auth.info.first_name
     self.last_name = auth.info.last_name
     self.authentication_token = auth.credentials.token

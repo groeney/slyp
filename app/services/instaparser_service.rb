@@ -31,7 +31,7 @@ module InstaparserService
     slyp_hash[:author] = fetch_author
     slyp_hash[:date] = fetch_date
     slyp_hash[:site_name] = fetch_site_name
-    favicon_url = "http://www.google.com/s2/favicons?domain="\
+    favicon_url = "https://www.google.com/s2/favicons?domain="\
       "#{slyp_hash[:site_name]}"
     slyp_hash[:favicon] = slyp_hash[:site_name] ? favicon_url : nil
     slyp_hash[:display_url] = fetch_display_url
@@ -61,7 +61,8 @@ module InstaparserService
   end
 
   def self.fetch_display_url
-    @response["thumbnail"] || @response["images"].first
+    display_url = @response["thumbnail"] || @response["images"].first
+    display_url.gsub("http://", "https://")
   end
 
   def self.fetch_site_name
