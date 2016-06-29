@@ -3,7 +3,7 @@
   "description": "Slyp bower components",
   "main": "index.js",
   "authors": [
-    "James Groeneveld <jamesgroeneveld@gmail.com>"
+    "James Groeneveld <james@slyp.io>"
   ],
   "license": "ISC",
   "moduleType": [],

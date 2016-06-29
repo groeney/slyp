@@ -1,5 +1,5 @@
 class CustomDeviseMailer < Devise::Mailer
-  default from: "James Groeneveld <jamesgroeneveld@gmail.com>"
+  default from: "James Groeneveld <james@slyp.io>"
 
   protected
 
