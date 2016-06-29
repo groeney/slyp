@@ -22,6 +22,7 @@ class User < ActiveRecord::Base
   before_save :ensure_authentication_token
   before_save :ensure_referral_token
   before_save :ensure_friends_with_self
+  before_save :ensure_friends_with_support
   before_invitation_created :set_invited_status
   after_invitation_accepted :set_active_status
 
@@ -42,7 +43,7 @@ class User < ActiveRecord::Base
   end
 
   def ensure_friends_with_support
-    support = User.find_by(email: "support@slyp.io")
+    support = User.support_user
     befriend(support.id, true) unless support.nil?
   end
 
