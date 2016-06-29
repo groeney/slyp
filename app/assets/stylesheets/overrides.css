@@ -15,9 +15,6 @@ pointer-events: auto;
 .shepherd-element.shepherd-theme-arrows .shepherd-content a {
   color: inherit;
 }
-.shepherd-element.shepherd-theme-arrows .shepherd-content footer .shepherd-buttons li .shepherd-button {
-  background: #55a892;
-}
 
 pre {
   line-height: 1.4em;

@@ -1,7 +1,7 @@
 // Tour
 var shepherd = new Shepherd.Tour({
   defaults: {
-    classes: 'shepherd-element shepherd-open shepherd-theme-arrows',
+    classes: 'shepherd-element shepherd-open shepherd-theme-square-dark',
     showCancelLink: true
   }
 });
@@ -19,7 +19,7 @@ shepherd.addStep('1 add', {
 
 shepherd.addStep('2 create', {
   title: 'Create',
-  text: 'Nice. We\'ve pre-populated a link for you, try adding it!',
+  text: 'Nice. We found a link for you, try adding it!',
   attachTo: '#create-input bottom',
   buttons: false,
   when: {
@@ -37,7 +37,7 @@ shepherd.addStep('2 create', {
 
 shepherd.addStep('3 select', {
   title: 'Select friends',
-  text: ['Well done! Now select a friend to send to.', 'Hint: you can send to yourself and include a personal note.'],
+  text: ['Well done!', 'Hint: you can send to yourself and include a personal note for later.'],
   attachTo: '#card-0 #reslyp-dropdown right',
   buttons: false,
   when: {
@@ -53,7 +53,7 @@ shepherd.addStep('3 select', {
 
 shepherd.addStep('4 send', {
   title: 'Add comment and send',
-  text: ['Now tell them why this slyp is shareworthy and send it!', 'Suggestion: "good #weekendread, related to #work"', 'Hashtags will come in handy when you search for old content. You can search over your conversations!'],
+  text: ['Suggestion: "good #weekendread, related to #work"', 'You\'ll be able to search over this later.'],
   attachTo: '#card-0 #reslyp-comment right',
   buttons: false
 });
@@ -63,7 +63,7 @@ shepherd.addStep('4 send', {
 
 shepherd.addStep('5 label', {
   title: 'At a glance',
-  text: ['Nice job! This is your most recent conversation at a glance. Click it once to reply quickly. Click it twice to open your conversations.'],
+  text: ['Nice job! This is your most recent conversation at a glance.', 'Click it once to reply quickly.', 'Click it twice to view your conversations.'],
   attachTo: '#card-0 #comment-label right',
   buttons: [
     {
@@ -84,7 +84,7 @@ shepherd.addStep('5 label', {
 
 shepherd.addStep('6 actions', {
   title: 'The fun part',
-  text: ['Use <i class="send icon"></i> to send to friends (you\'ve done that!).', 'Use <i class="search icon"></i> to see the content and <i class="comment outline icon"></i> to view your conversations.'],
+  text: ['Use <i class="send icon"></i> to send to friends (you\'ve done that!).', 'Use <i class="search icon"></i> to view the content and <i class="comment outline icon"></i> to view your conversations.'],
   attachTo: '#card-0 #slyp-actions right',
   buttons: [
     {
@@ -107,12 +107,12 @@ shepherd.addStep('6 actions', {
 // Find inside step->buttons:action
 
 shepherd.addStep('7 magic', {
-  title: 'Magic',
-  text: 'We\'ve got something magical to show you...',
+  title: 'Grand finale',
+  text: 'This is our favourite part of the tour <i class="smile icon"></i>',
   attachTo: '#js-nav-bar-region bottom',
   buttons: [
     {
-      text: 'Yes, please!',
+      text: 'Let\'s go!',
       action: function(e){
         $('#preview-button').first().click();
         setTimeout(function(){
@@ -124,18 +124,13 @@ shepherd.addStep('7 magic', {
         }, 2000)
       },
       classes: 'shepherd-button-example-primary'
-    },
-    {
-      text: 'Nope, good for now',
-      classes: 'shepherd-button-secondary',
-      action: shepherd.complete
     }
   ]
 });
 
 shepherd.addStep('8 simultaneous', {
   title: 'Engage',
-  text: ['These are your "engagement panels". Read and discuss content with friends, from here.', 'You can also send this article to friends via Facebook Messenger or post to Twitter.'],
+  text: ['These are your "engagement panels", where you can read and discuss with friends.', 'You can also send this article to friends via Facebook Messenger or post to Twitter.'],
   attachTo: '#js-sidebar-region right',
   buttons: [
     {
