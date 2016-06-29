@@ -63,7 +63,7 @@ RSpec.describe FriendshipsController, type: :controller do
     end
 
     it "should keep friendship set to active?" do
-      immutable_friendship = user.friendships.first
+      immutable_friendship = user.friendships.last
       expect(immutable_friendship.active?).to be true
       delete :destroy, id: immutable_friendship.id, format: :json
       expect(response.status).to eq 403

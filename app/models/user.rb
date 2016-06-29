@@ -3,6 +3,7 @@ class User < ActiveRecord::Base
   attr_reader :raw_invitation_token
   after_create :send_welcome_email
   after_create :befriend_inviter
+  after_create :befriend_support
   before_destroy :thank_you
 
   devise :invitable, :database_authenticatable, :registerable,
@@ -22,7 +23,6 @@ class User < ActiveRecord::Base
   before_save :ensure_authentication_token
   before_save :ensure_referral_token
   before_save :ensure_friends_with_self
-  before_save :ensure_friends_with_support
   before_invitation_created :set_invited_status
   after_invitation_accepted :set_active_status
 
@@ -40,11 +40,6 @@ class User < ActiveRecord::Base
 
   def ensure_friends_with_self
     befriend(id, false)
-  end
-
-  def ensure_friends_with_support
-    support = User.support_user
-    befriend(support.id, true) unless support.nil?
   end
 
   def promote_from_waitlist
@@ -94,6 +89,11 @@ class User < ActiveRecord::Base
     befriend(invited_by_id, false) unless invited_by_id.nil?
   end
 
+  def befriend_support
+    support = User.support_user
+    befriend(support.id, true) unless support.nil?
+  end
+
   def display_name
     full_name.empty? ? email : full_name
   end
@@ -121,7 +121,8 @@ class User < ActiveRecord::Base
   def befriend(friend_id, notify = true)
     return nil if friend_id.nil?
     friendship = Friendship.find_or_create_by(user_id: id, friend_id: friend_id)
-    self.new_friend_notification(User.find(friend_id)) if (notify && friendship.active?)
+    notify = notify && friendship.active? && !friendship.self_friendship?
+    self.new_friend_notification(User.find(friend_id)) if notify
     friendship.active! if friendship.pending?
     friendship
   end
@@ -161,7 +162,8 @@ class User < ActiveRecord::Base
   end
 
   def self.support_user
-    unless user = User.find_by(email: "support@slyp.io")
+    user = User.find_by(email: "support@slyp.io")
+    if user.nil?
       user = User.create_support_user
     end
     user
@@ -171,12 +173,14 @@ class User < ActiveRecord::Base
     support_user_attrs = {
       email: "support@slyp.io", first_name: "Support", last_name: "Team"
     }
+    User.skip_callback(:save, :before, :ensure_friends_with_support)
     User.without_callback(:create, :after, :send_welcome_email) do
       support = User.find_or_create_by(support_user_attrs)
       support.password = ENV.fetch("SUPPORT_USER_PASSWORD")
       support.save
       return support
     end
+    User.set_callback(:save, :before, :ensure_friends_with_support)
   end
 
   def self.with_activity

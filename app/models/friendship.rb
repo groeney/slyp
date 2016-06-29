@@ -44,4 +44,8 @@ class Friendship < ActiveRecord::Base
   def pending!
     update(active: false) && reciprocal.update(active: false)
   end
+
+  def self_friendship?
+    user_id == friend_id
+  end
 end

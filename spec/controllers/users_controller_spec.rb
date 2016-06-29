@@ -143,8 +143,13 @@ RSpec.describe UsersController, type: :controller do
       end
       it "creates the user as waitlisted?" do
         post :beta_request, email: email, format: :json
-        user = User.find_by(email: email)
+        user = User.find_by_email(email)
         expect(user.waitlisted?).to be true
+      end
+      it "should befriend support" do
+        post :beta_request, email: email, format: :json
+        user = User.find_by_email(email)
+        expect(user.friends? User.support_user.id).to be true
       end
     end
   end

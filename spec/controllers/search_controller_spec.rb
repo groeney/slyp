@@ -7,13 +7,13 @@ RSpec.describe SearchController, type: :controller do
     before do
       sign_in user
     end
-    context "with no users" do
-      it "should return nothing" do
+    context "with only support user" do
+      it "should return 1" do
         post :users, q: "", format: :json
 
         response_body_json = JSON.parse(response.body)
         expect(response.status).to eq 200
-        expect(response_body_json.length).to eq 0
+        expect(response_body_json.length).to eq 1
       end
     end
     context "with 10 James' and others" do
