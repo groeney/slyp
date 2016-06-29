@@ -1,4 +1,4 @@
-slypApp.Views.PreviewSidebar = slypApp.Base.CompositeView.extend({
+slypApp.Views.PreviewSidebar = Backbone.Marionette.CompositeView.extend({
   template: '#js-preview-sidebar-region-tmpl',
   className: 'ui basic right aligned segment',
   modelEvents : {

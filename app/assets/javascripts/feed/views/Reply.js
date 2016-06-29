@@ -1,4 +1,4 @@
-slypApp.Views.Reply = slypApp.Base.CompositeView.extend({
+slypApp.Views.Reply = Backbone.Marionette.CompositeView.extend({
   template : '#js-reply-tmpl',
   className: 'comment',
   attributes: {

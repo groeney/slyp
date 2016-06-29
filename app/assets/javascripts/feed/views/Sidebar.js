@@ -2,7 +2,7 @@ var NoReslypsMessage = Backbone.Marionette.ItemView.extend({
   template: '#js-no-reslyps-message-tmpl'
 });
 
-slypApp.Views.Sidebar = slypApp.Base.CompositeView.extend({
+slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
   template: '#js-sidebar-region-tmpl',
   childView: slypApp.Views.Reslyp,
   childViewContainer: '.js-reslyps-container',

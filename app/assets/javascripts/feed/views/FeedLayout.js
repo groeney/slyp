@@ -38,15 +38,12 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
   events: {
     'click #friends-progress' : 'showFriendsSettings',
     'click #paginate-button'  : 'paginate',
-    'click #explore-button'   : 'notImplemented'
+    'click #explore-button'   : function(){ notImplemented('Explore'); }
   },
   showFriendsSettings: function(){
     openFriendsSettings();
   },
   paginate: function(){
     this.collection.paginate();
-  },
-  notImplemented: function(){
-    toastr['info']('We\'ve logged your interest. Coming soon :)');
   }
 });

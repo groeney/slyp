@@ -49,7 +49,7 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
     'click #person-search button'  : 'searchPersons',
     'keyup #invite-input'          : 'inviteByEmailIfValid',
     'click #invite-button'         : 'inviteByEmail',
-    'click #update-password'       : 'notImplemented'
+    'click #update-password'       : function(){ notImplemented('Update Password'); }
   },
 
   // UI event functions
@@ -162,9 +162,6 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
     } else {
       toastr['error']('That doesn\'t look like a valid email...');
     }
-  },
-  notImplemented: function(){
-    toastr['info']('We\'ve logged your interest. Coming soon :)');
   },
 
   modelEvents: {

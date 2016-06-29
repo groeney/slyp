@@ -1,4 +1,4 @@
-slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
+slypApp.Views.Reslyp = Backbone.Marionette.CompositeView.extend({
   template           : '#js-reslyp-tmpl',
   className          : 'ui basic segment comment',
   childView          : slypApp.Views.Reply,

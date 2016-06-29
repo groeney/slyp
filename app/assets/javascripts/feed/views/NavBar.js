@@ -1,4 +1,4 @@
-slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
+slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
   template: '#js-nav-bar-tmpl',
   onRender: function(){
     this.state = {
@@ -78,7 +78,7 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     'focusout #create-input'                  : 'doneAdding',
     'click .right.secondary.menu.mobile.only' : 'toggleActions',
     'click #search-button'                    : 'enterSearchMode',
-    'click #explore-button'                   : 'notImplemented',
+    'click #explore-button'                   : function(){ notImplemented('Explore'); },
     'click #goto-settings'                    : 'goToSettings',
     'click #goto-help'                        : 'showHelp'
   },
@@ -217,9 +217,6 @@ slypApp.Views.NavBar = slypApp.Base.CompositeView.extend({
     this.$('#right-menu').toggleClass('hide');
     this.$('#right-menu').toggleClass('right');
     slypApp.state.actionsMode = !slypApp.state.actionsMode
-  },
-  featureNotImplemented: function(){
-    this.toastrFeatNotImplemented();
   },
   goToSettings: function(){
     slypApp.settingsSidebarRegion.show(new slypApp.Views.SettingsSidebar({ model: slypApp.user }));

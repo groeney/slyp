@@ -1,4 +1,4 @@
-slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
+slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
   template: '#js-slyp-card-tmpl',
   className: 'ui card',
   attributes: {
@@ -87,7 +87,7 @@ slypApp.Views.UserSlyp = slypApp.Base.CompositeView.extend({
     'focusout #quick-reply-input' : 'noReply',
     'keypress #quick-reply-input' : 'sendQuickReplyIfValid',
     'click #quick-reply-button'   : 'sendQuickReply',
-    'click #explore-us'           : 'notImplemented'
+    'click #explore-us'           : function(){ notImplemented('Explore'); }
   },
 
   // Event functions
