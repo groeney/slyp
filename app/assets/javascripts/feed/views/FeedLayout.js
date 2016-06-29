@@ -1,6 +1,6 @@
 slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
   template: '#js-feed-region-tmpl',
-  className: 'ui container',
+  className: 'ui center aligned container',
   regions: {
     feedRegion : '.feed-region'
   },
@@ -11,7 +11,8 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
   onRender: function(){
     this.binder = rivets.bind(this.$el, {
       appState: slypApp.state,
-      user: slypApp.user
+      user: slypApp.user,
+      persons: slypApp.persons.models
     });
   },
   onShow: function() {
@@ -19,11 +20,50 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
       collection: this.collection
     }));
     this.updateFriendsProgress()
+    $('#filter-dropdown').dropdown({
+      onChange: function(value, text, selectedItem) {
+        switch(value){
+          case 'recent':
+            slypApp.userSlyps.meta('friendID', null);
+            slypApp.userSlyps.meta('recent', true);
+            slypApp.state.searchMode = false;
+            slypApp.state.showArchived = false;
+            slypApp.userSlyps.paginate({ reset: true });
+            break;
+          case 'all':
+            slypApp.userSlyps.meta('friendID', null);
+            slypApp.userSlyps.meta('recent', false);
+            slypApp.state.showArchived = true;
+            slypApp.userSlyps.paginate({ reset: true });
+            break;
+          case 'search':
+            slypApp.userSlyps.meta('friendID', null);
+            slypApp.userSlyps.meta('recent', false);
+            slypApp.state.searchMode = true;
+            slypApp.state.toPaginate = false;
+            slypApp.state.showArchived = true;
+            $('#searcher input').focus();
+            break;
+          default: // View friendship
+            if (!isNaN(value)){
+              slypApp.state.showArchived = true;
+              slypApp.userSlyps.meta('friendID', value);
+              slypApp.userSlyps.meta('recent', false);
+              slypApp.userSlyps.paginate({ reset: true });
+            } else{
+              toastr['error']('Our robots cannot perform that action right now :(');
+            }
+            break;
+        }
+      }
+    });
+    $('#filter-dropdown').dropdown('set selected', 'recent'); // Performs initial fetch!
   },
   updateFriendsProgress: function(){
     var progressMeter = this.$('#friends-progress');
     if (slypApp.user.needsFriends()){
       progressMeter.show();
+      $('#progress-divider').show();
       progressMeter.progress({
         label: 'ratio',
         value: slypApp.user.friendsCount(),
@@ -33,6 +73,7 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
       });
     } else {
       progressMeter.hide();
+      $('#progress-divider').hide();
     }
   },
   events: {

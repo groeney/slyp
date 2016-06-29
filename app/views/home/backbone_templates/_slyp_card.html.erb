@@ -38,7 +38,7 @@
   </div>
 
   <div class="extra content friend-data" style="padding: 10px;">
-    <div class="row">
+    <div class="ui left aligned row">
       <a id="conversations" class="description">
         <i class="icon" rv-classes-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
         <span rv-show="userSlyp.hasConversations < :friends">{ userSlyp:friends | numConversations }</span>
@@ -49,7 +49,7 @@
       <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" rv-data-content="userSlyp:archived | doneText" data-variation="tiny"></i>
     </div>
 
-    <div class="ui basic segment row" style="padding:0px;margin:0em;" rv-class-loading="state.loadingQuickReply" rv-show="userSlyp.hasConversations < :latest_conversation">
+    <div class="ui left aligned basic segment row" style="padding:0px;margin:0em;" rv-class-loading="state.loadingQuickReply" rv-show="userSlyp.hasConversations < :latest_conversation">
       <a id="comment-label" class="ui pointing circular label" rv-class-medium="state.intendingToReply" rv-class-unless-small="state.intendingToReply">
         <image class="ui avatar image" rv-src="userSlyp:latest_conversation.image | getAvatar userSlyp:latest_conversation.first_name userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email"></span>
         <span class="extra content">{ userSlyp:latest_conversation.text }</span>

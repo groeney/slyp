@@ -9,8 +9,7 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
     this.binder = rivets.bind(this.$el, {
       state: this.state,
       appState: slypApp.state,
-      user: slypApp.user,
-      persons: slypApp.persons.models
+      user: slypApp.user
     })
     var context = this;
     $(document).keydown(function(e){
@@ -23,44 +22,6 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
   },
   onShow: function(){
     this.initializeSemanticElements();
-    this.$('#filter-dropdown').dropdown({
-      onChange: function(value, text, selectedItem) {
-        switch(value){
-          case 'recent':
-            slypApp.userSlyps.meta('friendID', null);
-            slypApp.userSlyps.meta('recent', true);
-            slypApp.state.searchMode = false;
-            slypApp.state.showArchived = false;
-            slypApp.userSlyps.paginate({ reset: true });
-            break;
-          case 'all':
-            slypApp.userSlyps.meta('friendID', null);
-            slypApp.userSlyps.meta('recent', false);
-            slypApp.state.showArchived = true;
-            slypApp.userSlyps.paginate({ reset: true });
-            break;
-          case 'search':
-            slypApp.userSlyps.meta('friendID', null);
-            slypApp.userSlyps.meta('recent', false);
-            slypApp.state.searchMode = true;
-            slypApp.state.toPaginate = false;
-            slypApp.state.showArchived = true;
-            $('#searcher input').focus();
-            break;
-          default: // View friendship
-            if (!isNaN(value)){
-              slypApp.state.showArchived = true;
-              slypApp.userSlyps.meta('friendID', value);
-              slypApp.userSlyps.meta('recent', false);
-              slypApp.userSlyps.paginate({ reset: true });
-            } else{
-              toastr['error']('Our robots cannot perform that action right now :(');
-            }
-            break;
-        }
-      }
-    });
-    this.$('#filter-dropdown').dropdown('set selected', 'recent'); // Performs initial fetch!
     var onboarded = ($.cookie('_onboard_tour') == 'true');
     if (!onboarded){
       this.$('#goto-help').click();
