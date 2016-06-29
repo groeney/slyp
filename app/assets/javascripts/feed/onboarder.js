@@ -36,8 +36,8 @@ shepherd.addStep('2 create', {
 // Find in ./views/NavBar.js:126
 
 shepherd.addStep('3 select', {
-  title: 'Select friends',
-  text: ['Well done!', 'Hint: you can send to yourself and include a personal note for later.'],
+  title: 'Send to email',
+  text: ['You can simply send this article via email or select a friend from the list', 'Hint: you can also send it to yourself and include a personal note for records.'],
   attachTo: '#card-0 #reslyp-dropdown right',
   buttons: false,
   when: {
