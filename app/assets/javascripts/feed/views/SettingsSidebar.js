@@ -15,7 +15,8 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
       editProfile: false,
       inviteEmail: '',
       personSearchTerm: '',
-      searchingPersons: false
+      searchingPersons: false,
+      iphoneWhiteScreenBug: slypApp.state.isMobile()
     }
     var context = this;
     this.state.inviteEmailValid = function(){
@@ -214,6 +215,13 @@ slypApp.Views.SettingsSidebar = Backbone.Marionette.LayoutView.extend({
   changeMode: function(mode){
     this.state.profile = this.state.friends = this.state.emails = this.state.terms = this.state.privacy = false;
     this.state[mode] = true;
+    if (this.state.iphoneWhiteScreenBug){
+      $('#js-settings-sidebar-region').hide();
+      setTimeout(function(){
+        $('#js-settings-sidebar-region').show();
+      }, 10);
+      this.state.iphoneWhiteScreenBug = false;
+    }
   },
   doneSaving: function(){
     this.state.saving = false;
