@@ -6,6 +6,7 @@ class ReslypsController < BaseController
     return render_400 unless required_keys.all? { |s| params.key? s }
     user_slyp = current_user.user_slyps.find_or_create_by(
       slyp_id: params.delete(:slyp_id))
+    user_slyp.touch
     reslyps = user_slyp.send_slyps(params[:emails], params[:comment])
     reslyps.each do |reslyp|
       reslyp.recipient_user_slyp.touch
