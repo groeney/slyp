@@ -19,7 +19,10 @@ slypApp.Views.Reslyp = slypApp.Base.CompositeView.extend({
     this.state.hasReplyText = function(){
       return context.state.replyText.length > 0
     }
-    this.binder = rivets.bind(this.$el, { reslyp: this.model, state: this.state });
+    this.binder = rivets.bind(this.$el, {
+      reslyp: this.model,
+      state: this.state
+    });
   },
   onShow: function(){
     this.$('.avatar').popup();

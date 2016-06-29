@@ -9,7 +9,10 @@ slypApp.Views.Reply = slypApp.Base.CompositeView.extend({
       editMode   : false,
       cachedText : ''
     }
-    this.binder = rivets.bind(this.$el, { reply: this.model, state: this.state });
+    this.binder = rivets.bind(this.$el, {
+      reply: this.model,
+      state: this.state
+    });
   },
   onShow: function(){
     this.$('.avatar').popup();

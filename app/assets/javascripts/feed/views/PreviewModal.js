@@ -21,7 +21,7 @@ slypApp.Views.PreviewModal = Backbone.Marionette.ItemView.extend({
     if (this.model.get('html') == null){
       this.model.fetch();
     }
-    this.binder = rivets.bind(this.$el, { userSlyp : this.model });
+    this.binder = rivets.bind(this.$el, { userSlyp: this.model });
   },
   onShow: function(){
     this.initializeSemanticUI();

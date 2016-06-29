@@ -296,7 +296,7 @@
 
         if(cfg.sensitivity) {
             // Convert sensibility to maxSpeed.
-            // TODO : Find a good convertion algorythm. This one is just quick and durty.
+            // TODO: Find a good convertion algorythm. This one is just quick and durty.
             options.maxSpeed = (cfg.sensitivity / 7) * 150;
         }
 

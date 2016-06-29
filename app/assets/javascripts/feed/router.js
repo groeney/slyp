@@ -11,5 +11,11 @@ slypApp.Controller = Marionette.Object.extend({
     slypApp.feedRegion.show(new slypApp.Views.FeedLayout({
       collection: slypApp.userSlyps
     }));
+
+    // TODO: find a better place for this
+    slypApp.binder = rivets.bind($('body, html'), {
+      appState: slypApp.state,
+      user: slypApp.user
+    });
   }
 });
