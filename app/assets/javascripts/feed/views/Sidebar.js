@@ -173,7 +173,7 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
 
     this.$('#reslyp-dropdown').dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
       if (context.model.alreadyExchangedWith(addedValue)){
-        context.toastr('error', 'You have already exchanged this slyp with ' + addedValue);
+        _toastr('error', 'You have already exchanged this slyp with ' + addedValue);
         return false
       } else {
         context.state.reslyping = false;
@@ -229,7 +229,7 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
         comment: comment
       }),
       success: function(response) {
-        context.toastr('success', 'Started ' + emails.length + ' new conversations');
+        _toastr('success', 'Started ' + emails.length + ' new conversations');
         context.refreshAfterReslyp();
 
         // Analytics
@@ -241,7 +241,7 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
         });
       },
       error: function(status, err) {
-        context.toastr('error', 'Couldn\'t send it to some of your friends');
+        _toastr('error', 'Couldn\'t send it to some of your friends');
         context.state.comment = comment;
         context.refreshAfterReslyp();
       }

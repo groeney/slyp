@@ -82,11 +82,11 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
           var userSlyp = slypApp.userSlyps.get(response.id);
           if (userSlyp.get('archived')){
             userSlyp.save({ archived: false });
-            context.toastr('info', 'We moved this slyp from Done to Reading list :)');
+            _toastr('info', 'We moved this slyp from Done to Reading list :)');
           } else if (exists) {
-            context.toastr('info', 'We reordered this slyp to be in 1st position! :)');
+            _toastr('info', 'We reordered this slyp to be in 1st position! :)');
           } else {
-            context.toastr('success', 'Added to Reading list :)');
+            _toastr('success', 'Added to Reading list :)');
 
             // Analytics
             analytics.track('Created New Slyp', {
@@ -105,15 +105,15 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
         },
         error: function(status, err) {
           if (slypApp.state.slypURL.http){
-            context.toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://');
+            _toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://');
           } else {
-            context.toastr('error');
+            _toastr('error');
           }
           slypApp.state.resettingFeed = false;
         }
       });
     } else {
-      context.toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://')
+      _toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://')
     }
   },
   createSlypIfEnter: function(e){
@@ -262,7 +262,7 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
               });
               slypApp.userSlyps.reset(serverResponse);
               if (serverResponse.length == 0){
-                context.toastr('error', 'No slyps found for that search.')
+                _toastr('error', 'No slyps found for that search.')
               }
               serverResponse = {};
               slypApp.state.resettingFeed = false;

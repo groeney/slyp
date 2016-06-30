@@ -135,19 +135,19 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
           'extendedTimeOut': 1000
         }
         if (context.model.get('archived')){
-          context.toastr('success', 'Marked as done. Click to Undo.', toastrOptions);
+          _toastr('success', 'Marked as done. Click to Undo.', toastrOptions);
         } else {
-          context.toastr('success', 'Moved to reading list. Click to Undo.', toastrOptions);
+          _toastr('success', 'Moved to reading list. Click to Undo.', toastrOptions);
         }
       },
-      error: function() { context.toastr('error') }
+      error: function() { _toastr('error') }
     });
   },
   toggleStar: function(e){
     var context = this;
     this.model.save({ favourite: !this.model.get('favourite') },
     {
-      error: function() { context.toastr('error') }
+      error: function() { _toastr('error') }
     });
   },
   takeAttention: function(){
@@ -231,7 +231,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         context.state.quickReplyText = quickReplyText;
         context.state.intendingToReply = true;
         context.state.loadingQuickReply = false;
-        context.toastr('error', 'Couldn\'t add that reply for some reason :(')
+        _toastr('error', 'Couldn\'t add that reply for some reason :(')
       }
     });
   },
@@ -274,7 +274,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         comment: comment
       }),
       success: function(response) {
-        context.toastr('success', 'Started ' + 'conversation'.pluralize(emails.length));
+        _toastr('success', 'Started ' + 'conversation'.pluralize(emails.length));
 
         // Analytics
         analytics.track('Reslyp', {
@@ -290,7 +290,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         });
       },
       error: function(status, err) {
-        context.toastr('error', 'Couldn\'t send it to some of your friends');
+        _toastr('error', 'Couldn\'t send it to some of your friends');
         context.state.comment = comment;
         context.refreshAfterReslyp();
       }
@@ -365,7 +365,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
 
     this.$('#reslyp-dropdown').dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
       if (context.model.alreadyExchangedWith(addedValue)){
-        context.toastr('error', 'You have already exchanged this slyp with ' + addedValue);
+        _toastr('error', 'You have already exchanged this slyp with ' + addedValue);
         return false
       } else {
         context.state.reslyping = false;

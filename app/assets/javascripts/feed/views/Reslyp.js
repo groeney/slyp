@@ -64,7 +64,7 @@ slypApp.Views.Reslyp = Backbone.Marionette.CompositeView.extend({
         },
         error: function(model, response, options){
           context.state.loading = false;
-          context.toastr('error', 'eeek. We had troubles fetching your conversations.')
+          _toastr('error', 'eeek. We had troubles fetching your conversations.')
         }
       });
     } else {
@@ -97,7 +97,7 @@ slypApp.Views.Reslyp = Backbone.Marionette.CompositeView.extend({
       error: function(status, err) {
         context.state.replyText = replyText;
         context.state.loading = false;
-        context.toastr('error', 'Couldn\'t add that reply for some reason :(')
+        _toastr('error', 'Couldn\'t add that reply for some reason :(')
       }
     });
   },
