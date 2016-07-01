@@ -36,6 +36,7 @@ gem "validate_url"
 gem "sanitize"
 gem "activerecord-diff"
 gem "has_secure_token"
+gem "rack-reverse-proxy", require: "rack/reverse_proxy"
 
 group :development do
   gem "quiet_assets"

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   }
   devise_scope :user do
     put "/users/waitlist" => "invitations#waitlist"
+    get "/sign_in" => "sessions#new"
   end
 
   root to: "home#index"

@@ -24,8 +24,20 @@ module SlypApp
     config.action_controller.action_on_unpermitted_parameters = :log
     config.active_record.raise_in_transactional_callbacks = true
     config.active_job.queue_adapter = :delayed_job
-    config.assets.paths << Rails.root.join("vendor", "assets", "bower_components")
-    config.assets.paths << Rails.root.join("vendor", "assets", "bower_components", "semantic-ui", "dist")
+    config.assets.paths << Rails.root.join("vendor",
+                                           "assets",
+                                           "bower_components"
+                                           )
+    config.assets.paths << Rails.root.join("vendor",
+                                           "assets",
+                                           "bower_components",
+                                           "semantic-ui", "dist"
+                                           )
     config.autoload_paths += %W(#{config.root}/lib)
+
+    config.middleware.insert_before(Rack::Runtime, Rack::ReverseProxy) do
+      reverse_proxy_options preserve_host: true
+      reverse_proxy /^\/$/, "https://slypio.wordpress.com/" # Landing page only
+    end
   end
 end
