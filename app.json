@@ -2,9 +2,6 @@
   "name":"slyp",
   "scripts":{},
   "env":{
-    "EMAIL_RECIPIENTS":{
-      "required":true
-    },
     "RACK_ENV":{
       "required":true
     },
