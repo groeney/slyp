@@ -44,6 +44,12 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
   },
   onShow: function(){
     this.initializeSemanticElements();
+    if (this.model.get('unseen')){
+      var context = this;
+      setTimeout(function(){
+        context.$('#sidebar-title').click();
+      }, 500);
+    }
   },
   events: {
     'click #expand-description'   : 'expandDescription',
