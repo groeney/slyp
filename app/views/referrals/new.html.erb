@@ -1,20 +1,27 @@
+<div class="ui top fixed secondary menu" style="background-color:white;border-bottom:1px solid gainsboro;">
+  <div id="left-menu" class="ui column secondary menu" rv-hide="appState.hideNavFields < searchMode addMode">
+    <div class="ui left secondary menu">
+      <a id="home" class="ui basic button item" href="<%= root_path %>">
+        <img src="/assets/logo.png">
+        <span style="padding-bottom:30%;font-size:smaller;padding-left:5%;">BETA</span>
+      </a>
+    </div>
+  </div>
+</div>
+
 <div class="ui middle aligned center aligned grid">
   <div class="ten wide column">
-    <h2 class="ui image header">
-      <%= link_to image_tag("/assets/logo.png"), root_path, { class: "image" } %>
-    </h2>
     <div id="main" class="ui segment">
       <div class="ui basic segment">
-        <h4 class="ui header" style="color: rgba(0,0,0,0.60);">
-          Hi there! You have been invited to Slyp by <b style="color:rgba(0,0,0,0.87);"><%= @referrer.display_name %></b>. <br/><br/>Enter your email below to accept your invitation or <%= link_to "find out more about us", root_path, target: "_blank"  %> in a new tab.
-        </h4>
+        <h3 class="ui header" style="color: rgba(0,0,0,0.60);">
+          Hi there! You have been referred to Slyp by <b style="color:rgba(0,0,0,0.87);"><%= @referrer.display_name %></b>. <br/><br/>Enter your email and we'll send you a personal invitation:
+        </h3>
       </div>
       <%= form_tag("/r/capture", method: "post", remote: true, class: "ui middle aligned form", id: "referral-capture", 'data-type': 'json') do %>
         <%= hidden_field_tag :referred_by_id, @referrer.id %>
-        <%= email_field_tag :email, "", placeholder: "you@email.com" %>
-        <button class="ui blue submit right labeled icon button">
-          <i class="right arrow icon"></i>
-          Accept invite
+        <%= email_field_tag :email, "", placeholder: "donald@duck.com", class: "six wide field", style: "margin-left: 30%;" %>
+        <button class="ui blue submit button" style="margin-top:20px;">
+          Get invitation
         </button>
       <% end %>
     </div>

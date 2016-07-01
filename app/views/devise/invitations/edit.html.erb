@@ -1,17 +1,26 @@
+<div class="ui top fixed secondary menu" style="background-color:white;border-bottom:1px solid gainsboro;">
+  <div id="left-menu" class="ui column secondary menu" rv-hide="appState.hideNavFields < searchMode addMode">
+    <div class="ui left secondary menu">
+      <a id="home" class="ui basic button item" href="<%= root_path %>">
+        <img src="/assets/logo.png">
+        <span style="padding-bottom:30%;font-size:smaller;padding-left:5%;">BETA</span>
+      </a>
+    </div>
+  </div>
+</div>
+
 <div class="ui middle aligned center aligned grid">
   <div class="column login-form">
-    <h2 class="ui image header">
-      <%= link_to image_tag("/assets/logo.png"), root_path, { class: "image" } %>
-    </h2>
-
     <div class="ui very padded segment">
-      <h4 class="ui header" style="color:rgba(0,0,0,0.60);padding-bottom:10px;">
-        Hi! Welcome to Slyp :) You are currently accepting an invitation from <b style="color:rgba(0,0,0,0.87);"><%= @inviter.try(:display_name) %></b> for <b style="color:rgba(0,0,0,0.87);"><%= @invitee.try(:display_name) %></b>. <br/><br/>Find out more about <%= link_to "Slyp", root_path, target: "_blank" %>.
+      <h4 class="ui header" style="color:rgba(0,0,0,0.60);">
+        Hello and welcome to Slyp <i class="smile icon" style="display:inline;padding-left:5px;"></i>
+      </h4>
+      <h4 class="ui header" style="color:rgba(0,0,0,0.60);padding-bottom:10px;">You are currently accepting an invitation from <b style="color:rgba(0,0,0,0.87);"><%= @inviter.try(:display_name) %></b> for <b style="color:rgba(0,0,0,0.87);"><%= @invitee.try(:display_name) %></b>. <br/><br/>Find out more about <%= link_to "Slyp", root_path, target: "_blank" %>.
       </h4>
       <%= link_to user_facebook_omniauth_authorize_path do %>
         <button class="ui facebook big button">
           <i class="facebook icon"></i>
-         Continue with Facebook
+         Sign up with Facebook
         </button>
       <% end %>
     </div>

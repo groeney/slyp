@@ -1,15 +1,61 @@
-<h2>Log in</h2>
-
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email, required: false, autofocus: true %>
-    <%= f.input :password, required: false %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+<div class="ui top fixed secondary menu" style="background-color:white;border-bottom:1px solid gainsboro;">
+  <div id="left-menu" class="ui column secondary menu" rv-hide="appState.hideNavFields < searchMode addMode">
+    <div class="ui left secondary menu">
+      <a id="home" class="ui basic button item" href="<%= root_path %>">
+        <img src="/assets/logo.png">
+        <span style="padding-bottom:30%;font-size:smaller;padding-left:5%;">BETA</span>
+      </a>
+    </div>
   </div>
+</div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Log in" %>
+<div class="ui container">
+  <div class="ui center aligned basic segment">
+    <%= link_to user_facebook_omniauth_authorize_path do %>
+      <button class="ui facebook big button">
+        <i class="facebook icon"></i>
+       Login with Facebook
+      </button>
+    <% end %>
   </div>
-<% end %>
+  <div class="ui horizontal divider">
+    Or
+  </div>
+  <div class="ui grid">
+    <div class="ui centered column">
+      <%= form_for(resource, :as => resource_name, :url => session_path(:user), :class => "ui form") do |f| %>
+        <div class="two fields">
+          <div class="field">
+            <div class="ui center aligned container">
+              <div class="ui left icon input">
+                <i class="user icon"></i>
+                  <%= f.text_field :email, :placeholder => "my email" %>
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <div class="ui center aligned container">
+              <div class="ui left icon input">
+                <i class="lock icon"></i>
+                  <%= f.password_field :password, :placeholder => "top secret password" %>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ui basic center aligned segment" style="padding-left: 15%;">
+          <button class="ui large submit primary button">Login</button>
+          <%= link_to "Forgot your password?", new_password_path(:user) %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
 
-<%= render "devise/shared/links" %>
+<script type="text/javascript">
+  $('body').addClass('devise');
+  // $(document).ready(function(){
+  //   if ($.cookies('fb_sign_in') == 'true'){
+  //     $('.ui.facebook.button').click();
+  //   }
+  // });
+</script>

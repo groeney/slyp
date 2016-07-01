@@ -1,7 +1,7 @@
 <% if flash.any? %>
   <div class="flashes">
-    <% user_facing_flashes.each do |key, value| -%>
-      <div class="flash-<%= key %>"><%= value %></div>
+    <% user_facing_flashes.each do |key, msg| -%>
+      <%= content_tag :div, msg, :id => "flash-#{key}" if msg.length > 0 %>
     <% end -%>
   </div>
 <% end %>

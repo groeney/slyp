@@ -25,4 +25,10 @@ class UserMailerPreview < ActionMailer::Preview
   def activity
     UserMailer.activity(User.with_notifications.first)
   end
+
+  def new_friend_notification
+    user = User.first
+    friend = user.friends.first
+    UserMailer.new_friend_notification(user, friend)
+  end
 end
