@@ -1,9 +1,8 @@
 /*!
- * # Semantic UI 2.1.8 - Segment
+ * # Semantic UI 2.2.1 - Segment
  * http://github.com/semantic-org/semantic-ui/
  *
  *
- * Copyright 2015 Contributors
  * Released under the MIT license
  * http://opensource.org/licenses/MIT
  *
@@ -17,11 +16,11 @@
 .ui.segment {
   position: relative;
   background: #FFFFFF;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.075);
+  box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
   margin: 1rem 0em;
-  padding: 20px 20px;
-  border-radius: 4px;
-  border: 1px solid #D8DEE2;
+  padding: 1em 1em;
+  border-radius: 0.28571429rem;
+  border: 1px solid rgba(34, 36, 38, 0.15);
 }
 .ui.segment:first-child {
   margin-top: 0em;
@@ -39,7 +38,7 @@
   border-radius: 0px;
   box-shadow: none;
   border: none;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.13);
+  border-bottom: 1px solid rgba(34, 36, 38, 0.15);
 }
 .ui.vertical.segment:last-child {
   border-bottom: none;
@@ -77,22 +76,22 @@
 .ui.page.grid.segment,
 .ui.grid > .row > .ui.segment.column,
 .ui.grid > .ui.segment.column {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 2em;
+  padding-bottom: 2em;
 }
 .ui.grid.segment {
   margin: 1rem 0em;
-  border-radius: 4px;
+  border-radius: 0.28571429rem;
 }
 
 /* Table */
 .ui.basic.table.segment {
   background: #FFFFFF;
-  border: 1px solid #D8DEE2;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.075);
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
 }
 .ui[class*="very basic"].table.segment {
-  padding: 20px 20px;
+  padding: 1em 1em;
 }
 
 
@@ -129,7 +128,7 @@
   left: 0px;
   position: absolute;
   width: 100%;
-  border: 1px solid #D8DEE2;
+  border: 1px solid rgba(34, 36, 38, 0.15);
   box-shadow: '';
 }
 .ui.piled.segments:before,
@@ -168,7 +167,7 @@
 --------------------*/
 
 .ui.stacked.segment {
-  padding-bottom: 20.4px;
+  padding-bottom: 1.4em;
 }
 .ui.stacked.segments:before,
 .ui.stacked.segments:after,
@@ -178,7 +177,7 @@
   position: absolute;
   bottom: -3px;
   left: 0%;
-  border-top: 1px solid rgba(0, 0, 0, 0.13);
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
   background: rgba(0, 0, 0, 0.03);
   width: 100%;
   height: 6px;
@@ -202,7 +201,7 @@
 .ui.stacked.inverted.segment:before,
 .ui.stacked.inverted.segment:after {
   background-color: rgba(0, 0, 0, 0.03);
-  border-top: 1px solid #51A7E8;
+  border-top: 1px solid rgba(34, 36, 38, 0.35);
 }
 
 /*-------------------
@@ -256,7 +255,7 @@
 
 .ui.raised.segments,
 .ui.raised.segment {
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.075);
+  box-shadow: 0px 2px 4px 0px rgba(34, 36, 38, 0.12), 0px 2px 10px 0px rgba(34, 36, 38, 0.15);
 }
 
 
@@ -273,9 +272,9 @@
           flex-direction: column;
   position: relative;
   margin: 1rem 0em;
-  border: 1px solid #D8DEE2;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.075);
-  border-radius: 4px;
+  border: 1px solid rgba(34, 36, 38, 0.15);
+  box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
+  border-radius: 0.28571429rem;
 }
 .ui.segments:first-child {
   margin-top: 0em;
@@ -293,7 +292,7 @@
   width: auto;
   box-shadow: none;
   border: none;
-  border-top: 1px solid #D8DEE2;
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
 }
 .ui.segments:not(.horizontal) > .segment:first-child {
   border-top: none;
@@ -301,7 +300,7 @@
   bottom: 0px;
   margin-bottom: 0em;
   top: 0px;
-  border-radius: 4px 4px 0em 0em;
+  border-radius: 0.28571429rem 0.28571429rem 0em 0em;
 }
 
 /* Bottom */
@@ -310,13 +309,18 @@
   bottom: 0px;
   margin-top: 0em;
   margin-bottom: 0em;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.075), none;
-  border-radius: 0em 0em 4px 4px;
+  box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15), none;
+  border-radius: 0em 0em 0.28571429rem 0.28571429rem;
+}
+
+/* Only */
+.ui.segments:not(.horizontal) > .segment:only-child {
+  border-radius: 0.28571429rem;
 }
 
 /* Nested Group */
 .ui.segments > .ui.segments {
-  border-top: 1px solid #D8DEE2;
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
   margin: 1rem 1rem;
 }
 .ui.segments > .segments:first-child {
@@ -339,10 +343,10 @@
   border-radius: 0px;
   padding: 0em;
   background-color: #FFFFFF;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.075);
+  box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15);
   margin: 1rem 0em;
-  border-radius: 4px;
-  border: 1px solid #D8DEE2;
+  border-radius: 0.28571429rem;
+  border: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 /* Nested Horizontal Group */
@@ -352,7 +356,7 @@
   border-radius: 0px;
   border: none;
   box-shadow: none;
-  border-top: 1px solid #D8DEE2;
+  border-top: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 /* Horizontal Segment */
@@ -368,7 +372,7 @@
   border-radius: 0px;
   border: none;
   box-shadow: none;
-  border-left: 1px solid rgba(0, 0, 0, 0.13);
+  border-left: 1px solid rgba(34, 36, 38, 0.15);
 }
 
 /* Border Fixes */
@@ -390,7 +394,7 @@
 ---------------*/
 
 .ui.disabled.segment {
-  opacity: 0.3;
+  opacity: 0.45;
   color: rgba(40, 40, 40, 0.3);
 }
 
@@ -415,7 +419,7 @@
   background: rgba(255, 255, 255, 0.8);
   width: 100%;
   height: 100%;
-  border-radius: 4px;
+  border-radius: 0.28571429rem;
   z-index: 100;
 }
 .ui.loading.segment:after {
@@ -495,7 +499,7 @@
 
 /* Red */
 .ui.red.segment:not(.inverted) {
-  border-top: 0.5em solid #DB2828;
+  border-top: 2px solid #DB2828;
 }
 .ui.inverted.red.segment {
   background-color: #DB2828 !important;
@@ -504,16 +508,16 @@
 
 /* Orange */
 .ui.orange.segment:not(.inverted) {
-  border-top: 0.5em solid #D26911;
+  border-top: 2px solid #F2711C;
 }
 .ui.inverted.orange.segment {
-  background-color: #D26911 !important;
+  background-color: #F2711C !important;
   color: #FFFFFF !important;
 }
 
 /* Yellow */
 .ui.yellow.segment:not(.inverted) {
-  border-top: 0.5em solid #FBBD08;
+  border-top: 2px solid #FBBD08;
 }
 .ui.inverted.yellow.segment {
   background-color: #FBBD08 !important;
@@ -522,7 +526,7 @@
 
 /* Olive */
 .ui.olive.segment:not(.inverted) {
-  border-top: 0.5em solid #B5CC18;
+  border-top: 2px solid #B5CC18;
 }
 .ui.inverted.olive.segment {
   background-color: #B5CC18 !important;
@@ -531,16 +535,16 @@
 
 /* Green */
 .ui.green.segment:not(.inverted) {
-  border-top: 0.5em solid #78CB5B;
+  border-top: 2px solid #21BA45;
 }
 .ui.inverted.green.segment {
-  background-color: #78CB5B !important;
+  background-color: #21BA45 !important;
   color: #FFFFFF !important;
 }
 
 /* Teal */
 .ui.teal.segment:not(.inverted) {
-  border-top: 0.5em solid #00B5AD;
+  border-top: 2px solid #00B5AD;
 }
 .ui.inverted.teal.segment {
   background-color: #00B5AD !important;
@@ -549,16 +553,16 @@
 
 /* Blue */
 .ui.blue.segment:not(.inverted) {
-  border-top: 0.5em solid #80A6CD;
+  border-top: 2px solid #2185D0;
 }
 .ui.inverted.blue.segment {
-  background-color: #80A6CD !important;
+  background-color: #2185D0 !important;
   color: #FFFFFF !important;
 }
 
 /* Violet */
 .ui.violet.segment:not(.inverted) {
-  border-top: 0.5em solid #6435C9;
+  border-top: 2px solid #6435C9;
 }
 .ui.inverted.violet.segment {
   background-color: #6435C9 !important;
@@ -567,7 +571,7 @@
 
 /* Purple */
 .ui.purple.segment:not(.inverted) {
-  border-top: 0.5em solid #A333C8;
+  border-top: 2px solid #A333C8;
 }
 .ui.inverted.purple.segment {
   background-color: #A333C8 !important;
@@ -576,7 +580,7 @@
 
 /* Pink */
 .ui.pink.segment:not(.inverted) {
-  border-top: 0.5em solid #E03997;
+  border-top: 2px solid #E03997;
 }
 .ui.inverted.pink.segment {
   background-color: #E03997 !important;
@@ -585,7 +589,7 @@
 
 /* Brown */
 .ui.brown.segment:not(.inverted) {
-  border-top: 0.5em solid #A5673F;
+  border-top: 2px solid #A5673F;
 }
 .ui.inverted.brown.segment {
   background-color: #A5673F !important;
@@ -594,7 +598,7 @@
 
 /* Grey */
 .ui.grey.segment:not(.inverted) {
-  border-top: 0.5em solid #767676;
+  border-top: 2px solid #767676;
 }
 .ui.inverted.grey.segment {
   background-color: #767676 !important;
@@ -603,10 +607,10 @@
 
 /* Black */
 .ui.black.segment:not(.inverted) {
-  border-top: 0.5em solid #333333;
+  border-top: 2px solid #1B1C1D;
 }
 .ui.inverted.black.segment {
-  background-color: #333333 !important;
+  background-color: #1B1C1D !important;
   color: #FFFFFF !important;
 }
 
@@ -648,7 +652,7 @@
 }
 .ui.inverted.segment,
 .ui.primary.inverted.segment {
-  background: #333333;
+  background: #1B1C1D;
   color: rgba(255, 255, 255, 0.9);
 }
 
@@ -672,22 +676,24 @@
 
 /* Secondary */
 .ui.secondary.segment {
-  background: #F9F9F9;
-  color: rgba(0, 0, 0, 0.87);
+  background: #F3F4F5;
+  color: rgba(0, 0, 0, 0.6);
 }
 .ui.secondary.inverted.segment {
-  background: #555555;
-  color: rgba(0, 0, 0, 0.87);
+  background: #4c4f52 -webkit-linear-gradient(rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
+  background: #4c4f52 linear-gradient(rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.2) 100%);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /* Tertiary */
 .ui.tertiary.segment {
-  background: #F0F0F0;
-  color: rgba(0, 0, 0, 0.87);
+  background: #DCDDDE;
+  color: rgba(0, 0, 0, 0.6);
 }
 .ui.tertiary.inverted.segment {
-  background: #333333;
-  color: rgba(0, 0, 0, 0.87);
+  background: #717579 -webkit-linear-gradient(rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.35) 100%);
+  background: #717579 linear-gradient(rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0.35) 100%);
+  color: rgba(255, 255, 255, 0.8);
 }
 
 /*-------------------
@@ -704,9 +710,9 @@
   width: calc(100% +  2px );
   max-width: calc(100% +  2px );
   box-shadow: none;
-  border: 1px solid #DDDDDD;
+  border: 1px solid #D4D4D5;
 }
-.ui.attached + .ui.attached.segment:not(.top) {
+.ui.attached:not(.message) + .ui.attached.segment:not(.top) {
   border-top: none;
 }
 
@@ -716,7 +722,7 @@
   margin-bottom: 0em;
   top: 0px;
   margin-top: 1rem;
-  border-radius: 4px 4px 0em 0em;
+  border-radius: 0.28571429rem 0.28571429rem 0em 0em;
 }
 .ui.segment[class*="top attached"]:first-child {
   margin-top: 0em;
@@ -728,16 +734,53 @@
   margin-top: 0em;
   top: 0px;
   margin-bottom: 1rem;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.075), none;
-  border-radius: 0em 0em 4px 4px;
+  box-shadow: 0px 1px 2px 0 rgba(34, 36, 38, 0.15), none;
+  border-radius: 0em 0em 0.28571429rem 0.28571429rem;
 }
 .ui.segment[class*="bottom attached"]:last-child {
   margin-bottom: 0em;
 }
 
+/*-------------------
+        Size
+--------------------*/
+
+.ui.mini.segments .segment,
+.ui.mini.segment {
+  font-size: 0.78571429rem;
+}
+.ui.tiny.segments .segment,
+.ui.tiny.segment {
+  font-size: 0.85714286rem;
+}
+.ui.small.segments .segment,
+.ui.small.segment {
+  font-size: 0.92857143rem;
+}
+.ui.segments .segment,
+.ui.segment {
+  font-size: 1rem;
+}
+.ui.large.segments .segment,
+.ui.large.segment {
+  font-size: 1.14285714rem;
+}
+.ui.big.segments .segment,
+.ui.big.segment {
+  font-size: 1.28571429rem;
+}
+.ui.huge.segments .segment,
+.ui.huge.segment {
+  font-size: 1.42857143rem;
+}
+.ui.massive.segments .segment,
+.ui.massive.segment {
+  font-size: 1.71428571rem;
+}
+
 
 /*******************************
-           Overrides
+         Theme Overrides
 *******************************/
 
 
