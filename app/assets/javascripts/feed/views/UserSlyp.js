@@ -258,6 +258,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
     var comment = this.state.comment;
     this.state.comment = '';
     this.state.reslyping = true;
+    var selfReslyp = emails.length == 1 && emails[0] == slypApp.user.get('email');
 
     var context = this;
     Backbone.ajax({
@@ -274,7 +275,11 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         comment: comment
       }),
       success: function(response) {
-        _toastr('success', 'Started ' + 'conversation'.pluralize(emails.length));
+        if (selfReslyp){
+          _toastr('success', 'Saved a personal note.');
+        } else{
+          _toastr('success', 'Started ' + 'conversation'.pluralize(emails.length));
+        }
 
         // Analytics
         analytics.track('Reslyp', {
