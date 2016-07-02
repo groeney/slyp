@@ -29,6 +29,17 @@ slypApp.Views.PreviewModal = Backbone.Marionette.ItemView.extend({
                 css('font-size', 'larger').
                 css('font-family', "'Palatino Linotype','Book Antiqua',Palatino,serif");
   },
+  events: {
+    'click #conversations' : 'showConversations'
+  },
+  showConversations: function(){
+    this.$el.modal('hide');
+    this.model.save({ unseen_activity: false });
+    slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({ model: this.model }));
+    $('.ui.right.sidebar').sidebar('show');
+  },
+
+  // Helpers
   initializeSemanticUI: function(){
     this.$('.video_frame').first().addClass('ui').addClass('embed');
     this.$el.modal({

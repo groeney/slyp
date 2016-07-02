@@ -2,9 +2,33 @@
   <i class="close icon"></i>
   <span class="ui header center aligned wrap">{ userSlyp.displayTitle }</span>
   <div class="ui basic center aligned segment">
-    <a target="_blank" rv-href="userSlyp:url" style="color: #b1b2b2; font-size: 1.33rem;" >
-      <span>{ userSlyp:author | authorship userSlyp:site_name userSlyp:url}</span>
-    </a>
+    <span>
+      <a target="_blank" rv-href="userSlyp:url" style="color: #b1b2b2; font-size: 1.33rem;" >
+        <span>{ userSlyp:author | authorship userSlyp:site_name userSlyp:url}</span>
+      </a>
+    </span>
+    <br/><br/>
+    <span>
+      <span class="fb-share-button" rv-data-href="userSlyp:url" data-layout="icon" data-mobile-iframe="true">
+        <a class="fb-xfbml-parse-ignore" target="_blank" rv-href="userSlyp.fbURL < :url">
+          <i id="facebook-share" class="facebook link icon"></i>
+        </a>
+      </span>
+      <a class="twitter-share-button" rv-href="userSlyp.tweetURL < :url">
+        <i id="twitter-share" class="twitter link icon"></i>
+      </a>
+      <a id="conversations" class="description">
+        <i class="icon" rv-classes-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
+        <span rv-show="userSlyp.hasConversations < :friends">{ userSlyp:friends | numConversations }</span>
+        <span rv-hide="userSlyp.hasConversations < :friends">Send to friends</span>
+        <span class="ui red mini label" rv-show="userSlyp.hasLove < :unseen_replies :unseen_activity">{ userSlyp.loveAmount < :unseen_replies :unseen_activity } new</span>
+      </a>
+    </span>
+    <br/><br/>
+    <span>
+      <span style="color: #b1b2b2;">{ userSlyp:duration | consumption userSlyp:slyp_type }</span>
+    </span>
+    <br/><br/>
   </div>
   <div class="ui aligned basic segment" rv-html="userSlyp:html"></div>
 </script>
