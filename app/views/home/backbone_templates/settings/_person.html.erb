@@ -1,6 +1,6 @@
 <script type="text/template" id="js-person-tmpl">
   <div class="right floated">
-    <button class="circular ui icon button" rv-class-unless-positive="person.isFriend < :friendship_id" rv-class-loading="state.loading">
+    <button class="ui basic circular ui icon button" rv-class-unless-positive="person.isFriend < :friendship_id" rv-class-loading="state.loading">
       <i class="icon" rv-classes-unless-add-user="person.isFriend < :friendship_id" rv-class-checkmark="person.isFriend < :friendship_id"></i>
     </button>
   </div>

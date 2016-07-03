@@ -7,6 +7,11 @@
       </a>
     </div>
   </div>
+  <div class="ui right secondary menu">
+    <a class="ui basic button item" href="<%= sign_in_url %>">
+      Sign in
+    </a>
+  </div>
 </div>
 
 <div class="ui middle aligned center aligned grid">
@@ -20,7 +25,7 @@
       <%= form_tag("/r/capture", method: "post", remote: true, class: "ui middle aligned form", id: "referral-capture", 'data-type': 'json') do %>
         <%= hidden_field_tag :referred_by_id, @referrer.id %>
         <%= email_field_tag :email, "", placeholder: "donald@duck.com", class: "six wide field", style: "margin-left: 30%;" %>
-        <button class="ui blue submit button" style="margin-top:20px;">
+        <button class="ui basic primary submit button" style="margin-top:20px;">
           Get invitation
         </button>
       <% end %>

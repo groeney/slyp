@@ -8,7 +8,7 @@ var shepherd = new Shepherd.Tour({
 
 // Steps and triggers
 shepherd.addStep('1 add', {
-  title: 'Add slyps',
+  title: 'Create slyps',
   text: 'Click on the <i class="plus icon"></i> icon to create a new slyp',
   attachTo: '#add-button bottom',
   buttons: false
@@ -19,7 +19,7 @@ shepherd.addStep('1 add', {
 
 shepherd.addStep('2 create', {
   title: 'Create',
-  text: 'Nice. We found a link for you, try adding it!',
+  text: 'Nice. We found a link for you, try creating it!',
   attachTo: '#create-input bottom',
   buttons: false,
   when: {

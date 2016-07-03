@@ -14,9 +14,9 @@
       <div rv-show="state.editMode">
         <textarea type="text" rv-live-value="reply:text" rows="1" autofocus></textarea>
         <div class="ui buttons">
-          <div id="cancel-update" class="ui button">Cancel</div>
-          <div id="update" class="ui positive button" rv-show="reply.hasText < :text">Save Changes</div>
-          <div id="delete" class="ui negative button" rv-hide="reply.hasText < :text">Delete</div>
+          <div id="cancel-update" class="ui basic button">Cancel</div>
+          <div id="update" class="ui basic positive button" rv-show="reply.hasText < :text">Save Changes</div>
+          <div id="delete" class="ui basic negative button" rv-hide="reply.hasText < :text">Delete</div>
         </div>
       </div>
     </div>

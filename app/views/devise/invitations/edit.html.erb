@@ -7,6 +7,11 @@
       </a>
     </div>
   </div>
+  <div class="ui right secondary menu">
+    <a class="ui basic button item" href="<%= sign_in_url %>">
+      Sign in
+    </a>
+  </div>
 </div>
 
 <div class="ui middle aligned center aligned grid">
@@ -34,14 +39,14 @@
           We are currently only accepting signups via Facebook. If you'd prefer not to sign up with Facebook (or don't have one) you can enter your details to join the waitlist.
         </div>
       </div>
-      <%= simple_form_for resource, as: resource_name, url: "/users/waitlist", html: { autocomplete: "off", method: :put } do |f| %>
+      <%= simple_form_for resource, as: resource_name, url: "/users/waitlist", html: { autocomplete: "off", method: :put, style: "text-align:left;" } do |f| %>
         <%= devise_error_messages! %>
         <%= f.hidden_field :invitation_token %>
 
-        <%= f.input :first_name, :required => true %>
-        <%= f.input :last_name, :required => true %>
+        <%= f.input :first_name, required: true, placeholder: "Donald" %>
+        <%= f.input :last_name, required: true, placeholder: "Duck" %>
         <%= f.input :email, disabled: true %>
-        <%= f.button :submit, "Join waitlist" %>
+        <%= f.button :submit, "Join waitlist", style: "margin-left:35%;" %>
       <% end %>
     </div>
   </div>
