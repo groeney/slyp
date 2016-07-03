@@ -49,13 +49,12 @@
     <a id="title" class="header center aligned wrap" style="font-size:1.5em;">{ userSlyp.displayTitle | trunc }</a>
   </div>
 
-  <div class="extra content friend-data" style="padding:10px;text-align:left;
-  ">
+  <div class="extra content friend-data" style="padding:10px;text-align:left;">
     <div class="ui left aligned row">
       <a id="conversations" class="description">
-        <i class="icon" rv-classes-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
+        <i class="large icon" rv-classes-talk-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends" style="margin-bottom:2px;"></i>
         <span rv-show="userSlyp.hasConversations < :friends">{ userSlyp:friends | numConversations }</span>
-        <span rv-hide="userSlyp.hasConversations < :friends">Only you see this</span>
+        <span class="ui left pointing circular label" rv-hide="userSlyp.hasConversations < :friends">Only you see this</span>
         <span class="ui red mini label" rv-show="userSlyp.hasLove < :unseen_replies :unseen_activity">{ userSlyp.loveAmount < :unseen_replies :unseen_activity } new</span>
       </a>
       <i id="explore-us" class="right floated large compass link icon" rv-class-active="userSlyp:archived" data-content="Find similar content" data-variation="tiny"></i>
