@@ -34,6 +34,7 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
         }
       });
     }
+    this.model.touch();
   },
   onRender: function(){
     this.binder = rivets.bind(this.$el, {

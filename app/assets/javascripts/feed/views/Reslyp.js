@@ -133,7 +133,7 @@ slypApp.Views.Reslyp = Backbone.Marionette.CompositeView.extend({
         })
       }
     } else {
-      $('#filter-dropdown').dropdown('set selected', 'recent');
+      $('#filter-dropdown').dropdown('set selected', 'all');
     }
   }
 });

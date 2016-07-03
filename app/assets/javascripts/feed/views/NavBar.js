@@ -48,14 +48,15 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
   exitSearchMode: function(){
     slypApp.state.searchMode = false;
     this.refreshFeed();
+    $('#filter-dropdown').show();
   },
   forceRefresh: function(){
-    $('#filter-dropdown').dropdown('set selected', 'recent');
+    $('#filter-dropdown').dropdown('set selected', 'all');
   },
   refreshFeed: function(){
     this.state.searchTerm = '';
-    if ($('#filter-dropdown').dropdown('get value') !== 'recent'){
-      $('#filter-dropdown').dropdown('set selected', 'recent');
+    if ($('#filter-dropdown').dropdown('get value') !== 'all'){
+      $('#filter-dropdown').dropdown('set selected', 'all');
     }
   },
   createSlyp: function(){
@@ -82,11 +83,11 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
           var userSlyp = slypApp.userSlyps.get(response.id);
           if (userSlyp.get('archived')){
             userSlyp.save({ archived: false });
-            _toastr('info', 'We moved this slyp from Done to Reading list :)');
+            _toastr('info', 'We found this slyp already in your feed!');
           } else if (exists) {
-            _toastr('info', 'We reordered this slyp to be in 1st position! :)');
+            _toastr('info', 'We found this slyp already in your feed!');
           } else {
-            _toastr('success', 'Added to Reading list :)');
+            _toastr('success', 'Created a slyp!');
 
             // Analytics
             analytics.track('Created New Slyp', {

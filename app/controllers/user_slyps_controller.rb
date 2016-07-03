@@ -28,6 +28,12 @@ class UserSlypsController < BaseController
            serializer: UserSlypSerializer
   end
 
+  def touch
+    @user_slyp = current_user.user_slyps.find(params[:id])
+    @user_slyp.touch
+    render status: 204, json: {}
+  end
+
   private
 
   def present(user_slyp, show_html = false)

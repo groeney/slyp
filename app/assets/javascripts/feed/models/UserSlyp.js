@@ -67,5 +67,18 @@ slypApp.Models.UserSlyp = Backbone.RelationalModel.extend({
   },
   index: function(){
     return slypApp.userSlyps.indexOf(this);
+  },
+  touch: function(){
+    $.ajax({
+      url: '/user_slyp/touch/' + this.get('id'),
+      method: 'PUT',
+      accepts: {
+        json: 'application/json'
+      },
+      dataType: 'json'
+    });
+  },
+  favicon: function(){
+    return generateFavicon(this.get('url'));
   }
 });

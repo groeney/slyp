@@ -16,6 +16,7 @@ slypApp.Views.PreviewSidebar = Backbone.Marionette.CompositeView.extend({
     if (this.model.get('html') == null){
       this.model.fetch();
     }
+    this.model.touch();
     this.binder = rivets.bind(this.$el, { userSlyp: this.model });
   },
   onShow: function(){
