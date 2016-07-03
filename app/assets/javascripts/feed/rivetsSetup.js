@@ -132,6 +132,10 @@ rivets.binders['fade-hide'] = function(el, value) {
   });
 };
 
+rivets.binders['show-flex'] = function(el, value) {
+  el.style.display = value ? 'flex' : 'none';
+};
+
 rivets.binders['fade-show'] = function(el, value) {
   return value ? $(el).fadeIn() : $(el).fadeOut();
 };
