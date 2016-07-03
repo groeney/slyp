@@ -3,7 +3,7 @@
     <span class="right floated">
       <i class="comments outline icon"></i>
       { userSlyp:total_reslyps }
-      <i id="favorite-action" class="heart outline icon" rv-class-active="userSlyp:favourite"></i>
+      <i id="favorite-action" class="like icon" rv-class-active="userSlyp:favourite"></i>
       { userSlyp:total_favourites }
     </span>
     <div class="left floated">
@@ -18,7 +18,7 @@
           <span id="slyp-actions">
             <i id="send-button" class="big send outline link icon" style="padding-right:25px;"></i>
             <i id="preview-button" class="big search link icon" style="padding-left:25px;padding-right:25px;"></i>
-            <i id="conversations-button" class="big comment outline link icon" style="padding-left:25px;padding-right:25px;"></i>
+            <i id="conversations-button" class="big talk outline link icon" style="padding-left:25px;padding-right:25px;"></i>
           </span>
         </div>
       </div>
@@ -45,8 +45,7 @@
         <span rv-hide="userSlyp.hasConversations < :friends">Only you see this</span>
         <span class="ui red mini label" rv-show="userSlyp.hasLove < :unseen_replies :unseen_activity">{ userSlyp.loveAmount < :unseen_replies :unseen_activity } new</span>
       </a>
-      <i id="explore-us" class="right floated large map link icon" rv-class-active="userSlyp:archived" data-content="Find similar content" data-variation="tiny"></i>
-      <i id="archive-action" class="right floated large checkmark icon" rv-class-active="userSlyp:archived" rv-data-content="userSlyp:archived | doneText" data-variation="tiny"></i>
+      <i id="explore-us" class="right floated large compass link icon" rv-class-active="userSlyp:archived" data-content="Find similar content" data-variation="tiny"></i>
     </div>
 
     <div class="ui left aligned basic segment row" style="padding:0px;margin:0em;" rv-class-loading="state.loadingQuickReply" rv-show="userSlyp.hasConversations < :latest_conversation">

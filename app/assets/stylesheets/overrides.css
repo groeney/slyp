@@ -1,7 +1,6 @@
-
 .shepherd-target.shepherd-enabled {
-opacity: 1;
-pointer-events: auto;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .shepherd-step {
