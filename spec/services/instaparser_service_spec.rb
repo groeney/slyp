@@ -7,7 +7,7 @@ RSpec.describe InstaparserService do
         expect(result[:slyp_type]).to eq "article"
         expect(result[:title]).to eq "26 Musings from Kierkegaard"
         expect(result[:display_url]).to eq "https://www.farnamstreetblog.com/wp-content/uploads/2014/02/Kierkegaard_quote.jpeg"
-        expect(result[:favicon]).to eq "http://www.google.com/s2/favicons?domain=farnamstreetblog.com"
+        expect(result[:favicon]).to eq "https://www.google.com/s2/favicons?domain=farnamstreetblog.com"
         expect(result[:site_name]).to eq "farnamstreetblog.com"
       end
     end
