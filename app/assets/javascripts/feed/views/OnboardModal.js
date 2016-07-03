@@ -23,6 +23,9 @@ slypApp.Views.OnboardModal = Backbone.Marionette.ItemView.extend({
           shepherd.start();
         }
       },
+      onDeny: function($el){
+        $.cookie('_onboard_tour', true);
+      },
       onShow: function(){
         $('#drift-widget-container').hide();
       },

@@ -83,9 +83,9 @@ shepherd.addStep('5 label', {
 // Find inside step->buttons:action
 
 shepherd.addStep('6 actions', {
-  title: 'The fun part',
-  text: ['Use <i class="send icon"></i> to send to friends (you\'ve done that!).', 'Use <i class="search icon"></i> to view the content and <i class="comment outline icon"></i> to view your conversations.'],
-  attachTo: '#card-0 #slyp-actions right',
+  title: 'Action station',
+  text: ['Click on the description view more.', 'Click <i class="send icon"></i> to send to friends (you\'ve done that!).', 'Click <i class="search icon"></i> to view the content and <i class="talk outline icon"></i> to view your conversations.'],
+  attachTo: '#card-0 #card-image right',
   buttons: [
     {
       text: 'Got it, thanks',
@@ -130,11 +130,32 @@ shepherd.addStep('7 magic', {
 
 shepherd.addStep('8 simultaneous', {
   title: 'Engage',
-  text: ['These are your "engagement panels", where you can read and discuss with friends.', 'You can also send this article to friends via Facebook Messenger or post to Twitter.'],
+  text: ['These are your "engagement panels", where you can read and discuss with friends.', 'You can also send this article to friends via Facebook Messenger and post to Twitter.'],
   attachTo: '#js-sidebar-region right',
   buttons: [
     {
       text: 'Great',
+      action: function(e){
+        $('#close-sidebar').click();
+        setTimeout(function(){
+          $('#close-left-pane').click();
+        }, 250);
+        setTimeout(function(){
+          shepherd.next();
+        }, 500);
+      },
+      classes: 'shepherd-button-example-primary'
+    }
+  ]
+});
+
+shepherd.addStep('9 chat', {
+  title: 'Chat with us',
+  text: ['Use this to start a real-time chat with us!'],
+  attachTo: '#drift-widget left',
+  buttons: [
+    {
+      text: 'Got it!',
       action: shepherd.next,
       classes: 'shepherd-button-example-primary'
     }

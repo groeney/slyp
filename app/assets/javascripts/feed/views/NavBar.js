@@ -175,8 +175,8 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
   doneAdding: function(){
     setTimeout(function(){
       slypApp.state.addMode = false;
+      $('#filter-dropdown').show();
     }, 200);
-    $('#filter-dropdown').show();
   },
   toggleActions: function(){
     this.$('#right-menu').toggleClass('hide');
