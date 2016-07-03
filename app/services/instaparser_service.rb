@@ -61,8 +61,7 @@ module InstaparserService
   end
 
   def self.fetch_display_url
-    display_url = @response["thumbnail"] || @response["images"].first
-    display_url.gsub("http://", "https://")
+    @response["thumbnail"] || @response["images"].first
   end
 
   def self.fetch_site_name

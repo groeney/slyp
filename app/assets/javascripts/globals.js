@@ -44,7 +44,7 @@ function urlDomain(url) {
 }
 
 function generateFavicon(url) {
-  return 'http://www.google.com/s2/favicons?domain=' + urlDomain(url)
+  return 'https://www.google.com/s2/favicons?domain=' + urlDomain(url)
 }
 
 function randomFromInterval(min,max)
