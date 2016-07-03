@@ -1,4 +1,7 @@
 <script type="text/template" id="js-slyp-card-tmpl">
+  <div class="ui inverted dimmer" rv-class-active="appState.resettingFeed">
+    <div class="ui loader"></div>
+  </div>
   <div class="extra content" style="padding:10px;">
     <span class="right floated">
       <i class="comments outline icon"></i>
@@ -7,7 +10,17 @@
       { userSlyp:total_favourites }
     </span>
     <div class="left floated">
-      { userSlyp:duration | consumption userSlyp:slyp_type }
+      <div class="comment" style="display:inline-flex;">
+        <a class="avatar" rv-href="userSlyp:url" target="_blank">
+          <img rv-src="userSlyp.favicon < :url" src="http://www.google.com/s2/favicons?domain=www.slyp.io" style="height:16px;width:16px">
+        </a>
+        <div class="content" style="margin-left:1em;text-align:left;">
+          <a class="author" rv-href="userSlyp:url" target="_blank">{ userSlyp:site_name }</a>
+          <div class="metadata" style="display:flex;margin-left:0;">
+            <span class="date">{ userSlyp:duration | consumption userSlyp:slyp_type }</span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -15,6 +28,12 @@
     <div class="ui dimmer">
       <div class="content">
         <div class="center">
+          <a id="card-preview">
+            <p style="color:white;opacity:0.8;pointer-events:inherit;margin-left:30px;margin-right:30px;">
+              { userSlyp:description | trunc 500 }
+            </p>
+          </a>
+          <br/>
           <span id="slyp-actions">
             <i id="send-button" class="big send outline link icon" style="padding-right:25px;"></i>
             <i id="preview-button" class="big search link icon" style="padding-left:25px;padding-right:25px;"></i>
@@ -23,18 +42,11 @@
         </div>
       </div>
     </div>
-    <a rv-href="userSlyp:url" target="_blank">
-      <img type="image" class="ui small image display centered" rv-data-src="userSlyp:image" src="/assets/blank-image.png">
-    </a>
+    <img type="image" class="ui big image display centered" rv-data-src="userSlyp:image" src="/assets/blank-image.png" style="border:none;max-height:500px;">
   </div>
 
   <div class="content">
-    <a  id="title" class="header center aligned wrap">{ userSlyp.displayTitle | trunc }</a>
-    <div class="meta center aligned">
-      <a target="_blank" rv-href="userSlyp:url">
-        <span>{ userSlyp:author | authorship userSlyp:site_name userSlyp:url }</span>
-      </a>
-    </div>
+    <a id="title" class="header center aligned wrap" style="font-size:1.5em;">{ userSlyp.displayTitle | trunc }</a>
   </div>
 
   <div class="extra content friend-data" style="padding: 10px;">
@@ -50,7 +62,7 @@
 
     <div class="ui left aligned basic segment row" style="padding:0px;margin:0em;" rv-class-loading="state.loadingQuickReply" rv-show="userSlyp.hasConversations < :latest_conversation">
       <a id="comment-label" class="ui pointing circular label" rv-class-medium="state.intendingToReply" rv-class-unless-small="state.intendingToReply">
-        <image class="ui avatar image" rv-src="userSlyp:latest_conversation.image | getAvatar userSlyp:latest_conversation.first_name userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email"></span>
+        <img class="ui avatar image" rv-src="userSlyp:latest_conversation.image | getAvatar userSlyp:latest_conversation.first_name userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email">
         <span class="extra content">{ userSlyp:latest_conversation.text }</span>
       </a>
       <div id="quick-reply-form" class="ui center aligned form" rv-show="state.intendingToReply">

@@ -7,6 +7,7 @@ slypApp.Controller = Marionette.Object.extend({
     slypApp.persons = new slypApp.Collections.Persons();
     slypApp.persons.fetch().done(function(){
       slypApp.feedRegion.show(new slypApp.Views.FeedLayout({
+        model     : slypApp.user,
         collection: slypApp.userSlyps
       }));
     });

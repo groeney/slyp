@@ -130,6 +130,7 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
   enterAddMode: function(){
     slypApp.state.addMode = true;
     this.$('#create-input').focus();
+    $('#filter-dropdown').hide();
 
     // Onboarder
     shepherdMediator.trigger('proceedTo', '2 create');
@@ -138,6 +139,7 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
     if ($('#filter-dropdown').dropdown('get value') !== 'search'){
       $('#filter-dropdown').dropdown('set selected', 'search');
     }
+    $('#filter-dropdown').hide();
   },
   setAppropriateSearch: function(){
     var leadingChar = this.state.searchTerm[0] || ''
@@ -173,7 +175,8 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
   doneAdding: function(){
     setTimeout(function(){
       slypApp.state.addMode = false;
-    }, 200)
+    }, 200);
+    $('#filter-dropdown').show();
   },
   toggleActions: function(){
     this.$('#right-menu').toggleClass('hide');

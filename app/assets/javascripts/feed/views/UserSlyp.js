@@ -39,7 +39,8 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
   onRender: function(){
     this.binder = rivets.bind(this.$el, {
       userSlyp : this.model,
-      state    : this.state
+      state    : this.state,
+      appState : slypApp.state
     });
     var context = this;
     if (typeof this.model.get('url') !== 'undefined'){
@@ -77,6 +78,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
     'click #archive-action'       : 'toggleArchive',
     'click #favorite-action'      : 'toggleStar',
     'mouseleaveintent'            : 'takeAttention',
+    'click #card-preview'         : 'showPreview',
     'click #preview-button'       : 'showPreview',
     'click #title'                : 'showPreview',
     'click #send-button'          : 'reslypAttention',
@@ -411,17 +413,4 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
 
     this.$('#reslyp-dropdown').dropdown('save defaults');
   }
-});
-
-var NoSlypsMessage = Backbone.Marionette.ItemView.extend({
-  template: '#js-no-slyps-message-tmpl',
-  attributes: {
-    'style' : 'margin-left:10em;'
-  }
-});
-
-slypApp.Views.UserSlyps = Backbone.Marionette.CollectionView.extend({
-  childView: slypApp.Views.UserSlyp,
-  className: 'ui three doubling stackable cards',
-  emptyView: NoSlypsMessage
 });

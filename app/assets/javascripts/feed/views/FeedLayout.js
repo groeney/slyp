@@ -1,10 +1,17 @@
-slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
-  template: '#js-feed-region-tmpl',
-  className: 'ui center aligned container',
-  regions: {
-    feedRegion : '.feed-region'
-  },
-  initialize: function(){
+var NoSlypsMessage = Backbone.Marionette.ItemView.extend({
+  template: '#js-no-slyps-message-tmpl',
+  attributes: {
+    'style' : 'margin-left:10em;'
+  }
+});
+
+slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({
+  template           : '#js-feed-region-tmpl',
+  className          : 'ui center aligned container',
+  childView          : slypApp.Views.UserSlyp,
+  childViewContainer : '.js-user-slyps-container',
+  emptyView          : NoSlypsMessage,
+  initialize: function(options){
     this.collection.bind('change:archived update reset', this.zeroState, this);
     slypApp.persons.on('change:friendship_id update', this.updateFriendsProgress, this);
   },
@@ -16,20 +23,10 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
     });
   },
   onShow: function() {
-    this.feedRegion.show(new slypApp.Views.UserSlyps({
-      collection: this.collection
-    }));
     this.updateFriendsProgress()
     $('#filter-dropdown').dropdown({
       onChange: function(value, text, selectedItem) {
         switch(value){
-          case 'recent':
-            slypApp.userSlyps.meta('friendID', null);
-            slypApp.userSlyps.meta('recent', true);
-            slypApp.state.searchMode = false;
-            slypApp.state.showArchived = false;
-            slypApp.userSlyps.paginate({ reset: true });
-            break;
           case 'all':
             slypApp.userSlyps.meta('friendID', null);
             slypApp.userSlyps.meta('recent', false);
@@ -57,7 +54,7 @@ slypApp.Views.FeedLayout = Backbone.Marionette.LayoutView.extend({
         }
       }
     });
-    $('#filter-dropdown').dropdown('set selected', 'recent'); // Performs initial fetch!
+    $('#filter-dropdown').dropdown('set selected', 'all'); // Performs initial fetch!
   },
   updateFriendsProgress: function(){
     var progressMeter = this.$('#friends-progress');

@@ -68,8 +68,9 @@ rivets.formatters.displaySiteName = function(value){
   return value ? value + ' | by ' : ''
 }
 
-rivets.formatters.trunc = function(value){
-  return value ? value.trunc(55) : ''
+rivets.formatters.trunc = function(value, offset){
+  if (offset == null) offset = 55
+  return value ? value.trunc(offset) : ''
 }
 
 rivets.formatters.truncDescription = function(value){
