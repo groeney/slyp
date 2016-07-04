@@ -15,7 +15,7 @@ shepherd.addStep('1 add', {
 });
 
 // trigger
-// Find in ./views/NavBar.js:154
+// Find in ./views/NavBar.js:133
 
 shepherd.addStep('2 create', {
   title: 'Create',
@@ -33,7 +33,7 @@ shepherd.addStep('2 create', {
 });
 
 // trigger
-// Find in ./views/NavBar.js:126
+// Find in ./views/NavBar.js:103
 
 shepherd.addStep('3 select', {
   title: 'Send to email',
@@ -42,14 +42,13 @@ shepherd.addStep('3 select', {
   buttons: false,
   when: {
     'before-show' : function(){
-      $('#send-button').first().click();
       $('html, body').animate({ scrollTop: '200px' });
     }
   }
 });
 
 // trigger
-// Find in ./views/UserSlyp.js:364
+// Find in ./views/UserSlyp.js:395
 
 shepherd.addStep('4 send', {
   title: 'Add comment and send',
@@ -59,7 +58,7 @@ shepherd.addStep('4 send', {
 });
 
 // trigger
-// Find in ./views/UserSlyp.js:268
+// Find in ./views/UserSlyp.js:296
 
 shepherd.addStep('5 label', {
   title: 'At a glance',
@@ -90,8 +89,13 @@ shepherd.addStep('6 actions', {
     {
       text: 'Got it, thanks',
       action: function(e){
-        $('.blurring.image img').first().trigger('mouseleave');
-        shepherd.next();
+        $('#close-left-pane').click();
+        setTimeout(function(){
+          $('#close-sidebar').click();
+        }, 150);
+        setTimeout(function(){
+          shepherd.next();
+        }, 200);
       },
       classes: 'shepherd-button-example-primary'
     }

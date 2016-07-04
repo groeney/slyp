@@ -393,7 +393,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
       // Onboarder
       setTimeout(function(){
         mediator.trigger('proceedTo', '4 send');
-      }, 100);
+      }, 250);
       return this
     });
 
