@@ -1,8 +1,5 @@
 var NoSlypsMessage = Backbone.Marionette.ItemView.extend({
-  template: '#js-no-slyps-message-tmpl',
-  attributes: {
-    'style' : 'margin-left:10em;'
-  }
+  template: '#js-no-slyps-message-tmpl'
 });
 
 slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({

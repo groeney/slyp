@@ -37,7 +37,6 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
     'keydown #searcher input'                 : 'handleSearchInput',
     'focusout #searcher'                      : 'focusOutSearch',
     'focusout #create-input'                  : 'doneAdding',
-    'click .right.secondary.menu.mobile.only' : 'toggleActions',
     'click #search-button'                    : 'enterSearchMode',
     'click #explore-button'                   : function(){ notImplemented('Explore'); },
     'click #goto-settings'                    : 'goToSettings',
@@ -48,7 +47,6 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
   exitSearchMode: function(){
     slypApp.state.searchMode = false;
     this.refreshFeed();
-    $('#filter-dropdown').show();
   },
   forceRefresh: function(){
     $('#filter-dropdown').dropdown('set selected', 'all');
@@ -130,7 +128,6 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
   enterAddMode: function(){
     slypApp.state.addMode = true;
     this.$('#create-input').focus();
-    $('#filter-dropdown').hide();
 
     // Onboarder
     shepherdMediator.trigger('proceedTo', '2 create');
@@ -139,7 +136,6 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
     if ($('#filter-dropdown').dropdown('get value') !== 'search'){
       $('#filter-dropdown').dropdown('set selected', 'search');
     }
-    $('#filter-dropdown').hide();
   },
   setAppropriateSearch: function(){
     var leadingChar = this.state.searchTerm[0] || ''
@@ -175,13 +171,7 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
   doneAdding: function(){
     setTimeout(function(){
       slypApp.state.addMode = false;
-      $('#filter-dropdown').show();
     }, 200);
-  },
-  toggleActions: function(){
-    this.$('#right-menu').toggleClass('hide');
-    this.$('#right-menu').toggleClass('right');
-    slypApp.state.actionsMode = !slypApp.state.actionsMode
   },
   goToSettings: function(){
     slypApp.settingsSidebarRegion.show(new slypApp.Views.SettingsSidebar({ model: slypApp.user }));

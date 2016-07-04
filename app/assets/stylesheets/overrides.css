@@ -88,14 +88,28 @@ pre {
   .mobile.only {
     display: block !important;
   }
+
   .mobile.hide {
     display: none !important;
   }
+
   .mobile.show {
     display: block !important;
   }
+
   #js-sidebar-region {
     width: 90%;
+  }
+
+  #filter-dropdown {
+    top: 57px;
+    right: 30%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+  }
+
+  #filter-dropdown .dropdown.icon {
+    margin-top: -3px;
   }
 }
 
@@ -103,9 +117,11 @@ pre {
   .mobile.hide {
     display: block;
   }
+
   .mobile.only {
     display: none !important;
   }
+
   #js-sidebar-region {
     width: 40%;
   }
@@ -130,6 +146,11 @@ pre {
     width: 60%;
     animation-name: shrink;
     animation-duration: 0.5s;
+  }
+
+  #filter-dropdown {
+    top:10px;
+    right:45%;
   }
 }
 
@@ -183,16 +204,4 @@ i.floating-action.first {
 i.floating-action.second {
   top: 7.5%;
 }
-
-
-
-
-
-
-
-
-
-
-
-
 

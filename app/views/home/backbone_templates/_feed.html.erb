@@ -3,11 +3,8 @@
   <div class="ui hidden divider"></div>
   <div class="ui hidden divider"></div>
   <div class="ui hidden divider"></div>
-  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
-  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
-  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
-  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
-  <div class="ui hidden divider" rv-show="appState.actionsOnMobile < .actionsMode"></div>
+  <div class="ui hidden divider" rv-show="appState.isMobile < .screenWidth"></div>
+  <div class="ui hidden divider" rv-show="appState.isMobile < .screenWidth"></div>
 
   <a id="friends-progress" class="ui indicating small progress" data-total="10">
     <div class="bar">
@@ -18,10 +15,10 @@
 
   <div id="progress-divider" class="ui divider"></div>
 
-  <div id="filter-dropdown" class="ui selection scrolling dropdown" rv-class-loading="appState.resettingFeed" style="background:white;position:fixed;top:10px;right:45%;z-index:101;border-color:white;min-width:8em;">
+  <div id="filter-dropdown" class="ui selection scrolling dropdown" rv-class-loading="appState.resettingFeed" style="background:white;position:fixed;z-index:101;border-color:white;min-width:8em;" rv-fade-hide="appState.usingNavBar < searchMode addMode">
     <span class="text">Filter</span>
     <i class="dropdown icon"></i>
-    <div class="menu">
+    <div class="menu" style="margin-left:-100px;min-height:230px;">
       <div class="item" data-value="all">
         <i class="world icon"></i>
         All

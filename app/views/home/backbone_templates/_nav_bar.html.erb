@@ -1,10 +1,10 @@
 <script type="text/template" id="js-nav-bar-tmpl">
   <div class="ui top fixed secondary menu" style="background-color:white;border-bottom:1px solid gainsboro;">
-    <div id="left-menu" class="ui column secondary menu" rv-hide="appState.hideNavFields < searchMode addMode">
+    <div id="left-menu" class="ui column secondary menu" rv-hide="appState.usingNavBar < searchMode addMode">
       <div class="ui left secondary menu">
-        <a id="home" class="ui basic button item">
+        <a id="home" class="ui basic button item" style="margin-right:40px;padding-right:0px;">
           <img src="/assets/logo.png">
-          <span style="padding-bottom:30%;font-size:smaller;padding-left:5%;">BETA</span>
+          <span style="margin-bottom:30%;font-size: xx-small;padding-left:5%;margin-left:-8px;">BETA</span>
         </a>
       </div>
     </div>
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div id="right-menu" class="ui secondary right menu column" rv-hide="appState.hideNavFields < searchMode addMode" style="padding-right:30px;">
+    <div id="right-menu" class="ui secondary right menu column" rv-hide="appState.usingNavBar < searchMode addMode" style="padding-right:30px;">
       <div id="add-button" class="ui item column">
         <i class="add link large icon"></i>
       </div>

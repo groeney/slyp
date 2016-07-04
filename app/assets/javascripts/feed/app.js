@@ -20,7 +20,6 @@ slypApp.state = {
   showArchived    : false,
   resettingFeed   : false,
   addMode         : false,
-  actionsMode     : false,
   screenWidth     : getScreenWidth(),
   leftPaneActive  : false,
   rightPaneActive : false,
@@ -28,7 +27,7 @@ slypApp.state = {
   slypURL         : ''
 }
 
-slypApp.state.hideNavFields = function(){
+slypApp.state.usingNavBar = function(){
   return slypApp.state.addMode || slypApp.state.searchMode
 }
 
@@ -36,10 +35,6 @@ slypApp.state.hideNavFields = function(){
 $(window).on('resize', function(){
   slypApp.state.screenWidth = getScreenWidth();
 })
-
-slypApp.state.actionsOnMobile = function(){
-  return slypApp.state.actionsMode && ($(window).width() < 767)
-}
 
 window.slypApp = slypApp;
 toastr.options = { 'positionClass' : 'toast-top-center' }

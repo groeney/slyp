@@ -28,7 +28,7 @@
     <div class="ui dimmer">
       <div class="content">
         <div class="center">
-          <a id="card-preview">
+          <a id="card-preview" rv-hide="appState.isMobile < .screenWidth">
             <p style="color:white;opacity:0.8;pointer-events:inherit;margin-left:30px;margin-right:30px;">
               { userSlyp:description | trunc 500 }
             </p>
