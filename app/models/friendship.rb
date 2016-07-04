@@ -11,7 +11,7 @@ class Friendship < ActiveRecord::Base
   end
 
   def reciprocate_the_hate
-    return unless friendship = reciprocal
+    return unless (friendship = reciprocal)
     friendship.destroy
   end
 
@@ -34,7 +34,7 @@ class Friendship < ActiveRecord::Base
   end
 
   def pending?
-    !(active?)
+    !active?
   end
 
   def active!

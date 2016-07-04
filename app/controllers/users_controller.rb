@@ -2,9 +2,10 @@ class UsersController < BaseController
   before_action :authenticate_user!, only: [:update, :update_password, :index]
 
   def beta_request
-    return render_400 unless email = params[:email]
-    unless @user = User.find_by(email: email)
-      @user = User.invite!({ email: email, skip_invitation: true }, User.support_user)
+    return render_400 unless (email = params[:email])
+    unless (@user = User.find_by(email: email))
+      invite_attrs = { email: email, skip_invitation: true }
+      @user = User.invite!(invite_attrs, User.support_user)
       @user.add_to_waitlist
     end
     unless @user.valid?

@@ -27,17 +27,17 @@ module SlypApp
     config.assets.paths << Rails.root.join("vendor",
                                            "assets",
                                            "bower_components"
-                                           )
+                                          )
     config.assets.paths << Rails.root.join("vendor",
                                            "assets",
                                            "bower_components",
                                            "semantic-ui", "dist"
-                                           )
+                                          )
     config.autoload_paths += %W(#{config.root}/lib)
 
     config.middleware.insert_before(Rack::Runtime, Rack::ReverseProxy) do
       reverse_proxy_options preserve_host: true
-      reverse_proxy /^\/$/, "https://slypio.wordpress.com/" # Landing page only
+      reverse_proxy(%r{^/$}, "https://slypio.wordpress.com/") # Landing page
     end
   end
 end

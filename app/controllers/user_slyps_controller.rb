@@ -54,14 +54,14 @@ class UserSlypsController < BaseController
     offset_by = params[:offset] || 0
     sql_ordering = { updated_at: :desc }
 
-    if friend_id = params[:friend_id]
+    if (friend_id = params[:friend_id])
       current_user.mutual_user_slyps(friend_id).order(sql_ordering)
                   .offset(offset_by).limit(step)
     elsif params[:recent]
       recent_query = "archived = false AND (updated_at >= ? "\
                      "or unseen_activity = true)"
       current_user.user_slyps.where(recent_query, 1.week.ago)
-                             .order(sql_ordering).offset(offset_by).limit(step)
+                  .order(sql_ordering).offset(offset_by).limit(step)
     else
       current_user.user_slyps.order(sql_ordering).offset(offset_by).limit(step)
     end

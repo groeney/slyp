@@ -2,11 +2,11 @@ class RepliesController < BaseController
   before_action :authenticate_user!
 
   def create
-    return render_400 unless reslyp_id = params[:reslyp_id]
+    return render_400 unless (reslyp_id = params[:reslyp_id])
     @reslyp = current_user.reslyps.find(reslyp_id)
     @last_reply = @reslyp.replies.try(:last)
     reply_attrs = { sender_id: current_user.id, text: params[:text],
-              seen: @reslyp.self_reslyp? }
+                    seen: @reslyp.self_reslyp? }
     @reply = @reslyp.replies.create(reply_attrs)
     update_user_notifications
     return render_422(@reply) unless @reply.valid?

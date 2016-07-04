@@ -33,7 +33,7 @@ class Reslyp < ActiveRecord::Base
   end
 
   def other(user_id)
-    return user_id == sender_id ? recipient : sender
+    user_id == sender_id ? recipient : sender
   end
 
   def user_slyp_owned_by_user(user_slyp, user)

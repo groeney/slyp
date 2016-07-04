@@ -3,9 +3,7 @@ namespace :beta do
   task invite_batch: :environment do
     batch_size = 10
     invitees = User.where(status: 1).limit(batch_size)
-    invitees.each do |invitee|
-      invitee.invite!
-    end
+    invitees.each(&:invite!)
   end
 
   desc "Invite particular user from waitlist"

@@ -27,15 +27,13 @@ class User < ActiveRecord::Base
   after_invitation_accepted :set_active_status
 
   def ensure_authentication_token
-    if authentication_token.blank?
-      self.authentication_token = generate_authentication_token
-    end
+    return unless authentication_token.blank?
+    self.authentication_token = generate_authentication_token
   end
 
   def ensure_referral_token
-    unless referral_token?
-      regenerate_referral_token
-    end
+    return if referral_token?
+    regenerate_referral_token
   end
 
   def ensure_friends_with_self
@@ -122,7 +120,7 @@ class User < ActiveRecord::Base
     return nil if friend_id.nil?
     friendship = Friendship.find_or_create_by(user_id: id, friend_id: friend_id)
     notify = notify && friendship.active? && !friendship.self_friendship?
-    self.new_friend_notification(User.find(friend_id)) if notify
+    new_friend_notification(User.find(friend_id)) if notify
     friendship.active! if friendship.pending?
     friendship
   end
@@ -146,13 +144,14 @@ class User < ActiveRecord::Base
   end
 
   def new_friend_notification(friend)
-    UserMailer.new_friend_notification(self, friend).deliver_later if friend.active?
+    return unless friend.active?
+    UserMailer.new_friend_notification(self, friend).deliver_later
   end
 
   def self.from_omniauth(auth)
     provider, uid, email = parse_oauth_params(auth)
     user = User.find_by(provider: provider, uid: uid)
-    if user || user = User.find_by(email: email)
+    if user || (user = User.find_by(email: email))
       user.update(provider: provider, uid: uid)
     else # Completely new user
       user = User.create(provider: provider, uid: uid, email: email)
@@ -163,9 +162,7 @@ class User < ActiveRecord::Base
 
   def self.support_user
     user = User.find_by(email: "support@slyp.io")
-    if user.nil?
-      user = User.create_support_user
-    end
+    user = User.create_support_user if user.nil?
     user
   end
 
@@ -195,13 +192,11 @@ class User < ActiveRecord::Base
   end
 
   def activity_people
-    names_arr = user_slyps_with_activity.map do |user_slyp|
-      user_slyp.activity_people
-    end.flatten.uniq
+    names_arr = user_slyps_with_activity.map(&:activity_people).flatten.uniq
     l = names_arr.length
-    people = names_arr[0..l-2].join(", ")
-    people += " and #{names_arr[l-1]}" if l > 1
-    return people
+    people = names_arr[0..l - 2].join(", ")
+    people += " and #{names_arr[l - 1]}" if l > 1
+    people
   end
 
   def user_slyps_with_activity
@@ -217,7 +212,7 @@ class User < ActiveRecord::Base
     self.first_name = auth.info.first_name
     self.last_name = auth.info.last_name
     self.authentication_token = auth.credentials.token
-    self.password = Devise.friendly_token[0, 20] if self.encrypted_password.blank?
+    self.password = Devise.friendly_token[0, 20] if encrypted_password.blank?
     save
   end
 

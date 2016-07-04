@@ -16,16 +16,16 @@ class UserSlyp < ActiveRecord::Base
   end
 
   def activity_people
-    if unseen_activity
-      reslyps.includes(:replies).map do |reslyp|
-        if unseen_replies > 0
-          replies = reslyp.replies.where.not(sender_id: user_id).where(seen: false)
-          replies.map { |reply| reply.sender.display_name_short }.uniq
-        else
-          [latest_reslyp.other(user_id).display_name_short]
-        end
-      end.flatten.uniq
-    end
+    return [] unless unseen_activity
+    reslyps.includes(:replies).map do |reslyp|
+      if unseen_replies > 0
+        replies = reslyp.replies.where.not(sender_id: user_id)
+                        .where(seen: false)
+        replies.map { |reply| reply.sender.display_name_short }.uniq
+      else
+        [latest_reslyp.other(user_id).display_name_short]
+      end
+    end.flatten.uniq
   end
 
   def reslyps

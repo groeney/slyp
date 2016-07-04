@@ -16,22 +16,17 @@ class ReferralsController < BaseController
     if @invitee.invited?
       return render status: 201, json: { email: @invitee.email }, format: :json
     end
-    return render_404
+    render_404
   end
 
   private
 
   def persisted_referrer
-    unless @referrer.try(:persisted?)
-      flash[:notice] = "Invalid referrer token."
-    end
-    @referrer.try(:persisted?)
+    msg = "Invalid referrer token."
+    @referrer.try(:persisted?) && flash[:notice] = msg && true
   end
 
   def persisted_invitee
-    unless @invitee.try(:persisted?)
-      flash[:notice] = "Invalid email."
-    end
-    @invitee.try(:persisted?)
+    @invitee.try(:persisted?) && flash[:notice] = "Invalid email." && true
   end
 end
