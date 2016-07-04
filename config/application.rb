@@ -38,6 +38,8 @@ module SlypApp
     config.middleware.insert_before(Rack::Runtime, Rack::ReverseProxy) do
       reverse_proxy_options preserve_host: true
       reverse_proxy(%r{^/$}, "https://slypio.wordpress.com/") # Landing page
+      reverse_proxy(%r{^/terms$}, "https://slypio.wordpress.com/") # Terms
+      reverse_proxy(%r{^/privacy$}, "https://slypio.wordpress.com/") # Privacy
     end
   end
 end
