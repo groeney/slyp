@@ -2,7 +2,7 @@ class ReslypsController < BaseController
   before_action :authenticate_user!
 
   def create
-    return render_400 unless [:emails, :comment].all? { |s| params.key? s }
+    return render_400 unless [:emails, :slyp_id, :comment].all? { |s| params.key? s }
     @user_slyp = current_user.user_slyps.find_or_create_by(
       slyp_id: params.delete(:slyp_id))
     @reslyps = @user_slyp.send_slyps(params[:emails], params[:comment])
