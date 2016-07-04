@@ -185,7 +185,9 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
       } else {
         context.state.reslyping = false;
         context.state.canReslyp = true;
-        context.$('#reslyp-comment').focus();
+        setTimeout(function(){
+          context.$('#reslyp-comment').focus();
+        }, 100)
       }
       return true
     });

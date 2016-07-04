@@ -355,9 +355,9 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
 
     this.$('img.display')
       .visibility({
-        'type': 'image',
-        'transition': 'fade in',
-        'duration': 750
+        'type'       : 'image',
+        'transition' : 'fade in',
+        'duration'   : 750
     });
 
     // Reslyp dropdown
@@ -377,7 +377,9 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
       } else {
         context.state.reslyping = false;
         context.state.canReslyp = true;
-        context.$('#reslyp-comment').focus();
+        setTimeout(function(){
+          context.$('#reslyp-comment').focus();
+        }, 100);
       }
       return true
     });
