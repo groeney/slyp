@@ -21,8 +21,11 @@ Rails.application.configure do
   config.active_support.deprecation = :notify
   config.log_formatter = ::Logger::Formatter.new
   config.active_record.dump_schema_after_migration = false
+  config.force_ssl = true
+  Rails.application.routes.default_url_options[:protocol] = "https"
   config.action_mailer.default_url_options = {
-    host: ENV.fetch("APPLICATION_HOST")
+    host: ENV.fetch("APPLICATION_HOST"),
+    protocol: "https"
   }
   Rails.application.routes.default_url_options[:host] = ENV.fetch("APPLICATION_HOST")
 end
