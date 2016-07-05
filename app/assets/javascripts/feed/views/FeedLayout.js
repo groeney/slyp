@@ -62,7 +62,7 @@ slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({
         label: 'ratio',
         value: slypApp.user.friendsCount(),
         text: {
-          active: 'You need {left} more friends'
+          active: 'Slyp is way more fun with friends... you need {left} more :-)'
         }
       });
     } else {

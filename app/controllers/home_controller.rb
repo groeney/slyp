@@ -19,7 +19,7 @@ class HomeController < ApplicationController
   end
 
   def feed
-    return redirect_to root_path unless current_user
+    return redirect_to sign_in_url unless current_user
     return redirect_to accept_invitation_path unless current_user.active?
     @user = current_user
   end
