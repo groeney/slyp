@@ -39,7 +39,7 @@
           We are currently only accepting signups via Facebook. If you'd prefer not to sign up with Facebook (or don't have one) you can enter your details to join the waitlist.
         </div>
       </div>
-      <%= simple_form_for resource, as: resource_name, url: "/users/waitlist", html: { autocomplete: "off", method: :put, style: "text-align:left;" } do |f| %>
+      <%= simple_form_for resource, as: resource_name, url: "/users/waitlist", remote: true, html: { autocomplete: "off", method: :put, style: "text-align:left;", id: "join-waitlist" } do |f| %>
         <%= devise_error_messages! %>
         <%= f.hidden_field :invitation_token %>
 
@@ -49,6 +49,17 @@
         <%= f.button :submit, "Join waitlist", style: "margin-left:35%;" %>
       <% end %>
     </div>
+    <div id="success-message" class="ui message" style="display:none;">
+      <div class="ui positive icon message">
+        <i class="checkmark large green icon"></i>
+        <div class="content">
+          <div class="header">
+            You're on the waitlist!
+          </div>
+          <p>We just sent you an email with your position on the waitlist. Feel free to chat with us with the blue icon bottom right. We always love a good chat <i style="display:inline;" class="smile icon"></i></p>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -56,5 +67,19 @@
   $('body').addClass('devise');
   $('#no-facebook').on('click', function(){
     $('#manual-signup').toggle();
+  });
+  $('#join-waitlist')
+  .bind('ajax:beforeSend', function(){
+    $('#manual-signup').addClass('loading');
+  })
+  .bind('ajax:success', function(){
+    $('#success-message').show();
+  })
+  .bind('ajax:complete', function(){
+    $('#manual-signup').removeClass('loading');
+    $('#join-waitlist').hide();
+  })
+  .bind('ajax:error', function(){
+    $('#error-message').show();
   });
 </script>
