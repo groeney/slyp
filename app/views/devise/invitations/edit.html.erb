@@ -67,6 +67,10 @@
   $('body').addClass('devise');
   $('#no-facebook').on('click', function(){
     $('#manual-signup').toggle();
+    var isVisible = $('#manual-signup').is(':visible');
+    if (isVisible){
+      $('html, body').animate({ scrollTop: '500px' });
+    }
   });
   $('#join-waitlist')
   .bind('ajax:beforeSend', function(){
