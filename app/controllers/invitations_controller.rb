@@ -20,6 +20,7 @@ class InvitationsController < Devise::InvitationsController
     resource = User.find_by_invitation_token(raw_invitation_token, true)
     flash[:notice] = "We added you to the waitlist. Go back to the invitation page and continue with Facebook to sign up." if resource.update(update_waitlist_params)
     resource.add_to_waitlist
+    render status: 204, json: {}
   end
 
   protected
