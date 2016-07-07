@@ -4,15 +4,15 @@ class ReferralsController < BaseController
   def new
     return redirect_to "/feed" if current_user
     @referrer = User.find_by_referral_token(params[:referral_token])
-    return redirect_to root_path unless persisted_referrer
+    return redirect_to sign_in_url unless persisted_referrer
     render :new
   end
 
   def capture
     @referrer = User.find_by_id(params[:referred_by_id])
-    return redirect_to root_path unless persisted_referrer
+    return redirect_to sign_in_url unless persisted_referrer
     @invitee = User.invite!({ email: params[:email] }, @referrer)
-    return redirect_to root_path unless persisted_invitee
+    return redirect_to sign_in_url unless persisted_invitee
     if @invitee.invited?
       return render status: 201, json: { email: @invitee.email }, format: :json
     end

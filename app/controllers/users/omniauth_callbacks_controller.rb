@@ -28,14 +28,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           flash[:error] = "We're not sure what went wrong there but something"\
                           " went wrong :-("
         end
-        redirect_to root_path
+        redirect_to sign_in_url
       end
     end
     session[:invitation_token] = nil
   end
 
   def failure
-    redirect_to root_path
+    redirect_to sign_in_url
   end
 
   private
