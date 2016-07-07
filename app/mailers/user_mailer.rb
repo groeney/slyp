@@ -1,12 +1,18 @@
 class UserMailer < ApplicationMailer
   def joined_waitlist(user)
     @user = user
-    mail(to: @user.email, subject: "you're on the waitlist!")
+    mail(to: @user.email, subject: "Joined Slyp waitlist")
+  end
+
+  def promoted_from_waitlist(user, raw_token)
+    @resource = user
+    @token = raw_token
+    mail(to: @resource.email, subject: "Join Slyp!")
   end
 
   def new_user_beta(user)
     @user = user
-    mail(to: @user.email, subject: "welcome to slyp beta :)")
+    mail(to: @user.email, subject: "Welcome to Slyp")
   end
 
   def reslyp_friend(reslyp)

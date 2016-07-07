@@ -41,8 +41,20 @@ class User < ActiveRecord::Base
   end
 
   def promote_from_waitlist
-    update(invitation_token: nil)
+    raw, enc = Devise.token_generator.generate(self.class, :reset_password_token)
+    self.invitation_token = nil
+    self.reset_password_token = enc
+    self.reset_password_sent_at = Time.now.utc
+    self.save(validate: false)
     active!
+    UserMailer.promoted_from_waitlist(self, raw).deliver_later
+  end
+
+  def self.promote_all_from_waitlist(email_begins_with = "")
+    matcher = "#{email_begins_with}%"
+    User.where("email ilike ?", matcher).each do |u|
+      u.promote_from_waitlist if u.waitlisted?
+    end
   end
 
   def add_to_waitlist
