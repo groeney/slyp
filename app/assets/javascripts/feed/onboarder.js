@@ -155,12 +155,15 @@ shepherd.addStep('8 simultaneous', {
 
 shepherd.addStep('9 chat', {
   title: 'Chat with us',
-  text: ['Use this to start a real-time chat with us!'],
+  text: ['How did you find that tour?', '1) Super nice!', '2) Kinda nice', '3) Could be betterrrr', 'A real human is on the other end, have a chat!'],
   attachTo: '#drift-widget left',
   buttons: [
     {
-      text: 'Got it!',
-      action: shepherd.next,
+      text: 'Start chat',
+      action: function(){
+        $('#drift-widget').contents().find('body button').click();
+        shepherd.next();
+      },
       classes: 'shepherd-button-example-primary'
     }
   ]
