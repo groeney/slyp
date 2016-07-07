@@ -22,7 +22,7 @@
   <div class="ui vertical segment row">
     <h4 class="four wide column">Password</h4>
     <div class="ui ten wide column" rv-class-unless-disabled="state.editProfile">
-      <a id="update-password">Update password</a>
+      <%= link_to "Change my password", edit_user_registration_path, target: "_blank" %>
     </div>
   </div>
 </div>
