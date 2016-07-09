@@ -24,7 +24,8 @@ slypApp.state = {
   leftPaneActive  : false,
   rightPaneActive : false,
   isMobile        : function() { return slypApp.state.screenWidth < 767 },
-  slypURL         : ''
+  slypURL         : '',
+  compactLayout   : false
 }
 
 slypApp.state.usingNavBar = function(){

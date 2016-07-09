@@ -27,10 +27,13 @@
   <div class="blurring dimmable image">
     <div class="ui dimmer">
       <div class="content">
-        <div class="center">
+        <div class="center" rv-class-unless-feed_preview="appState.compactLayout">
           <a id="card-preview" rv-hide="appState.isMobile < .screenWidth">
-            <p style="color:white;opacity:0.8;pointer-events:inherit;margin-left:30px;margin-right:30px;">
-              { userSlyp:description | trunc 500 }
+            <p class="description-preview" rv-hide="appState.compactLayout">
+              { userSlyp:description | trunc 750 }
+            </p>
+            <p class="description-preview" rv-show="appState.compactLayout">
+              { userSlyp:description | trunc 350 }
             </p>
           </a>
           <br/>
@@ -42,7 +45,7 @@
         </div>
       </div>
     </div>
-    <img id="card-image" type="image" class="ui big image display centered" rv-data-src="userSlyp:image" src="/assets/blank-image.png" style="border:none;max-height:500px;">
+    <img id="card-image" type="image" class="ui image display centered" rv-class-compact_img="appState.compactLayout" rv-classes-unless-feed_img-big="appState.compactLayout" rv-data-src="userSlyp:image" src="/assets/blank-image.png" style="border:none;min-height:250px;">
   </div>
 
   <div class="content">

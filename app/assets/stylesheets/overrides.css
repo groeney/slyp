@@ -83,7 +83,7 @@ pre {
   text-align: center;
 }
 
-/* Responsiveness */
+/* Mobile */
 @media screen and (max-width: 767px) {
   .mobile.only {
     display: block !important;
@@ -113,6 +113,7 @@ pre {
   }
 }
 
+/* Desktop */
 @media screen and (min-width: 768px) {
   .mobile.hide {
     display: block;
@@ -152,6 +153,10 @@ pre {
     top:10px;
     right:45%;
   }
+
+  .ui.cards {
+    max-width: 600px;
+  }
 }
 
 a:hover {
@@ -161,6 +166,14 @@ a:hover {
 
 a {
   color: rgba(0, 0, 0, 0.87);
+}
+
+.description-preview {
+  color: white;
+  opacity: 0.8;
+  pointer-events: inherit;
+  margin-left: 30px;
+  margin-right: 30px;
 }
 
 .shift-left {
@@ -205,3 +218,23 @@ i.floating-action.second {
   top: 7.5%;
 }
 
+/* Cannot use '-' in these classes as they are applied by RivetsJS */
+.compact_img {
+  height: 275px !important;
+}
+
+.feed_img {
+  max-height:500px;
+}
+
+.compact_layout {
+  min-width: 100%;
+}
+
+.feed_layout {
+  max-width: 600px;
+}
+
+.feed_preview {
+  line-height: 0.1;
+}

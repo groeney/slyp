@@ -73,12 +73,16 @@ slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({
   events: {
     'click #friends-progress' : 'showFriendsSettings',
     'click #paginate-button'  : 'paginate',
-    'click #explore-button'   : function(){ notImplemented('Explore'); }
+    'click #explore-button'   : function(){ notImplemented('Explore'); },
+    'click #compact-layout'   : 'toggleLayout'
   },
   showFriendsSettings: function(){
     openFriendsSettings();
   },
   paginate: function(){
     this.collection.paginate();
+  },
+  toggleLayout: function(){
+    slypApp.state.compactLayout = !slypApp.state.compactLayout;
   }
 });

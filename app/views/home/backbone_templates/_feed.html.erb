@@ -39,6 +39,10 @@
     </div>
   </div>
 
-  <div class="ui one cards js-user-slyps-container" style="max-width:600px;margin-left:auto;margin-right:auto;margin-top:5%;"></div>
+  <button id="compact-layout" class="ui icon button" rv-class-green="appState.compactLayout" rv-hide="appState.isMobile < .screenWidth">
+    <i class="grid layout icon"></i>
+  </button>
+
+  <div class="ui doubling stackable cards js-user-slyps-container" rv-classes-three-compact_layout="appState.compactLayout" style="margin-left:auto;margin-right:auto;margin-top:3%;" rv-classes-unless-feed_layout-one="appState.compactLayout"></div>
   <%= render "home/backbone_templates/extend_feed" %>
 </script>
