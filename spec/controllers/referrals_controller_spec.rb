@@ -15,9 +15,9 @@ RSpec.describe ReferralsController, type: :controller do
     end
     context "user not signed in" do
       let(:referrer) { FactoryGirl.create(:user) }
-      it "should redirect to root_path" do
+      it "should redirect to sign_in" do
         get :new, referral_token: "invalid_token", format: :html
-        expect(response).to redirect_to(root_path)
+        expect(response).to redirect_to(sign_in_url)
       end
       it "should respond with 200" do
         get :new, referral_token: referrer.referral_token, format: :html
@@ -37,19 +37,19 @@ RSpec.describe ReferralsController, type: :controller do
   describe "#capture" do
     let(:referrer) { FactoryGirl.create(:user) }
     context "invalid params" do
-      it "is missing referred_by_id, so should redirect to root_path" do
+      it "is missing referred_by_id, so should redirect to sign_in_url" do
         post :capture, email: "#{SecureRandom.hex(8)}@example.com", format: :json
-        expect(response).to redirect_to root_path
+        expect(response).to redirect_to sign_in_url
       end
-      it "is invalid referred_by_id, so should redirect to root_path" do
+      it "is invalid referred_by_id, so should redirect to sign_in_url" do
         post :capture, referred_by_id: 0, format: :json
-        expect(response).to redirect_to root_path
+        expect(response).to redirect_to sign_in_url
       end
-      it "is invalid email, so should redirect to root_path" do
+      it "is invalid email, so should redirect to sign_in_url" do
         post :capture, referred_by_id: referrer.id, email: SecureRandom.hex(8), format: :json
-        expect(response).to redirect_to root_path
+        expect(response).to redirect_to sign_in_url
       end
-      it "should redirect existing user to root_path" do
+      it "should redirect existing user to sign_in_url" do
         existing_user = FactoryGirl.create(:user)
         post :capture, referred_by_id: referrer.id, email: existing_user.email, format: :json
         expect(response.status).to eq 404

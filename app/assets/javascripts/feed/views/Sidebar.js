@@ -62,7 +62,7 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
     'click #reslyp-dropdown'      : 'handleDropdownSelect',
     'click #see-more'             : 'seeMoreResults',
     'click .fb-share-button'      : 'fbShareAttempt',
-    'click .twitter-share-button' : 'twitterShareAttempt'
+    'click .twitter-share-button' : 'twitterShareAttempt',
   },
   expandDescription: function(){
     this.state.expanded = true;
@@ -127,6 +127,10 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
         context.$('#reslyp-dropdown input.search').focus();
       }, 200);
     }
+    var scrollTop     = $(window).scrollTop(),
+        elementOffset = this.$('#reslyp-dropdown').offset().top,
+        distance      = (elementOffset - scrollTop);
+    this.$('#reslyp-dropdown .menu').css('max-height', distance).css('min-height', distance);
     this.$('.menu').first().animate({ scrollTop: '0px' });
   },
   seeMoreResults: function(){
@@ -185,9 +189,11 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
       } else {
         context.state.reslyping = false;
         context.state.canReslyp = true;
-        setTimeout(function(){
-          context.$('#reslyp-comment').focus();
-        }, 100)
+        if (context.$('#reslyp-dropdown').dropdown('get value') == ''){
+          setTimeout(function(){
+            context.$('#reslyp-comment').focus();
+          }, 100);
+        }
       }
       return true
     });

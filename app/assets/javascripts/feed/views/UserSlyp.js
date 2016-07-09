@@ -188,8 +188,11 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         context.$('#reslyp-dropdown input.search').focus();
       }, 200);
     }
+    var scrollTop     = $(window).scrollTop(),
+        elementOffset = this.$('#reslyp-dropdown').offset().top,
+        distance      = (elementOffset - scrollTop);
+    this.$('#reslyp-dropdown .menu').css('min-height', distance-100);
     this.$('.menu').first().animate({ scrollTop: '0px' });
-    // TODO: "Your friends" and "Other people" header is pushed out of view by dropdown default selection need to scroll up
   },
   seeMoreResults: function(){
     this.state.moreResults = true;
@@ -377,9 +380,11 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
       } else {
         context.state.reslyping = false;
         context.state.canReslyp = true;
-        setTimeout(function(){
-          context.$('#reslyp-comment').focus();
-        }, 100);
+        if (context.$('#reslyp-dropdown').dropdown('get value') == ''){
+          setTimeout(function(){
+            context.$('#reslyp-comment').focus();
+          }, 100);
+        }
       }
       return true
     });
