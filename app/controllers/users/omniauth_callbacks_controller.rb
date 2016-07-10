@@ -15,8 +15,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else # Sign up
       if user # From invitation, warning: accept_invitation! breaks authentication from here
         user.apply_omniauth(auth)
-        user.active!
-        user.update(invitation_token: nil, invitation_accepted_at: Time.now)
       else # New user or linking fb to existing account
         user = User.from_omniauth(auth)
       end

@@ -225,7 +225,11 @@ class User < ActiveRecord::Base
     self.last_name = auth.info.last_name
     self.authentication_token = auth.credentials.token
     self.password = Devise.friendly_token[0, 20] if encrypted_password.blank?
-    save
+    if invited?
+      self.invitation_token = nil
+      self.invitation_accepted_at = Time.now
+    end
+    save && active!
   end
 
   def referral_link
