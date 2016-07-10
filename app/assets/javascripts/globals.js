@@ -95,3 +95,5 @@ var notImplemented = function(feature){
 
   _toastr('info', 'We\'ve logged your interest in our new ' + feature + ' feature. Coming soon <i class="smile icon"></i>');
 }
+
+var noop = function(){};

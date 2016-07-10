@@ -71,7 +71,7 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
     this.state.expanded = false;
   },
   closeSidebar: function(){
-    $('.ui.right.sidebar').sidebar('toggle');
+    $('.ui.right.sidebar').sidebar('hide');
   },
   showPreview: function(){
     if (this.model.get('unseen')){

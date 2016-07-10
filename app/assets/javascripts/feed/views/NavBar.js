@@ -101,9 +101,7 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
           $('#card-0 #send-button').click();
 
           // Onboarder
-          setTimeout(function(){
-            shepherdMediator.trigger('proceedTo', '3 select');
-          }, 500);
+          shepherdMediator.trigger('proceedTo', '3 select');
         },
         error: function(status, err) {
           if (slypApp.state.slypURL.http){

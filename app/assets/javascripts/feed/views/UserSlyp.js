@@ -109,10 +109,10 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         var validatedEmails = _.filter(emails, function(email) { return validateEmail(email) });
         this.reslyp(validatedEmails);
       } else {
-        this.toastr('error', 'No valid emails.');
+        _toastr('error', 'No valid emails.');
       }
     } else {
-      this.toastr('error', 'Gotta add a comment before sending ;)');
+      _toastr('error', 'Gotta add a comment before sending ;)');
     }
   },
   sendSlypIfValid: function(e){

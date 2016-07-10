@@ -19,6 +19,7 @@ slypApp.Views.OnboardModal = Backbone.Marionette.ItemView.extend({
         } else {
           $('#close-left-pane').click();
           $('html, body').animate({ scrollTop: '0px' });
+          slypApp.state.compactLayout = false;
           shepherd.cancel();
           shepherd.start();
         }

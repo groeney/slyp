@@ -83,7 +83,11 @@ slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({
     this.collection.paginate();
   },
   toggleLayout: function(){
-    slypApp.state.compactLayout = !slypApp.state.compactLayout;
-    $.cookie('_compact_layout', slypApp.state.compactLayout);
+    if (shepherd.isActive()){
+      _toastr('error', 'Our onboarding tour only works with the one card feed right now. Finish the tour and then change the layout!');
+    } else {
+      slypApp.state.compactLayout = !slypApp.state.compactLayout;
+      $.cookie('_compact_layout', slypApp.state.compactLayout);
+    }
   }
 });

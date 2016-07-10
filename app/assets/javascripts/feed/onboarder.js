@@ -37,12 +37,12 @@ shepherd.addStep('2 create', {
 
 shepherd.addStep('3 select', {
   title: 'Send to email',
-  text: ['You can simply send this article via email or select a friend from the list', 'Hint: you can also send it to yourself and include a personal note for records.'],
+  text: ['Paste an email address or selecting a friend.'],
   attachTo: '#card-0 #reslyp-dropdown right',
   buttons: false,
   when: {
     'before-show' : function(){
-      $('html, body').animate({ scrollTop: '200px' });
+      $('html, body').animate({ scrollTop: '350px' });
     }
   }
 });
@@ -52,7 +52,7 @@ shepherd.addStep('3 select', {
 
 shepherd.addStep('4 send', {
   title: 'Add comment and send',
-  text: ['Suggestion: "good #weekendread, related to #work"', 'You\'ll be able to search over this later.'],
+  text: ['Protip: you will be able to search your conversations later.'],
   attachTo: '#card-0 #reslyp-comment right',
   buttons: false
 });
@@ -62,7 +62,7 @@ shepherd.addStep('4 send', {
 
 shepherd.addStep('5 label', {
   title: 'At a glance',
-  text: ['Nice job! This is your most recent conversation at a glance.', 'Click it once to reply quickly.', 'Click it twice to view your conversations.'],
+  text: ['This is your most recent conversation at a glance.', 'Click once: reply.', 'Click twice: view conversation.'],
   attachTo: '#card-0 #comment-label right',
   buttons: [
     {
@@ -72,8 +72,8 @@ shepherd.addStep('5 label', {
     }
   ],
   when: {
-    'before-show' : function(){
-      $('html, body').animate({ scrollTop: '0px' });
+    'show' : function(){
+      $('html, body').animate({ scrollTop: '300px' });
     }
   }
 });
@@ -83,7 +83,7 @@ shepherd.addStep('5 label', {
 
 shepherd.addStep('6 actions', {
   title: 'Action station',
-  text: ['Click on the description view more.', 'Click <i class="send icon"></i> to send to friends (you\'ve done that!).', 'Click <i class="search icon"></i> to view the content and <i class="talk outline icon"></i> to view your conversations.'],
+  text: ['Click text to view more.', 'Click <i class="send icon"></i> to send (we\'ve done that!).', 'Click <i class="search icon"></i> to read and <i class="talk outline icon"></i> to view conversations.'],
   attachTo: '#card-0 #card-image right',
   buttons: [
     {
@@ -101,8 +101,16 @@ shepherd.addStep('6 actions', {
     }
   ],
   when: {
-    'before-show': function(){
+    show: function(){
       $('.blurring.image img').first().trigger('mouseenter');
+      $('html, body').animate({ scrollTop: '100px' });
+      $('#card-0 .blurring.image').on('mouseout', function(){
+        $('#card-0 .blurring.image').trigger('mouseenter');
+      });
+    },
+    hide: function(){
+      $('#card-0 .blurring.image').off('mouseout');
+      $('#card-0 .blurring.image').trigger('mouseout');
     }
   }
 });
@@ -129,12 +137,17 @@ shepherd.addStep('7 magic', {
       },
       classes: 'shepherd-button-example-primary'
     }
-  ]
+  ],
+  when: {
+    show: function(){
+      $('html, body').animate({ scrollTop: '0px' });
+    }
+  }
 });
 
 shepherd.addStep('8 simultaneous', {
   title: 'Engage',
-  text: ['These are your "engagement panels", where you can read and discuss with friends.', 'You can also send this article to friends via Facebook Messenger and post to Twitter.'],
+  text: ['We love this simultaneous view.', 'Also send this article via <i class="facebook icon"></i> or post to <i class="twitter icon"></i>.'],
   attachTo: '#js-sidebar-region right',
   buttons: [
     {
@@ -155,7 +168,7 @@ shepherd.addStep('8 simultaneous', {
 
 shepherd.addStep('9 chat', {
   title: 'Chat with us',
-  text: ['How did you find that tour?', '1) Super nice!', '2) Kinda nice', '3) Could be betterrrr', 'A real human is on the other end, have a chat!'],
+  text: ['How did you find that tour?', '1) Super nice!', '2) Kinda nice', '3) Could be betterrrr'],
   attachTo: '#drift-widget left',
   buttons: [
     {
@@ -214,5 +227,6 @@ window.shepherd = shepherd;
 
 // Helper methods
 shepherd.isActive = function(){
-    return this.currentStep.isOpen();
+  var curStep = (this.getCurrentStep() || {});
+  return (curStep.isOpen || noop)();
 }
