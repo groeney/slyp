@@ -180,7 +180,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
       this.$('#quick-reply-input').focus();
     }
   },
-  handleDropdownSelect: function(){
+  handleDropdownSelect: function(e){
     if (this.model.reslypableFriends().length == 0){
       this.state.moreResults = true;
       var context = this;
@@ -188,11 +188,6 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         context.$('#reslyp-dropdown input.search').focus();
       }, 200);
     }
-    var scrollTop     = $(window).scrollTop(),
-        elementOffset = this.$('#reslyp-dropdown').offset().top,
-        distance      = (elementOffset - scrollTop);
-    this.$('#reslyp-dropdown .menu').css('min-height', distance-100);
-    this.$('.menu').first().animate({ scrollTop: '0px' });
   },
   seeMoreResults: function(){
     this.state.moreResults = true;
@@ -407,6 +402,16 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         context.state.reslyping = false;
         context.state.canReslyp = false;
       }
+    });
+
+    this.$('#reslyp-dropdown').dropdown('setting', 'onShow', function(){
+      setTimeout(function(){
+        var scrollTop     = $(window).scrollTop(),
+            elementOffset = context.$('#reslyp-dropdown').offset().top,
+            distance      = (elementOffset - scrollTop);
+        context.$('#reslyp-dropdown .menu').css('min-height', distance-100);
+        context.$('.menu').first().animate({ scrollTop: '0px' });
+      }, 250);
     });
 
     this.$('#reslyp-dropdown').dropdown('setting', 'onHide', function(){
