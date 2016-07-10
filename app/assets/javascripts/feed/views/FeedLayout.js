@@ -84,5 +84,6 @@ slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({
   },
   toggleLayout: function(){
     slypApp.state.compactLayout = !slypApp.state.compactLayout;
+    $.cookie('_compact_layout', slypApp.state.compactLayout);
   }
 });

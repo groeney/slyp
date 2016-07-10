@@ -25,7 +25,7 @@ slypApp.state = {
   rightPaneActive : false,
   isMobile        : function() { return slypApp.state.screenWidth < 767 },
   slypURL         : '',
-  compactLayout   : false
+  compactLayout   : $.cookie('_compact_layout') == 'true'
 }
 
 slypApp.state.usingNavBar = function(){
