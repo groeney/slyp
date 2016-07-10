@@ -63,7 +63,7 @@
       <i id="explore-us" class="right floated large compass link icon" rv-class-active="userSlyp:archived" data-content="Find similar content" data-variation="tiny"></i>
     </div>
 
-    <div id="latest-conversation-container" class="ui left aligned row" style="padding-top:10px;" rv-class-loading="state.loadingQuickReply" rv-show-flex="userSlyp.hasConversations < :latest_conversation">
+    <div id="latest-conversation-container" class="ui left aligned basic segment row" style="padding-top:10px;margin:0 -13px;" rv-class-loading="state.loadingQuickReply" rv-show-flex="userSlyp.hasConversations < :latest_conversation">
       <img class="ui avatar image" rv-src="userSlyp:latest_conversation.image | getAvatar userSlyp:latest_conversation.first_name userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email">
       <a id="comment-label" class="ui left pointing circular label" rv-class-medium="state.intendingToReply" rv-class-unless-small="state.intendingToReply">
         <span class="extra content">{ userSlyp:latest_conversation.text }</span>
