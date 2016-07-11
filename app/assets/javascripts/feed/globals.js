@@ -15,7 +15,7 @@ var openFriendsSettings = function(){
   openSettings();
   setTimeout(function(){
     $('#friends').click()
-  }, 500);
+  }, 750);
 }
 
 Backbone.Collection.prototype.whereNot = function(options) {
