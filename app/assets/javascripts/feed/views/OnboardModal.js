@@ -13,10 +13,11 @@ slypApp.Views.OnboardModal = Backbone.Marionette.ItemView.extend({
   initializeSemanticUI: function(){
     this.$el.modal({
       onApprove: function($el){
-        if (slypApp.state.isMobile()){
-          toastr['info']('Onboarding tour is disabled for mobiles and tablets. Login again from a desktop to take the tour!');
+        if (getScreenWidth() < 950){
+          toastr['info']('Your browser width is too small. If you are on a mobile, try coming back on your laptop. Otherwise try to make your browser the full width of your screen.');
           $.cookie('_onboard_tour', true);
         } else {
+          toastr['info']('For the best experience, make sure your browser is taking up the full width of your screen!')
           $('#close-left-pane').click();
           $('html, body').animate({ scrollTop: '0px' });
           slypApp.state.compactLayout = false;

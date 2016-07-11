@@ -4,13 +4,10 @@
 }
 
 .shepherd-step {
-  z-index:999;
+  max-width: 180px !important;
+  z-index: 999 !important;
 }
 
-.shepherd-element.shepherd-theme-arrows .shepherd-content {
-  width: 400px;
-  max-width: 100%;
-}
 .shepherd-element.shepherd-theme-arrows .shepherd-content a {
   color: inherit;
 }

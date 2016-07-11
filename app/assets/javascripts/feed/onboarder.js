@@ -67,7 +67,13 @@ shepherd.addStep('5 label', {
   buttons: [
     {
       text: 'Nice',
-      action: shepherd.next,
+      action: function(){
+        $('#close-left-pane').click();
+        setTimeout(function(){
+          $('#close-sidebar').click();
+        }, 150);
+        shepherd.next();
+      },
       classes: 'shepherd-button-example-primary'
     }
   ],
@@ -169,7 +175,7 @@ shepherd.addStep('8 simultaneous', {
 shepherd.addStep('9 chat', {
   title: 'Chat with us',
   text: ['How did you find that tour?', '1) Super nice!', '2) Kinda nice', '3) Could be betterrrr'],
-  attachTo: '#drift-widget left',
+  attachTo: '#drift-widget top',
   buttons: [
     {
       text: 'Start chat',
