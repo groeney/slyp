@@ -24,7 +24,10 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
     this.initializeSemanticElements();
     var onboarded = ($.cookie('_onboard_tour') == 'true');
     if (!onboarded){
-      this.$('#goto-help').click();
+      var context = this;
+      setTimeout(function(){
+        context.$('#goto-help').click();
+      }, 1500);
     }
   },
   events: {
