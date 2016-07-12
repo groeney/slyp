@@ -7,7 +7,7 @@
     <p>
       <%= link_to "You have #{pluralize(@notifications, "new notification")} on #{pluralize(@slyps, "slyp")} from #{@people}", controller: "home", action: "feed", user_email: @user.email, user_token: @user.authentication_token %>.
     </p>
-    <p>Much love,<br/>Slyp Team</p>
+    <p>Much love,<br/>Team Slyp</p>
     <p style="text-align:center;">
       <%= link_to "update my email preferences", { controller: "home", action: "feed", user_email: @user.email, user_token: @user.authentication_token, skip_to: "email_settings" }, { style: "color:#a0a0a0;" } %>
     </p>

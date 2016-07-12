@@ -186,7 +186,7 @@ class User < ActiveRecord::Base
 
   def self.create_support_user
     support_user_attrs = {
-      email: "support@slyp.io", first_name: "Slyp", last_name: "Team"
+      email: "support@slyp.io", first_name: "Team", last_name: "Slyp"
     }
     User.skip_callback(:save, :before, :ensure_friends_with_support)
     User.without_callback(:create, :after, :send_welcome_email) do
