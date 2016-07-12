@@ -112,6 +112,12 @@ class User < ActiveRecord::Base
     first_name.empty? ? email : first_name
   end
 
+  # TODO couldn't figure out how to return valid AR object, so went with ids
+  def private_user_slyp_ids
+    user_slyps.select { |user_slyp| user_slyp.reslyps.count == 0 }
+              .map { |user_slyp| user_slyp.id }
+  end
+
   # This is an expensive operation, use with care.
   def mutual_user_slyps(friend_id)
     return active_user_slyps if friend_id.eql? id
