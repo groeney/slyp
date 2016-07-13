@@ -33,7 +33,7 @@ class UserMailer < ApplicationMailer
     @sender = @reslyp.sender
     subject = "#{@sender.display_name} sent you: \"#{@slyp.display_title}\""
     mail_attributes = { to: @recipient.email, subject: subject,
-                        from: "#{@sender.display_name} <support@slyp.io>" }
+                        from: "#{@sender.display_name} <#{@sender.send_reslyp_email_from}>" }
     cc_attributes = { cc: "#{@sender.display_name} <#{@sender.email}>" }
     mail_attributes.merge!(cc_attributes) if @sender.cc_on_reslyp_email_contact
     mail(mail_attributes)
