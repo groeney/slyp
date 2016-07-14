@@ -4,6 +4,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   </head>
   <body>
+    <p style="text-align:center;">~**~ LAUNCH DAY TODAY ... CELEBRATION TIME ~**~</p>
     <p>
       <%= link_to "You have #{pluralize(@notifications, "new notification")} on #{pluralize(@slyps, "slyp")} from #{@people}", controller: "home", action: "feed", user_email: @user.email, user_token: @user.authentication_token %>.
     </p>

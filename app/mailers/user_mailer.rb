@@ -17,6 +17,7 @@ class UserMailer < ApplicationMailer
 
   def reslyp_friend(reslyp)
     @reslyp = reslyp
+    @slyp = @reslyp.slyp
     @recipient = @reslyp.recipient
     @sender = @reslyp.sender
     from = "#{@sender.display_name} <#{@sender.send_reslyp_email_from}>"
