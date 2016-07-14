@@ -46,7 +46,7 @@ class User < ActiveRecord::Base
     self.reset_password_token = enc
     self.reset_password_sent_at = Time.now.utc
     self.save(validate: false)
-    active!
+    set_active_status
     UserMailer.promoted_from_waitlist(self, raw).deliver_later
   end
 
@@ -235,7 +235,24 @@ class User < ActiveRecord::Base
       self.invitation_token = nil
       self.invitation_accepted_at = Time.now
     end
-    save && active!
+    save && set_active_status
+  end
+
+  def send_activated_outreach_one
+    support = User.support_user
+    url = "https://medium.com/@jamesgroeneveld/meet-slyp-beta-51ce3bfc90a8#.l"\
+          "0p7uhtob"
+    slyp = Slyp.fetch(url)
+    user_slyp = support.user_slyps.find_or_create_by(slyp_id: slyp.id)
+    return if user_slyps.exists?(slyp_id: slyp.id)
+    user_slyp.send_slyp(email, activated_outreach_one_comment)
+  end
+
+  def activated_outreach_one_comment
+    "Hi #{display_name_short}! To help get you started here is our launch day"\
+    " blog post. It will help you get a little bit more context around what"\
+    " we're all about. This is also what it will look like to a friend"\
+    " when you slyp them."
   end
 
   def referral_link
@@ -256,6 +273,6 @@ class User < ActiveRecord::Base
   end
 
   def set_active_status
-    active!
+    active! && self.update(activated_at: Time.now)
   end
 end
