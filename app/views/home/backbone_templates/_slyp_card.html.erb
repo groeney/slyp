@@ -30,7 +30,7 @@
               { userSlyp:description | trunc 750 }
             </p>
             <p class="description-preview" rv-show="appState.compactLayout">
-              { userSlyp:description | trunc 350 }
+              { userSlyp:description | trunc 300 }
             </p>
           </a>
           <br/>
@@ -52,11 +52,11 @@
   <div class="extra content friend-data" style="padding:10px;text-align:left;">
     <div class="ui left aligned row">
       <span style="margin-right:5px;">
-        <i id="favorite-action" class="large like icon" rv-class-active="userSlyp:favourite"></i>
+        <i id="favorite-action" class="large like icon" rv-class-active="userSlyp:favourite" style="margin-right:0px;"></i>
         { userSlyp:total_favourites }
       </span>
       <a id="conversations" class="description">
-        <i class="large icon" rv-classes-talk-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends" style="margin-bottom:2px;"></i>
+        <i class="large icon" rv-classes-talk-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends" style="margin-bottom:2px;margin-right:0px;"></i>
         <span rv-show="userSlyp.hasConversations < :friends">{ userSlyp:friends | numConversations }</span>
         <span class="ui left pointing circular label" rv-hide="userSlyp.hasConversations < :friends">Only you see this</span>
         <span class="ui red mini label" rv-show="userSlyp.hasLove < :unseen_replies :unseen_activity" style="margin-left:6px;">{ userSlyp.loveAmount < :unseen_replies :unseen_activity } new</span>

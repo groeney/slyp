@@ -121,7 +121,7 @@ pre {
   }
 
   #js-sidebar-region {
-    width: 40%;
+    width: 35%;
   }
 
   @keyframes contract {
@@ -133,15 +133,16 @@ pre {
     right: 42%;
     animation-name: contract;
     animation-duration: 0.5s;
+    margin-right:-6%;
   }
 
   @keyframes shrink {
     from { width: 100%; }
-    to { width: 60%; }
+    to { width: 65%; }
   }
 
   .ui.majority-width.sidebar {
-    width: 60%;
+    width: 65%;
     animation-name: shrink;
     animation-duration: 0.5s;
   }
