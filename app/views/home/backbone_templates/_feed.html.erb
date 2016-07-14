@@ -31,7 +31,7 @@
         <i class="users icon"></i>
         VIEW FRIENDSHIPS
       </div>
-      <div class="item" rv-each-person="persons" rv-data-value="person:id" rv-show="person.isFriend < :friendship_id">
+      <div class="item js-person" rv-each-person="persons" rv-data-value="person:id" rv-show="person.isFriend < :friendship_id">
         <img class="ui mini avatar image" rv-src="person:image | getAvatar person:first_name person:email">
         { person:first_name | userDisplay person:last_name person:email }
         <span class="description">{ person:email }</span>

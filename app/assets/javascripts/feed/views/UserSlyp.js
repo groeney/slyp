@@ -37,12 +37,12 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
     }, this);
   },
   onRender: function(){
+    var context = this;
     this.binder = rivets.bind(this.$el, {
       userSlyp : this.model,
       state    : this.state,
       appState : slypApp.state
     });
-    var context = this;
     if (typeof this.model.get('url') !== 'undefined'){
       this.$('a[href^="' + this.model.get('url') + '"]').on('click', function(){
         if (context.model.get('unseen')){
@@ -52,8 +52,13 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
     }
   },
   onShow: function(){
-    this.initializeSemanticElements();
-    this.$('img.avatar').popup();
+    var context = this;
+    setTimeout(function(){
+      var isViewVisible = context.$el.is(':visible')
+      if (isViewVisible){
+        context.initializeSemanticElements();
+      }
+    }, 250);
 
     this.$('textarea').each(function () {
       this.setAttribute('style', 'height:' + (this.scrollHeight+50) + 'px;overflow-y:hidden;');
@@ -342,20 +347,20 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
       }
     });
 
-    // Misc UI
-    this.$('img').error(function () {
+    // // Misc UI
+    this.$('#card-image').error(function () {
         $(this).attr('src', '/assets/blank-image.png');
     });
 
-    this.$('.image').dimmer({
-      on: 'hover'
-    });
-
-    this.$('img.display')
+    this.$('#card-image')
       .visibility({
         'type'       : 'image',
         'transition' : 'fade in',
         'duration'   : 750
+    });
+
+    this.$('.blurring.dimmable.image').dimmer({
+      on: 'hover'
     });
 
     // Reslyp dropdown

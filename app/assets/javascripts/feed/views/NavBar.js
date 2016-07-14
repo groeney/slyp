@@ -19,8 +19,6 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
         context.$('#add-button').click();
       }
     });
-
-    this.hideShowOnScroll();
   },
   onShow: function(){
     this.initializeSemanticElements();

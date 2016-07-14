@@ -42,7 +42,7 @@
         </div>
       </div>
     </div>
-    <img id="card-image" type="image" class="ui image display centered" rv-class-compact_img="appState.compactLayout" rv-classes-unless-feed_img-big="appState.compactLayout" rv-data-src="userSlyp:image" src="/assets/blank-image.png" style="border:none;min-height:250px;">
+    <img id="card-image" rv-data-src="userSlyp:image" type="image" class="ui image display centered" rv-class-compact_img="appState.compactLayout" rv-classes-unless-feed_img-big="appState.compactLayout" src="/assets/blank-image.png" style="border:none;min-height:250px;">
   </div>
 
   <div class="content">
@@ -65,7 +65,7 @@
     </div>
 
     <div id="latest-conversation-container" class="ui left aligned basic segment row" style="margin-left:-13px;margin-top:5px;" rv-class-loading="state.loadingQuickReply" rv-show-flex="userSlyp.hasConversations < :latest_conversation">
-      <img class="ui avatar image" rv-src="userSlyp:latest_conversation.image | getAvatar userSlyp:latest_conversation.first_name userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email">
+      <img class="ui avatar image" rv-src="userSlyp:latest_conversation.image | getAvatar userSlyp:latest_conversation.first_name userSlyp:latest_conversation.email" rv-data-title="userSlyp:latest_conversation.email" src="/assets/blank-person-image.jpg">
       <a id="comment-label" class="ui left pointing circular label" rv-class-medium="state.intendingToReply" rv-class-unless-small="state.intendingToReply">
         <span class="extra content">{ userSlyp:latest_conversation.text }</span>
       </a>

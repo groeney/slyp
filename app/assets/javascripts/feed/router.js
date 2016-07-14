@@ -2,7 +2,7 @@ var slypApp = window.slypApp || {};
 
 slypApp.Controller = Marionette.Object.extend({
   initialize: function() {
-    slypApp.userSlyps = new slypApp.Collections.UserSlyps([{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}]);
+    slypApp.userSlyps = new slypApp.Collections.UserSlyps([{},{},{},{},{},{},{},{},{}]);
     slypApp.user = new slypApp.Models.User();
     slypApp.persons = new slypApp.Collections.Persons();
     slypApp.persons.fetch().done(function(){
