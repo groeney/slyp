@@ -19,6 +19,8 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
         context.$('#add-button').click();
       }
     });
+
+    this.hideShowOnScroll();
   },
   onShow: function(){
     this.initializeSemanticElements();
@@ -186,6 +188,24 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
   },
 
   // Helper functions
+  hideShowOnScroll: function(){
+    var lastScrollTop = 0, delta = 5;
+    var context = this;
+    $(window).scroll(function(){
+      var nowScrollTop = $(this).scrollTop();
+      if(Math.abs(lastScrollTop - nowScrollTop) >= delta){
+        var fadeTime = 750;
+        if (nowScrollTop > lastScrollTop){
+          $(context.$el).fadeOut(fadeTime);
+          $('#filter-dropdown').fadeOut(fadeTime);
+        } else {
+          $(context.$el).fadeIn(fadeTime);
+          $('#filter-dropdown').fadeIn(fadeTime);
+        }
+        lastScrollTop = nowScrollTop;
+      }
+    });
+  },
   initializeSemanticElements: function(){
     var context = this;
     // Misc UI

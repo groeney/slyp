@@ -77,6 +77,10 @@ rivets.formatters.truncDescription = function(value){
   return value ? value.trunc(140) : ''
 }
 
+rivets.formatters.numReslyps = function(value){
+  return 'conversation'.pluralize(value)
+}
+
 rivets.formatters.slypDirection = function(value){
   return value ? 'You sent this slyp.' : 'This slyp was sent to you.'
 }
