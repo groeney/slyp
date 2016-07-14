@@ -17,7 +17,7 @@
         <i id="twitter-share" class="twitter link icon"></i>
       </a>
       <a id="conversations" class="description">
-        <i class="icon" rv-classes-comments-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
+        <i class="icon" rv-classes-talk-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends"></i>
         <span rv-show="userSlyp.hasConversations < :friends">{ userSlyp:friends | numConversations }</span>
         <span rv-hide="userSlyp.hasConversations < :friends">Send to friends</span>
         <span class="ui red mini label" rv-show="userSlyp.hasLove < :unseen_replies :unseen_activity">{ userSlyp.loveAmount < :unseen_replies :unseen_activity } new</span>

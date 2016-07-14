@@ -37,7 +37,7 @@ shepherd.addStep('2 create', {
 
 shepherd.addStep('3 select', {
   title: 'Send to email',
-  text: ['Paste an email address or selecting a friend.'],
+  text: ['Paste an email address or select a friend.'],
   attachTo: '#card-0 #reslyp-dropdown right',
   buttons: false,
   when: {

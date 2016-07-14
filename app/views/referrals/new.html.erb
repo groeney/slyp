@@ -16,46 +16,67 @@
 
 <div class="ui middle aligned center aligned grid">
   <div class="ten wide column">
-    <div id="main" class="ui segment">
+    <div class="ui segment">
       <div class="ui basic segment">
         <h3 class="ui header" style="color: rgba(0,0,0,0.60);">
-          Hi there! You have been referred to Slyp by <b style="color:rgba(0,0,0,0.87);"><%= @referrer.display_name %></b>. <br/><br/>Enter your email and we'll send you a personal invitation:
+          Hi there! You have been referred to Slyp by <b style="color:rgba(0,0,0,0.87);"><%= @referrer.display_name %></b>.
         </h3>
       </div>
-      <%= form_tag("/r/capture", method: "post", remote: true, class: "ui middle aligned form", id: "referral-capture", 'data-type': 'json') do %>
-        <%= hidden_field_tag :referred_by_id, @referrer.id %>
-        <%= email_field_tag :email, "", placeholder: "donald@duck.com", class: "six wide field", style: "margin-left: 30%;" %>
-        <button class="ui basic primary submit button" style="margin-top:20px;">
-          Get invitation
+      <%= link_to user_facebook_omniauth_authorize_path do %>
+        <button class="ui facebook big button">
+          <i class="facebook icon"></i>
+         Continue with Facebook
         </button>
       <% end %>
     </div>
-    <div id="success-message" class="ui message" style="display:none;">
-      <div class="ui positive icon message">
-        <i class="inbox icon"></i>
-        <div class="content">
-          <div class="header">
-            Check your email
+    <div id="no-facebook" class="ui message">
+      <a>Don't have Facebook?</a>
+    </div>
+    <article id="manual-signup-container" style="display:none;">
+      <div id="manual-signup" class="ui segment">
+        <h4 class="ui header" style="color: rgba(0,0,0,0.60);">Enter your email and we'll send you a personal invitation:</h4>
+        <%= form_tag("/r/capture", method: "post", remote: true, class: "ui middle aligned form", id: "referral-capture", 'data-type': 'json') do %>
+          <%= hidden_field_tag :referred_by_id, @referrer.id %>
+          <%= email_field_tag :email, "", placeholder: "donald@duck.com", class: "six wide field", style: "margin-left: 30%;" %>
+          <button class="ui basic primary submit button" style="margin-top:20px;">
+            Get invitation
+          </button>
+        <% end %>
+      </div>
+      <div id="success-message" class="ui message" style="display:none;">
+        <div class="ui positive icon message">
+          <i class="inbox icon"></i>
+          <div class="content">
+            <div class="header">
+              Check your email
+            </div>
+            <p>We just sent you an email with an invitation link, it will also help us make sure it is a correct and valid email address.</p>
           </div>
-          <p>We just sent you an email with an invitation link, it will also help us make sure it is a correct and valid email address.</p>
         </div>
       </div>
-    </div>
-    <div id="error-message" class="ui message" style="display:none;">
-      <div class="ui negative icon message">
-        <i class="ban icon"></i>
-        <div class="content">
-          <div class="header">
-            Email already in use
+      <div id="error-message" class="ui message" style="display:none;">
+        <div class="ui negative icon message">
+          <i class="ban icon"></i>
+          <div class="content">
+            <div class="header">
+              Email already in use
+            </div>
+            <p>Looks like this email address is already registered. <%= link_to "Sign in", sign_in_url %></p>
           </div>
-          <p>Looks like this email address is already registered. <%= link_to "Sign in", sign_in_url %></p>
         </div>
       </div>
-    </div>
+    </article>
   </div>
 </div>
 <script type="text/javascript">
   $('body').addClass('devise');
+  $('#no-facebook').on('click', function(){
+    $('#manual-signup-container').toggle();
+    var isVisible = $('#manual-signup').is(':visible');
+    if (isVisible){
+      $('html, body').animate({ scrollTop: '350px' });
+    }
+  });
   $('#referral-capture').form({
     on     : 'blur',
     inline : true,
@@ -75,14 +96,14 @@
   });
   $('#referral-capture')
     .bind('ajax:beforeSend', function(){
-      $('#main').addClass('loading');
+      $('#manual-signup').addClass('loading');
     })
     .bind('ajax:success', function(){
       $('#success-message').show();
     })
     .bind('ajax:complete', function(){
-      $('#main').removeClass('loading');
-      $('#main').hide();
+      $('#manual-signup').removeClass('loading');
+      $('#manual-signup').hide();
     })
     .bind('ajax:error', function(){
       $('#error-message').show();
