@@ -5,7 +5,7 @@ class CustomDeviseMailer < Devise::Mailer
 
   def subject_for(key)
     return super unless key.to_s == "invitation_instructions"
-    invited_by = resource.invited_by.try(:full_name) || "Someone"
+    invited_by = resource.invited_by.try(:full_name) || "Team Slyp"
     resource.update_attribute(:invitations_count,
                               resource.invitations_count + 1)
     I18n.t("devise.mailer.invitation_instructions.subject",

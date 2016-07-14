@@ -18,11 +18,11 @@ en:
     mailer:
       invitation_instructions:
         subject: "%{invited_by} invited you to Slyp"
-        hello: "Hello!"
-        what_is_slyp: "Slyp is your newsfeed, reimagined. Your beautiful home to store, share and discuss all the best content you find online. With friends, Slyp is your truly personalized newsfeed. Without friends, it is your digital library. Of course... Slyp can be both these things at the same time!"
+        hello: "Hello! %{invited_by} has invited you to join them on Slyp."
+        intro: "Slyp is a content-sharing network without algorithms. For the people, by the people, of the people."
         accept: "Join %{invited_by}"
         bye: "Stay curious,"
-        from: "Slyp Team"
+        from: "Team Slyp"
   time:
     formats:
       devise:

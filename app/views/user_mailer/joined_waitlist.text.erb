@@ -1,5 +1,5 @@
-Welcome. You are #<%= @user.id %> on our waitlist.
-Slyp is your newsfeed, reimagined. Your beautiful home to store, share and discuss all the best content you find online. With friends, Slyp is your truly personalized newsfeed. Without friends, it is your digital library. Of course... Slyp can be both these things at the same time!
+Welcome <%= @user.display_name_short %>. You are #<%= @user.id %> on our waitlist.
+Slyp is your content-sharing network without algorithms. For the people, by the people, of the people. As always you can reply to this email and a real human will get back to you. We love to chat.
 We will be in touch soon.
 Stay curious,
 <%= link_to "Team Slyp", controller: "home", action: "index", email: @user.email %>

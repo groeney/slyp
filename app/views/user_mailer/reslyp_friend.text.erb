@@ -1,3 +1,4 @@
 <%= @reslyp.sender.display_name %>: <%= @reslyp.comment %>
 
 <%= @reslyp.slyp.url %>
+<%= truncate @slyp.description, :length => 300, :separator => /./, :omission => "..." %>

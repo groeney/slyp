@@ -1,3 +1,4 @@
-<%= @slyp.url %>
-<%= truncate @slyp.description, :length   => 300, :separator => /./, :omission => "..." %>
 <%= @sender.display_name %>: <%= @reslyp.comment %>
+
+<%= @slyp.url %>
+<%= truncate @slyp.description, :length => 300, :separator => /./, :omission => "..." %>

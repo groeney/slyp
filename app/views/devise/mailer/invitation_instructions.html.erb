@@ -1,6 +1,6 @@
-<p><%= t("devise.mailer.invitation_instructions.hello", email: @resource.email) %></p>
+<p><%= t("devise.mailer.invitation_instructions.hello", invited_by: @resource.invited_by.try(:full_name) || "Team Slyp") %></p>
 
-<p><%= t("devise.mailer.invitation_instructions.what_is_slyp", invited_by: @resource.invited_by.try(:full_name) || "Someone") %></p>
+<p><%= t("devise.mailer.invitation_instructions.intro") %></p>
 
 <button style="cursor: pointer;
     display: inline-block;
