@@ -58,7 +58,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
       if (isViewVisible){
         context.initializeSemanticElements();
       }
-    }, 250);
+    }, 50);
 
     this.$('textarea').each(function () {
       this.setAttribute('style', 'height:' + (this.scrollHeight+50) + 'px;overflow-y:hidden;');

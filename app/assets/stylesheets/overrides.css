@@ -217,7 +217,7 @@ i.floating-action.second {
 
 /* Cannot use '-' in these classes as they are applied by RivetsJS */
 .compact_img {
-  height: 275px !important;
+  height: 250px !important;
 }
 
 .feed_img {
@@ -230,6 +230,10 @@ i.floating-action.second {
 
 .feed_layout {
   max-width: 600px;
+}
+
+.feed_title {
+  font-size: 1.67em !important;
 }
 
 .feed_preview {
