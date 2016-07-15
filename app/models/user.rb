@@ -240,8 +240,7 @@ class User < ActiveRecord::Base
 
   def send_activated_outreach_one
     support = User.support_user
-    url = "https://medium.com/@jamesgroeneveld/meet-slyp-beta-51ce3bfc90a8#.l"\
-          "0p7uhtob"
+    url = "https://medium.com/@jamesgroeneveld/meet-slyp-beta-51ce3bfc90a8"
     slyp = Slyp.fetch(url)
     user_slyp = support.user_slyps.find_or_create_by(slyp_id: slyp.id)
     return if user_slyps.exists?(slyp_id: slyp.id)
