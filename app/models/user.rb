@@ -4,7 +4,6 @@ class User < ActiveRecord::Base
   after_create :send_welcome_email
   after_create :befriend_inviter
   after_create :befriend_support
-  after_create :send_activated_outreach_one
   after_create :set_send_reslyp_email_from
 
   devise :invitable, :database_authenticatable, :registerable,

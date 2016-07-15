@@ -104,7 +104,7 @@ RSpec.describe UsersController, type: :controller do
       expect(response_body_json["weekly_summary"]).to eq false
     end
     it "should successfully update send_reslyp_email_from" do
-      expect(user.send_reslyp_email_from).to eq "support@slyp.io"
+      expect(user.send_reslyp_email_from).to eq user.email
       put :update, user: { send_reslyp_email_from: "test@example.com" }, format: :json
       response_body_json = JSON.parse(response.body)
       expect(response_body_json["send_reslyp_email_from"]).to eq "test@example.com"

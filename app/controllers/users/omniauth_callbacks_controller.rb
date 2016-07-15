@@ -18,6 +18,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       else # New user or linking fb to existing account
         user = User.from_omniauth(auth)
       end
+
+      user.send_activated_outreach_one
       if user.persisted?
         user.social_signup
         sign_in_and_redirect user, event: :authentication
