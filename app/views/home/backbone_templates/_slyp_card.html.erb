@@ -55,12 +55,12 @@
         <i id="favorite-action" class="large like icon" rv-class-active="userSlyp:favourite" style="margin-right:0px;"></i>
         { userSlyp:total_favourites }
       </span>
-      <a id="conversations" class="description">
+      <span id="conversations" class="description" style="cursor:pointer;">
         <i class="large icon" rv-classes-talk-outline="userSlyp.hasConversations < :friends" rv-class-unless-spy="userSlyp.hasConversations < :friends" style="margin-bottom:2px;margin-right:0px;"></i>
         <span rv-show="userSlyp.hasConversations < :friends">{ userSlyp:friends | numConversations }</span>
         <span class="ui left pointing circular label" rv-hide="userSlyp.hasConversations < :friends">Only you see this</span>
         <span class="ui red mini label" rv-show="userSlyp.hasLove < :unseen_replies :unseen_activity" style="margin-left:6px;">{ userSlyp.loveAmount < :unseen_replies :unseen_activity } new</span>
-      </a>
+      </span>
       <i id="explore-us" class="right floated big compass link icon" rv-class-active="userSlyp:archived" data-content="Find similar content" data-variation="tiny"></i>
     </div>
 

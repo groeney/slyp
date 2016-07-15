@@ -166,6 +166,10 @@ a {
   color: rgba(0, 0, 0, 0.87);
 }
 
+#conversations:hover {
+  color: rgba(0,0,0,0.6);
+}
+
 .description-preview {
   color: white;
   opacity: 0.8;

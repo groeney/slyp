@@ -108,4 +108,11 @@
     .bind('ajax:error', function(){
       $('#error-message').show();
     });
+
+  // TODO fix, hackidy hack McHack.
+  if (getScreenWidth() < 769){
+    $('div.ten.wide.column')
+      .removeClass('ten wide column')
+      .addClass('fifteen wide column');
+  }
 </script>
