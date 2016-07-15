@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   after_create :befriend_inviter
   after_create :befriend_support
   after_create :send_activated_outreach_one
+  after_create :set_send_reslyp_email_from
   before_destroy :thank_you
 
   devise :invitable, :database_authenticatable, :registerable,
@@ -254,6 +255,10 @@ class User < ActiveRecord::Base
     " we're all about. Oh and this is what it will look like to a friend"\
     " when you slyp them! One last thing... I can talk, so reply me with"\
     " any or all of your thoughts!"
+  end
+
+  def set_send_reslyp_email_from
+    update(send_reslyp_email_from: email)
   end
 
   def referral_link
