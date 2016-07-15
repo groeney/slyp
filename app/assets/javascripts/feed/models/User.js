@@ -37,5 +37,14 @@ slypApp.Models.User = Backbone.Model.extend({
   },
   needsFriends: function(){
     return this.friendsCount() < 5
+  },
+  fbReferral: function(){
+    return 'https://www.facebook.com/sharer/sharer.php?quote=Your content-sharing network that doesn\'t use algorithms; built for the people, by the people, of the people.&u=' + encodeURIComponent(this.get('referral_link')) + '&amp;src=sdkpreparse'
+  },
+  tweetReferral: function(){
+    return 'https://twitter.com/intent/tweet?text=Come join me on Slyp!&url=' + this.get('referral_link')
+  },
+  mailToReferral: function(){
+    return 'mailto:?to=&body=Hey I\'ve been using Slyp to share and discuss content with friends. Join me! ' + this.get('referral_link') + '&subject=Join me on Slyp!'
   }
 });
