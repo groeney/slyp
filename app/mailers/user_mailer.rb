@@ -40,11 +40,6 @@ class UserMailer < ApplicationMailer
     mail(mail_attributes)
   end
 
-  def closed_beta_thank_you(user)
-    @user = user
-    mail(to: @user.email, subject: "Thank you! Back soon :)")
-  end
-
   def new_friend_notification(user, friend)
     @user = user
     @friend = friend

@@ -6,7 +6,6 @@ class User < ActiveRecord::Base
   after_create :befriend_support
   after_create :send_activated_outreach_one
   after_create :set_send_reslyp_email_from
-  before_destroy :thank_you
 
   devise :invitable, :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
@@ -62,10 +61,6 @@ class User < ActiveRecord::Base
   def add_to_waitlist
     UserMailer.joined_waitlist(self).deliver_later
     waitlisted!
-  end
-
-  def thank_you
-    UserMailer.closed_beta_thank_you(self).deliver_now
   end
 
   def reslyps
