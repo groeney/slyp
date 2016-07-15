@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   after_create :send_welcome_email
   after_create :befriend_inviter
   after_create :befriend_support
+  after_create :send_activated_outreach_one
   before_destroy :thank_you
 
   devise :invitable, :database_authenticatable, :registerable,
@@ -243,7 +244,7 @@ class User < ActiveRecord::Base
     url = "https://medium.com/@jamesgroeneveld/meet-slyp-beta-51ce3bfc90a8"
     slyp = Slyp.fetch(url)
     user_slyp = support.user_slyps.find_or_create_by(slyp_id: slyp.id)
-    user_slyp.send_slyp(email, activated_outreach_one_comment)
+    user_slyp.send_slyp(email, activated_outreach_one_comment) if active?
   end
 
   def activated_outreach_one_comment
@@ -274,5 +275,6 @@ class User < ActiveRecord::Base
 
   def set_active_status
     active! && self.update(activated_at: Time.now)
+    send_activated_outreach_one
   end
 end
