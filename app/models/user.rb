@@ -186,7 +186,7 @@ class User < ActiveRecord::Base
 
   def self.create_support_user
     support_user_attrs = {
-      email: "support@slyp.io", first_name: "Team", last_name: "Slyp"
+      email: "support@slyp.io", first_name: "Slyp", last_name: "Bot"
     }
     User.skip_callback(:save, :before, :ensure_friends_with_support)
     User.without_callback(:create, :after, :send_welcome_email) do
@@ -247,10 +247,12 @@ class User < ActiveRecord::Base
   end
 
   def activated_outreach_one_comment
-    "Hi #{display_name_short}! To help get you started here is our launch day"\
-    " blog post. It will help you get a little bit more context around what"\
-    " we're all about. This is also what it will look like to a friend"\
-    " when you slyp them."
+    "Hi #{display_name_short}! I'm slypbot, good to meet you :-) I'm here to"\
+    " help out whenever I can. First I want to show you our launch day"\
+    " blog post. It will give you a little bit more context around what"\
+    " we're all about. Oh and this is what it will look like to a friend"\
+    " when you slyp them! One last thing... I can talk, so reply me with"\
+    " any or all of your thoughts!"
   end
 
   def referral_link
