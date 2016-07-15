@@ -243,7 +243,6 @@ class User < ActiveRecord::Base
     url = "https://medium.com/@jamesgroeneveld/meet-slyp-beta-51ce3bfc90a8"
     slyp = Slyp.fetch(url)
     user_slyp = support.user_slyps.find_or_create_by(slyp_id: slyp.id)
-    return if user_slyps.exists?(slyp_id: slyp.id)
     user_slyp.send_slyp(email, activated_outreach_one_comment)
   end
 
