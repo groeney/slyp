@@ -39,10 +39,17 @@
     </div>
   </div>
 
-  <button id="compact-layout" class="ui icon button" rv-hide="appState.isMobile < .screenWidth">
-    <i class="ellipsis icon" rv-class-horizontal="appState.compactLayout" rv-class-unless-vertical="appState.compactLayout"></i>
-  </button>
-
+  <div class="ui icon buttons">
+    <button id="add-friends" class="ui icon button" data-tooltip="Add friends" data-position="bottom left">
+      <i class="add user icon"></i>
+    </button>
+    <button id="compact-layout" class="ui icon button" rv-hide="appState.isMobile < .screenWidth" data-tooltip="Toogle layout" data-position="bottom left">
+      <i class="ellipsis icon" rv-class-horizontal="appState.compactLayout" rv-class-unless-vertical="appState.compactLayout"></i>
+    </button>
+    <button id="explore" class="ui icon button" data-tooltip="Explore new content" data-position="bottom left">
+      <i class="compass icon"></i>
+    </button>
+  </div>
   <div class="ui doubling stackable cards js-user-slyps-container" rv-classes-three-compact_layout="appState.compactLayout" style="margin-left:auto;margin-right:auto;margin-top:3%;" rv-classes-unless-feed_layout-one="appState.compactLayout"></div>
   <%= render "home/backbone_templates/extend_feed" %>
 </script>

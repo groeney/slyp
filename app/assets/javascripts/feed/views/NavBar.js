@@ -41,7 +41,6 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
     'focusout #searcher'                      : 'focusOutSearch',
     'focusout #create-input'                  : 'doneAdding',
     'click #search-button'                    : 'enterSearchMode',
-    'click #explore-button'                   : function(){ notImplemented('Explore'); },
     'click #goto-settings'                    : 'goToSettings',
     'click #goto-help'                        : 'showHelp'
   },
