@@ -107,10 +107,10 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
         var comment = this.state.comment;
         this.reslyp(validatedEmails, comment);
       } else {
-        this.toastr('error', 'No valid emails.');
+        _toastr('error', 'I don\'t see any valid emails to send this slyp to!');
       }
     } else {
-      this.toastr('error', 'Gotta add a comment before sending ;)');
+      _toastr('error', 'your "why this is shareworthy" comment can\'t be empty, sorry!');
     }
   },
   sendSlypIfValid: function(e){
@@ -184,7 +184,7 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
 
     this.$('#reslyp-dropdown').dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
       if (context.model.alreadyExchangedWith(addedValue)){
-        _toastr('error', 'You have already exchanged this slyp with ' + addedValue);
+        _toastr('error', 'you have already exchanged this slyp with ' + addedValue);
         return false
       } else {
         context.state.reslyping = false;
@@ -244,7 +244,7 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
         comment: comment
       }),
       success: function(response) {
-        _toastr('success', 'Started ' + emails.length + ' new conversations');
+        _toastr('success', 'you started ' + emails.length + ' new conversations!');
         context.refreshAfterReslyp();
 
         // Analytics
@@ -256,7 +256,7 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
         });
       },
       error: function(status, err) {
-        _toastr('error', 'Couldn\'t send it to some of your friends');
+        _toastr('error', 'I couldn\'t slyp it to some of your friends');
         context.state.comment = comment;
         context.refreshAfterReslyp();
       }

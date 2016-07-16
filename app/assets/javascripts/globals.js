@@ -83,7 +83,7 @@ var _toastr = function(type, message, options){
   type = typeof type !== 'undefined' ? type : 'success'; // Default to success toastr
   options = typeof options !== 'undefined' ? options : { 'positionClass': 'toast-top-center' };
   toastr.options = options;
-  toastr[type](message);
+  toastr[type]('@slypbot: ' + message);
 }
 
 var notImplemented = function(feature){
@@ -93,7 +93,7 @@ var notImplemented = function(feature){
     analytics.track('Feature Interest ' + feature);
   }
 
-  _toastr('info', 'We\'ve logged your interest in our new ' + feature + ' feature. Coming soon <i class="smile icon"></i>');
+  _toastr('info', 'I\'ve logged your interest in our new ' + feature + ' feature. Coming soon <i class="smile icon"></i>');
 }
 
 var noop = function(){};

@@ -57,7 +57,7 @@ slypApp.Views.Reply = Backbone.Marionette.CompositeView.extend({
         context.exitEditMode();
       },
       error: function(model, response, options){
-        _toastr('error', 'Having trouble updating this reply right now, try reloading?');
+        _toastr('error', 'I\'m having a little trouble updating this reply right now, maybe try reloading?');
       }
     });
   },

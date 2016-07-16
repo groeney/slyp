@@ -114,10 +114,10 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         var validatedEmails = _.filter(emails, function(email) { return validateEmail(email) });
         this.reslyp(validatedEmails);
       } else {
-        _toastr('error', 'No valid emails.');
+        _toastr('error', 'I don\'t see any valid emails to send this slyp to!');
       }
     } else {
-      _toastr('error', 'Gotta add a comment before sending ;)');
+      _toastr('error', 'your "why this is shareworthy" comment can\'t be empty, sorry!');
     }
   },
   sendSlypIfValid: function(e){
@@ -236,7 +236,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         context.state.quickReplyText = quickReplyText;
         context.state.intendingToReply = true;
         context.state.loadingQuickReply = false;
-        _toastr('error', 'Couldn\'t add that reply for some reason :(')
+        _toastr('error', 'I couldn\'t add that reply for some reason :(')
       }
     });
   },
@@ -281,9 +281,9 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
       }),
       success: function(response) {
         if (selfReslyp){
-          _toastr('success', 'Saved a personal note.');
+          _toastr('success', 'you saved a personal note.');
         } else{
-          _toastr('success', 'Started ' + 'conversation'.pluralize(emails.length));
+          _toastr('success', 'you started ' + 'conversation'.pluralize(emails.length));
         }
 
         // Analytics
@@ -300,7 +300,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
         });
       },
       error: function(status, err) {
-        _toastr('error', 'Couldn\'t send it to some of your friends');
+        _toastr('error', 'I couldn\'t send it to some of your friends');
         context.state.comment = comment;
         context.refreshAfterReslyp();
       }
@@ -375,7 +375,7 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
 
     this.$('#reslyp-dropdown').dropdown('setting', 'onAdd', function(addedValue, addedText, addedChoice) {
       if (context.model.alreadyExchangedWith(addedValue)){
-        _toastr('error', 'You have already exchanged this slyp with ' + addedValue);
+        _toastr('error', 'it seems as though you have already exchanged this slyp with ' + addedValue);
         return false
       } else {
         context.state.reslyping = false;

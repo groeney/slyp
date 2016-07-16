@@ -84,11 +84,11 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
           var userSlyp = slypApp.userSlyps.get(response.id);
           if (userSlyp.get('archived')){
             userSlyp.save({ archived: false });
-            _toastr('info', 'We found this slyp already in your feed!');
+            _toastr('info', 'I found this slyp already in your feed!');
           } else if (exists) {
-            _toastr('info', 'We found this slyp already in your feed!');
+            _toastr('info', 'I found this slyp already in your feed!');
           } else {
-            _toastr('success', 'Created a slyp!');
+            _toastr('success', 'you created a slyp!');
 
             // Analytics
             analytics.track('Created New Slyp', {
@@ -108,15 +108,15 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
         },
         error: function(status, err) {
           if (slypApp.state.slypURL.http){
-            _toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://');
+            _toastr('error', 'hmmm it seems to me that this url is invalid. A valid url begins with http:// or https://');
           } else {
-            _toastr('error');
+            _toastr('error', 'I\'m not sure what happened. Maybe your Internet connection is struggling?');
           }
           slypApp.state.resettingFeed = false;
         }
       });
     } else {
-      _toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://')
+      _toastr('error', 'hmmm it seems to me that this url is invalid. A valid url begins with http:// or https://')
     }
   },
   createSlypIfEnter: function(e){
@@ -125,7 +125,7 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
         this.doneAdding();
         this.createSlyp();
       } else {
-        this.toastr('error', 'URL invalid :(. Please use a valid URL starting with http:// or https://');
+        _toastr('error', 'hmmm it seems to me that this url is invalid. A valid url begins with http:// or https://');
       }
     }
   },
@@ -278,7 +278,7 @@ slypApp.Views.NavBar = Backbone.Marionette.CompositeView.extend({
               });
               slypApp.userSlyps.reset(serverResponse);
               if (serverResponse.length == 0){
-                _toastr('error', 'No slyps found for that search.')
+                _toastr('error', 'I couldn\'t find any slyps for your search term')
               }
               serverResponse = {};
               slypApp.state.resettingFeed = false;

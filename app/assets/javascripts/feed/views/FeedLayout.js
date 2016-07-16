@@ -84,7 +84,7 @@ slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({
   },
   toggleLayout: function(){
     if (shepherd.isActive()){
-      _toastr('error', 'Our onboarding tour only works with the one card feed right now. Finish the tour and then change the layout!');
+      _toastr('error', 'our onboarding tour only works with the one card feed right now. You\'ll be able to change the layout after you finish the tour!');
     } else {
       slypApp.state.compactLayout = !slypApp.state.compactLayout;
       $.cookie('_compact_layout', slypApp.state.compactLayout);
