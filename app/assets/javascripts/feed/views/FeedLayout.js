@@ -10,7 +10,6 @@ slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({
   emptyView          : NoSlypsMessage,
   initialize: function(options){
     this.collection.bind('change:archived update reset', this.zeroState, this);
-    slypApp.persons.on('change:friendship_id update', this.updateFriendsProgress, this);
   },
   onRender: function(){
     this.binder = rivets.bind(this.$el, {
@@ -20,7 +19,6 @@ slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({
     });
   },
   onShow: function() {
-    this.updateFriendsProgress()
     $('#filter-dropdown').dropdown({
       onChange: function(value, text, selectedItem) {
         switch(value){
@@ -53,25 +51,7 @@ slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({
     });
     $('#filter-dropdown').dropdown('set selected', 'all'); // Performs initial fetch!
   },
-  updateFriendsProgress: function(){
-    var progressMeter = this.$('#friends-progress');
-    if (slypApp.user.needsFriends()){
-      progressMeter.show();
-      $('#progress-divider').show();
-      progressMeter.progress({
-        label: 'ratio',
-        value: slypApp.user.friendsCount(),
-        text: {
-          active: 'Slyp is way more fun with friends... you need {left} more :-)'
-        }
-      });
-    } else {
-      progressMeter.hide();
-      $('#progress-divider').hide();
-    }
-  },
   events: {
-    'click #friends-progress' : 'showFriendsSettings',
     'click #paginate-button'  : 'paginate',
     'click #compact-layout'   : 'toggleLayout',
     'click #explore'          : function(){ notImplemented('Explore'); },
@@ -79,6 +59,9 @@ slypApp.Views.FeedLayout = Backbone.Marionette.CompositeView.extend({
   },
   showFriendsSettings: function(){
     openFriendsSettings();
+
+    // Analytics
+    analytics.track('Clicked Add Friends');
   },
   paginate: function(){
     this.collection.paginate();

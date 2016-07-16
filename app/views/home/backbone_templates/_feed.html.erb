@@ -6,15 +6,6 @@
   <div class="ui hidden divider" rv-show="appState.isMobile < .screenWidth"></div>
   <div class="ui hidden divider" rv-show="appState.isMobile < .screenWidth"></div>
 
-  <a id="friends-progress" class="ui indicating small progress" data-total="5">
-    <div class="bar">
-      <div class="progress"></div>
-    </div>
-    <div class="label"></div>
-  </a>
-
-  <div id="progress-divider" class="ui divider"></div>
-
   <div id="filter-dropdown" class="ui selection scrolling dropdown" rv-class-loading="appState.resettingFeed" style="background:white;position:fixed;z-index:101;border-color:white;min-width:8em;" rv-fade-hide="appState.usingNavBar < searchMode addMode">
     <span class="text">Filter</span>
     <i class="dropdown icon"></i>
@@ -40,13 +31,13 @@
   </div>
 
   <div class="ui icon buttons">
-    <button id="add-friends" class="ui icon button" data-tooltip="Add friends" data-position="bottom left">
+    <button id="add-friends" class="ui icon basic button" rv-class-red="user.needsFriends" rv-class-unless-green="user.needsFriends" data-tooltip="Add friends" data-position="bottom left">
       <i class="add user icon"></i>
     </button>
-    <button id="compact-layout" class="ui icon button" rv-hide="appState.isMobile < .screenWidth" data-tooltip="Toogle layout" data-position="bottom left">
+    <button id="compact-layout" class="ui icon grey basic button" rv-hide="appState.isMobile < .screenWidth" data-tooltip="Toogle layout" data-position="bottom left">
       <i class="ellipsis icon" rv-class-horizontal="appState.compactLayout" rv-class-unless-vertical="appState.compactLayout"></i>
     </button>
-    <button id="explore" class="ui icon button" data-tooltip="Explore new content" data-position="bottom left">
+    <button id="explore" class="ui icon grey basic button" data-tooltip="Explore new content" data-position="bottom left">
       <i class="compass icon"></i>
     </button>
   </div>

@@ -33,10 +33,10 @@ slypApp.Models.User = Backbone.Model.extend({
   },
   friendsCount: function(){
     var friends = this.friends();
-    return friends.length > 0 ? friends.length : 5
+    return friends.length > 0 ? friends.length : 10
   },
   needsFriends: function(){
-    return this.friendsCount() < 5
+    return this.friendsCount() < 10
   },
   fbReferral: function(){
     return 'https://www.facebook.com/sharer/sharer.php?quote=Your content-sharing network that doesn\'t use algorithms; built for the people, by the people, of the people.&u=' + encodeURIComponent(this.get('referral_link')) + '&amp;src=sdkpreparse'
