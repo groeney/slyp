@@ -9,8 +9,7 @@ end
 
 desc "Outreach email #1 for activated users"
 task activated_outreach_one: :environment do
-  yesterday = 1.day.ago
-  User.where(activated_at: yesterday.midnight..yesterday.end_of_day).each do |user|
+  User.where("activated_at >= ?", 1.day.ago).each do |user|
     user.send_activated_outreach_one if user.active?
   end
 end
