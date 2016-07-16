@@ -4,7 +4,6 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   </head>
   <body>
-    <p style="text-align:center;">~**~ LAUNCH DAY TODAY ... CELEBRATION TIME ~**~</p>
     <p><b><%= @sender.display_name %></b>: <%= @reslyp.comment %></p>
     <p><%= link_to @slyp.url, @slyp.url %></p>
     <p><%= truncate @slyp.description, :length   => 300, :separator => /./, :omission => "..." %></p>
