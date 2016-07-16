@@ -220,6 +220,10 @@ i.floating-action.second {
   top: 7.5%;
 }
 
+.ui.cards>.card {
+  min-width: 330px;
+  max-width: 530px;
+}
 /* Cannot use '-' in these classes as they are applied by RivetsJS */
 .compact_img {
   height: 250px !important;
