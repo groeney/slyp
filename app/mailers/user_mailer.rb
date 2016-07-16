@@ -45,7 +45,7 @@ class UserMailer < ApplicationMailer
     @friend = friend
     mail(to: @friend.email.to_s,
          subject: "#{@user.display_name} joined you on Slyp",
-         from: "Team Slyp <support@slyp.io>")
+         from: "Slyp Bot <support+#{SecureRandom.hex(3)}@slyp.io>")
   end
 
   def activity(user)
@@ -54,6 +54,6 @@ class UserMailer < ApplicationMailer
     @notifications = user.activity_sum
     @slyps = user.user_slyps_with_activity.count
     mail(to: @user.email, subject: "Notifications from #{@people}",
-         from: "Team Slyp <support@slyp.io>")
+         from: "Slyp Bot <support+#{SecureRandom.hex(3)}@slyp.io>")
   end
 end

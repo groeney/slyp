@@ -1,3 +1,3 @@
 class ApplicationMailer < ActionMailer::Base
-  default from: "James Groeneveld <james@slyp.io>"
+  default 'from' => Proc.new { "James Groeneveld <james+#{SecureRandom.hex(3)}@slyp.io>" }
 end

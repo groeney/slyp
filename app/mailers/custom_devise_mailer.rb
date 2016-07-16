@@ -1,6 +1,4 @@
 class CustomDeviseMailer < Devise::Mailer
-  default from: "James Groeneveld <james@slyp.io>"
-
   protected
 
   def subject_for(key)

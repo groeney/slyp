@@ -67,6 +67,7 @@
   $('body').addClass('devise');
   $('#no-facebook').on('click', function(){
     $('#manual-signup').toggle();
+    $('#first_name').focus();
     var isVisible = $('#manual-signup').is(':visible');
     if (isVisible){
       $('html, body').animate({ scrollTop: '500px' });
