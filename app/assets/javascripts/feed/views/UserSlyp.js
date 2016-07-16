@@ -24,10 +24,10 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
     }
     setId();
     this.state.hasComment = function(){
-      return context.state.comment.length > 0;
+      return $.trim(context.state.comment).length > 0;
     }
     this.state.hasQuickReplyText = function(){
-      return context.state.quickReplyText.length > 0
+      return $.trim(context.state.quickReplyText).length > 0
     }
     this.listenTo(slypApp.persons, 'change:friendship_id update', function(){
       this.model.trigger('change:friends', this.model);

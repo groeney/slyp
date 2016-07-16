@@ -17,7 +17,7 @@ slypApp.Views.Reslyp = Backbone.Marionette.CompositeView.extend({
       loading    : false
     }
     this.state.hasReplyText = function(){
-      return context.state.replyText.length > 0
+      return $.trim(context.state.replyText).length > 0
     }
     this.binder = rivets.bind(this.$el, {
       reslyp: this.model,

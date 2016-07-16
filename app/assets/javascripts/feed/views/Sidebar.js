@@ -20,7 +20,7 @@ slypApp.Views.Sidebar = Backbone.Marionette.CompositeView.extend({
       comment: ''
     }
     this.state.hasComment = function(){
-      return context.state.comment.length > 0;
+      return $.trim(context.state.comment).length > 0;
     }
     this.collection = this.model.get('reslyps');
     if (this.collection != null){
