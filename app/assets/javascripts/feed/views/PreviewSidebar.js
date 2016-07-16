@@ -33,9 +33,6 @@ slypApp.Views.PreviewSidebar = Backbone.Marionette.CompositeView.extend({
     });
     $('#open-conversations').on('click', function(){
       context.toggleConversations();
-
-      // Analytics
-      analytics.track('Open Sidebar');
     });
   },
   events: {
@@ -53,9 +50,6 @@ slypApp.Views.PreviewSidebar = Backbone.Marionette.CompositeView.extend({
       if (slypApp.state.isMobile()){
         this.closePreview();
       }
-
-      // Analytics
-      analytics.track('Open Sidebar');
     }
   },
   fbShareAttempt: function(){

@@ -102,9 +102,6 @@ slypApp.Views.UserSlyp = Backbone.Marionette.CompositeView.extend({
     this.model.save({ unseen_activity: false });
     slypApp.sidebarRegion.show(new slypApp.Views.Sidebar({ model: this.model }));
     $('.ui.right.sidebar').sidebar('toggle');
-
-    // Analytics
-    analytics.track('Open Sidebar');
   },
   sendSlyp: function(e){
     if (this.state.hasComment()){
