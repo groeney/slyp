@@ -235,10 +235,9 @@ class User < ActiveRecord::Base
   end
 
   def send_activated_outreach_one
-    support = User.support_user
     url = "https://medium.com/@jamesgroeneveld/meet-slyp-beta-51ce3bfc90a8"
     slyp = Slyp.fetch(url)
-    user_slyp = support.user_slyps.find_or_create_by(slyp_id: slyp.id)
+    user_slyp = User.support_user.user_slyps.find_or_create_by(slyp_id: slyp.id)
     user_slyp.send_slyp(email, activated_outreach_one_comment) if active?
   end
 
@@ -249,6 +248,23 @@ class User < ActiveRecord::Base
     " we're all about. Oh and this is what it will look like to a friend"\
     " when you slyp them! One last thing... I can talk, so reply me with"\
     " any or all of your thoughts!"
+  end
+
+  def send_activated_outreach_two
+    url = "https://medium.com/@jamesgroeneveld/how-slyp-works-decentralised-content-curation-c8a4781811fa"
+    slyp = Slyp.fetch(url)
+    user_slyp = User.support_user.user_slyps.find_or_create_by(slyp_id: slyp.id)
+    user_slyp.send_slyp(email, activated_outreach_two_comment) if active?
+  end
+
+  def activated_outreach_two_comment
+    "Hey #{display_name_short} I hope you're enjoying Slyp! Here is"\
+    " our post detailing how Slyp works. Save links for later reference."\
+    " Share and discuss them with friends and family. Keep a personal library of"\
+    " the best content online. Thought of other use cases? Talk with me! We're"\
+    " commited to addressing the biggest problems in media today:"\
+    " content overload, clickbait and poor quality journalism and a fragmented"\
+    " content sharing paradigm."
   end
 
   def set_send_reslyp_email_from
