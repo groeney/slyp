@@ -108,6 +108,21 @@ pre {
   #filter-dropdown .dropdown.icon {
     margin-top: -3px;
   }
+
+  .ui.cards>.card {
+    max-width: 270px;
+  }
+
+  p.preview-text {
+    text-align     : left;
+    color          : rgba(0,0,0,.7);
+    font-size      : 19px;
+    line-height    : 1.38;
+    font-weight    : 400;
+    font-style     : normal;
+    letter-spacing : -.003em;
+    font-family    : medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;
+  }
 }
 
 /* Desktop */
@@ -154,6 +169,22 @@ pre {
 
   .ui.cards {
     max-width: 600px;
+  }
+
+  .ui.cards>.card {
+    min-width: 330px;
+    max-width: 530px;
+  }
+
+  p.preview-text {
+    text-align     : left;
+    color          : rgba(0,0,0,.7);
+    font-size      : 20px;
+    line-height    : 1.58;
+    font-weight    : 400;
+    font-style     : normal;
+    letter-spacing : -.003em;
+    font-family    : medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;
   }
 }
 
@@ -220,10 +251,6 @@ i.floating-action.second {
   top: 7.5%;
 }
 
-.ui.cards>.card {
-  min-width: 330px;
-  max-width: 530px;
-}
 /* Cannot use '-' in these classes as they are applied by RivetsJS */
 .compact_img {
   height: 250px !important;
@@ -247,15 +274,4 @@ i.floating-action.second {
 
 .feed_preview {
   line-height: 0.1;
-}
-
-p.preview-text {
-  text-align     : left;
-  color          : rgba(0,0,0,.7);
-  font-size      : 20px;
-  line-height    : 1.58;
-  font-weight    : 400;
-  font-style     : normal;
-  letter-spacing : -.003em;
-  font-family    : medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;
 }
