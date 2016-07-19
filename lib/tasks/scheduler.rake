@@ -8,14 +8,14 @@ task activity_notifications: :environment do
   end
 end
 
-desc "Outreach email #1 for activated users"
+desc "Outreach email #1 for activated users -- Meet Slyp Beta"
 task activated_outreach_one: :environment do
   User.where("activated_at <= ?", 1.day.ago).each do |user|
     user.send_activated_outreach_one if user.active?
   end
 end
 
-desc "Outreach email #2 for activated users"
+desc "Outreach email #2 for activated users -- How Slyp works"
 task activated_outreach_two: :environment do
   User.where("activated_at <= ?", 3.days.ago).each do |user|
     user.send_activated_outreach_two if user.active?
