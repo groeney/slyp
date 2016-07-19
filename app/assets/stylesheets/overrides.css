@@ -248,3 +248,14 @@ i.floating-action.second {
 .feed_preview {
   line-height: 0.1;
 }
+
+p.preview-text {
+  text-align     : left;
+  color          : rgba(0,0,0,.7);
+  font-size      : 20px;
+  line-height    : 1.58;
+  font-weight    : 400;
+  font-style     : normal;
+  letter-spacing : -.003em;
+  font-family    : medium-content-serif-font,Georgia,Cambria,"Times New Roman",Times,serif;
+}

@@ -7,9 +7,7 @@ slypApp.Views.PreviewSidebar = Backbone.Marionette.CompositeView.extend({
   htmlChanged: function(e){
     var context = this;
     setTimeout(function(){
-      context.$('p').css('text-align', 'left').
-                  css('font-size', 'larger').
-                  css('font-family', "'Palatino Linotype','Book Antiqua',Palatino,serif");
+      context.$('p').addClass('preview-text');
       context.$('.video_frame').first().addClass('ui').addClass('embed');
     }, 100);
   },

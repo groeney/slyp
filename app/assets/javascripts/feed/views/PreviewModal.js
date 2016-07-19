@@ -10,11 +10,10 @@ slypApp.Views.PreviewModal = Backbone.Marionette.ItemView.extend({
     'change:html' : 'htmlChanged'
   },
   htmlChanged: function(){
+    var context = this;
     setTimeout(function(){
-      this.$('p').css('text-align', 'left').
-                  css('font-size', 'larger').
-                  css('font-family', "'Palatino Linotype','Book Antiqua',Palatino,serif");
-      this.$('.video_frame').first().addClass('ui').addClass('embed');
+      context.$('p').addClass('preview-text');
+      context.$('.video_frame').first().addClass('ui').addClass('embed');
     }, 100);
   },
   onRender: function(){
@@ -25,9 +24,7 @@ slypApp.Views.PreviewModal = Backbone.Marionette.ItemView.extend({
   },
   onShow: function(){
     this.initializeSemanticUI();
-    this.$('p').css('text-align', 'left').
-                css('font-size', 'larger').
-                css('font-family', "'Palatino Linotype','Book Antiqua',Palatino,serif");
+    this.$('p').addClass('preview-text');
   },
   events: {
     'click #conversations' : 'showConversations'
