@@ -10,5 +10,8 @@
       <%= link_to "View all the friends", controller: "home", action: "feed", user_email: @friend.email, user_token: @friend.authentication_token, skip_to: "friends_settings" %>
     </p>
     <p>With love,<br/><%= link_to "Slyp", controller: "home", action: "feed", user_email: @friend.email, user_token: @friend.authentication_token %></p>
+    <p style="text-align:center;">
+      <%= link_to "update my email preferences", { controller: "home", action: "feed", user_email: @friend.email, user_token: @friend.authentication_token, skip_to: "email_settings" }, { style: "color:#a0a0a0;" } %>
+    </p>
   </body>
 </html>

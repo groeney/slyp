@@ -5,13 +5,13 @@
   <div class="ui form">
     <div class="ui vertical segment">
       <div class="ui toggle checkbox">
-        <label style="font-weight:normal;">Email me when friends send me new slyps</label>
-        <input type="checkbox" name="summary" rv-checked="user:notify_reslyp">
+        <label style="font-weight:normal;">Email me when a new friend joins Slyp</label>
+        <input type="checkbox" name="summary" rv-checked="user:send_new_friend_notification">
       </div>
     </div>
     <div class="ui vertical segment">
       <div class="ui toggle checkbox">
-        <label style="font-weight:normal;">Email me about new conversation or friend activity</label>
+        <label style="font-weight:normal;">Email me about unread notifications</label>
         <input type="checkbox" name="summary" rv-checked="user:notify_activity">
       </div>
     </div>
@@ -19,12 +19,6 @@
       <div class="ui toggle checkbox">
         <label style="font-weight:normal;">CC me when I send a slyp to an email contact not on Slyp</label>
         <input type="checkbox" name="summary" rv-checked="user:cc_on_reslyp_email_contact">
-      </div>
-    </div>
-    <div class="ui vertical segment">
-      <div class="ui toggle checkbox">
-        <label style="font-weight:normal;">Send me a summary of all unread slyps and replies at the end of the week.</label>
-        <input type="checkbox" name="summary" rv-checked="user:weekly_summary">
       </div>
     </div>
     <div class="ui vertical segment">
@@ -47,7 +41,7 @@
             </div>
           </div>
         </div>
-         (so they can reply me directly)
+         (so they can reply me directly via email)
       </span>
     </div>
   </div>

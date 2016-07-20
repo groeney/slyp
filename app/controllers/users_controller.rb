@@ -49,7 +49,7 @@ class UsersController < BaseController
   def user_attrs
     [:first_name, :last_name, :email, :notify_reslyp, :notify_activity,
      :searchable, :cc_on_reslyp_email_contact, :send_reslyp_email_from,
-     :weekly_summary]
+     :weekly_summary, :send_new_friend_notification]
   end
 
   def user_password_params
