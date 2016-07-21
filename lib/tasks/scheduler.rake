@@ -1,8 +1,8 @@
 desc "Notifies users of unseen activity on user_slyps"
 task activity_notifications: :environment do
   User.with_activity.each do |user|
-    next if (Time.now.tuesday? || Time.now.thursday?)
-    if user.notify_activity
+    send_today = (Time.now.sunday? || Time.now.wednesday? || Time.now.saturday?)
+    if user.notify_activity && user.active? && send_today
       UserMailer.activity(user).deliver_later
     end
   end
