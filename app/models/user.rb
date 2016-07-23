@@ -237,8 +237,8 @@ class User < ActiveRecord::Base
   end
 
   def send_activated_outreach_one
-    url = "https://medium.com/@jamesgroeneveld/meet-slyp-beta-51ce3bfc90a8"
-    slyp = Slyp.fetch(url)
+    return if self.activated_outreached_one?
+    slyp = Slyp.fetch(activated_outreach_one_url)
     user_slyp = User.support_user.user_slyps.find_or_create_by(slyp_id: slyp.id)
     user_slyp.send_slyp(email, activated_outreach_one_comment) if active?
   end
@@ -252,9 +252,20 @@ class User < ActiveRecord::Base
     " any or all of your thoughts!"
   end
 
+  def activated_outreach_one_url
+    "https://medium.com/@jamesgroeneveld/meet-slyp-beta-51ce3bfc90a8"
+  end
+
+  def activated_outreached_one?
+    slyp = Slyp.fetch(activated_outreach_one_url)
+    return false unless (user_slyp = self.user_slyps.find_by(slyp_id: slyp.id))
+    self.reslyps.exists?(recipient_user_slyp_id: user_slyp.id,
+                         sender_id: User.support_user.id)
+  end
+
   def send_activated_outreach_two
-    url = "https://medium.com/@jamesgroeneveld/how-slyp-works-decentralised-content-curation-c8a4781811fa"
-    slyp = Slyp.fetch(url)
+    return if self.activated_outreached_two?
+    slyp = Slyp.fetch(activated_outreach_two_url)
     user_slyp = User.support_user.user_slyps.find_or_create_by(slyp_id: slyp.id)
     user_slyp.send_slyp(email, activated_outreach_two_comment) if active?
   end
@@ -267,6 +278,17 @@ class User < ActiveRecord::Base
     " commited to addressing the biggest problems in media today:"\
     " content overload, clickbait and poor quality journalism and a fragmented"\
     " content sharing paradigm."
+  end
+
+  def activated_outreach_two_url
+    "https://medium.com/@jamesgroeneveld/how-slyp-works-decentralised-content-curation-c8a4781811fa"
+  end
+
+  def activated_outreached_two?
+    slyp = Slyp.fetch(activated_outreach_two_url)
+    return false unless (user_slyp = self.user_slyps.find_by(slyp_id: slyp.id))
+    self.reslyps.exists?(recipient_user_slyp_id: user_slyp.id,
+                         sender_id: User.support_user.id)
   end
 
   def set_send_reslyp_email_from
