@@ -47,3 +47,16 @@
     rivets.bind($(document), { appState: slypApp.state });
   </script>
 <% end %>
+
+<script type="text/javascript">
+  analytics.identify("<%= current_user.id %>", {
+    display_name: "<%= current_user.display_name %>",
+    email: "<%= current_user.email %>"
+  }, {
+    integrations: {
+      Intercom : {
+        user_hash : "<%= OpenSSL::HMAC.hexdigest("sha256", "lLRLl-zdG4rh_3-qA0Qr_Q5q2Zix8O9VSktLo6rl", current_user.id.to_s) %>"
+      }
+    }
+  });
+</script>

@@ -11,12 +11,6 @@ slypApp.Models.User = Backbone.Model.extend({
           openFriendsSettings();
           window.history.pushState({}, document.title, window.location.pathname); // requires HTML5
         }
-
-        // Analytics
-        analytics.identify(model.get('id'), {
-          display_name: model.get('display_name'),
-          email: model.get('email')
-        });
       }
     });
   },
