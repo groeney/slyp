@@ -3,11 +3,15 @@ module DiffbotService
   def self.fetch(url)
     @url = url
     client = Rails.application.config.diffbot_client
-    @response = client.article.get(url)
+    begin
+      @response = client.article.get(url)
+    rescue
+      return { :url => @url }
+    end
     if !valid_response
       # @response = client.article.get(url)
       # Inject job into delayed jobs and fallback to using article api
-      return {:url => @url} if @response[:errorCode] < 500
+      return { :url => @url } if @response[:errorCode] < 500
       return {} if @response[:errorCode] >= 500
     end
     parse_response
