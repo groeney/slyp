@@ -69,7 +69,7 @@ class Slyp < ActiveRecord::Base
   end
 
   def self.create_from_url(url)
-    Slyp.find_match_or_create_by(InstaparserService.fetch(url))
+    Slyp.find_match_or_create_by(DiffbotService.fetch(url))
   end
 
   def self.find_match_or_create_by(parsed_response)
