@@ -54,7 +54,6 @@ group :development, :test do
   gem "bundler-audit", require: false
   gem "dotenv-rails"
   gem "factory_girl_rails"
-  gem "pry-byebug"
   gem "pry-rails"
   gem "rspec-rails", "~> 3.4.2"
   gem "faker"
